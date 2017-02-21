@@ -14,7 +14,13 @@ class Carousel extends React.Component {
     }
 
     _renderDots() {
-
+        return(
+            <ul className="carousel-dots">
+                <li className="carousel-dots__item __active" />
+                <li className="carousel-dots__item" />
+                <li className="carousel-dots__item" />
+            </ul>
+        );
     }
 
     _renderButtons() {

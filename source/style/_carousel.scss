@@ -22,16 +22,16 @@
     height: 36px;
     top: 50%;
     transform: translateY(-50%);
-    color: #e0e4fb;
+    color: $clr-base;
     cursor: pointer;
     font-size: 1.9em;
     text-align: center;
     border-radius: 50%;
-    border: 1px solid #e0e4fb;
-    transition: .4s ease;
+    border: 1px solid $clr-base;
+    transition: .3s ease;
     &:hover {
-        color: #323344;
-        border: 1px solid #323344;
+        color: $clr-blue;
+        border: 1px solid $clr-blue;
 
     }
 }
@@ -50,4 +50,32 @@
         display: inline-block;
         height: 100%
     }
+}
+
+.carousel-dots {
+
+    position: absolute;
+    text-align: center;
+    margin: 15px auto;
+    z-index: 1;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    &__item {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        cursor: pointer;
+        border-radius: 50%;
+        background-color: $clr-base;
+        &:not(:last-child) {
+            margin-right: 15px;
+        }
+        &:hover,
+        &.__active {
+            background-color: $clr-blue;
+        }
+    }
+
+
 }
