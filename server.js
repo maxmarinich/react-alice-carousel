@@ -16,13 +16,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.get("/", function(req, res) {
-  res.render('index', { production: process.env.NODE_ENV === 'production' });
+    res.render('index', { production: process.env.NODE_ENV === 'production' });
 });
 
 app.listen(port, function(error) {
-  if (error) {
-    console.error(error)
-  } else {
-    console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port)
-  }
+    if (error) {
+        console.error(error)
+    } else {
+        console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port)
+    }
 });
