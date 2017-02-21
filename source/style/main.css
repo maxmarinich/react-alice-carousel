@@ -6,6 +6,13 @@
   padding: 60px;
   margin: auto; }
 
+.carousel-stage {
+  position: relative;
+  background-color: #465798;
+  height: 200px;
+  z-index: 5;
+  cursor: pointer; }
+
 .carousel-nav {
   position: absolute;
   width: 100%;
