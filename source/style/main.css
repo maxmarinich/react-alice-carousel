@@ -9,27 +9,24 @@
 .carousel-nav {
   position: absolute;
   width: 100%;
-  padding: 0;
-  top: 50%;
+  height: 100%;
+  bottom: 0;
+  right: 0;
   left: 0;
-  text-align: center;
-  transform: translateY(-50%); }
-  .carousel-nav:after {
-    content: '';
-    height: 0;
-    clear: both;
-    display: table;
-    visibility: hidden; }
+  top: 0; }
 
 .carousel-nav__left,
 .carousel-nav__right {
   display: inline-block;
-  position: relative;
+  position: absolute;
   width: 36px;
   height: 36px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #e0e4fb;
   cursor: pointer;
   font-size: 1.9em;
+  text-align: center;
   border-radius: 50%;
   border: 1px solid #e0e4fb;
   transition: .4s ease; }
@@ -39,14 +36,14 @@
     border: 1px solid #323344; }
 
 .carousel-nav__left {
-  float: left; }
+  left: 0; }
   .carousel-nav__left:before {
     content: '\02039';
     display: inline-block;
     height: 100%; }
 
 .carousel-nav__right {
-  float: right; }
+  right: 0; }
   .carousel-nav__right:before {
     content: '\0203A';
     display: inline-block;
