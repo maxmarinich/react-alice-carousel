@@ -34,12 +34,10 @@ class Carousel extends React.Component {
     render() {
         return(
             <div className="carousel">
-                { this.state.showButtons ? this._renderButtons() : null }
-
                 <div className="carousel-stage">Stage</div>
 
                 { this.state.showDots ? this._renderDots() : null }
-
+                { this.state.showButtons ? this._renderButtons() : null }
             </div>
         );
     }
