@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const config = require('./webpack.config');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -11,9 +12,11 @@ const app = new (require('express'))();
 app.use(webpackHotMiddleware(compiler));
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 app.get("/", function(req, res) {
-  res.sendFile(__dirname + '/index.html')
+  res.render('index', { production: process.env.NODE_ENV === 'production' });
 });
 
 app.listen(port, function(error) {
