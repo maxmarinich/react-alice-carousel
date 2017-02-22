@@ -19,25 +19,29 @@ class Carousel extends React.Component {
     }
 
     // set total items in slide
-    _setTotalItemsInSlide(cb) {
-        let items = 1;
-        const width = window.innerWidth;
+    _setTotalItemsInSlide() {
+        new Promise(resolve => {
+            let items = 1;
+            const width = window.innerWidth;
+            if (this.props.conf) {
+                const responsive = this.props.conf.responsive || {};
 
-        if (this.props.conf) {
-            const responsive = this.props.conf.responsive || {};
-
-            if (Object.keys(responsive).length) {
-                Object.keys(responsive).forEach((key) => {
-                    if (key < width)
-                        items = responsive[key].items || items;
-                });
+                if (Object.keys(responsive).length) {
+                    Object.keys(responsive).forEach((key) => {
+                        if (key < width)
+                            items = responsive[key].items || items;
+                    });
+                }
             }
-        }
-        this.setState({ items }, cb);
+            resolve(items);
+        })
+        .then(result => { this.setState({ items: result }); })
+        .then(() => this._getContainerWidth(this.stageElement))
+        .catch((err) => console.error(`Error: ${err}`));
     }
 
     _resizeHandler() {
-        this._setTotalItemsInSlide(() => this._getContainerWidth(this.stageElement));
+        this._setTotalItemsInSlide();
     }
 
     _getContainerWidth(el) {
