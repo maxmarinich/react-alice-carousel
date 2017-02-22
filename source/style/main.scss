@@ -1,6 +1,6 @@
 $clr-base: #e0e4fb;
 $clr-blue: #465798;
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
+
 @import 'carousel';
 
 #carousel {
@@ -15,4 +15,12 @@ $clr-blue: #465798;
     font-size: 1.5em;
     margin-bottom: 2em;
     flex: 1;
+}
+
+
+.item {
+    color: red;
+    background-color: $clr-blue;
+    height: 200px;
+    margin: 5px;
 }
