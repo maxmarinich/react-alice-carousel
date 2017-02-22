@@ -9,21 +9,11 @@
     position: relative;
     background-color: $clr-blue;
     height: 200px;
-    z-index: 5;
     cursor: pointer;
 }
 
-.carousel-nav {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    top: 0;
-}
-.carousel-nav__left,
-.carousel-nav__right {
+.carousel-prev__btn,
+.carousel-next__btn {
     display: inline-block;
     position: absolute;
     width: 36px;
@@ -40,10 +30,9 @@
     &:hover {
         color: $clr-blue;
         border: 1px solid $clr-blue;
-
     }
 }
-.carousel-nav__left {
+.carousel-prev__btn {
     left: 0;
     &:before {
         content: '\02039';
@@ -51,7 +40,7 @@
         height: 100%
     }
 }
-.carousel-nav__right {
+.carousel-next__btn {
     right: 0;
     &:before {
         content: '\0203A';
@@ -61,11 +50,9 @@
 }
 
 .carousel-dots {
-
     position: absolute;
     text-align: center;
     margin: 15px auto;
-    z-index: 1;
     width: 100%;
     bottom: 0;
     left: 0;

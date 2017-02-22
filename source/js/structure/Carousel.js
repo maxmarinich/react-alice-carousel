@@ -10,10 +10,9 @@ class Carousel extends React.Component {
             showButtons: true,
             children: this.props.children || []
         };
-
     }
 
-    _renderDots() {
+    _renderDotsNavigation() {
         return(
             <ul className="carousel-dots">
                 <li className="carousel-dots__item __active" />
@@ -23,21 +22,30 @@ class Carousel extends React.Component {
         );
     }
 
-    _renderButtons() {
+    _prevButton() {
         return(
-            <div className="carousel-nav">
-                <div className="carousel-nav__left" />
-                <div className="carousel-nav__right" />
+            <div className="carousel-prev">
+                <div className="carousel-prev__btn" />
             </div>
         );
     }
+
+    _nextButton() {
+        return(
+            <div className="carousel-next">
+                <div className="carousel-next__btn" />
+            </div>
+        );
+    }
+
     render() {
         return(
             <div className="carousel">
                 <div className="carousel-stage">Stage</div>
 
-                { this.state.showDots ? this._renderDots() : null }
-                { this.state.showButtons ? this._renderButtons() : null }
+                { this.state.showButtons ? this._prevButton() : null }
+                { this.state.showButtons ? this._nextButton() : null }
+                { this.state.showDots ? this._renderDotsNavigation() : null }
             </div>
         );
     }
