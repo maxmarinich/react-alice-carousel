@@ -169,7 +169,10 @@ class Carousel extends React.Component {
     _renderDotsNavigation() {
         const slides = this.state.slides;
         const totalItems = this.state.items;
-        const activeDot = Math.floor(Math.abs(this._getCurrentIndex()) / totalItems);
+        const activeDot = (index) => {
+            const number = Math.floor(Math.abs(this._getCurrentIndex()) / totalItems);
+            return index === number ? ' __active': '';
+        };
 
         return(
             <ul className="carousel-dots">
@@ -179,7 +182,7 @@ class Carousel extends React.Component {
                             return <li
                                 key={i}
                                 onClick={() => this._slideToItem(i)}
-                                className={`carousel-dots__item${ i === activeDot ? ' __active' : '' }`}
+                                className={`carousel-dots__item${ activeDot(i) }`}
                             />;
                         }
                     })
