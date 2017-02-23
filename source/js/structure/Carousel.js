@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import Swipeable from 'react-swipeable';
 
 
 class Carousel extends React.Component {
@@ -20,11 +20,11 @@ class Carousel extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this._resizeHandler);
+        window.addEventListener('resize', this._resizeHandler, false);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this._resizeHandler);
+        window.removeEventListener('resize', this._resizeHandler, false);
     }
 
     // set total items in slide
@@ -109,10 +109,10 @@ class Carousel extends React.Component {
         const scrollToPosition = slidesLength - items + currentIndex;
 
         if(e) {
-            if (Math.abs(this.state.currentIndex) === slidesLength - items) {
-                nextIndex = currentIndex;
-                translate = currentIndex * step;
-            }
+            // if (Math.abs(this.state.currentIndex) === slidesLength - items) {
+            //     nextIndex = currentIndex;
+            //     translate = currentIndex * step;
+            // }
         } else {
             if (!scrollToPosition) {
                 translate = 0;
@@ -136,7 +136,7 @@ class Carousel extends React.Component {
         const slidesLength = this.state.slides.length;
 
         if(e) {
-            if (nextIndex > 0) { nextIndex = 0; }
+            // if (nextIndex > 0) { nextIndex = 0; }
         } else {
             if (nextIndex > 0) {
                 nextIndex = this.state.items - slidesLength;
@@ -179,7 +179,7 @@ class Carousel extends React.Component {
                             return <li
                                 key={i}
                                 onClick={() => this._slideToItem(i)}
-                                className={classnames('carousel-dots__item', { __active: i === activeDot })}
+                                className={`carousel-dots__item${ i === activeDot ? ' __active' : '' }`}
                             />;
                         }
                     })
@@ -187,6 +187,9 @@ class Carousel extends React.Component {
             </ul>
         );
     }
+
+    _swipeLeft() { }
+    _swiped() { }
 
     render() {
         const style = Object.assign(
@@ -198,16 +201,21 @@ class Carousel extends React.Component {
         return(
             <div className="carousel">
                 <div className="carousel-wrapper">
-                    <GalleryStage stage={ this._getGalleryStageItem } style={ style } >
-                        {
-                            this.state.slides.map((item, i) => (
-                                <li style={{width: `${this.state.itemWidth}px`}}
-                                    className="carousel-stage__item" key={i} >
-                                    { item }
-                                </li>
-                            ))
-                        }
-                    </GalleryStage>
+                    <Swipeable
+                        onSwiped={this._swiped}
+                        onSwiping={this._swipeLeft}
+                    >
+                        <GalleryStage stage={ this._getGalleryStageItem } style={ style } >
+                            {
+                                this.state.slides.map((item, i) => (
+                                    <li style={{width: `${this.state.itemWidth}px`}}
+                                        className="carousel-stage__item" key={i} >
+                                        { item }
+                                    </li>
+                                ))
+                            }
+                        </GalleryStage>
+                    </Swipeable>
                 </div>
 
                 { this.state.showButtons ? this._prevButton() : null }
