@@ -1,7 +1,7 @@
 .carousel {
     box-sizing: border-box;
     position: relative;
-    width: 1170px;
+    max-width: 1170px;
     padding: 60px;
     margin: auto;
 }
@@ -13,11 +13,12 @@
     box-sizing: border-box;
     background-color: rgba($clr-base, .5);
 }
-
 .carousel-stage {
     position: relative;
     width: 100%;
     height: 100%;
+    margin: 0;
+    padding: 0;
     white-space: nowrap;
     box-sizing: border-box;
     &__item {
@@ -29,7 +30,6 @@
         white-space: normal;
     }
 }
-
 .carousel-prev__btn,
 .carousel-next__btn {
     display: inline-block;
@@ -66,11 +66,11 @@
         height: 100%
     }
 }
-
 .carousel-dots {
     position: absolute;
     text-align: center;
-    margin: 15px auto;
+    margin: auto;
+    padding: 0;
     width: 100%;
     bottom: 0;
     left: 0;
@@ -89,6 +89,4 @@
             background-color: $clr-blue;
         }
     }
-
-
 }
