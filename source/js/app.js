@@ -6,10 +6,10 @@ export const App = () =>  (
     <div className="app">
         <h1 className="h1">React Carousel Gallery</h1>
         <Carousel>
-            <div className="item">1</div>
-            <div className="item">2</div>
-            <div className="item">3</div>
-            <div className="item">4</div>
+            <div className="item"><h1>1</h1></div>
+            <div className="item"><h1>2</h1></div>
+            <div className="item"><h1>3</h1></div>
+            <div className="item"><h1>4</h1></div>
         </Carousel>
     </div>
 );
