@@ -10,8 +10,6 @@
     width: 100%;
     height: auto;
     box-sizing: border-box;
-    border: 1px solid red;
-    background-color: #555;
     overflow: hidden;
 
 }
@@ -33,6 +31,13 @@
         white-space: normal;
     }
 }
+.carousel-prev,
+.carousel-next {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30px
+}
 .carousel-prev__btn,
 .carousel-next__btn {
     display: inline-block;
@@ -41,16 +46,20 @@
     height: 36px;
     top: 50%;
     transform: translateY(-50%);
-    color: $clr-base;
+    color: $clr-blue;
     cursor: pointer;
     font-size: 1.9em;
     text-align: center;
     border-radius: 50%;
-    border: 1px solid $clr-base;
+    border: 1px solid $clr-blue;
     transition: .3s ease;
     &:hover {
         color: darkred;
         border: 1px solid darkred;
+    }
+    &.__inactive {
+        color: $clr-base;
+        border: 1px solid $clr-base;
     }
 }
 .carousel-prev__btn {
