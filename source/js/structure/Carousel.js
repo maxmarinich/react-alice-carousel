@@ -10,23 +10,34 @@ class Carousel extends React.Component {
             duration: props.duration || 250,
             style: { transition: 'transform 0ms' }
         };
-
+        this._resizeHandler = this._resizeHandler.bind(this);
         this._getStageComponent = this._getStageComponent.bind(this);
     }
 
     componentDidMount() {
         this._allowAnimation();
+        this._setInitialState();
+        window.addEventListener('resize', this._resizeHandler);
     }
 
-    _getStageComponent(node) {
-        this.stageComponent = node;
-        this._setTotalItemsInSlide();
+    componentWillUnmount() {
+        window.removeEventListener('resize', this._resizeHandler);
     }
 
-    _setInitialState(el, items) {
+    // TODO Add prop types
+    // TODO Add thumbnails
+    // TODO Add infinite
+    // TODO Disable mod
+    // TODO Add touch handler
+
+    _resizeHandler() { this._setInitialState(); }
+
+    _getStageComponent(node) { this.stageComponent = node; }
+
+    _setInitialState() {
         const slides = this.state.slides;
-        const itemWidth = el.getBoundingClientRect().width / items;
-
+        const items = this._setTotalItemsInSlide();
+        const itemWidth = this.stageComponent.getBoundingClientRect().width / items;
 
         const first = slides.slice(0, items);
         const last = slides.slice(slides.length - items);
@@ -51,7 +62,7 @@ class Carousel extends React.Component {
         const step = this.state.itemWidth;
         const totalItems = this.state.items;
         const len = this.state.slides.length;
-        const currentIndex = this.state.currentIndex;
+        const currentIndex = this._getCurrentIndex();
         const circle = (currentIndex === 0 || currentIndex === len + totalItems);
 
         if ( circle ) {
@@ -69,12 +80,9 @@ class Carousel extends React.Component {
         if (!this.allowAnimation) return;
         this.allowAnimation = false;
 
-        const step = this.state.itemWidth;
         const duration = this.state.duration;
-        const currentIndex = this.state.currentIndex;
-
-        let nextIndex = currentIndex - 1;
-        let delta = step * -nextIndex;
+        const nextIndex = this._getCurrentIndex() - 1;
+        const delta = this.state.itemWidth * -nextIndex;
 
         this.setState({
             translate3d: +delta,
@@ -89,12 +97,9 @@ class Carousel extends React.Component {
         if (!this.allowAnimation) return;
         this.allowAnimation = false;
 
-        const step = this.state.itemWidth;
         const duration = this.state.duration;
-        const currentIndex = this.state.currentIndex;
-
-        let nextIndex = currentIndex + 1;
-        let delta = step * -nextIndex;
+        const nextIndex = this._getCurrentIndex() + 1;
+        const delta = this.state.itemWidth * -nextIndex;
 
         this.setState({
             translate3d: +delta,
@@ -122,22 +127,9 @@ class Carousel extends React.Component {
     }
 
     _slideToItem(index) {
-
-        const totalItems = this.state.items; // 1
-        const step = this.state.itemWidth;
-        let currentIndex = (index + 1) * totalItems;
-
-        let translate = step * (index + 1) * totalItems;
-
-        // console.log('ind: ', index , ' curr: ', currentIndex, ' next: ', ind);
-
-        // const slidesLength = this.state.slides.length; // 5
-        // const maxStep = slidesLength * step;
-        // //
-        // if (translate > maxStep) {
-        //     translate = maxStep;
-        //     currentIndex = slidesLength;
-        // }
+        const totalItems = this.state.items;
+        const currentIndex = (index + 1) * totalItems;
+        const translate = this.state.itemWidth * (index + 1) * totalItems;
 
         this.setState({
             currentIndex,
@@ -154,18 +146,16 @@ class Carousel extends React.Component {
 
         const activeDot = (index) => {
             const len = slides.length;
-            const dotsLength = Math.floor(len / totalItems); // real length - 1
-            const dotIndex = Math.floor((currentIndex - totalItems) / totalItems); // total dots
-            console.log('ind: ', index, ' dotIndex: ', dotIndex, ' dotLength: ', dotsLength, 'slides: ', len);
+            const dotIndex = Math.floor((currentIndex - totalItems) / totalItems);
 
             if (totalItems === 1) {
                 if (index === dotIndex) {
                     return ' __active';
                 }
-                if (index === 0 && currentIndex > len) {
+                else if (index === 0 && currentIndex > len) {
                     return ' __active';
                 }
-                if (index === (len - 1) && currentIndex < totalItems) {
+                else if (index === (len - 1) && currentIndex < totalItems) {
                     return ' __active';
                 }
                 else {
@@ -173,13 +163,13 @@ class Carousel extends React.Component {
                 }
             }
             if (totalItems > 1) {
-                if (index === dotIndex && currentIndex !== len + totalItems) { // array length
+                if (index === dotIndex && currentIndex !== len + totalItems) {
                     return ' __active';
                 }
                 else if (index === 0 && currentIndex === len + totalItems) {
                     return ' __active';
                 }
-                else if (index === dotsLength && dotIndex < 0)  {
+                else if (index === Math.floor(len / totalItems) && dotIndex < 0)  {
                     return ' __active';
                 }
                 else {
@@ -204,25 +194,21 @@ class Carousel extends React.Component {
             </ul>
         );
     }
-    // set total items in slide
+
     _setTotalItemsInSlide() {
-        new Promise(resolve => {
-            let items = 2;
-            const width = window.innerWidth;
+        let items = 1;
+        const width = window.innerWidth;
 
-            if (this.props.conf) {
-                const responsive = this.props.conf.responsive || {};
+        if (this.props.conf) {
+            const responsive = this.props.conf.responsive || {};
 
-                if (Object.keys(responsive).length) {
-                    Object.keys(responsive).forEach((key) => {
-                        if (key < width) items = responsive[key].items || items;
-                    });
-                }
+            if (Object.keys(responsive).length) {
+                Object.keys(responsive).forEach((key) => {
+                    if (key < width) items = responsive[key].items || items;
+                });
             }
-            resolve(items);
-        })
-            .then(items => { this._setInitialState(this.stageComponent, items); })
-            .catch((err) => console.error(`Error: ${err}`));
+        }
+        return items;
     }
 
     render() {
