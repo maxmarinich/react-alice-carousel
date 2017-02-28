@@ -1,4 +1,5 @@
 import React from 'react';
+import Swipeable from 'react-swipeable';
 
 
 class Carousel extends React.Component {
@@ -10,6 +11,9 @@ class Carousel extends React.Component {
             duration: props.duration || 250,
             style: { transition: 'transform 0ms' }
         };
+
+        this._onTouchEnd = this._onTouchEnd.bind(this);
+        this._onTouchMove = this._onTouchMove.bind(this);
         this._resizeHandler = this._resizeHandler.bind(this);
         this._getStageComponent = this._getStageComponent.bind(this);
     }
@@ -24,9 +28,10 @@ class Carousel extends React.Component {
         window.removeEventListener('resize', this._resizeHandler);
     }
 
+    // TODO add style prefixes
     // TODO Add prop types
     // TODO Add thumbnails
-    // TODO Add infinite
+    // TODO Add infinite: false
     // TODO Disable mod
     // TODO Add touch handler
 
@@ -53,6 +58,7 @@ class Carousel extends React.Component {
             currentIndex: items || this.state.currentIndex
         });
     }
+
 
     _allowAnimation() { this.allowAnimation = true; }
 
@@ -211,6 +217,25 @@ class Carousel extends React.Component {
         return items;
     }
 
+    _getCurrentPosition() {
+        return +this.state.translate3d;
+    }
+
+    _onTouchMove() {
+        const position = this._getCurrentPosition() - arguments[1];
+
+        if (arguments[3] > (this.state.itemWidth * this.state.items)) return; 
+        
+        this.swipePosition = position;
+        this.stageComponent.style.transition = 'transform 0ms';
+        this.stageComponent.style.transform = `translate3d(${position}px, 0, 0)`;
+    }
+
+    _onTouchEnd() {
+
+        console.log('swiped: ', this.swipePosition);
+    }
+
     render() {
         const style = Object.assign(
             {},
@@ -222,19 +247,22 @@ class Carousel extends React.Component {
 
         return(
             <div className="carousel">
-                <div className="carousel-wrapper">
-                    <GalleryStage stage={ this._getStageComponent } style={ style } >
-                        {
-                            slides.map((item, i) => (
-                                <li style={{width: `${this.state.itemWidth}px`}}
-                                    className="carousel-stage__item" key={i}
-                                >
-                                    { item }
-                                </li>
-                            ))
-                        }
-                    </GalleryStage>
-                </div>
+                <Swipeable onSwiping={this._onTouchMove} onSwiped={this._onTouchEnd}>
+                    <div className="carousel-wrapper"   >
+                        <GalleryStage stage={ this._getStageComponent } style={ style } >
+                                {
+                                    slides.map((item, i) => (
+                                        <li style={{width: `${this.state.itemWidth}px`}}
+                                            className="carousel-stage__item" key={i}
+                                        >
+                                            { item }
+                                        </li>
+                                    ))
+                                }
+
+                        </GalleryStage>
+                    </div>
+                </Swipeable>
 
                 { this.state.showButtons ? this._prevButton() : null }
                 { this.state.showButtons ? this._nextButton() : null }
