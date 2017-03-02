@@ -36,6 +36,7 @@ class Carousel extends React.Component {
     // TODO Add infinite: false
     // TODO Disable mod
     // TODO Add touch handler
+    // TODO  _onTouchEnd Check if items = 1
 
     _resizeHandler() { this._setInitialState(); }
 
@@ -153,9 +154,12 @@ class Carousel extends React.Component {
         const totalItems = this.state.items;
         const currentIndex = this._getCurrentIndex();
 
+
         const setActiveDot = (index) => {
             const len = slides.length;
-            const dotIndex = Math.floor((currentIndex - totalItems) / totalItems);
+            const dotIndex = Math.floor(currentIndex / totalItems) - 1;
+            const dotsLength = len % totalItems === 0 ? Math.floor(len / totalItems) - 1 : Math.floor(len / totalItems);
+
 
             if (totalItems === 1) {
                 if (index === dotIndex) {
@@ -172,13 +176,13 @@ class Carousel extends React.Component {
                 }
             }
             if (totalItems > 1) {
-                if (index === dotIndex && currentIndex !== len + totalItems) {
+                if (index === dotIndex&& currentIndex !== len + totalItems) {
                     return ' __active';
                 }
                 else if (index === 0 && currentIndex === len + totalItems) {
                     return ' __active';
                 }
-                else if (index === Math.floor(len / totalItems) && dotIndex < 0)  {
+                else if (index === dotsLength && currentIndex < totalItems)  {
                     return ' __active';
                 }
                 else {
@@ -221,32 +225,36 @@ class Carousel extends React.Component {
     }
 
     _onTouchMove() { // Swipeable arguments: deltaX - arguments[1], absX - arguments[3]
-        const position = this._getCurrentTranslatePosition() - arguments[1];
+        //const position = this._getCurrentTranslatePosition() - arguments[1];
 
-        if (arguments[3] > (this.state.itemWidth * this.state.items)) return; 
+        if (arguments[3] >= (this.state.itemWidth * this.state.items)) return;
         
-        this.swipePosition = position;
-        this.stageComponent.style.transition = 'transform 0ms';
-        this.stageComponent.style.transform = `translate3d(${position}px, 0, 0)`;
+        //
+        // this.stageComponent.style.transition = 'transform 24ms ease-in-out';
+        // this.stageComponent.style.transform = `translate3d(${position}px, 0, 0)`;
+        // this.swipePosition = position;
     }
 
     _onTouchEnd() {
 
-        // TODO Check if items = 1
-        const position = this.swipePosition;
 
-        const { items, itemWidth, clones } = this.state;
-        console.log('swiped: ', position, items, itemWidth, clones.length);
+        const { itemWidth, clones } = this.state;
+        //const totalItems = this.state.items;
 
-        // this.setState({
-        //     items,
-        //     clones,
-        //     itemWidth,
-        //     showDots: true,
-        //     showButtons: true,
-        //     translate3d: - itemWidth * items,
-        //     currentIndex: items || this.state.currentIndex
-        // });
+        let nextIndex = Math.floor(Math.abs(this.swipePosition) / itemWidth);
+        const position = -nextIndex * itemWidth;
+
+        this.stageComponent.style.transform = `translate3d(${position}px, 0, 0)`;
+        this.stageComponent.style.transition = `transform ${this.state.duration}ms`;
+
+        this.setState({
+            translate3d: position,
+            currentIndex: nextIndex,
+            style: {
+                transition: `transform ${this.state.duration}ms ease-in-out`,
+                transform: `translate3d(${position}px, 0, 0)`
+            }
+        });
 
     }
 
