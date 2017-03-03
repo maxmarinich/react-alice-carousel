@@ -30,13 +30,13 @@ class Carousel extends React.Component {
         window.removeEventListener('resize', this._resizeHandler);
     }
 
+    // TODO limit items in slide by total length
+
     // TODO add style prefixes
     // TODO Add prop types
     // TODO Add thumbnails
     // TODO Add infinite: false
     // TODO Disable mod
-    // TODO Add touch handler
-    // TODO  _onTouchEnd Check if items = 1
 
     _resizeHandler() { this._setInitialState(); }
 
@@ -67,20 +67,19 @@ class Carousel extends React.Component {
 
     _getCurrentIndex() { return this.state.currentIndex; }
 
-    _getCurrentTranslatePosition() { return +this.state.translate3d; }
-
     _isCircle() {
+
         const step = this.state.itemWidth;
         const totalItems = this.state.items;
         const len = this.state.slides.length;
-        const currentIndex = this._getCurrentIndex();
+        const currentIndex = this.state.currentIndex;
         const circle = (currentIndex === 0 || currentIndex === len + totalItems);
 
         if ( circle ) {
             this.setState({
                 currentIndex: (currentIndex === 0) ?  len: totalItems,
                 translate3d: - step * ((currentIndex === 0) ?  len: totalItems),
-                style: { transition: 'transform 0ms' }
+                style: { transition: 'transform 0ms ease-out' }
             }, this._allowAnimation() );
         } else {
             this._allowAnimation();
@@ -90,7 +89,6 @@ class Carousel extends React.Component {
     _slidePrev() {
         if (!this.allowAnimation) return;
         this.allowAnimation = false;
-
         const duration = this.state.duration;
         const nextIndex = this._getCurrentIndex() - 1;
         const delta = this.state.itemWidth * -nextIndex;
@@ -98,7 +96,7 @@ class Carousel extends React.Component {
         this.setState({
             translate3d: +delta,
             currentIndex: nextIndex,
-            style: { transition: `transform ${duration}ms ease-in-out` }
+            style: { transition: `transform ${duration}ms ease-out` }
         });
 
         setTimeout(() => { this._isCircle(); }, duration);
@@ -115,7 +113,7 @@ class Carousel extends React.Component {
         this.setState({
             translate3d: +delta,
             currentIndex: nextIndex,
-            style: { transition: `transform ${duration}ms ease-in-out` }
+            style: { transition: `transform ${duration}ms ease-out` }
         });
 
         setTimeout(() => { this._isCircle(); }, duration);
@@ -145,7 +143,7 @@ class Carousel extends React.Component {
         this.setState({
             currentIndex,
             translate3d: - translate,
-            style: { transition: `transform ${this.state.duration}ms ease-in-out` }
+            style: { transition: `transform ${this.state.duration}ms ease-out` }
         });
     }
 
@@ -224,38 +222,58 @@ class Carousel extends React.Component {
         return items;
     }
 
-    _onTouchMove() { // Swipeable arguments: deltaX - arguments[1], absX - arguments[3]
-        //const position = this._getCurrentTranslatePosition() - arguments[1];
+    _onTouchMove() {
 
-        if (arguments[3] >= (this.state.itemWidth * this.state.items)) return;
-        
-        //
-        // this.stageComponent.style.transition = 'transform 24ms ease-in-out';
-        // this.stageComponent.style.transform = `translate3d(${position}px, 0, 0)`;
-        // this.swipePosition = position;
+        const { slides, items, itemWidth, translate3d } = this.state;
+        const direction = arguments[1] > 0 ? 'LEFT' : 'RIGHT';
+        let position = translate3d - arguments[1];
+        let duration = 0;
+
+        if (direction === 'RIGHT' && position >= 0) {
+            position = -slides.length * itemWidth;
+            position -= arguments[1] + items * itemWidth;
+            if (position >= 0) return;
+        }
+
+        if (direction === 'LEFT' && Math.abs(position) >= ((slides.length + items) * itemWidth)) {
+            position = -items * itemWidth;
+            position -= arguments[1] - items * itemWidth;
+            if (Math.abs(position) >= items * itemWidth * 2 ) return;
+        }
+
+
+        this.stageComponent.style.transition = `transform ${duration}ms ease-out`;
+        this.stageComponent.style.transform = `translate3d(${position}px, 0, 0)`;
+        this.swipePosition = { position, direction };
+
+
     }
 
     _onTouchEnd() {
+        if (!this.allowAnimation) return;
+        this.allowAnimation = false;
 
-
-        const { itemWidth, clones } = this.state;
-        //const totalItems = this.state.items;
-
-        let nextIndex = Math.floor(Math.abs(this.swipePosition) / itemWidth);
+        const { itemWidth, duration } = this.state;
+        //
+        let nextIndex = Math.floor(Math.abs(this.swipePosition.position) / itemWidth);
+        nextIndex = (this.swipePosition. direction === 'LEFT') ? nextIndex + 1  : nextIndex;
+        //
         const position = -nextIndex * itemWidth;
-
+        //
+        this.stageComponent.style.transition = `transform ${duration}ms ease-out`;
         this.stageComponent.style.transform = `translate3d(${position}px, 0, 0)`;
-        this.stageComponent.style.transition = `transform ${this.state.duration}ms`;
+        //
 
+        //
         this.setState({
             translate3d: position,
             currentIndex: nextIndex,
             style: {
-                transition: `transform ${this.state.duration}ms ease-in-out`,
+                transition: `transform ${duration}ms ease-out`,
                 transform: `translate3d(${position}px, 0, 0)`
             }
         });
-
+        setTimeout(() => { this._isCircle(); }, duration);
     }
 
     render() {
