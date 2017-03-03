@@ -9,7 +9,8 @@ class Carousel extends React.Component {
             currentIndex: 1,
             slides: props.children || [],
             duration: props.duration || 250,
-            style: { transition: 'transform 0ms' }
+            style: {
+                transition: 'transform 0ms ease-out' }
         };
 
         this._slideNext = this._slideNext.bind(this);
@@ -31,8 +32,7 @@ class Carousel extends React.Component {
     }
 
     // TODO limit items in slide by total length
-
-    // TODO add style prefixes
+    // TODO add keys handlers
     // TODO Add prop types
     // TODO Add thumbnails
     // TODO Add infinite: false
@@ -68,14 +68,13 @@ class Carousel extends React.Component {
     _getCurrentIndex() { return this.state.currentIndex; }
 
     _isCircle() {
-
         const step = this.state.itemWidth;
         const totalItems = this.state.items;
         const len = this.state.slides.length;
         const currentIndex = this.state.currentIndex;
         const circle = (currentIndex === 0 || currentIndex === len + totalItems);
 
-        if ( circle ) {
+        if (circle) {
             this.setState({
                 currentIndex: (currentIndex === 0) ?  len: totalItems,
                 translate3d: - step * ((currentIndex === 0) ?  len: totalItems),
@@ -241,9 +240,7 @@ class Carousel extends React.Component {
             if (Math.abs(position) >= items * itemWidth * 2 ) return;
         }
 
-
-        this.stageComponent.style.transition = `transform ${duration}ms ease-out`;
-        this.stageComponent.style.transform = `translate3d(${position}px, 0, 0)`;
+        setTransformAnimation(this.stageComponent, position, duration);
         this.swipePosition = { position, direction };
 
 
@@ -259,9 +256,9 @@ class Carousel extends React.Component {
         nextIndex = (this.swipePosition. direction === 'LEFT') ? nextIndex + 1  : nextIndex;
         //
         const position = -nextIndex * itemWidth;
-        //
-        this.stageComponent.style.transition = `transform ${duration}ms ease-out`;
-        this.stageComponent.style.transform = `translate3d(${position}px, 0, 0)`;
+
+        setTransformAnimation(this.stageComponent, position, duration);
+
         //
 
         //
@@ -320,4 +317,17 @@ const GalleryStage = ({ stage, style, children }) => {
             { children }
         </ul>
     );
+};
+
+const setTransformAnimation = (element, position, durationMs) => {
+    const prefixes = ['Webkit', 'Moz', 'ms', 'O'];
+    const duration = `transform ${durationMs}ms ease-out`;
+    const translate3d = `translate3d(${position}px, 0, 0)`;
+
+    for (let value of prefixes) {
+        element.style[value + 'Transition'] = duration;
+        element.style[value + 'Transform'] = translate3d;
+    }
+    element.style.transition = duration;
+    element.style.transform = translate3d;
 };
