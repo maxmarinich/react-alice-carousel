@@ -83,7 +83,9 @@ class Carousel extends React.Component {
                 style: { transition: 'transform 0ms ease-out' }
             });
         }
-        this.props.onSlideChange(this._getActiveSlideIndex());
+        if (this.props.onSlideChange) {
+            this.props.onSlideChange(this._getActiveSlideIndex());
+        }
         this._allowAnimation();
     }
 
@@ -143,7 +145,12 @@ class Carousel extends React.Component {
             currentIndex,
             translate3d: - translate,
             style: { transition: `transform ${this.state.duration}ms ease-out` }
+        }, () => {
+            if (this.props.onSlideChange) {
+                this.props.onSlideChange(this._getActiveSlideIndex());
+            }
         });
+
 
     }
 
@@ -258,7 +265,7 @@ class Carousel extends React.Component {
                 transform: `translate3d(${position}px, 0, 0)`
             }
         });
-        setTimeout(() => { this._isCircle(); }, duration);
+        setTimeout(() => this._isCircle(), duration);
     }
 
     render() {
@@ -268,7 +275,6 @@ class Carousel extends React.Component {
             { transform: `translate3d(${this.state.translate3d}px, 0, 0)` }
         );
         const slides = this.state.clones || this.state.slides;
-        console.log('render');
 
         return(
             <div
