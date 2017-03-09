@@ -21,7 +21,6 @@ class Carousel extends React.Component {
         this._resizeHandler = this._resizeHandler.bind(this);
         this._getCurrentIndex = this._getCurrentIndex.bind(this);
         this._getStageComponent = this._getStageComponent.bind(this);
-
     }
 
     componentDidMount() {
@@ -37,7 +36,6 @@ class Carousel extends React.Component {
     // TODO add keys handlers
     // TODO Add prop types
     // TODO Add infinite: false
-    // TODO Disable mod
     // TODO return current index of slide
 
 
@@ -225,7 +223,7 @@ class Carousel extends React.Component {
     }
 
     _onTouchMove() {
-        if (this.props.dis) return;
+        if (this.props.swipeDisable) return;
         const { slides, items, itemWidth, translate3d } = this.state;
         const direction = arguments[1] > 0 ? 'LEFT' : 'RIGHT';
         let position = translate3d - arguments[1];
@@ -247,6 +245,7 @@ class Carousel extends React.Component {
     }
 
     _onTouchEnd() {
+        if (this.props.swipeDisable) return;
         if (!this.allowAnimation) return;
         this.allowAnimation = false;
 
