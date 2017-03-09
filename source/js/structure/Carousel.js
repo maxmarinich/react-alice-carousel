@@ -36,8 +36,7 @@ class Carousel extends React.Component {
     // TODO add keys handlers
     // TODO Add prop types
     // TODO Add infinite: false
-    // TODO return current index of slide
-
+    // TODO REFACTOR
 
     _setInitialState() {
         const slides = this.state.slides;
@@ -245,8 +244,8 @@ class Carousel extends React.Component {
     }
 
     _onTouchEnd() {
-        if (this.props.swipeDisable) return;
-        if (!this.allowAnimation) return;
+        if (this.props.swipeDisable || !this.allowAnimation) return;
+
         this.allowAnimation = false;
 
         const { itemWidth, duration } = this.state;
