@@ -1,5 +1,6 @@
 import React from 'react';
 import Swipeable from 'react-swipeable';
+import { setTransformAnimation } from './Common';
 
 
 class Carousel extends React.Component {
@@ -18,7 +19,9 @@ class Carousel extends React.Component {
         this._onTouchEnd = this._onTouchEnd.bind(this);
         this._onTouchMove = this._onTouchMove.bind(this);
         this._resizeHandler = this._resizeHandler.bind(this);
+        this._getCurrentIndex = this._getCurrentIndex.bind(this);
         this._getStageComponent = this._getStageComponent.bind(this);
+
     }
 
     componentDidMount() {
@@ -31,16 +34,12 @@ class Carousel extends React.Component {
         window.removeEventListener('resize', this._resizeHandler);
     }
 
-    // TODO limit items in slide by total length
     // TODO add keys handlers
     // TODO Add prop types
-    // TODO Add thumbnails
     // TODO Add infinite: false
     // TODO Disable mod
+    // TODO return current index of slide
 
-    _resizeHandler() { this._setInitialState(); }
-
-    _getStageComponent(node) { this.stageComponent = node; }
 
     _setInitialState() {
         const slides = this.state.slides;
@@ -62,6 +61,9 @@ class Carousel extends React.Component {
         });
     }
 
+    _resizeHandler() { this._setInitialState(); }
+
+    _getStageComponent(node) { this.stageComponent = node; }
 
     _allowAnimation() { this.allowAnimation = true; }
 
@@ -79,17 +81,17 @@ class Carousel extends React.Component {
                 currentIndex: (currentIndex === 0) ?  len: totalItems,
                 translate3d: - step * ((currentIndex === 0) ?  len: totalItems),
                 style: { transition: 'transform 0ms ease-out' }
-            }, this._allowAnimation() );
-        } else {
-            this._allowAnimation();
+            });
         }
+        this.props.onSlideChange(this._getActiveSlideIndex());
+        this._allowAnimation();
     }
 
     _slidePrev() {
         if (!this.allowAnimation) return;
         this.allowAnimation = false;
         const duration = this.state.duration;
-        const nextIndex = this._getCurrentIndex() - 1;
+        const nextIndex = this.state.currentIndex - 1;
         const delta = this.state.itemWidth * -nextIndex;
 
         this.setState({
@@ -97,8 +99,7 @@ class Carousel extends React.Component {
             currentIndex: nextIndex,
             style: { transition: `transform ${duration}ms ease-out` }
         });
-
-        setTimeout(() => { this._isCircle(); }, duration);
+        setTimeout(() => this._isCircle(), duration);
     }
 
     _slideNext() {
@@ -106,7 +107,7 @@ class Carousel extends React.Component {
         this.allowAnimation = false;
 
         const duration = this.state.duration;
-        const nextIndex = this._getCurrentIndex() + 1;
+        const nextIndex = this.state.currentIndex + 1;
         const delta = this.state.itemWidth * -nextIndex;
 
         this.setState({
@@ -114,8 +115,7 @@ class Carousel extends React.Component {
             currentIndex: nextIndex,
             style: { transition: `transform ${duration}ms ease-out` }
         });
-
-        setTimeout(() => { this._isCircle(); }, duration);
+        setTimeout(() => this._isCircle(), duration);
     }
 
     _prevButton() {
@@ -144,59 +144,55 @@ class Carousel extends React.Component {
             translate3d: - translate,
             style: { transition: `transform ${this.state.duration}ms ease-out` }
         });
+
+    }
+
+    _getActiveSlideIndex() {
+        const { slides, items, currentIndex } = this.state;
+        const slidesLength = slides.length;
+        const dotIndex = Math.floor(currentIndex / items) -1;
+        const dotsLength = slidesLength % items === 0
+            ? Math.floor(slidesLength / items) - 1
+            : Math.floor(slidesLength / items);
+
+        if (items === 1) {
+            if (currentIndex < items) {
+                return slidesLength - items;
+            }
+            else if (currentIndex > slidesLength) {
+                return 0;
+            }
+            else {
+                return currentIndex - 1;
+            }
+        } else {
+            if (currentIndex === slidesLength + items) {
+                return 0;
+            }
+            else if (currentIndex < items && currentIndex !== 0) {
+                return dotsLength;
+            }
+            else if (currentIndex === 0) {
+                return slidesLength % items === 0 ? dotsLength : dotsLength - 1;
+            }
+            else {
+                return dotIndex;
+            }
+        }
     }
 
     _renderDotsNavigation() {
-        const slides = this.state.slides;
-        const totalItems = this.state.items;
-        const currentIndex = this._getCurrentIndex();
-
-
-        const setActiveDot = (index) => {
-            const len = slides.length;
-            const dotIndex = Math.floor(currentIndex / totalItems) - 1;
-            const dotsLength = len % totalItems === 0 ? Math.floor(len / totalItems) - 1 : Math.floor(len / totalItems);
-
-
-            if (totalItems === 1) {
-                if (index === dotIndex) {
-                    return ' __active';
-                }
-                else if (index === 0 && currentIndex > len) {
-                    return ' __active';
-                }
-                else if (index === (len - 1) && currentIndex < totalItems) {
-                    return ' __active';
-                }
-                else {
-                    return '';
-                }
-            }
-            if (totalItems > 1) {
-                if (index === dotIndex&& currentIndex !== len + totalItems) {
-                    return ' __active';
-                }
-                else if (index === 0 && currentIndex === len + totalItems) {
-                    return ' __active';
-                }
-                else if (index === dotsLength && currentIndex < totalItems)  {
-                    return ' __active';
-                }
-                else {
-                    return '';
-                }
-            }
-        };
+        const { slides, items } = this.state;
 
         return(
             <ul className="carousel-dots">
                 {
                     slides.map((item, i) => {
-                        if (i < slides.length / totalItems) {
+                        if (i < slides.length / items) {
                             return <li
                                 key={i}
                                 onClick={() => this._slideToItem(i)}
-                                className={`carousel-dots__item${ setActiveDot(i) }`}
+                                className={`carousel-dots__item${ this._getActiveSlideIndex() === i ? ' __active' : '' }`}
                             />;
                         }
                     })
@@ -222,11 +218,10 @@ class Carousel extends React.Component {
     }
 
     _onTouchMove() {
-
+        if (this.props.dis) return;
         const { slides, items, itemWidth, translate3d } = this.state;
         const direction = arguments[1] > 0 ? 'LEFT' : 'RIGHT';
         let position = translate3d - arguments[1];
-        let duration = 0;
 
         if (direction === 'RIGHT' && position >= 0) {
             position = -slides.length * itemWidth;
@@ -240,10 +235,8 @@ class Carousel extends React.Component {
             if (Math.abs(position) >= items * itemWidth * 2 ) return;
         }
 
-        setTransformAnimation(this.stageComponent, position, duration);
+        setTransformAnimation(this.stageComponent, position, 0);
         this.swipePosition = { position, direction };
-
-
     }
 
     _onTouchEnd() {
@@ -251,17 +244,12 @@ class Carousel extends React.Component {
         this.allowAnimation = false;
 
         const { itemWidth, duration } = this.state;
-        //
         let nextIndex = Math.floor(Math.abs(this.swipePosition.position) / itemWidth);
-        nextIndex = (this.swipePosition. direction === 'LEFT') ? nextIndex + 1  : nextIndex;
-        //
+        nextIndex = (this.swipePosition.direction === 'LEFT') ? nextIndex + 1  : nextIndex;
         const position = -nextIndex * itemWidth;
 
         setTransformAnimation(this.stageComponent, position, duration);
 
-        //
-
-        //
         this.setState({
             translate3d: position,
             currentIndex: nextIndex,
@@ -283,20 +271,23 @@ class Carousel extends React.Component {
         console.log('render');
 
         return(
-            <div className="carousel">
+            <div
+                className="carousel"
+            >
                 <Swipeable onSwiping={this._onTouchMove} onSwiped={this._onTouchEnd}>
                     <div className="carousel-wrapper"   >
-                        <GalleryStage stage={ this._getStageComponent } style={ style } >
+                        <ul className="carousel-stage" ref={ this._getStageComponent } style={ style } >
                             {
                                 slides.map((item, i) => (
-                                    <li style={{width: `${this.state.itemWidth}px`}}
+                                    <li
                                         className="carousel-stage__item" key={i}
+                                        style={{width: `${this.state.itemWidth}px`}}
                                     >
                                         { item }
                                     </li>
                                 ))
                             }
-                        </GalleryStage>
+                        </ul>
                     </div>
                 </Swipeable>
 
@@ -310,24 +301,3 @@ class Carousel extends React.Component {
 }
 
 export default Carousel;
-
-const GalleryStage = ({ stage, style, children }) => {
-    return(
-        <ul className="carousel-stage" ref={ stage } style={ style } >
-            { children }
-        </ul>
-    );
-};
-
-const setTransformAnimation = (element, position, durationMs) => {
-    const prefixes = ['Webkit', 'Moz', 'ms', 'O'];
-    const duration = `transform ${durationMs}ms ease-out`;
-    const translate3d = `translate3d(${position}px, 0, 0)`;
-
-    for (let value of prefixes) {
-        element.style[value + 'Transition'] = duration;
-        element.style[value + 'Transform'] = translate3d;
-    }
-    element.style.transition = duration;
-    element.style.transform = translate3d;
-};
