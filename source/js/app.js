@@ -12,7 +12,7 @@ export class App extends React.Component {
                 <Carousel
                     onSlideChange={this._logCurrentSlideIndex}
                     swipeDisable={false}
-                    conf={{responsive: {0: {items: 1}, 600: {items: 2}, 1024: {items: 3}}}}>
+                    responsive={ {0: {items: 1}, 600: {items: 2}, 1024: {items: 1}} }>
                     <div className="item"><h1>1</h1></div>
                     <div className="item"><h1>2</h1></div>
                     <div className="item"><h1>3</h1></div>
@@ -21,7 +21,6 @@ export class App extends React.Component {
                     <div className="item"><h1>6</h1></div>
                     <div className="item"><h1>7</h1></div>
                 </Carousel>
-
             </div>
         );
     }
