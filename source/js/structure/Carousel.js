@@ -135,19 +135,6 @@ class Carousel extends React.Component {
         );
     }
 
-    _slideToItem(index) {
-        const { items, duration, itemWidth } = this.state;
-        const translate = index * items * itemWidth;
-        const currentIndex = index * items;
-
-        this.setState({
-            currentIndex,
-            translate3d: - translate,
-            style: { transition: `transform ${duration}ms ease-out` }
-        });
-        setTimeout(() => this._isCircle(), duration);
-    }
-
     _getActiveSlideIndex() {
         const { slides, items, currentIndex } = this.state;
         const slidesLength = slides.length;
@@ -244,20 +231,24 @@ class Carousel extends React.Component {
         if (this.props.swipeDisable || !this.allowAnimation) return;
         this.allowAnimation = false;
 
-        const { itemWidth, duration } = this.state;
-        let nextIndex = Math.floor(Math.abs(this.swipePosition.position) / itemWidth);
-        nextIndex = (this.swipePosition.direction === 'LEFT') ? nextIndex + 1  : nextIndex;
-        const position = -nextIndex * itemWidth;
+        const { itemWidth, duration, items} = this.state;
+        let currentIndex = Math.floor(Math.abs(this.swipePosition.position) / itemWidth);
+        currentIndex = (this.swipePosition.direction === 'LEFT') ? currentIndex + 1  : currentIndex;
+        const position = currentIndex * itemWidth;
 
-        setTransformAnimation(this.stageComponent, position, duration);
+        setTransformAnimation(this.stageComponent, -position, duration);
+        this._slideToItem(currentIndex / items, position);
+    }
+
+    _slideToItem(index, position) {
+        const { items, duration, itemWidth } = this.state;
+        const translate = position || index * items * itemWidth;
+        const currentIndex = index * items;
 
         this.setState({
-            translate3d: position,
-            currentIndex: nextIndex,
-            style: {
-                transition: `transform ${duration}ms ease-out`,
-                transform: `translate3d(${position}px, 0, 0)`
-            }
+            currentIndex,
+            translate3d: -translate,
+            style: { transition: `transform ${duration}ms ease-out` }
         });
         setTimeout(() => this._isCircle(), duration);
     }
