@@ -28,7 +28,7 @@ class Carousel extends React.Component {
         this._setInitialState();
         window.addEventListener('resize', this._resizeHandler);
 
-        if (!this.props.disableArrows) {
+        if (!this.props.keyDisable) {
             window.addEventListener('keydown', this._keyDownHandler);
         }
     }
@@ -36,12 +36,12 @@ class Carousel extends React.Component {
     componentWillUnmount() {
         window.removeEventListener('resize', this._resizeHandler);
 
-        if (!this.props.disableArrows) {
+        if (!this.props.keyDisable) {
             window.removeEventListener('keydown', this._keyDownHandler);
         }
     }
 
-
+    // TODO add auto play
     // TODO Add prop types
     // TODO Add infinite: false and global checking
     // TODO REFACTOR
@@ -61,17 +61,19 @@ class Carousel extends React.Component {
             clones,
             showDots: true,
             showButtons: true,
+            currentIndex: items,
             itemWidth: itemWidth,
-            translate3d: - itemWidth * items,
-            currentIndex: items || this.state.currentIndex
+            translate3d: -itemWidth * items
         });
     }
 
     _keyDownHandler(e) {
-        if (e.keyCode === 37) {
+        const key = e.keyCode;
+
+        if (key === 37) {
             this._slidePrev();
         }
-        if (e.keyCode === 39) {
+        if (key === 39) {
             this._slideNext();
         }
     }
@@ -90,7 +92,7 @@ class Carousel extends React.Component {
         if (circle) {
             this.setState({
                 currentIndex: (currentIndex === 0) ?  slidesLength : items,
-                translate3d: - itemWidth * ((currentIndex === 0) ?  slidesLength : items),
+                translate3d: -itemWidth * ((currentIndex === 0) ?  slidesLength : items),
                 style: { transition: 'transform 0ms ease-out' }
             });
         }
