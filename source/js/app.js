@@ -3,25 +3,21 @@ import Carousel from './structure/Carousel';
 
 
 export class App extends React.Component {
-    _logCurrentSlideIndex(currentSlideIndex){ console.log(currentSlideIndex); }
+    _logCurrentSlideIndex(currentSlideIndex){ console.log('currentSlide: ',currentSlideIndex); }
 
     render() {
         return (
             <div className="app">
                 <h1 className="h1">React Carousel Gallery</h1>
-                <Carousel
-                    keyDisable={false}
-                    swipeDisable={false}
-                    onSlideChange={this._logCurrentSlideIndex}
-                    responsive={ {0: {items: 1}, 600: {items: 2}, 1024: {items: 3}} }>
+                <Carousel responsive={ {0: {items: 1}, 600: {items: 1}, 1024: {items: 2}} }>
                     <div className="item"><h1>1</h1></div>
                     <div className="item"><h1>2</h1></div>
                     <div className="item"><h1>3</h1></div>
                     <div className="item"><h1>4</h1></div>
                     <div className="item"><h1>5</h1></div>
-                    <div className="item"><h1>6</h1></div>
                     <div className="item"><h1>7</h1></div>
-                </Carousel>
+                    <div className="item"><h1>8</h1></div>
+                </Carousel>;
             </div>
         );
     }

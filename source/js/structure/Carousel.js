@@ -1,15 +1,14 @@
 import React from 'react';
+import isEqual from 'lodash.isequal';
 import Swipeable from 'react-swipeable';
-import { setTransformAnimation } from './Common';
 
 
 class Carousel extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
+            slides: [],
             currentIndex: 1,
-            slides: props.children || [],
-            duration: props.duration || 250,
             style: {
                 transition: 'transform 0ms ease-out' }
         };
@@ -20,7 +19,7 @@ class Carousel extends React.Component {
         this._onTouchMove = this._onTouchMove.bind(this);
         this._resizeHandler = this._resizeHandler.bind(this);
         this._keyDownHandler = this._keyDownHandler.bind(this);
-        this._getStageComponent = this._getStageComponent.bind(this);
+        this._getStageComponentNode = this._getStageComponentNode.bind(this);
     }
 
     componentDidMount() {
@@ -28,63 +27,89 @@ class Carousel extends React.Component {
         this._setInitialState();
         window.addEventListener('resize', this._resizeHandler);
 
-        if (!this.props.keyDisable) {
+        if (!this.props.keysControlDisabled) {
             window.addEventListener('keydown', this._keyDownHandler);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!isEqual(this.props.children, nextProps.children)) {
+            this.setState({
+                slides: nextProps.children,
+                clones: this._cloneSlides(nextProps.children)
+            });
+        }
+
+        if (!isEqual(this.props.responsive, nextProps.responsive)) {
+            this.setState(this._calculateInitialProps(nextProps.responsive));
+        }
+
+        if (this.props.keysControlDisabled !== nextProps.keysControlDisabled) {
+            nextProps.keysControlDisabled === true
+                ? window.removeEventListener('keydown', this._keyDownHandler)
+                : window.addEventListener('keydown', this._keyDownHandler);
         }
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this._resizeHandler);
 
-        if (!this.props.keyDisable) {
+        if (!this.props.keysControlDisabled) {
             window.removeEventListener('keydown', this._keyDownHandler);
         }
     }
 
-    // TODO add auto play
     // TODO Add prop types
-    // TODO Add infinite: false and global checking
     // TODO REFACTOR
     // TODO ADD README
 
-    _setInitialState() {
-        const slides = this.state.slides;
+    _cloneSlides(children) {
+        const slides = children || this.props.children;
         const items = this._setTotalItemsInSlide();
-        const itemWidth = this.stageComponent.getBoundingClientRect().width / items;
-
         const first = slides.slice(0, items);
         const last = slides.slice(slides.length - items);
-        const clones = last.concat(slides, first);
 
-        this.setState({
-            items,
-            clones,
-            showDots: true,
-            showButtons: true,
-            currentIndex: items,
-            itemWidth: itemWidth,
-            translate3d: -itemWidth * items
-        });
+        return last.concat(slides, first);
     }
 
-    _keyDownHandler(e) {
-        const key = e.keyCode;
+    _calculateInitialProps(totalItems) {
+        const items = this._setTotalItemsInSlide(totalItems);
+        const itemWidth = this.stageComponent.getBoundingClientRect().width / items;
 
-        if (key === 37) {
+        return {
+            items,
+            itemWidth,
+            currentIndex: items,
+            clones: this._cloneSlides(),
+            slides: this.props.children || [],
+            translate3d: -itemWidth * items
+        };
+    }
+
+    _setInitialState() {
+        this.setState(this._calculateInitialProps());
+    }
+
+    _getStageComponentNode(node) { this.stageComponent = node; }
+
+    _getDuration() { return this.props.duration || 250; }
+
+    _allowAnimation() { this.allowAnimation = true; }
+
+    _keyDownHandler(e) {
+        switch(e.keyCode) {
+        case 37:
             this._slidePrev();
-        }
-        if (key === 39) {
+            break;
+        case 39:
             this._slideNext();
+            break;
         }
     }
 
     _resizeHandler() { this._setInitialState(); }
 
-    _getStageComponent(node) { this.stageComponent = node; }
-
-    _allowAnimation() { this.allowAnimation = true; }
-
-    _isCircle() {
+    _isInfinite() {
         const { items, itemWidth, slides, currentIndex } = this.state;
         const slidesLength = slides.length;
         const circle = (currentIndex === 0 || currentIndex === slidesLength + items);
@@ -191,16 +216,16 @@ class Carousel extends React.Component {
         );
     }
 
-    _setTotalItemsInSlide() {
+    _setTotalItemsInSlide(totalItems) {
         let items = 1;
         const width = window.innerWidth;
 
         if (this.props.responsive) {
-            const responsive = this.props.responsive || {};
+            const responsive = totalItems || this.props.responsive || {};
 
             if (Object.keys(responsive).length) {
                 Object.keys(responsive).forEach((key) => {
-                    if (key < width) items = responsive[key].items || items;
+                    if (key < width) items = Math.abs(responsive[key].items) || items;
                 });
             }
         }
@@ -208,42 +233,59 @@ class Carousel extends React.Component {
     }
 
     _onTouchMove() {
-        if (this.props.swipeDisable) return;
+        if (this.props.swipeDisabled) return;
+
         const { slides, items, itemWidth, translate3d } = this.state;
+        const maxPosition = (slides.length + items) * itemWidth;
         const direction = arguments[1] > 0 ? 'LEFT' : 'RIGHT';
         let position = translate3d - arguments[1];
 
-        if (direction === 'RIGHT' && position >= 0) {
-            position = -slides.length * itemWidth;
-            position -= arguments[1] + items * itemWidth;
-            if (position >= 0) return;
+        if (position >= 0 || Math.abs(position) >= maxPosition) {
+            recalculatePosition();
         }
 
-        if (direction === 'LEFT' && Math.abs(position) >= ((slides.length + items) * itemWidth)) {
-            position = -items * itemWidth;
-            position -= arguments[1] - items * itemWidth;
-            if (Math.abs(position) >= items * itemWidth * 2 ) return;
-        }
-
-        setTransformAnimation(this.stageComponent, position, 0);
+        this._setTransformAnimation(this.stageComponent, position, 0);
         this.swipePosition = { position, direction };
+
+        function recalculatePosition() {
+            direction === 'RIGHT'
+                ? position += - slides.length * itemWidth
+                : position += maxPosition - items * itemWidth;
+
+            if (position >= 0 || Math.abs(position) >= maxPosition) {
+                recalculatePosition();
+            }
+        }
     }
 
     _onTouchEnd() {
-        if (this.props.swipeDisable || !this.allowAnimation) return;
-        this.allowAnimation = false;
+        if (this.props.swipeDisabled) return;
+        this._allowAnimation();
 
-        const { itemWidth, duration, items} = this.state;
-        let currentIndex = Math.floor(Math.abs(this.swipePosition.position) / itemWidth);
-        currentIndex = (this.swipePosition.direction === 'LEFT') ? currentIndex + 1  : currentIndex;
+        const { itemWidth, items} = this.state;
+        const swipePosition = Math.abs(this.swipePosition.position);
+        const currentIndex = this.swipePosition.direction === 'LEFT'
+            ? Math.floor(swipePosition / itemWidth) + 1
+            : Math.floor(swipePosition / itemWidth);
+
         const position = currentIndex * itemWidth;
 
-        setTransformAnimation(this.stageComponent, -position, duration);
+        this._setTransformAnimation(this.stageComponent, -position, this._getDuration());
         this._slideToItem(currentIndex / items, position);
     }
 
+    _setTransformAnimation(element, position, durationMs) {
+        const prefixes = ['Webkit', 'Moz', 'ms', 'O', ''];
+
+        for (let value of prefixes) {
+            element.style[value + 'Transform'] = `translate3d(${position}px, 0, 0)`;
+            element.style[value + 'Transition'] = `transform ${durationMs}ms ease-out`;
+        }
+    }
+
     _slideToItem(index, position) {
-        const { items, duration, itemWidth } = this.state;
+        const { items, itemWidth } = this.state;
+        const duration = this._getDuration();
         const translate = position || index * items * itemWidth;
         const currentIndex = index * items;
 
@@ -252,7 +294,7 @@ class Carousel extends React.Component {
             translate3d: -translate,
             style: { transition: `transform ${duration}ms ease-out` }
         });
-        setTimeout(() => this._isCircle(), duration);
+        setTimeout(() => this._isInfinite(), duration);
     }
 
     render() {
@@ -269,7 +311,7 @@ class Carousel extends React.Component {
             >
                 <Swipeable onSwiping={this._onTouchMove} onSwiped={this._onTouchEnd}>
                     <div className="carousel-wrapper"   >
-                        <ul className="carousel-stage" ref={ this._getStageComponent } style={ style } >
+                        <ul className="carousel-stage" ref={this._getStageComponentNode} style={style} >
                             {
                                 slides.map((item, i) => (
                                     <li
@@ -284,9 +326,9 @@ class Carousel extends React.Component {
                     </div>
                 </Swipeable>
 
-                { this.state.showButtons ? this._prevButton() : null }
-                { this.state.showButtons ? this._nextButton() : null }
-                { this.state.showDots ? this._renderDotsNavigation() : null }
+                { !this.props.buttonsDisabled ? this._prevButton() : null }
+                { !this.props.buttonsDisabled ? this._nextButton() : null }
+                { !this.props.dotsDisabled ? this._renderDotsNavigation() : null }
 
             </div>
         );
