@@ -59,8 +59,6 @@ class Carousel extends React.Component {
         }
     }
 
-    // TODO Add prop types
-    // TODO REFACTOR
     // TODO ADD README
 
     _cloneSlides(children) {
@@ -332,5 +330,16 @@ class Carousel extends React.Component {
         );
     }
 }
+
+Carousel.propTypes = {
+    children: React.PropTypes.array.isRequired,
+    onSlideChange: React.PropTypes.func,
+    keysControlDisabled: React.PropTypes.bool,
+    buttonsDisabled: React.PropTypes.bool,
+    dotsDisabled: React.PropTypes.bool,
+    swipeDisabled: React.PropTypes.bool,
+    responsive: React.PropTypes.object,
+    duration: React.PropTypes.number
+};
 
 export default Carousel;
