@@ -61,9 +61,9 @@ class Carousel extends React.Component {
 
     // TODO ADD README
 
-    _cloneSlides(children) {
+    _cloneSlides(children, itemsInSlide) {
         const slides = children || this.props.children;
-        const items = this._setTotalItemsInSlide();
+        const items = itemsInSlide || this._setTotalItemsInSlide();
         const first = slides.slice(0, items);
         const last = slides.slice(slides.length - items);
 
@@ -78,7 +78,7 @@ class Carousel extends React.Component {
             items,
             itemWidth,
             currentIndex: items,
-            clones: this._cloneSlides(),
+            clones: this._cloneSlides(null, items),
             slides: this.props.children || [],
             translate3d: -itemWidth * items
         };
@@ -90,7 +90,7 @@ class Carousel extends React.Component {
 
     _getStageComponentNode(node) { this.stageComponent = node; }
 
-    _getDuration() { return this.props.duration || 1000; }
+    _getDuration() { return this.props.duration || 250; }
 
     _allowAnimation() { this.allowAnimation = true; }
 
