@@ -1,18 +1,22 @@
-.carousel {
+$clr-base: #e0e4fb;
+$clr-blue: #465798;
+$clr-darkred: darkred;
+
+.alice-carousel {
     box-sizing: border-box;
     position: relative;
     width: 100%;
     padding: 60px;
     margin: auto;
 }
-.carousel-wrapper {
+.alice-carousel-wrapper {
     position: relative;
     width: 100%;
     height: auto;
     box-sizing: border-box;
     overflow: hidden;
 }
-.carousel-stage {
+.alice-carousel-stage {
     position: relative;
     width: 100%;
     height: 100%;
@@ -20,7 +24,6 @@
     padding: 0;
     white-space: nowrap;
     box-sizing: border-box;
-
     &__item {
         width: 100%;
         height: 100%;
@@ -30,38 +33,38 @@
         white-space: normal;
     }
 }
-.carousel-prev,
-.carousel-next {
+.alice-carousel-prev,
+.alice-carousel-next {
     position: absolute;
     left: 0;
     right: 0;
-    top: 30px
+    top: 50%
 }
-.carousel-prev__btn,
-.carousel-next__btn {
+.alice-carousel-prev__btn,
+.alice-carousel-next__btn {
     display: inline-block;
     position: absolute;
     width: 36px;
     height: 36px;
     top: 50%;
     transform: translateY(-50%);
-    color: $clr-blue;
+    color: lighten(#465798, 15%);
     cursor: pointer;
     font-size: 1.9em;
     text-align: center;
     border-radius: 50%;
-    border: 1px solid $clr-blue;
+    border: 1px solid lighten(#465798, 15%);
     transition: .3s ease;
     &:hover {
-        color: darkred;
-        border: 1px solid darkred;
+        color: $clr-darkred;
+        border: 1px solid $clr-darkred;
     }
     &.__inactive {
         color: $clr-base;
         border: 1px solid $clr-base;
     }
 }
-.carousel-prev__btn {
+.alice-carousel-prev__btn {
     left: 0;
     &:before {
         content: '\02039';
@@ -69,7 +72,7 @@
         height: 100%
     }
 }
-.carousel-next__btn {
+.alice-carousel-next__btn {
     right: 0;
     &:before {
         content: '\0203A';
@@ -77,7 +80,7 @@
         height: 100%
     }
 }
-.carousel-dots {
+.alice-carousel-dots {
     position: absolute;
     text-align: center;
     margin: auto;
@@ -97,7 +100,7 @@
         }
         &:hover,
         &.__active {
-            background-color: $clr-blue;
+            background-color: lighten(#465798, 15%);
         }
     }
 }

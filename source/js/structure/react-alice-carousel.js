@@ -3,7 +3,7 @@ import isEqual from 'lodash.isequal';
 import Swipeable from 'react-swipeable';
 
 
-class Carousel extends React.Component {
+class AliceCarousel extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -117,16 +117,16 @@ class Carousel extends React.Component {
 
     _prevButton() {
         return(
-            <div className="carousel-prev">
-                <div className="carousel-prev__btn" onClick={this._slidePrev}/>
+            <div className="alice-carousel-prev">
+                <div className="alice-carousel-prev__btn" onClick={this._slidePrev}/>
             </div>
         );
     }
 
     _nextButton() {
         return(
-            <div className="carousel-next">
-                <div className="carousel-next__btn" onClick={this._slideNext}/>
+            <div className="alice-carousel-next">
+                <div className="alice-carousel-next__btn" onClick={this._slideNext}/>
             </div>
         );
     }
@@ -169,14 +169,14 @@ class Carousel extends React.Component {
         const { slides, items } = this.state;
 
         return(
-            <ul className="carousel-dots">
+            <ul className="alice-carousel-dots">
                 {
                     slides.map((item, i) => {
                         if (i < slides.length / items) {
                             return <li
                                 key={i}
                                 onClick={() => this._slideToItem(i + 1)}
-                                className={`carousel-dots__item${ this._getActiveSlideIndex() === i ? ' __active' : '' }`}
+                                className={`alice-carousel-dots__item${ this._getActiveSlideIndex() === i ? ' __active' : '' }`}
                             />;
                         }
                     })
@@ -303,15 +303,15 @@ class Carousel extends React.Component {
 
         return(
             <div
-                className="carousel"
+                className="alice-carousel"
             >
                 <Swipeable onSwiping={this._onTouchMove} onSwiped={this._onTouchEnd}>
-                    <div className="carousel-wrapper"   >
-                        <ul className="carousel-stage" ref={this._getStageComponentNode} style={style} >
+                    <div className="alice-carousel-wrapper"   >
+                        <ul className="alice-carousel-stage" ref={this._getStageComponentNode} style={style} >
                             {
                                 slides.map((item, i) => (
                                     <li
-                                        className="carousel-stage__item" key={i}
+                                        className="alice-carousel-stage__item" key={i}
                                         style={{width: `${this.state.itemWidth}px`}}
                                     >
                                         { item }
@@ -331,7 +331,7 @@ class Carousel extends React.Component {
     }
 }
 
-Carousel.propTypes = {
+AliceCarousel.propTypes = {
     children: React.PropTypes.array.isRequired,
     onSlideChange: React.PropTypes.func,
     keysControlDisabled: React.PropTypes.bool,
@@ -342,4 +342,4 @@ Carousel.propTypes = {
     duration: React.PropTypes.number
 };
 
-export default Carousel;
+export default AliceCarousel;

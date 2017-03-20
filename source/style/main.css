@@ -1,18 +1,18 @@
-.carousel {
+.alice-carousel {
   box-sizing: border-box;
   position: relative;
   width: 100%;
   padding: 60px;
   margin: auto; }
 
-.carousel-wrapper {
+.alice-carousel-wrapper {
   position: relative;
   width: 100%;
   height: auto;
   box-sizing: border-box;
   overflow: hidden; }
 
-.carousel-stage {
+.alice-carousel-stage {
   position: relative;
   width: 100%;
   height: 100%;
@@ -20,7 +20,7 @@
   padding: 0;
   white-space: nowrap;
   box-sizing: border-box; }
-  .carousel-stage__item {
+  .alice-carousel-stage__item {
     width: 100%;
     height: 100%;
     position: relative;
@@ -28,15 +28,15 @@
     vertical-align: top;
     white-space: normal; }
 
-.carousel-prev,
-.carousel-next {
+.alice-carousel-prev,
+.alice-carousel-next {
   position: absolute;
   left: 0;
   right: 0;
   top: 30px; }
 
-.carousel-prev__btn,
-.carousel-next__btn {
+.alice-carousel-prev__btn,
+.alice-carousel-next__btn {
   display: inline-block;
   position: absolute;
   width: 36px;
@@ -50,30 +50,30 @@
   border-radius: 50%;
   border: 1px solid #465798;
   transition: .3s ease; }
-  .carousel-prev__btn:hover,
-  .carousel-next__btn:hover {
+  .alice-carousel-prev__btn:hover,
+  .alice-carousel-next__btn:hover {
     color: darkred;
     border: 1px solid darkred; }
-  .carousel-prev__btn.__inactive,
-  .carousel-next__btn.__inactive {
+  .alice-carousel-prev__btn.__inactive,
+  .alice-carousel-next__btn.__inactive {
     color: #e0e4fb;
     border: 1px solid #e0e4fb; }
 
-.carousel-prev__btn {
+.alice-carousel-prev__btn {
   left: 0; }
-  .carousel-prev__btn:before {
+  .alice-carousel-prev__btn:before {
     content: '\02039';
     display: inline-block;
     height: 100%; }
 
-.carousel-next__btn {
+.alice-carousel-next__btn {
   right: 0; }
-  .carousel-next__btn:before {
+  .alice-carousel-next__btn:before {
     content: '\0203A';
     display: inline-block;
     height: 100%; }
 
-.carousel-dots {
+.alice-carousel-dots {
   position: absolute;
   text-align: center;
   margin: auto;
@@ -81,16 +81,16 @@
   width: 100%;
   bottom: 0;
   left: 0; }
-  .carousel-dots__item {
+  .alice-carousel-dots__item {
     display: inline-block;
     width: 8px;
     height: 8px;
     cursor: pointer;
     border-radius: 50%;
     background-color: #e0e4fb; }
-    .carousel-dots__item:not(:last-child) {
+    .alice-carousel-dots__item:not(:last-child) {
       margin-right: 15px; }
-    .carousel-dots__item:hover, .carousel-dots__item.__active {
+    .alice-carousel-dots__item:hover, .alice-carousel-dots__item.__active {
       background-color: #465798; }
 
 #carousel {
@@ -100,7 +100,7 @@
   font-family: OpenSans, sans-serif; }
 
 .app {
-  max-width: 1050px;
+  max-width: 520px;
   margin: auto; }
 
 .h1 {
