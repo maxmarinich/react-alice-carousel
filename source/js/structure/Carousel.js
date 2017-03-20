@@ -92,20 +92,9 @@ class Carousel extends React.Component {
 
     _getStageComponentNode(node) { this.stageComponent = node; }
 
-    _getDuration() { return this.props.duration || 250; }
+    _getDuration() { return this.props.duration || 1000; }
 
     _allowAnimation() { this.allowAnimation = true; }
-
-    _keyDownHandler(e) {
-        switch(e.keyCode) {
-        case 37:
-            this._slidePrev();
-            break;
-        case 39:
-            this._slideNext();
-            break;
-        }
-    }
 
     _resizeHandler() { this._setInitialState(); }
 
@@ -117,7 +106,7 @@ class Carousel extends React.Component {
         if (circle) {
             this.setState({
                 currentIndex: (currentIndex === 0) ?  slidesLength : items,
-                translate3d: -itemWidth * ((currentIndex === 0) ?  slidesLength : items),
+                translate3d: -itemWidth * (currentIndex === 0 ?  slidesLength : items),
                 style: { transition: 'transform 0ms ease-out' }
             });
         }
@@ -126,24 +115,6 @@ class Carousel extends React.Component {
             this.props.onSlideChange(this._getActiveSlideIndex());
         }
         this._allowAnimation();
-    }
-
-    _slidePrev() {
-        if (!this.allowAnimation) return;
-        this.allowAnimation = false;
-
-        const { currentIndex, items }  = this.state;
-
-        this._slideToItem((currentIndex - 1) / items);
-    }
-
-    _slideNext() {
-        if (!this.allowAnimation) return;
-        this.allowAnimation = false;
-
-        const { currentIndex, items }  = this.state;
-
-        this._slideToItem((currentIndex + 1) / items);
     }
 
     _prevButton() {
@@ -232,6 +203,47 @@ class Carousel extends React.Component {
         return items;
     }
 
+    _keyDownHandler(e) {
+        if (!this.allowAnimation) return;
+
+        switch(e.keyCode) {
+        case 37:
+            this._slidePrev();
+            break;
+        case 39:
+            this._slideNext();
+            break;
+        }
+    }
+
+    _slidePrev() {
+        const { currentIndex, items }  = this.state;
+        this._slideToItem((currentIndex - 1) / items);
+    }
+
+    _slideNext() {
+        const { currentIndex, items }  = this.state;
+        this._slideToItem((currentIndex + 1) / items);
+    }
+
+    _slideToItem(index, position) {
+        if (!this.allowAnimation) return;
+        this.allowAnimation = false;
+
+        const { items, itemWidth } = this.state;
+        const duration = this._getDuration();
+        const translate = position || index * items * itemWidth;
+        const currentIndex = index * items;
+
+        this.setState({
+            currentIndex,
+            translate3d: -translate,
+            style: { transition: `transform ${duration}ms ease-out` }
+        });
+
+        setTimeout(() => this._isInfinite(), duration);
+    }
+
     _onTouchMove() {
         if (this.props.swipeDisabled) return;
 
@@ -281,20 +293,6 @@ class Carousel extends React.Component {
             element.style[value + 'Transform'] = `translate3d(${position}px, 0, 0)`;
             element.style[value + 'Transition'] = `transform ${durationMs}ms ease-out`;
         }
-    }
-
-    _slideToItem(index, position) {
-        const { items, itemWidth } = this.state;
-        const duration = this._getDuration();
-        const translate = position || index * items * itemWidth;
-        const currentIndex = index * items;
-
-        this.setState({
-            currentIndex,
-            translate3d: -translate,
-            style: { transition: `transform ${duration}ms ease-out` }
-        });
-        setTimeout(() => this._isInfinite(), duration);
     }
 
     render() {
