@@ -1,7 +1,7 @@
 .carousel {
     box-sizing: border-box;
     position: relative;
-    max-width: 1170px;
+    width: 100%;
     padding: 60px;
     margin: auto;
 }
@@ -9,9 +9,8 @@
     position: relative;
     width: 100%;
     height: auto;
-    overflow: hidden;
     box-sizing: border-box;
-    background-color: rgba($clr-base, .5);
+    overflow: hidden;
 }
 .carousel-stage {
     position: relative;
@@ -21,6 +20,7 @@
     padding: 0;
     white-space: nowrap;
     box-sizing: border-box;
+
     &__item {
         width: 100%;
         height: 100%;
@@ -30,6 +30,13 @@
         white-space: normal;
     }
 }
+.carousel-prev,
+.carousel-next {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30px
+}
 .carousel-prev__btn,
 .carousel-next__btn {
     display: inline-block;
@@ -38,16 +45,20 @@
     height: 36px;
     top: 50%;
     transform: translateY(-50%);
-    color: $clr-base;
+    color: $clr-blue;
     cursor: pointer;
     font-size: 1.9em;
     text-align: center;
     border-radius: 50%;
-    border: 1px solid $clr-base;
+    border: 1px solid $clr-blue;
     transition: .3s ease;
     &:hover {
-        color: $clr-blue;
-        border: 1px solid $clr-blue;
+        color: darkred;
+        border: 1px solid darkred;
+    }
+    &.__inactive {
+        color: $clr-base;
+        border: 1px solid $clr-base;
     }
 }
 .carousel-prev__btn {

@@ -1,7 +1,7 @@
 .carousel {
   box-sizing: border-box;
   position: relative;
-  max-width: 1170px;
+  width: 100%;
   padding: 60px;
   margin: auto; }
 
@@ -9,9 +9,8 @@
   position: relative;
   width: 100%;
   height: auto;
-  overflow: hidden;
   box-sizing: border-box;
-  background-color: rgba(224, 228, 251, 0.5); }
+  overflow: hidden; }
 
 .carousel-stage {
   position: relative;
@@ -29,6 +28,13 @@
     vertical-align: top;
     white-space: normal; }
 
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30px; }
+
 .carousel-prev__btn,
 .carousel-next__btn {
   display: inline-block;
@@ -37,17 +43,21 @@
   height: 36px;
   top: 50%;
   transform: translateY(-50%);
-  color: #e0e4fb;
+  color: #465798;
   cursor: pointer;
   font-size: 1.9em;
   text-align: center;
   border-radius: 50%;
-  border: 1px solid #e0e4fb;
+  border: 1px solid #465798;
   transition: .3s ease; }
   .carousel-prev__btn:hover,
   .carousel-next__btn:hover {
-    color: #465798;
-    border: 1px solid #465798; }
+    color: darkred;
+    border: 1px solid darkred; }
+  .carousel-prev__btn.__inactive,
+  .carousel-next__btn.__inactive {
+    color: #e0e4fb;
+    border: 1px solid #e0e4fb; }
 
 .carousel-prev__btn {
   left: 0; }
@@ -89,6 +99,10 @@
   color: #465798;
   font-family: OpenSans, sans-serif; }
 
+.app {
+  max-width: 1050px;
+  margin: auto; }
+
 .h1 {
   text-align: center;
   font-size: 1.5em;
@@ -100,5 +114,10 @@
   background-color: #465798;
   height: 200px;
   margin: 5px; }
+  .item h1 {
+    padding: 80px 0;
+    margin: 0;
+    text-align: center;
+    color: #fff; }
 
 /*# sourceMappingURL=main.css.map */
