@@ -7,7 +7,7 @@
     font-family: OpenSans, sans-serif;
 }
 .app {
-    max-width: 520px;
+    max-width: 960px;
     margin: auto;
 }
 
@@ -21,12 +21,18 @@
 .item {
     color: red;
     background-color: $clr-blue;
-    height: 200px;
+    height: 170px;
     margin: 5px;
     h1 {
-        padding: 80px 0;
         margin: 0;
+        height: 100%;
         text-align: center;
         color: #fff;
+        &:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
     }
 }

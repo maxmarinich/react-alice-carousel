@@ -14,7 +14,7 @@ React Alice Carousel is a React component for building content galleries, conten
 * Multiple items in the slide
 * Show / hide anything (indicators, arrows, slides indexes)
 
-### Quick start
+### How to use
 
 
 ##### Style import
@@ -23,15 +23,18 @@ React Alice Carousel is a React component for building content galleries, conten
 # SCSS
 @import "node_modules/react-alice-carousel/styles/scss/alice-carousel.scss";
 
-# CSS
+```
+```
+# CSS 
 @import "node_modules/react-alice-carousel/styles/css/alice-carousel.css";
-
+```
+```
 # Webpack
 import "react-alice-carousel/styles/css/alice-carousel";
 
 ```
 
-##### Example
+##### Quick start
 
 ```javascript
 
@@ -43,13 +46,11 @@ class App extends React.Component {
     render() {
         return (
             <AliceCarousel>
-                <div className="yours-custom-class"><h1>1</h1></div>
-                <div className="yours-custom-class"><h1>2</h1></div>
-                <div className="yours-custom-class"><h1>3</h1></div>
-                <div className="yours-custom-class"><h1>4</h1></div>
-                <div className="yours-custom-class"><h1>5</h1></div>
-                <div className="yours-custom-class"><h1>6</h1></div>
-                <div className="yours-custom-class"><h1>7</h1></div>
+                <img src="/img1" className="yours-custom-class" />
+                <img src="/img2" className="yours-custom-class" />
+                <img src="/img3" className="yours-custom-class" />
+                <img src="/img4" className="yours-custom-class" />
+                <img src="/img5" className="yours-custom-class" />
             </AliceCarousel>
         );
     }
@@ -57,4 +58,85 @@ class App extends React.Component {
 
 ```
 
+### Advanced configuration
 
+#### Props
+
+| Attributes | Type | Default | Description |
+
+| --------- | :--: | :-----: | :----------- |
+
+| duration | `number` | 250 | Duration of slides transition (milliseconds) |
+| responsive | `object` | {} | Number of items in the slide |
+| keysControlDisabled | `boolean` | `false` | Disable keys controls |
+| buttonsDisabled | `boolean` | `false` | Disable buttons control|
+| dotsDisabled | `boolean` | `false` |  Disable dots navigation |
+| swipeDisabled | `boolean` | `false` | Disable swipe handlers |
+| onSlideChange | `function` | - | Fired when the slide position changes / returns current slide index |
+
+
+### Example
+
+```js
+import React from 'react';
+import AliceCarousel from 'react-alice-carousel';
+
+
+export class App extends React.Component {
+    
+    logCurrentSlideIndex(currentSlideIndex) { 
+        console.log('currentSlideIndex: ', currentSlideIndex); 
+    }
+
+    render() {
+        const responsive = {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            1024: {
+                items: 3
+            }
+        };
+        
+        return (
+            <div className="app">
+                <h1 className="h1">React Alice Carousel</h1>
+                
+                <AliceCarousel
+                    responsive={ responsive }
+                    onSlideChange={ this.logCurrentSlideIndex }
+                    >
+                    <div className="yours-custom-class"><h2>1</h2></div>
+                    <div className="yours-custom-class"><h2>2</h2></div>
+                    <div className="yours-custom-class"><h2>3</h2></div>
+                    <div className="yours-custom-class"><h2>4</h2></div>
+                    <div className="yours-custom-class"><h2>5</h2></div>
+                    <div className="yours-custom-class"><h2>6</h2></div>
+                    <div className="yours-custom-class"><h2>7</h2></div>
+                </AliceCarousel>
+            </div>
+        );
+    }
+}
+```
+
+### Build the project locally
+
+### Clone the project
+```apacheconfig
+git clone https://github.com/maxmarinich/react-alice-carousel
+cd react-alice-carousel
+```
+### Run
+
+```apacheconfig
+npm i
+npm start
+```
+
+### License
+
+MIT

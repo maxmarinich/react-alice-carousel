@@ -1,7 +1,7 @@
 {
-  "name": "react-carousel",
+  "name": "react-alice-carousel",
   "version": "1.0.0",
-  "description": "### TODO",
+  "description": "React image gallery, react slideshow carousel, react content rotator",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maxmarinich/react-carousel.git"
+    "url": "git+https://github.com/maxmarinich/react-alice-carousel.git"
   },
   "keywords": [
     "react",
@@ -18,7 +18,7 @@
     "slider",
     "slideshow",
     "rotator",
-    "react-carousel",
+    "react-alice-carousel",
     "react-slideshow",
     "react-gallery",
     "react carousel",
@@ -34,9 +34,9 @@
   "author": "Max Marinich",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/maxmarinich/react-carousel/issues"
+    "url": "https://github.com/maxmarinich/react-alice-carousel/issues"
   },
-  "homepage": "https://github.com/maxmarinich/react-carousel#readme",
+  "homepage": "https://github.com/maxmarinich/react-alice-carousel#readme",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.23.0",
