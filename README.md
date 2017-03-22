@@ -19,21 +19,25 @@ React Alice Carousel is a React component for building content galleries, conten
 
 ## How to use
 
+```apacheconfig
+npm install react-alice-carousel --save-dev
 
-#### Style import
+```
+
+### Style import
 
 ```
 # SCSS
-@import "node_modules/react-alice-carousel/styles/scss/alice-carousel.scss";
+@import "node_modules/react-alice-carousel/assets/alice-carousel.scss";
 
 ```
 ```
 # CSS 
-@import "node_modules/react-alice-carousel/styles/css/alice-carousel.css";
+@import "node_modules/react-alice-carousel/lib/alice-carousel.css";
 ```
 ```
 # Webpack
-import "react-alice-carousel/styles/css/alice-carousel";
+import "react-alice-carousel/lib/alice-carousel";
 
 ```
 

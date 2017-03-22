@@ -32,6 +32,12 @@
     "content rotator"
   ],
   "author": "Max Marinich",
+  "maintainers": [
+    {
+      "name": "Max Marinich",
+      "email": "max.marinich@gmail.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/maxmarinich/react-alice-carousel/issues"
