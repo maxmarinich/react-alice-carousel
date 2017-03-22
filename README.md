@@ -84,7 +84,7 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
 
-export class App extends React.Component {
+class App extends React.Component {
     
     logCurrentSlideIndex(currentSlideIndex) { 
         console.log('currentSlideIndex: ', currentSlideIndex); 
