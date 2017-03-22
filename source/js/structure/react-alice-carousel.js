@@ -59,8 +59,6 @@ class AliceCarousel extends React.Component {
         }
     }
 
-    // TODO ADD README
-
     _cloneSlides(children, itemsInSlide) {
         const slides = children || this.props.children;
         const items = itemsInSlide || this._setTotalItemsInSlide();

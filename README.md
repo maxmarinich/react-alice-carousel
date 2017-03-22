@@ -60,24 +60,26 @@ class App extends React.Component {
 
 ### Advanced configuration
 
+
 #### Props
-
-| Attributes | Type | Default | Description |
-
-| --------- | :--: | :-----: | :----------- |
-
-| duration | `number` | 250 | Duration of slides transition (milliseconds) |
-| responsive | `object` | {} | Number of items in the slide |
-| keysControlDisabled | `boolean` | `false` | Disable keys controls |
-| buttonsDisabled | `boolean` | `false` | Disable buttons control|
-| dotsDisabled | `boolean` | `false` |  Disable dots navigation |
-| swipeDisabled | `boolean` | `false` | Disable swipe handlers |
-| onSlideChange | `function` | - | Fired when the slide position changes / returns current slide index |
-
+* `duration` : Number , default  `250` 
+    - Duration of slides transition (milliseconds) |
+* `responsive` : Object, default `{}`
+    - Number of items in the slide 
+* `keysControlDisabled` :  Boolean, default `false`
+     - Disable keys controls
+* `buttonsDisabled` : Boolean, `false`
+    - Disable buttons control
+* `dotsDisabled` : Boolean, `false`
+     - Disable dots navigation
+* `swipeDisabled` : Boolean, default `false`
+     - Disable swipe handlers
+* `onSlideChange` : Function
+    - Fired when the slide position changes / returns current slide index
 
 ### Example
 
-```js
+```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
@@ -114,8 +116,6 @@ export class App extends React.Component {
                     <div className="yours-custom-class"><h2>3</h2></div>
                     <div className="yours-custom-class"><h2>4</h2></div>
                     <div className="yours-custom-class"><h2>5</h2></div>
-                    <div className="yours-custom-class"><h2>6</h2></div>
-                    <div className="yours-custom-class"><h2>7</h2></div>
                 </AliceCarousel>
             </div>
         );
@@ -123,9 +123,9 @@ export class App extends React.Component {
 }
 ```
 
-### Build the project locally
+## Build the project locally
 
-### Clone the project
+### Clone
 ```apacheconfig
 git clone https://github.com/maxmarinich/react-alice-carousel
 cd react-alice-carousel

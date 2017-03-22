@@ -31,7 +31,10 @@ $clr-darkred: darkred;
         display: inline-block;
         vertical-align: top;
         white-space: normal;
-        line-height: normal;
+        line-height: 0;
+        * {
+            line-height: initial;
+        }
     }
 }
 .alice-carousel-prev,
