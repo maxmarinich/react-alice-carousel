@@ -37,7 +37,7 @@ npm install react-alice-carousel --save-dev
 ```
 ```
 # Webpack
-import "react-alice-carousel/lib/alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 ```
 
@@ -48,15 +48,14 @@ import "react-alice-carousel/lib/alice-carousel";
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
-
 const Gallery = () => (
-    <AliceCarousel>
-        <img src="/img1" className="yours-custom-class" />
-        <img src="/img2" className="yours-custom-class" />
-        <img src="/img3" className="yours-custom-class" />
-        <img src="/img4" className="yours-custom-class" />
-        <img src="/img5" className="yours-custom-class" />
-    </AliceCarousel>
+  <AliceCarousel>
+    <img src="/img1" className="yours-custom-class" />
+    <img src="/img2" className="yours-custom-class" />
+    <img src="/img3" className="yours-custom-class" />
+    <img src="/img4" className="yours-custom-class" />
+    <img src="/img5" className="yours-custom-class" />
+  </AliceCarousel>
 )
 
 ```
@@ -66,7 +65,7 @@ const Gallery = () => (
 
 #### Props
 * `duration` : Number , default  `250` 
-    - Duration of slides transition (milliseconds) |
+    - Duration of slides transition (milliseconds)
 * `responsive` : Object, default `{}`
     - Number of items in the slide 
 * `keysControlDisabled` :  Boolean, default `false`
@@ -86,43 +85,40 @@ const Gallery = () => (
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
+class App extends React.Component {    
+  logCurrentSlideIndex(currentSlideIndex) { 
+      console.log('currentSlideIndex: ', currentSlideIndex); 
+  }
 
-class App extends React.Component {
+  render() {
+    const responsive = {
+      0: {
+        items: 1
+      },
+      600: {
+        items: 2
+      },
+      1024: {
+        items: 3
+      }
+    };
     
-    logCurrentSlideIndex(currentSlideIndex) { 
-        console.log('currentSlideIndex: ', currentSlideIndex); 
-    }
-
-    render() {
-        const responsive = {
-            0: {
-                items: 1
-            },
-            600: {
-                items: 2
-            },
-            1024: {
-                items: 3
-            }
-        };
-        
-        return (
-            <div className="app">
-                <h1 className="h1">React Alice Carousel</h1>
-                
-                <AliceCarousel
-                    responsive={ responsive }
-                    onSlideChange={ this.logCurrentSlideIndex }
-                    >
-                    <div className="yours-custom-class"><h2>1</h2></div>
-                    <div className="yours-custom-class"><h2>2</h2></div>
-                    <div className="yours-custom-class"><h2>3</h2></div>
-                    <div className="yours-custom-class"><h2>4</h2></div>
-                    <div className="yours-custom-class"><h2>5</h2></div>
-                </AliceCarousel>
-            </div>
-        );
-    }
+    return (
+      <div className="app">
+        <h1 className="h1">React Alice Carousel</h1>        
+        <AliceCarousel
+          responsive={ responsive }
+          onSlideChange={ this.logCurrentSlideIndex }
+          >
+          <div className="yours-custom-class"><h2>1</h2></div>
+          <div className="yours-custom-class"><h2>2</h2></div>
+          <div className="yours-custom-class"><h2>3</h2></div>
+          <div className="yours-custom-class"><h2>4</h2></div>
+          <div className="yours-custom-class"><h2>5</h2></div>
+        </AliceCarousel>
+      </div>
+    );
+  }
 }
 ```
 
