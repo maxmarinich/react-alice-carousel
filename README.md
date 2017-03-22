@@ -2,7 +2,7 @@
 
 React Alice Carousel is a React component for building content galleries, content rotators and any React carousels.
 
-### Features of react-alice-carousel
+## Features of react-alice-carousel
 
 * Infinite loop
 * Mobile friendly
@@ -14,10 +14,10 @@ React Alice Carousel is a React component for building content galleries, conten
 * Multiple items in the slide
 * Show / hide anything (indicators, arrows, slides indexes)
 
-### How to use
+## How to use
 
 
-##### Style import
+#### Style import
 
 ```
 # SCSS
@@ -34,7 +34,7 @@ import "react-alice-carousel/styles/css/alice-carousel";
 
 ```
 
-##### Quick start
+#### Quick start
 
 ```javascript
 
@@ -42,19 +42,15 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
 
-class App extends React.Component {
-    render() {
-        return (
-            <AliceCarousel>
-                <img src="/img1" className="yours-custom-class" />
-                <img src="/img2" className="yours-custom-class" />
-                <img src="/img3" className="yours-custom-class" />
-                <img src="/img4" className="yours-custom-class" />
-                <img src="/img5" className="yours-custom-class" />
-            </AliceCarousel>
-        );
-    }
-}
+const Gallery = () => (
+    <AliceCarousel>
+        <img src="/img1" className="yours-custom-class" />
+        <img src="/img2" className="yours-custom-class" />
+        <img src="/img3" className="yours-custom-class" />
+        <img src="/img4" className="yours-custom-class" />
+        <img src="/img5" className="yours-custom-class" />
+    </AliceCarousel>
+)
 
 ```
 
@@ -77,7 +73,7 @@ class App extends React.Component {
 * `onSlideChange` : Function
     - Fired when the slide position changes / returns current slide index
 
-### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -123,20 +119,20 @@ class App extends React.Component {
 }
 ```
 
-## Build the project locally
+### Build the project locally
 
-### Clone
+#### Clone
 ```apacheconfig
 git clone https://github.com/maxmarinich/react-alice-carousel
 cd react-alice-carousel
 ```
-### Run
+#### Run
 
 ```apacheconfig
 npm i
 npm start
 ```
 
-### License
+#### License
 
 MIT

@@ -12,11 +12,11 @@ export class App extends React.Component {
             0: {
                 items: 1
             },
-            600: {
-                items: 3
+            700: {
+                items: 2
             },
-            1024: {
-                items: 5
+            960: {
+                items: 3
             }
         };
 
@@ -35,13 +35,8 @@ export class App extends React.Component {
                     <div className="item"><h1>6</h1></div>
                     <div className="item"><h1>7</h1></div>
                     <div className="item"><h1>8</h1></div>
-                    <div className="item"><h1>9</h1></div>
-                    <div className="item"><h1>10</h1></div>
-                    <div className="item"><h1>11</h1></div>
-                    <div className="item"><h1>12</h1></div>
                 </AliceCarousel>
             </div>
         );
     }
 }
-
