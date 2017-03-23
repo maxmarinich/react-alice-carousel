@@ -21,15 +21,13 @@ React Alice Carousel is a React component for building content galleries, conten
 
 ```apacheconfig
 npm install react-alice-carousel --save-dev
-
 ```
 
 ### Style import
 
 ```
 # SCSS
-@import "node_modules/react-alice-carousel/assets/alice-carousel.scss";
-
+@import "node_modules/react-alice-carousel/src/alice-carousel.scss";
 ```
 ```
 # CSS 
@@ -38,13 +36,11 @@ npm install react-alice-carousel --save-dev
 ```
 # Webpack
 import "react-alice-carousel/lib/alice-carousel.css";
-
 ```
 
 #### Quick start
 
 ```javascript
-
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
@@ -57,14 +53,13 @@ const Gallery = () => (
     <img src="/img5" className="yours-custom-class" />
   </AliceCarousel>
 )
-
 ```
 
 ### Advanced configuration
 
 
 #### Props
-* `duration` : Number , default  `250` 
+* `duration` : Number, default  `250` 
     - Duration of slides transition (milliseconds)
 * `responsive` : Object, default `{}`
     - Number of items in the slide 
@@ -85,7 +80,7 @@ const Gallery = () => (
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
-class App extends React.Component {    
+class Gallery extends React.Component {    
   logCurrentSlideIndex(currentSlideIndex) { 
       console.log('currentSlideIndex: ', currentSlideIndex); 
   }
@@ -104,19 +99,16 @@ class App extends React.Component {
     };
     
     return (
-      <div className="app">
-        <h1 className="h1">React Alice Carousel</h1>        
-        <AliceCarousel
-          responsive={ responsive }
-          onSlideChange={ this.logCurrentSlideIndex }
-          >
-          <div className="yours-custom-class"><h2>1</h2></div>
-          <div className="yours-custom-class"><h2>2</h2></div>
-          <div className="yours-custom-class"><h2>3</h2></div>
-          <div className="yours-custom-class"><h2>4</h2></div>
-          <div className="yours-custom-class"><h2>5</h2></div>
-        </AliceCarousel>
-      </div>
+      <AliceCarousel
+        responsive={ responsive }
+        onSlideChange={ this.logCurrentSlideIndex }
+        >
+        <div className="yours-custom-class"><h2>1</h2></div>
+        <div className="yours-custom-class"><h2>2</h2></div>
+        <div className="yours-custom-class"><h2>3</h2></div>
+        <div className="yours-custom-class"><h2>4</h2></div>
+        <div className="yours-custom-class"><h2>5</h2></div>
+      </AliceCarousel>
     );
   }
 }
