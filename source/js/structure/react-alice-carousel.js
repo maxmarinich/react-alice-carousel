@@ -87,7 +87,6 @@ class AliceCarousel extends React.Component {
 
         if (!this._autoPlayIntervalId) {
             this._autoPlayIntervalId = window.setInterval(() => {
-
                 if (this.autoPlayActionDisabled) { // disabled autoPlay
                     this._pause();
                 }
@@ -378,7 +377,6 @@ class AliceCarousel extends React.Component {
     _onMouseLeaveAutoPlayHandler() {
         this.isHovered = false;
     }
-
 
     render() {
         const style = Object.assign(

@@ -71,8 +71,17 @@ const Gallery = () => (
      - Disable dots navigation
 * `swipeDisabled` : Boolean, default `false`
      - Disable swipe handlers
+* `autoPlay` : Boolean, default `false` 
+     - Set auto play mode
+* `autoPlayInterval` : Number, default  `250`
+     - Interval of auto play animation (milliseconds). If specified, a larger value will be taken from comparing this property and the `duration` one
+* `autoPlayDirection` : String, default `rtl`
+     - To run auto play in the left direction to specify/specifying `ltr` value 
+* `autoPlayActionDisabled` : Boolean, default `false`
+     - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
 * `onSlideChange` : Function
     - Fired when the slide position changes / returns current slide index
+
 
 #### Example
 
@@ -100,8 +109,12 @@ class Gallery extends React.Component {
     
     return (
       <AliceCarousel
-        responsive={ responsive }
-        onSlideChange={ this.logCurrentSlideIndex }
+        duration={650}
+        autoPlay={true}
+        responsive={responsive}
+        autoPlayInterval={2000}
+        autoPlayActionDisabled={true}
+        onSlideChange={this.logCurrentSlideIndex}
         >
         <div className="yours-custom-class"><h2>1</h2></div>
         <div className="yours-custom-class"><h2>2</h2></div>
