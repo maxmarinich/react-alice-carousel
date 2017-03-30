@@ -7,6 +7,7 @@ React Alice Carousel is a React component for building content galleries, conten
 
 ## Features of react-alice-carousel
 
+* AutoPlay mode
 * Infinite loop
 * Mobile friendly
 * Responsive design
@@ -90,6 +91,7 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
 class Gallery extends React.Component {    
+    
   logCurrentSlideIndex(currentSlideIndex) { 
       console.log('currentSlideIndex: ', currentSlideIndex); 
   }
