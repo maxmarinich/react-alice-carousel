@@ -1,7 +1,10 @@
 import React from 'react';
 import isEqual from 'lodash.isequal';
 import Swipeable from 'react-swipeable';
+import { setTransformAnimation } from './common';
 
+// TODO autoPlay : add button
+// TODO limit items in the slide
 
 class AliceCarousel extends React.Component {
     constructor() {
@@ -18,8 +21,13 @@ class AliceCarousel extends React.Component {
         this._onTouchEnd = this._onTouchEnd.bind(this);
         this._onTouchMove = this._onTouchMove.bind(this);
         this._resizeHandler = this._resizeHandler.bind(this);
-        this._keyDownHandler = this._keyDownHandler.bind(this);
+        this._keyUpHandler = this._keyUpHandler.bind(this);
+        this._disableAnimation = this._disableAnimation.bind(this);
+        this._allowAnimation = this._allowAnimation.bind(this);
+        this._getActiveSlideIndex = this._getActiveSlideIndex.bind(this);
         this._getStageComponentNode = this._getStageComponentNode.bind(this);
+        this._onMouseEnterAutoPlayHandler = this._onMouseEnterAutoPlayHandler.bind(this);
+        this._onMouseLeaveAutoPlayHandler = this._onMouseLeaveAutoPlayHandler.bind(this);
     }
 
     componentDidMount() {
@@ -28,8 +36,10 @@ class AliceCarousel extends React.Component {
         window.addEventListener('resize', this._resizeHandler);
 
         if (!this.props.keysControlDisabled) {
-            window.addEventListener('keydown', this._keyDownHandler);
+            window.addEventListener('keyup', this._keyUpHandler);
         }
+
+        if (this.props.autoPlay) this._play();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -46,8 +56,18 @@ class AliceCarousel extends React.Component {
 
         if (this.props.keysControlDisabled !== nextProps.keysControlDisabled) {
             nextProps.keysControlDisabled === true
-                ? window.removeEventListener('keydown', this._keyDownHandler)
-                : window.addEventListener('keydown', this._keyDownHandler);
+                ? window.removeEventListener('keyup', this._keyUpHandler)
+                : window.addEventListener('keyup', this._keyUpHandler);
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.autoPlayActionDisabled !== prevProps.autoPlayActionDisabled ||
+            this.props.autoPlayDirection !== prevProps.autoPlayDirection ||
+            this.props.autoPlayInterval !== prevProps.autoPlayInterval ||
+            this.props.autoPlay !== prevProps.autoPlay) {
+            this._pause();
+            this._resizeHandler();
         }
     }
 
@@ -55,9 +75,39 @@ class AliceCarousel extends React.Component {
         window.removeEventListener('resize', this._resizeHandler);
 
         if (!this.props.keysControlDisabled) {
-            window.removeEventListener('keydown', this._keyDownHandler);
+            window.removeEventListener('keyup', this._keyUpHandler);
         }
     }
+
+    _play() {
+        const { autoPlayDirection, autoPlayInterval } = this.props;
+        const playInterval = typeof autoPlayInterval === 'number'
+            ? Math.max(autoPlayInterval, this._getDuration())
+            : this._getDuration();
+
+        if (!this._autoPlayIntervalId) {
+            this._autoPlayIntervalId = window.setInterval(() => {
+
+                if (this.autoPlayActionDisabled) { // disabled autoPlay
+                    this._pause();
+                }
+
+                if (!this._isHovered()) {
+                    if (!this.allowAnimation) return;
+                    autoPlayDirection === 'ltr' ? this._slidePrev(false) : this._slideNext(false);
+                }
+            }, playInterval);
+        }
+    }
+
+    _pause() {
+        if (this._autoPlayIntervalId) {
+            window.clearInterval(this._autoPlayIntervalId);
+            this._autoPlayIntervalId = null;
+        }
+    }
+
+    _isHovered() { return this.isHovered; }
 
     _cloneSlides(children, itemsInSlide) {
         const slides = children || this.props.children;
@@ -92,21 +142,39 @@ class AliceCarousel extends React.Component {
 
     _allowAnimation() { this.allowAnimation = true; }
 
-    _resizeHandler() { this._setInitialState(); }
+    _disableAnimation() { this.allowAnimation = false; }
 
-    _isInfinite() {
-        const { items, itemWidth, slides, currentIndex } = this.state;
-        const slidesLength = slides.length;
-        const circle = (currentIndex === 0 || currentIndex === slidesLength + items);
+    _resizeHandler() {
+        this._setInitialState();
 
-        if (circle) {
-            this.setState({
-                currentIndex: (currentIndex === 0) ?  slidesLength : items,
-                translate3d: -itemWidth * (currentIndex === 0 ?  slidesLength : items),
-                style: { transition: 'transform 0ms ease-out' }
-            });
+        if (this.props.onSlideChange) {
+            this.props.onSlideChange(this._getActiveSlideIndex());
         }
 
+        if (this.props.autoPlay){ // reset autoPlay
+            this.autoPlayActionDisabled = false;
+            this._play();
+        }
+    }
+
+    _checkRecalculation() {
+        const { items, slides, currentIndex } = this.state;
+        const recalculate = (currentIndex === 0 || currentIndex === slides.length + items);
+
+        recalculate ? this._recalculateSlidePosition() : this._onSlideChange();
+    }
+
+    _recalculateSlidePosition() {
+        const { items, itemWidth, slides, currentIndex } = this.state;
+
+        this.setState({
+            currentIndex: (currentIndex === 0) ? slides.length : items,
+            translate3d: -itemWidth * (currentIndex === 0 ? slides.length : items),
+            style: {transition: 'transform 0ms ease-out'}
+        }, () => this._onSlideChange());
+    }
+
+    _onSlideChange() {
         if (this.props.onSlideChange) {
             this.props.onSlideChange(this._getActiveSlideIndex());
         }
@@ -116,7 +184,13 @@ class AliceCarousel extends React.Component {
     _prevButton() {
         return(
             <div className="alice-carousel-prev">
-                <div className="alice-carousel-prev__btn" onClick={this._slidePrev}/>
+                <div className="alice-carousel-prev__btn-wrapper">
+                    <div className="alice-carousel-prev__btn"
+                         onClick={this._slidePrev}
+                         onMouseEnter={this._onMouseEnterAutoPlayHandler}
+                         onMouseLeave={this._onMouseLeaveAutoPlayHandler}
+                    />
+                </div>
             </div>
         );
     }
@@ -124,7 +198,13 @@ class AliceCarousel extends React.Component {
     _nextButton() {
         return(
             <div className="alice-carousel-next">
-                <div className="alice-carousel-next__btn" onClick={this._slideNext}/>
+                <div className="alice-carousel-next__btn-wrapper"
+                     onClick={this._slideNext}
+                     onMouseEnter={this._onMouseEnterAutoPlayHandler}
+                     onMouseLeave={this._onMouseLeaveAutoPlayHandler}
+                >
+                    <div className="alice-carousel-next__btn" />
+                </div>
             </div>
         );
     }
@@ -174,6 +254,8 @@ class AliceCarousel extends React.Component {
                             return <li
                                 key={i}
                                 onClick={() => this._slideToItem(i + 1)}
+                                onMouseEnter={this._onMouseEnterAutoPlayHandler}
+                                onMouseLeave={this._onMouseLeaveAutoPlayHandler}
                                 className={`alice-carousel-dots__item${ this._getActiveSlideIndex() === i ? ' __active' : '' }`}
                             />;
                         }
@@ -199,7 +281,7 @@ class AliceCarousel extends React.Component {
         return items;
     }
 
-    _keyDownHandler(e) {
+    _keyUpHandler(e) {
         if (!this.allowAnimation) return;
 
         switch(e.keyCode) {
@@ -212,35 +294,42 @@ class AliceCarousel extends React.Component {
         }
     }
 
-    _slidePrev() {
+    _slidePrev(action = true) {
+        if (action && this.props.autoPlayActionDisabled) {
+            this.autoPlayActionDisabled = true;
+        }
+
         const { currentIndex, items }  = this.state;
         this._slideToItem((currentIndex - 1) / items);
     }
 
-    _slideNext() {
+    _slideNext(action = true) {
+        if (action && this.props.autoPlayActionDisabled) {
+            this.autoPlayActionDisabled = true;
+        }
+
         const { currentIndex, items }  = this.state;
         this._slideToItem((currentIndex + 1) / items);
     }
 
     _slideToItem(index, position) {
         if (!this.allowAnimation) return;
-        this.allowAnimation = false;
+        this._disableAnimation();
 
         const { items, itemWidth } = this.state;
-        const duration = this._getDuration();
         const translate = position || index * items * itemWidth;
+        const duration = this._getDuration();
         const currentIndex = index * items;
 
         this.setState({
             currentIndex,
             translate3d: -translate,
             style: { transition: `transform ${duration}ms ease-out` }
-        });
-
-        setTimeout(() => this._isInfinite(), duration);
+        }, () => window.setTimeout(() => this._checkRecalculation(), duration));
     }
 
     _onTouchMove() {
+        this.isHovered = true;
         if (this.props.swipeDisabled) return;
 
         const { slides, items, itemWidth, translate3d } = this.state;
@@ -252,7 +341,7 @@ class AliceCarousel extends React.Component {
             recalculatePosition();
         }
 
-        this._setTransformAnimation(this.stageComponent, position, 0);
+        setTransformAnimation(this.stageComponent, position, 0);
         this.swipePosition = { position, direction };
 
         function recalculatePosition() {
@@ -278,18 +367,18 @@ class AliceCarousel extends React.Component {
 
         const position = currentIndex * itemWidth;
 
-        this._setTransformAnimation(this.stageComponent, -position, this._getDuration());
+        setTransformAnimation(this.stageComponent, -position, this._getDuration());
         this._slideToItem(currentIndex / items, position);
     }
 
-    _setTransformAnimation(element, position, durationMs) {
-        const prefixes = ['Webkit', 'Moz', 'ms', 'O', ''];
-
-        for (let value of prefixes) {
-            element.style[value + 'Transform'] = `translate3d(${position}px, 0, 0)`;
-            element.style[value + 'Transition'] = `transform ${durationMs}ms ease-out`;
-        }
+    _onMouseEnterAutoPlayHandler() {
+        this.isHovered = true;
     }
+
+    _onMouseLeaveAutoPlayHandler() {
+        this.isHovered = false;
+    }
+
 
     render() {
         const style = Object.assign(
@@ -300,11 +389,12 @@ class AliceCarousel extends React.Component {
         const slides = this.state.clones || this.state.slides;
 
         return(
-            <div
-                className="alice-carousel"
-            >
+            <div className="alice-carousel">
                 <Swipeable onSwiping={this._onTouchMove} onSwiped={this._onTouchEnd}>
-                    <div className="alice-carousel-wrapper"   >
+                    <div className="alice-carousel-wrapper"
+                         onMouseEnter={this._onMouseEnterAutoPlayHandler}
+                         onMouseLeave={this._onMouseLeaveAutoPlayHandler}
+                    >
                         <ul className="alice-carousel-stage" ref={this._getStageComponentNode} style={style} >
                             {
                                 slides.map((item, i) => (
@@ -337,7 +427,11 @@ AliceCarousel.propTypes = {
     dotsDisabled: React.PropTypes.bool,
     swipeDisabled: React.PropTypes.bool,
     responsive: React.PropTypes.object,
-    duration: React.PropTypes.number
+    duration: React.PropTypes.number,
+    autoPlay: React.PropTypes.bool,
+    autoPlayInterval: React.PropTypes.number,
+    autoPlayDirection: React.PropTypes.string,
+    autoPlayActionDisabled: React.PropTypes.bool
 };
 
 export default AliceCarousel;

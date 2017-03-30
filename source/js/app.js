@@ -24,17 +24,17 @@ export class App extends React.Component {
             <div className="app">
                 <h1 className="h1">React Alice Carousel</h1>
                 <AliceCarousel
-                    responsive={ responsive }
+                    duration={650}
+                    autoPlay={true}
+                    responsive={responsive}
+                    autoPlayInterval={100}
+                    autoPlayActionDisabled={true}
                     onSlideChange={this._logCurrentSlideIndex}
                 >
                     <div className="item"><h1>1</h1></div>
                     <div className="item"><h1>2</h1></div>
                     <div className="item"><h1>3</h1></div>
                     <div className="item"><h1>4</h1></div>
-                    <div className="item"><h1>5</h1></div>
-                    <div className="item"><h1>6</h1></div>
-                    <div className="item"><h1>7</h1></div>
-                    <div className="item"><h1>8</h1></div>
                 </AliceCarousel>
             </div>
         );

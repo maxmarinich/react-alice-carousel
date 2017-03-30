@@ -1,6 +1,6 @@
 {
   "name": "react-alice-carousel",
-  "version": "1.0.4",
+  "version": "1.1.4",
   "description": "React image gallery, react slideshow carousel, react content rotator",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,6 @@
     "slider",
     "slideshow",
     "rotator",
-    "react-alice-carousel",
     "react-slideshow",
     "react-gallery",
     "react carousel",
