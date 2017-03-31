@@ -64,14 +64,16 @@ const Gallery = () => (
     - Duration of slides transition (milliseconds)
 * `responsive` : Object, default `{}`
     - Number of items in the slide 
-* `keysControlDisabled` :  Boolean, default `false`
-     - Disable keys controls
 * `buttonsDisabled` : Boolean, `false`
     - Disable buttons control
 * `dotsDisabled` : Boolean, `false`
      - Disable dots navigation
 * `swipeDisabled` : Boolean, default `false`
-     - Disable swipe handlers
+     - Disable swipe handlers    
+* `keysControlDisabled` :  Boolean, default `false`
+     - Disable keys controls
+* `playButtonDisabled` :  Boolean, default `false`
+     - Disable play/pause button
 * `autoPlay` : Boolean, default `false` 
      - Set auto play mode
 * `autoPlayInterval` : Number, default  `250`

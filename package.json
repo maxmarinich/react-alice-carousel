@@ -2,7 +2,7 @@
   "name": "react-alice-carousel",
   "version": "1.1.4",
   "description": "React image gallery, react slideshow carousel, react content rotator",
-  "main": "index.js",
+  "main": "./source/js/structure/react-alice-carousel.js",
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -43,7 +43,6 @@
   },
   "homepage": "https://github.com/maxmarinich/react-alice-carousel#readme",
   "dependencies": {
-    "lodash.isequal": "^4.5.0",
     "react-swipeable": "^3.9.2"
   },
   "devDependencies": {

@@ -3,6 +3,7 @@ import AliceCarousel from './structure/react-alice-carousel';
 
 
 export class App extends React.Component {
+
     logCurrentSlideIndex(currentSlideIndex) {
         console.log('currentSlide: ', currentSlideIndex);
     }
@@ -24,7 +25,7 @@ export class App extends React.Component {
             <div className="app">
                 <h1 className="h1">React Alice Carousel</h1>
                 <AliceCarousel
-                    duration={650}
+                    duration={400}
                     autoPlay={true}
                     responsive={responsive}
                     autoPlayInterval={2000}

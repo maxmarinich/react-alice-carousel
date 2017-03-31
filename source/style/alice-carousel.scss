@@ -2,6 +2,10 @@ $clr-base: #e0e4fb;
 $clr-blue: #465798;
 $clr-darkred: darkred;
 
+$transition-time: .3s;
+$play-btn-color: #fff;
+
+
 .alice-carousel {
     box-sizing: border-box;
     position: relative;
@@ -9,14 +13,16 @@ $clr-darkred: darkred;
     padding: 60px;
     margin: auto;
 }
-.alice-carousel-wrapper {
+
+.alice-carousel__wrapper {
     position: relative;
     width: 100%;
     height: auto;
     box-sizing: border-box;
     overflow: hidden;
 }
-.alice-carousel-stage {
+
+.alice-carousel__stage {
     position: relative;
     width: 100%;
     height: 100%;
@@ -24,7 +30,7 @@ $clr-darkred: darkred;
     padding: 0;
     white-space: nowrap;
     box-sizing: border-box;
-    &__item {
+    &-item {
         width: 100%;
         height: 100%;
         position: relative;
@@ -37,28 +43,36 @@ $clr-darkred: darkred;
         }
     }
 }
-.alice-carousel-prev,
-.alice-carousel-next {
+
+.alice-carousel__prev-btn,
+.alice-carousel__next-btn {
     position: absolute;
     left: 0;
     right: 0;
     top: 50%
 }
-.alice-carousel-prev__btn,
-.alice-carousel-next__btn {
+
+.alice-carousel__prev-btn-item,
+.alice-carousel__next-btn-item {
     display: inline-block;
     position: absolute;
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
     top: 50%;
     transform: translateY(-50%);
-    color: lighten(#465798, 15%);
+    color: lighten($clr-blue, 15%);
     cursor: pointer;
     font-size: 1.9em;
     text-align: center;
     border-radius: 50%;
-    border: 1px solid lighten(#465798, 15%);
-    transition: .3s ease;
+    border: 1px solid lighten($clr-blue, 15%);
+    transition: $transition-time ease;
+    &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
     &:hover {
         color: $clr-darkred;
         border: 1px solid $clr-darkred;
@@ -68,31 +82,78 @@ $clr-darkred: darkred;
         border: 1px solid $clr-base;
     }
 }
-.alice-carousel-prev__btn {
+
+.alice-carousel__prev-btn-item {
     left: 0;
-    &:before {
-        content: '\02039';
-        display: inline-block;
-        height: 100%
-    }
+    &:after { content: '\02039' }
 }
-.alice-carousel-next__btn {
+
+.alice-carousel__next-btn-item {
     right: 0;
-    &:before {
-        content: '\0203A';
-        display: inline-block;
-        height: 100%
+    &:after { content: '\0203A' }
+}
+
+.alice-carousel__play-btn {
+    display: inline-block;
+    position: absolute;
+    bottom: 90px;
+    left: 80px;
+    transform: scale(.8);
+    &:hover { cursor: pointer }
+}
+
+.alice-carousel__play-btn-item {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    background: transparent;
+    border: 0;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 30px;
+    outline: none;
+    &::before,
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border-style: solid;
+        border-color: transparent;
+        border-width: 8px 0 8px 15px;
+        border-left-color: $play-btn-color;
+        width: 0;
+        height: 0;
+        transition: all $transition-time linear;
+    }
+    &::before { height: 16px; }
+    &::after {
+        left: 15px;
+        top: 8px;
+    }
+    &.__pause {
+        &::before,
+        &::after {
+            border-width: 0 0 0 10px;
+            height: 30px;
+        }
+        &::after {
+            left: 18px;
+            top: 0;
+        }
     }
 }
-.alice-carousel-dots {
+
+.alice-carousel__dots {
     position: absolute;
-    text-align: center;
+    display: inline-block;
     margin: auto;
     padding: 0;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    &__item {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    &-item {
         display: inline-block;
         width: 8px;
         height: 8px;
