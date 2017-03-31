@@ -225,7 +225,7 @@ class AliceCarousel extends React.Component {
                 return slidesLength % items === 0 ? dotsLength : dotsLength - 1;
             }
             else {
-                return Math.floor(currentIndex / items) -1;
+                return Math.floor(currentIndex / items) - 1;
             }
         }
     }

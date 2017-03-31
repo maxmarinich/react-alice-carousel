@@ -80,7 +80,7 @@ const Gallery = () => (
 * `autoPlayInterval` : Number, default  `250`
      - Interval of auto play animation (milliseconds). If specified, a larger value will be taken from comparing this property and the `duration` one
 * `autoPlayDirection` : String, default `ltr`
-     - To run auto play in the left direction to specify/specifying `rtl` value 
+     - To run auto play in the left direction specify `rtl` value 
 * `autoPlayActionDisabled` : Boolean, default `false`
      - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
 * `onSlideChange` : Function
