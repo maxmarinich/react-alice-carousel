@@ -29,6 +29,7 @@ export class App extends React.Component {
                     autoPlay={true}
                     responsive={responsive}
                     autoPlayInterval={2000}
+                    autoPlayDirection="rtl"
                     autoPlayActionDisabled={true}
                     onSlideChange={this.logCurrentSlideIndex}
                 >

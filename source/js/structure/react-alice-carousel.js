@@ -275,7 +275,7 @@ class AliceCarousel extends React.Component {
                 if (!this._isHovered() && this._autoPlayIntervalId) { // check interval if force click
 
                     if (!this.allowAnimation) return;
-                    autoPlayDirection === 'ltr' ? this._slidePrev(false) : this._slideNext(false);
+                    autoPlayDirection === 'rtl' ? this._slidePrev(false) : this._slideNext(false);
                 }
             }, playInterval);
         }
