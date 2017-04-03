@@ -72,7 +72,7 @@ const Gallery = () => (
 * `swipeDisabled` : Boolean, default `false`
      - Disable swipe handlers    
 * `keysControlDisabled` :  Boolean, default `false`
-     - Disable keys controls
+     - Disable keys controls (left, right, space)
 * `playButtonDisabled` :  Boolean, default `false`
      - Disable play/pause button
 * `autoPlay` : Boolean, default `false` 

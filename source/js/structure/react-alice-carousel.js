@@ -297,6 +297,9 @@ class AliceCarousel extends React.Component {
         if (!this.allowAnimation) return;
 
         switch(e.keyCode) {
+        case 32:
+            this._playPauseToggle();
+            break;
         case 37:
             this._slidePrev();
             break;
