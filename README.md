@@ -12,6 +12,7 @@ React Alice Carousel is a React component for building content galleries, conten
 * Mobile friendly
 * Responsive design
 * Swipe to slide
+* Start index
 * RTL
 * Keyboard navigation
 * Custom rendered slides
@@ -68,21 +69,23 @@ const Gallery = () => (
 * `buttonsDisabled` : Boolean, `false`
     - Disable buttons control
 * `dotsDisabled` : Boolean, `false`
-     - Disable dots navigation
+    - Disable dots navigation
+* `startIndex` : Number, `1`
+    - The starting index of the carousel
 * `swipeDisabled` : Boolean, default `false`
-     - Disable swipe handlers    
+    - Disable swipe handlers    
 * `keysControlDisabled` :  Boolean, default `false`
-     - Disable keys controls (left, right, space)
+    - Disable keys controls (left, right, space)
 * `playButtonDisabled` :  Boolean, default `false`
-     - Disable play/pause button
+    - Disable play/pause button
 * `autoPlay` : Boolean, default `false` 
-     - Set auto play mode
+    - Set auto play mode
 * `autoPlayInterval` : Number, default  `250`
-     - Interval of auto play animation (milliseconds). If specified, a larger value will be taken from comparing this property and the `duration` one
+    - Interval of auto play animation (milliseconds). If specified, a larger value will be taken from comparing this property and the `duration` one
 * `autoPlayDirection` : String, default `ltr`
-     - To run auto play in the left direction specify `rtl` value 
+    - To run auto play in the left direction specify `rtl` value 
 * `autoPlayActionDisabled` : Boolean, default `false`
-     - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
+    - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
 * `onSlideChange` : Function
     - Fired when the slide position changes / returns current slide index
 
@@ -116,6 +119,7 @@ class Gallery extends React.Component {
       <AliceCarousel
         duration={650}
         autoPlay={true}
+        startIndex = {1}
         responsive={responsive}
         autoPlayInterval={2000}
         autoPlayDirection="rtl"
