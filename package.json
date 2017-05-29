@@ -43,7 +43,9 @@
   },
   "homepage": "https://github.com/maxmarinich/react-alice-carousel#readme",
   "dependencies": {
-    "react-swipeable": "^3.9.2"
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "react-swipeable": "^4.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.3",
@@ -65,7 +67,7 @@
     "node-sass": "^4.5.0",
     "postcss-loader": "^1.3.1",
     "pug": "^2.0.0-beta11",
-    "react": "^15.4.2",
+    "react-alice-carousel": "^1.2.4",
     "react-dom": "^15.4.2",
     "react-hot-loader": "^1.3.1",
     "sass-loader": "^6.0.1",

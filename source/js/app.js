@@ -1,6 +1,5 @@
 import React from 'react';
 import AliceCarousel from './structure/react-alice-carousel';
-//import AliceCarousel from 'react-alice-carousel';
 
 
 export class App extends React.Component {

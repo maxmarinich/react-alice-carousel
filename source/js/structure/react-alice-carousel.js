@@ -1,9 +1,10 @@
 import React from 'react';
 import Swipeable from 'react-swipeable';
+import PropTypes from 'prop-types';
 import { setTransformAnimation } from './common';
 
 
-class AliceCarousel extends React.Component {
+class AliceCarousel extends React.PureComponent {
     constructor() {
         super();
         this.state = {
@@ -450,20 +451,20 @@ class AliceCarousel extends React.Component {
 }
 
 AliceCarousel.propTypes = {
-    children: React.PropTypes.array.isRequired,
-    onSlideChange: React.PropTypes.func,
-    keysControlDisabled: React.PropTypes.bool,
-    playButtonDisabled: React.PropTypes.bool,
-    buttonsDisabled: React.PropTypes.bool,
-    dotsDisabled: React.PropTypes.bool,
-    swipeDisabled: React.PropTypes.bool,
-    responsive: React.PropTypes.object,
-    duration: React.PropTypes.number,
-    startIndex: React.PropTypes.number,
-    autoPlay: React.PropTypes.bool,
-    autoPlayInterval: React.PropTypes.number,
-    autoPlayDirection: React.PropTypes.string,
-    autoPlayActionDisabled: React.PropTypes.bool
+    children: PropTypes.array.isRequired,
+    onSlideChange: PropTypes.func,
+    keysControlDisabled: PropTypes.bool,
+    playButtonDisabled: PropTypes.bool,
+    buttonsDisabled: PropTypes.bool,
+    dotsDisabled: PropTypes.bool,
+    swipeDisabled: PropTypes.bool,
+    responsive: PropTypes.object,
+    duration: PropTypes.number,
+    startIndex: PropTypes.number,
+    autoPlay: PropTypes.bool,
+    autoPlayInterval: PropTypes.number,
+    autoPlayDirection: PropTypes.string,
+    autoPlayActionDisabled: PropTypes.bool
 };
 
 export default AliceCarousel;
