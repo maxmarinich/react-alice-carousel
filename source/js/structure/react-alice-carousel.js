@@ -47,8 +47,9 @@ class AliceCarousel extends React.Component {
             });
         }
 
-        if (this.props.responsive !== nextProps.responsive) {
-            this.setState(this._calculateInitialProps(nextProps.responsive));
+        if (this.props.responsive !== nextProps.responsive ||
+            this.props.startIndex !== nextProps.startIndex ) {
+            this.setState(this._calculateInitialProps(nextProps));
         }
 
         if (this.props.keysControlDisabled !== nextProps.keysControlDisabled) {
@@ -93,17 +94,34 @@ class AliceCarousel extends React.Component {
         return last.concat(slides, first);
     }
 
-    _calculateInitialProps(totalItems) {
+    _setStartIndex(itemsInSlide, index) {
+        let { startIndex, children } = this.props;
+
+        const maxValue = Math.ceil(children.length / itemsInSlide);
+        startIndex =  Math.floor(Math.abs(index || startIndex)) || 1;
+
+        return Math.min(startIndex, maxValue) * itemsInSlide;
+    }
+
+    _calculateInitialProps(nextProps) {
+        let totalItems, startIndex;
+
+        if (nextProps) {
+            totalItems = nextProps.responsive;
+            startIndex = nextProps.startIndex;
+        }
+
         const items = this._setTotalItemsInSlide(totalItems);
+        const currentIndex = this._setStartIndex(items, startIndex);
         const itemWidth = this.stageComponent.getBoundingClientRect().width / items;
 
         return {
             items,
             itemWidth,
-            currentIndex: items,
+            currentIndex,
             clones: this._cloneSlides(null, items),
             slides: this.props.children || [],
-            translate3d: -itemWidth * items
+            translate3d: -itemWidth * currentIndex
         };
     }
 
@@ -441,6 +459,7 @@ AliceCarousel.propTypes = {
     swipeDisabled: React.PropTypes.bool,
     responsive: React.PropTypes.object,
     duration: React.PropTypes.number,
+    startIndex: React.PropTypes.number,
     autoPlay: React.PropTypes.bool,
     autoPlayInterval: React.PropTypes.number,
     autoPlayDirection: React.PropTypes.string,

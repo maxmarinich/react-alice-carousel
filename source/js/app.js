@@ -1,5 +1,6 @@
 import React from 'react';
 import AliceCarousel from './structure/react-alice-carousel';
+//import AliceCarousel from 'react-alice-carousel';
 
 
 export class App extends React.Component {
@@ -27,6 +28,7 @@ export class App extends React.Component {
                 <AliceCarousel
                     duration={400}
                     autoPlay={false}
+                    startIndex={1}
                     responsive={responsive}
                     autoPlayInterval={100}
                     autoPlayDirection="rtl"
@@ -37,6 +39,12 @@ export class App extends React.Component {
                     <div className="item"><h1>2</h1></div>
                     <div className="item"><h1>3</h1></div>
                     <div className="item"><h1>4</h1></div>
+                    <div className="item"><h1>5</h1></div>
+                    <div className="item"><h1>6</h1></div>
+                    <div className="item"><h1>7</h1></div>
+                    <div className="item"><h1>8</h1></div>
+                    <div className="item"><h1>9</h1></div>
+                    <div className="item"><h1>10</h1></div>
                 </AliceCarousel>
             </div>
         );
