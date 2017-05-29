@@ -41,14 +41,8 @@ class AliceCarousel extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.children !== nextProps.children) {
-            this.setState({
-                slides: nextProps.children,
-                clones: this._cloneSlides(nextProps.children)
-            });
-        }
-
-        if (this.props.responsive !== nextProps.responsive ||
+        if (this.props.children !== nextProps.children ||
+            this.props.responsive !== nextProps.responsive ||
             this.props.startIndex !== nextProps.startIndex ) {
             this.setState(this._calculateInitialProps(nextProps));
         }
@@ -87,12 +81,12 @@ class AliceCarousel extends React.PureComponent {
     }
 
     _cloneSlides(children, itemsInSlide) {
-        const slides = children || this.props.children;
         const items = itemsInSlide || this._setTotalItemsInSlide();
-        const first = slides.slice(0, items);
-        const last = slides.slice(slides.length - items);
+        const first = children.slice(0, items);
+        const last = children.slice(children.length - items);
 
-        return last.concat(slides, first);
+        return last.concat(children, first);
+
     }
 
     _setStartIndex(itemsInSlide, index) {
@@ -106,10 +100,12 @@ class AliceCarousel extends React.PureComponent {
 
     _calculateInitialProps(nextProps) {
         let totalItems, startIndex;
+        let children = this.props.children || [];
 
         if (nextProps) {
             totalItems = nextProps.responsive;
             startIndex = nextProps.startIndex;
+            children =  nextProps.children;
         }
 
         const items = this._setTotalItemsInSlide(totalItems);
@@ -120,9 +116,9 @@ class AliceCarousel extends React.PureComponent {
             items,
             itemWidth,
             currentIndex,
-            clones: this._cloneSlides(null, items),
-            slides: this.props.children || [],
-            translate3d: -itemWidth * currentIndex
+            slides: children,
+            translate3d: -itemWidth * currentIndex,
+            clones: this._cloneSlides(children, items)
         };
     }
 
