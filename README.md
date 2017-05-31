@@ -70,7 +70,7 @@ const Gallery = () => (
     - Disable buttons control
 * `dotsDisabled` : Boolean, `false`
     - Disable dots navigation
-* `startIndex` : Number, `1`
+* `startIndex` : Number, `0`
     - The starting index of the carousel
 * `swipeDisabled` : Boolean, default `false`
     - Disable swipe handlers    
