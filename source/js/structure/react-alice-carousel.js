@@ -81,35 +81,32 @@ class AliceCarousel extends React.PureComponent {
     }
 
     _cloneSlides(children, itemsInSlide) {
-        const items = itemsInSlide || this._setTotalItemsInSlide();
-        const first = children.slice(0, items);
-        const last = children.slice(children.length - items);
+        const first = children.slice(0, itemsInSlide);
+        const last = children.slice(children.length - itemsInSlide);
 
         return last.concat(children, first);
-
     }
 
     _setStartIndex(itemsInSlide, index) {
-        let { startIndex, children } = this.props;
-
+        const { children } = this.props;
         const maxValue = Math.ceil(children.length / itemsInSlide);
-        startIndex =  Math.floor(Math.abs(index || startIndex)) || 1;
 
-        return Math.min(startIndex, maxValue) * itemsInSlide;
+        return Math.min(index, maxValue) * itemsInSlide;
     }
 
     _calculateInitialProps(nextProps) {
-        let totalItems, startIndex;
-        let children = this.props.children || [];
+        let totalItems;
+        let  { startIndex, children } = this.props;
 
         if (nextProps) {
             totalItems = nextProps.responsive;
             startIndex = nextProps.startIndex;
             children =  nextProps.children;
         }
+        startIndex = startIndex ? Math.abs(Math.ceil(startIndex)) : 0;
 
-        const items = this._setTotalItemsInSlide(totalItems);
-        const currentIndex = this._setStartIndex(items, startIndex);
+        const items = this._setTotalItemsInSlide(totalItems, children);
+        const currentIndex = this._setStartIndex(items, startIndex + 1);
         const itemWidth = this.stageComponent.getBoundingClientRect().width / items;
 
         return {
@@ -122,17 +119,16 @@ class AliceCarousel extends React.PureComponent {
         };
     }
 
-    _setTotalItemsInSlide(totalItems) {
+    _setTotalItemsInSlide(totalItems, children) {
         let items = 1;
         const width = window.innerWidth;
-        const length = this.props.children.length;
 
         if (this.props.responsive) {
             const responsive = totalItems || this.props.responsive || {};
 
             if (Object.keys(responsive).length) {
                 Object.keys(responsive).forEach((key) => {
-                    if (key < width) items = Math.min(responsive[key].items, length) || items;
+                    if (key < width) items = Math.min(responsive[key].items, children.length) || items;
                 });
             }
         }
