@@ -3,9 +3,28 @@ import AliceCarousel from './structure/react-alice-carousel';
 
 
 export class App extends React.Component {
+    constructor() {
+        super();
 
-    logCurrentSlideIndex(currentSlideIndex) {
+        this.state = {
+            slide: 0,
+            startIndex: 1,
+            activeIndex: 1
+
+        };
+
+        this.nextSlide = this.nextSlide.bind(this);
+    }
+
+    onSlide(currentSlideIndex) {
         console.log('currentSlide: ', currentSlideIndex);
+    }
+
+    nextSlide() {
+        console.log();
+        // this.setState({
+        //     index: this.state.index + 1
+        // });
     }
 
     render() {
@@ -21,18 +40,23 @@ export class App extends React.Component {
             }
         };
 
+        const { activeIndex } = this.state;
         return (
             <div className="app">
+                <button onClick={() => this.Carousel._slidePrev()}>Prev</button>
+                <button onClick={() => this.Carousel._slideNext()}>Next</button>
                 <h1 className="h1">React Alice Carousel</h1>
                 <AliceCarousel
+                    ref={ el => this.Carousel = el }
                     duration={400}
                     autoPlay={false}
                     startIndex={1}
+                    slideToIndex={activeIndex}
                     responsive={responsive}
                     autoPlayInterval={100}
                     autoPlayDirection="rtl"
                     autoPlayActionDisabled={true}
-                    onSlideChange={this.logCurrentSlideIndex}
+                    onSlideChange={this.onSlide}
                 >
                     <div className="item"><h1>1</h1></div>
                     <div className="item"><h1>2</h1></div>
