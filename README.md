@@ -90,18 +90,20 @@ const Gallery = () => (
 * `autoPlayActionDisabled` : Boolean, default `false`
     - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
 * `onSlideChange` : Function
-    - Fired when the slide position are ch  anging / returns event object
+    - Fired when the event object is changing / returns event object
 * `onSlideChanged` : Function
-    - Fired when the slide position was changed / returns event object
+    - Fired when the event object was changed / returns event object
+
+    _Both functions return next object_
     ```js
         {
-            item: index,   // number of current item position
-            slide: index   // number of current slide position
+            item: index,   // index of the item`s position
+            slide: index   // index of the slide`s position
         }
     ```
 
 
-### Examples:
+### Examples
 
 ```javascript
 import React from 'react';
@@ -109,8 +111,14 @@ import AliceCarousel from 'react-alice-carousel';
 
 class Gallery extends React.Component {    
     
-  logCurrentSlideIndex(currentSlideIndex) { 
-      console.log('currentSlideIndex: ', currentSlideIndex); 
+  onSlideChange(e) {
+    console.log('Item`s position during a change: ', e.item);
+    console.log('Slide`s position during a change: ', e.slide);
+  }
+
+  onSlideChanged(e) {
+    console.log('Item`s position after changes: ', e.item);
+    console.log('Slide`s position after changes: ', e.slide);
   }
 
   render() {
@@ -128,14 +136,15 @@ class Gallery extends React.Component {
     
     return (
       <AliceCarousel
-        duration={650}
+        duration={400}
         autoPlay={true}
         startIndex = {1}
         responsive={responsive}
         autoPlayInterval={2000}
         autoPlayDirection="rtl"
         autoPlayActionDisabled={true}
-        onSlideChange={this.logCurrentSlideIndex}
+        onSlideChange={this.onSlideChange}
+        onSlideChanged={this.onSlideChanged}
         >
         <div className="yours-custom-class"><h2>1</h2></div>
         <div className="yours-custom-class"><h2>2</h2></div>
@@ -148,42 +157,119 @@ class Gallery extends React.Component {
 }
 ```
 
-#### Custom `Prev / Next` buttons, `dots / thumbs` navigation
+#### Custom `Prev / Next` buttons, `dots / thumbs` navigation:
+* Using -  [_refs_](https://facebook.github.io/react/docs/refs-and-the-dom.html).
 
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
 class Gallery extends React.Component {
-
-  logCurrentSlideIndex(currentSlideIndex) {
-      console.log('currentSlideIndex: ', currentSlideIndex);
+  renderThumbs() {
+    const thumbs = [1,2,3,4,5];
+    return (
+      <ul>{thumbs.map((item, i) => <li key={i}
+        onClick={() => this.Carousel._slideToItem(i)}>Thumb {item}</li>)}
+      </ul>
+    );
   }
-
   render() {
     return (
-      <AliceCarousel
-        duration={650}
-        autoPlay={true}
-        startIndex = {1}
-        responsive={responsive}
-        autoPlayInterval={2000}
-        autoPlayDirection="rtl"
-        autoPlayActionDisabled={true}
-        onSlideChange={this.logCurrentSlideIndex}
-        >
-        <div className="yours-custom-class"><h2>1</h2></div>
-        <div className="yours-custom-class"><h2>2</h2></div>
-        <div className="yours-custom-class"><h2>3</h2></div>
-        <div className="yours-custom-class"><h2>4</h2></div>
-        <div className="yours-custom-class"><h2>5</h2></div>
-      </AliceCarousel>
+      <div>
+        <h3>Navigation</h3>
+        {this.renderThumbs()}
+        <button onClick={() => this.Carousel._slidePrev()}>Prev button</button>
+        <button onClick={() => this.Carousel._slideNext()}>Next button</button>
+        <h3>React Alice Carousel</h3>
+        <AliceCarousel
+          dotsDisabled={true}
+          buttonsDisabled={true}
+          ref={ el => this.Carousel = el }
+          >
+          <div className="yours-custom-class"><h2>1</h2></div>
+          <div className="yours-custom-class"><h2>2</h2></div>
+          <div className="yours-custom-class"><h2>3</h2></div>
+          <div className="yours-custom-class"><h2>4</h2></div>
+          <div className="yours-custom-class"><h2>5</h2></div>
+        </AliceCarousel>
+      </div>
     );
   }
 }
 ```
+* Using [_props_](https://facebook.github.io/react/docs/components-and-props.html)
 
+```javascript
+import React from 'react';
+import AliceCarousel from 'react-alice-carousel';
 
+class Gallery extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      items: [1,2,3,4,5],
+      currentIndex: 0
+    };
+    this.onSlideChanged = this.onSlideChanged.bind(this);
+  }
+
+  onSlideChanged(e) {
+    this.setState({
+      currentIndex: e.item
+    });
+  }
+
+  slideNext() {
+    this.setState({
+      currentIndex: this.state.currentIndex + 1
+    });
+  }
+
+  slidePrev() {
+    this.setState({
+      currentIndex: this.state.currentIndex - 1
+    });
+  }
+
+  slideTo(i) {
+    this.setState({ currentIndex: i });
+  }
+
+  renderThumbs() {
+    return (
+      <ul>{this.state.items.map((item, i) => <li key={i}
+          onClick={() => this.slideTo(i)}>Thumb {item}</li>)}
+      </ul>
+    );
+  }
+
+  renderGallery() {
+      const { currentIndex, items } = this.state;
+      return (<AliceCarousel
+        dotsDisabled={true}
+        buttonsDisabled={true}
+        startIndex={currentIndex}
+        slideToIndex={currentIndex}
+        onSlideChange={this.onSlideChange}
+        onSlideChanged={this.onSlideChanged}
+      >
+        {items.map((item, i) => <div key={i} className="yours-custom-class"><h2>{item}</h2></div>)}
+      </AliceCarousel>);
+  }
+  render() {
+    return (
+      <div>
+        <h3>Navigation</h3>
+        {this.renderThumbs()}
+        <button onClick={() => this.slidePrev()}>Prev button</button>
+        <button onClick={() => this.slideNext()}>Next button</button>
+        <h3>React Alice Carousel</h3>
+        {this.renderGallery()}
+      </div>
+    );
+  }
+}
+```
 
 ### Build the project locally
 

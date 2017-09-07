@@ -350,7 +350,6 @@ class AliceCarousel extends React.PureComponent {
     */
     _renderDotsNavigation() {
         const { slides, items } = this.state;
-
         return(
             <ul className="alice-carousel__dots">
                 {
