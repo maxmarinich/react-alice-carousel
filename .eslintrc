@@ -20,6 +20,7 @@
     "strict": 2,
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
+    "no-extra-boolean-cast": 0,
     "eol-last": 2,
     "quotes": [2, "single"],
     "jsx-quotes": [2, "prefer-double"],

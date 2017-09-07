@@ -13,6 +13,7 @@ React Alice Carousel is a React component for building content galleries, conten
 * Responsive design
 * Swipe to slide
 * Start index
+* Slide to index
 * RTL
 * Keyboard navigation
 * Custom rendered slides
@@ -72,6 +73,8 @@ const Gallery = () => (
     - Disable dots navigation
 * `startIndex` : Number, `0`
     - The starting index of the carousel
+* `slideToIndex` : Number, `0`
+    - Sets the carousel at the specified position
 * `swipeDisabled` : Boolean, default `false`
     - Disable swipe handlers    
 * `keysControlDisabled` :  Boolean, default `false`
@@ -87,10 +90,18 @@ const Gallery = () => (
 * `autoPlayActionDisabled` : Boolean, default `false`
     - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
 * `onSlideChange` : Function
-    - Fired when the slide position changes / returns current slide index
+    - Fired when the slide position are ch  anging / returns event object
+* `onSlideChanged` : Function
+    - Fired when the slide position was changed / returns event object
+    ```js
+        {
+            item: index,   // number of current item position
+            slide: index   // number of current slide position
+        }
+    ```
 
 
-#### Example
+### Examples:
 
 ```javascript
 import React from 'react';
@@ -136,6 +147,43 @@ class Gallery extends React.Component {
   }
 }
 ```
+
+#### Custom `Prev / Next` buttons, `dots / thumbs` navigation
+
+```javascript
+import React from 'react';
+import AliceCarousel from 'react-alice-carousel';
+
+class Gallery extends React.Component {
+
+  logCurrentSlideIndex(currentSlideIndex) {
+      console.log('currentSlideIndex: ', currentSlideIndex);
+  }
+
+  render() {
+    return (
+      <AliceCarousel
+        duration={650}
+        autoPlay={true}
+        startIndex = {1}
+        responsive={responsive}
+        autoPlayInterval={2000}
+        autoPlayDirection="rtl"
+        autoPlayActionDisabled={true}
+        onSlideChange={this.logCurrentSlideIndex}
+        >
+        <div className="yours-custom-class"><h2>1</h2></div>
+        <div className="yours-custom-class"><h2>2</h2></div>
+        <div className="yours-custom-class"><h2>3</h2></div>
+        <div className="yours-custom-class"><h2>4</h2></div>
+        <div className="yours-custom-class"><h2>5</h2></div>
+      </AliceCarousel>
+    );
+  }
+}
+```
+
+
 
 ### Build the project locally
 
