@@ -138,6 +138,7 @@ class Gallery extends React.Component {
         duration={400}
         autoPlay={true}
         startIndex = {1}
+        playButtonEnabled={true}
         responsive={responsive}
         autoPlayInterval={2000}
         autoPlayDirection="rtl"
