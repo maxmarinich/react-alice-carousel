@@ -602,7 +602,7 @@ class AliceCarousel extends React.PureComponent {
         { !this.props.buttonsDisabled ? this._prevButton() : null }
         { !this.props.buttonsDisabled ? this._nextButton() : null }
         { !this.props.dotsDisabled ? this._renderDotsNavigation() : null }
-        { !this.props.playButtonDisabled ? this._renderPlayPauseButton() : null }
+        { this.props.playButtonEnabled ? this._renderPlayPauseButton() : null }
 
       </div>
     );
@@ -614,7 +614,7 @@ AliceCarousel.propTypes = {
   onSlideChange: PropTypes.func,
   onSlideChanged: PropTypes.func,
   keysControlDisabled: PropTypes.bool,
-  playButtonDisabled: PropTypes.bool,
+  playButtonEnabled: PropTypes.bool,
   buttonsDisabled: PropTypes.bool,
   dotsDisabled: PropTypes.bool,
   swipeDisabled: PropTypes.bool,

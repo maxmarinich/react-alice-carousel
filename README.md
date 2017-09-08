@@ -79,7 +79,7 @@ const Gallery = () => (
 
 * `keysControlDisabled` :  Boolean, default `false` - Disable keys controls (left, right, space)
 
-* `playButtonDisabled` :  Boolean, default `false` - Disable play/pause button
+* `playButtonEnabled` :  Boolean, default `false` - Disable play/pause button
 
 * `autoPlay` : Boolean, default `false` - Set auto play mode
 
