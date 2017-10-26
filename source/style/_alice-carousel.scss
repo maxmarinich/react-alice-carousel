@@ -78,8 +78,7 @@ $play-btn-color: #fff;
         border: 1px solid $clr-darkred;
     }
     &.__inactive {
-        color: $clr-base;
-        border: 1px solid $clr-base;
+        opacity: .4;
     }
 }
 
