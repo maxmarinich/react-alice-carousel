@@ -3,8 +3,6 @@ import Swipeable from 'react-swipeable';
 import PropTypes from 'prop-types';
 import { setTransformAnimation, throttle } from './common';
 
-// handle touch events
-
 
 class AliceCarousel extends React.PureComponent {
   constructor(props) {
