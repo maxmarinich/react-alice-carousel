@@ -3,12 +3,12 @@ import AliceCarousel from './structure/react-alice-carousel';
 
 
 export class App extends React.Component {
-  onSlideChange(e) {
+  onSlideChange = (e) => {
     console.log('Item`s position during a change: ', e.item);
     console.log('Slide`s position during a change: ', e.slide);
   }
 
-  onSlideChanged(e) {
+  onSlideChanged = (e) => {
     console.log('Item`s position after changes: ', e.item);
     console.log('Slide`s position after changes: ', e.slide);
   }
@@ -25,6 +25,7 @@ export class App extends React.Component {
         items: 3
       }
     };
+
     return (
       <div className="app">
         <h1 className="h1">React Alice Carousel</h1>
