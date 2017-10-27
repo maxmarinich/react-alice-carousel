@@ -77,6 +77,8 @@ const Gallery = () => (
 
 * `swipeDisabled` : Boolean, default `false` - Disable swipe handlers
 
+* `infinite` : Boolean, default `true` - disable infinite mode
+
 * `keysControlDisabled` :  Boolean, default `false` - Disable keys controls (left, right, space)
 
 * `playButtonEnabled` :  Boolean, default `false` - Disable play/pause button
@@ -165,27 +167,21 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
 class Gallery extends React.Component {
-  renderThumbs() {
-    const thumbs = [1,2,3,4,5];
-    return (
-      <ul>{thumbs.map((item, i) =>
-        <li key={i}
-          onClick={() => this.Carousel._slideToItem(i)}
-        >Thumb {item}</li>)}
-      </ul>
-    );
-  }
+  renderThumbs = () =>
+    <ul>
+      {
+        [1,2,3,4,5].map((item, i) =>
+          <li key={i} onClick={() => this.Carousel._slideToItem(i)}>Thumb {item}</li>)
+      }
+    </ul>;
+
   render() {
     return (
       <div>
         <h3>Navigation</h3>
-        {this.renderThumbs()}
-        <button onClick={() => this.Carousel._slidePrev()}>
-          Prev button
-        </button>
-        <button onClick={() => this.Carousel._slideNext()}>
-          Next button
-        </button>
+        { this.renderThumbs() }
+        <button onClick={() => this.Carousel._slidePrev()}>Prev button</button>
+        <button onClick={() => this.Carousel._slideNext()}>Next button</button>
         <h3>React Alice Carousel</h3>
         <AliceCarousel
           dotsDisabled={true}
@@ -210,79 +206,53 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
 class Gallery extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      items: [1,2,3,4,5],
-      currentIndex: 0
-    };
-    this.onSlideChanged = this.onSlideChanged.bind(this);
-  }
+    constructor() {
+      super();
+      this.state = {
+        currentIndex: 0,
+        items: [1,2,3,4,5]
+      };
+    }
 
-  onSlideChanged(e) {
-    this.setState({
-      currentIndex: e.item
-    });
-  }
+    slideTo = (i) => this.setState({ currentIndex: i });
 
-  slideNext() {
-    this.setState({
-      currentIndex: this.state.currentIndex + 1
-    });
-  }
+    onSlideChanged = (e) => this.setState({ currentIndex: e.item });
 
-  slidePrev() {
-    this.setState({
-      currentIndex: this.state.currentIndex - 1
-    });
-  }
+    slideNext = () => this.setState({ currentIndex: this.state.currentIndex + 1 });
 
-  slideTo(i) {
-    this.setState({ currentIndex: i });
-  }
+    slidePrev = () => this.setState({ currentIndex: this.state.currentIndex - 1 });
 
-  renderThumbs() {
-    return (
+    renderThumbs = () =>
       <ul>{this.state.items.map((item, i) =>
-        <li key={i}
-          onClick={() => this.slideTo(i)}
-        >Thumb {item}</li>)}
-      </ul>
-    );
-  }
+        <li key={i} onClick={() => this.slideTo(i)}>Thumb {item}</li>)}
+      </ul>;
 
-  renderGallery() {
+    renderGallery() {
       const { currentIndex, items } = this.state;
+
       return (<AliceCarousel
         dotsDisabled={true}
         buttonsDisabled={true}
         startIndex={currentIndex}
         slideToIndex={currentIndex}
-        onSlideChange={this.onSlideChange}
         onSlideChanged={this.onSlideChanged}
       >
-        {items.map((item, i) =>
-          <div key={i} className="yours-custom-class">
-            <h2>{item}</h2>
-          </div>)}
+        { items.map((item, i) => <div key={i} className="yours-custom-class"><h2>{ item }</h2></div>) }
       </AliceCarousel>);
-  }
-  render() {
-    return (
-      <div>
-        <h3>Navigation</h3>
-        {this.renderThumbs()}
-        <button onClick={() => this.slidePrev()}>
-          Prev button
-        </button>
-        <button onClick={() => this.slideNext()}>
-          Next button
-        </button>
-        <h3>React Alice Carousel</h3>
-        {this.renderGallery()}
-      </div>
-    );
-  }
+    }
+
+    render() {
+      return (
+        <div>
+          <h3>Navigation</h3>
+          { this.renderThumbs() }
+          <button onClick={() => this.slidePrev()}>Prev button</button>
+          <button onClick={() => this.slideNext()}>Next button</button>
+          <h3>React Alice Carousel</h3>
+          { this.renderGallery() }
+        </div>
+      );
+    }
 }
 ```
 
