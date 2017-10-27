@@ -20,6 +20,7 @@ $play-btn-color: #fff;
     height: auto;
     box-sizing: border-box;
     overflow: hidden;
+    border: solid 1px rgba($clr-blue, .3)
 }
 
 .alice-carousel__stage {
@@ -40,6 +41,10 @@ $play-btn-color: #fff;
         line-height: 0;
         * {
             line-height: initial;
+        }
+        &.__cloned {
+            opacity: 0;
+            visibility: hidden;
         }
     }
 }
