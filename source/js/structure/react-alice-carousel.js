@@ -1,7 +1,7 @@
 import React from 'react';
 import Swipeable from 'react-swipeable';
 import PropTypes from 'prop-types';
-import { setTransformAnimation, throttle } from './common';
+import { setTransformAnimation } from './common';
 
 
 class AliceCarousel extends React.PureComponent {
@@ -16,18 +16,7 @@ class AliceCarousel extends React.PureComponent {
       }
     };
 
-    this._slideNext = this._slideNext.bind(this);
-    this._slidePrev = this._slidePrev.bind(this);
-    this._onTouchEnd = this._onTouchEnd.bind(this);
     this._onTouchMove = this._onTouchMove.bind(this);
-    this._keyUpHandler = this._keyUpHandler.bind(this);
-    this._disableAnimation = this._disableAnimation.bind(this);
-    this._allowAnimation = this._allowAnimation.bind(this);
-    this._getActiveSlideIndex = this._getActiveSlideIndex.bind(this);
-    this._resizeHandler = throttle(this._resizeHandler, 250).bind(this);
-    this._getStageComponentNode = this._getStageComponentNode.bind(this);
-    this._onMouseEnterAutoPlayHandler = this._onMouseEnterAutoPlayHandler.bind(this);
-    this._onMouseLeaveAutoPlayHandler = this._onMouseLeaveAutoPlayHandler.bind(this);
   }
 
   componentDidMount() {
@@ -193,26 +182,24 @@ class AliceCarousel extends React.PureComponent {
   /**
    * window resize handler
    * */
-  _resizeHandler() {
-    this._setInitialState();
-  }
+  _resizeHandler = () => this._setInitialState();
 
   /**
    * refers to parent carousel node
    *
    * @param {HTMLElement} node
    * */
-  _getStageComponentNode(node) { this.stageComponent = node; }
+  _getStageComponentNode = node => this.stageComponent = node;
 
   /**
    * enable carousel animation
    */
-  _allowAnimation() { this.allowAnimation = true; }
+  _allowAnimation = () => this.allowAnimation = true;
 
   /**
    * disable carousel animation
    */
-  _disableAnimation() { this.allowAnimation = false; }
+  _disableAnimation = () => this.allowAnimation = false;
 
   /**
    * check MouseEnter event
@@ -335,7 +322,7 @@ class AliceCarousel extends React.PureComponent {
    * calculate active dot navigation index
    * @returns {number}
    */
-  _getActiveSlideIndex() {
+  _getActiveSlideIndex = () => {
     let { slides, items, currentIndex } = this.state;
     const { inactiveNext } = this._isNotInfinite();
 
@@ -461,7 +448,7 @@ class AliceCarousel extends React.PureComponent {
    * call external methods
    * @param {Event} e
    */
-  _keyUpHandler(e) {
+  _keyUpHandler = (e) => {
     if (!this.allowAnimation) return;
 
     switch(e.keyCode) {
@@ -481,7 +468,7 @@ class AliceCarousel extends React.PureComponent {
    * call external methods
    * @param {bool} action
    */
-  _slidePrev(action = true) {
+  _slidePrev = (action = true) => {
     const { inactivePrev } = this._isNotInfinite();
 
     if (inactivePrev) {
@@ -500,7 +487,7 @@ class AliceCarousel extends React.PureComponent {
    * call external methods
    * @param {bool} action
    */
-  _slideNext(action = true) {
+  _slideNext = (action = true) => {
     const { inactiveNext } = this._isNotInfinite();
 
     if (inactiveNext) {
@@ -628,25 +615,32 @@ class AliceCarousel extends React.PureComponent {
   /**
    * called on touchEvent end
    */
-  _onTouchEnd() {
+  _onTouchEnd = () => {
     if (this.props.swipeDisabled) return;
     this._beforeTouchEnd();
   }
 
   /**
    * called on mouseEnter event for parent carousel node
+   *
+   * @return {bool}
    */
-  _onMouseEnterAutoPlayHandler() {
-    this.isHovered = true;
-  }
+  _onMouseEnterAutoPlayHandler = () => this.isHovered = true;
 
   /**
    * called on mouseLeave event for parent carousel node
+   *
+   * @return {bool}
    */
-  _onMouseLeaveAutoPlayHandler() {
-    this.isHovered = false;
-  }
+  _onMouseLeaveAutoPlayHandler = () => this.isHovered = false;
 
+  /**
+   * wrap carousel child nodes
+   *
+   * @param {object} item
+   * @param {number} i
+   * @return {XML}
+   */
   _renderStageItems = (item, i) => {
     const { infinite } = this.props;
     const { itemWidth, items, slides } = this.state;
