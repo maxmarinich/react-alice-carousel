@@ -1,3 +1,5 @@
+
+
 export function setTransformAnimation(element, position, durationMs = 0) {
   const prefixes = ['Webkit', 'Moz', 'ms', 'O', ''];
 

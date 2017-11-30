@@ -22,7 +22,7 @@ export class App extends React.Component {
         items: 2
       },
       960: {
-        items: 3
+        items: 1
       }
     };
 
@@ -30,22 +30,23 @@ export class App extends React.Component {
       <div className="app">
         <h1 className="h1">React Alice Carousel</h1>
         <AliceCarousel
-          duration={400}
+          duration={300.001}
           autoPlay={false}
           playButtonEnabled={true}
           responsive={responsive}
           autoPlayInterval={100}
           autoPlayDirection="rtl"
           autoPlayActionDisabled={true}
-          onSlideChange={this.onSlideChange}
-          onSlideChanged={this.onSlideChanged}
+          startIndex={5}
+          //onSlideChange={this.onSlideChange}
+          //onSlideChanged={this.onSlideChanged}
         >
-          <div className="item"><h1>1</h1></div>
-          <div className="item"><h1>2</h1></div>
-          <div className="item"><h1>3</h1></div>
-          <div className="item"><h1>4</h1></div>
-          <div className="item"><h1>5</h1></div>
-          <div className="item"><h1>6</h1></div>
+          <div className="item"><h1><a href="#1"> 1</a></h1></div>
+          <div className="item"><h1><a href="#2">2</a></h1></div>
+          <div className="item"><h1><a href="#3"> 3</a></h1></div>
+          <div className="item"><h1><a href="#4">4</a></h1></div>
+          <div className="item"><h1><a href="#5"> 5</a></h1></div>
+          <div className="item"><h1><a href="#6">6</a></h1></div>
           <div className="item"><h1>7</h1></div>
           <div className="item"><h1>8</h1></div>
           <div className="item"><h1>9</h1></div>
