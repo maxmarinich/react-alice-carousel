@@ -1,13 +1,16 @@
 # React Alice Carousel
 
 ![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/source/i/react-alice-carousel.gif)
+</br>
 
+![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/source/i/react-alice-carousel-demo.gif)
 
 React Alice Carousel is a React component for building content galleries, content rotators and any React carousels.
 
 ## Features of react-alice-carousel
 
 * Infinite loop
+* FadeOut animation
 * AutoPlay mode
 * Mobile friendly
 * Responsive design
@@ -65,7 +68,18 @@ const Gallery = () => (
 #### Props
 * `duration` : Number, default  `250` - Duration of slides transition (milliseconds)
 
-* `responsive` : Object, default `{}` - Number of items in the slide
+* `responsive` : Object, default `{}` - Number of items in the slide_
+
+  ```js
+    {
+        0: {
+            items: 1
+        },
+        1024: {
+            items: 3
+        }
+    }
+  ```
 
 * `buttonsDisabled` : Boolean, `false` - Disable buttons control
 
@@ -77,7 +91,9 @@ const Gallery = () => (
 
 * `swipeDisabled` : Boolean, default `false` - Disable swipe handlers
 
-* `infinite` : Boolean, default `true` - disable infinite mode
+* `infinite` : Boolean, default `true` - Disable infinite mode
+
+* `fadeOutAnimation` : Boolean, `false` - Enable fadeout animation. Fired when 1 item is in the slide
 
 * `keysControlDisabled` :  Boolean, default `false` - Disable keys controls (left, right, space)
 
@@ -171,7 +187,7 @@ class Gallery extends React.Component {
     <ul>
       {
         [1,2,3,4,5].map((item, i) =>
-          <li key={i} onClick={() => this.Carousel._slideToItem(i)}>Thumb {item}</li>)
+          <li key={i} onClick={() => this.Carousel._onDotClick(i)}>Thumb {item}</li>)
       }
     </ul>;
 

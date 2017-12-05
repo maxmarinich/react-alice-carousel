@@ -47,12 +47,14 @@ class AliceCarousel extends React.PureComponent {
     }
 
     if (currentIndex !== slideToIndex && slideToIndex !== undefined) {
-      const slideNext = slideToIndex === currentIndex + 1;
-      const slidePrev = slideToIndex === currentIndex - 1;
 
-      slideNext ?
-        this._slideToItem(currentIndex + 1) : slidePrev ?
-          this._slideToItem(currentIndex - 1) : this._slideToItem(slideToIndex);
+      if (slideToIndex === currentIndex + 1) {
+        this._slideNext();
+      } else if (slideToIndex === currentIndex - 1) {
+        this._slidePrev();
+      } else {
+        this._onDotClick(slideToIndex);
+      }
     }
 
     if (this.props.startIndex !== startIndex && !slideToIndex && slideToIndex !== 0) {
