@@ -1,5 +1,6 @@
 @import 'alice-carousel';
 
+
 #carousel {
     min-height: 100vh;
     padding: 60px;
@@ -17,21 +18,26 @@
     flex: 1;
 }
 
+
 .item {
     color: red;
     background-color: $clr-blue;
     height: 170px;
     margin: 5px;
     h1 {
-        margin: 0;
-        height: 100%;
-        text-align: center;
-        color: #fff;
-        &:before {
-            content: '';
-            display: inline-block;
-            height: 100%;
-            vertical-align: middle;
-        }
-    }
+          margin: 0;
+          height: 100%;
+          text-align: center;
+          color: #fff;
+          &:before {
+              content: '';
+              display: inline-block;
+              height: 100%;
+              vertical-align: middle;
+          }
+      }
+}
+
+.alice-carousel__stage-item:nth-child(odd) .item {
+  background-color: #008B8B;
 }

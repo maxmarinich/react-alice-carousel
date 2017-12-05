@@ -47,6 +47,14 @@ $play-btn-color: #fff;
             visibility: hidden;
         }
     }
+    &:after {
+        content: ".";
+        display: block;
+        clear: both;
+        visibility: hidden;
+        line-height: 0;
+        height: 0;
+    }
 }
 
 .alice-carousel__prev-btn,
@@ -173,3 +181,5 @@ $play-btn-color: #fff;
         }
     }
 }
+
+@import 'fade-animation';
