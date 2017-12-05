@@ -5,12 +5,12 @@ import AliceCarousel from './structure/react-alice-carousel';
 export class App extends React.Component {
   onSlideChange = (e) => {
     console.log('Item`s position during a change: ', e.item);
-    console.log('Slide`s position during a change: ', e.slide);
+    //console.log('Slide`s position during a change: ', e.slide);
   }
 
   onSlideChanged = (e) => {
     console.log('Item`s position after changes: ', e.item);
-    console.log('Slide`s position after changes: ', e.slide);
+    //console.log('Slide`s position after changes: ', e.slide);
   }
 
   render() {
@@ -30,15 +30,8 @@ export class App extends React.Component {
       <div className="app">
         <h1 className="h1">React Alice Carousel</h1>
         <AliceCarousel
-          duration={1000.001}
-          autoPlay={false}
-          playButtonEnabled={true}
           responsive={responsive}
-          autoPlayInterval={100}
-          autoPlayDirection="rtl"
-          autoPlayActionDisabled={true}
-          startIndex={5}
-          fadeOut={true}
+          fadeOutAnimation={true}
           //onSlideChange={this.onSlideChange}
           //onSlideChanged={this.onSlideChanged}
         >

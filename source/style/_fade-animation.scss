@@ -1,20 +1,16 @@
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
+.alice-carousel .animated {
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
 
-.alice-carousel .animated {
-  animation-duration: 1000ms;
-  animation-fill-mode: both; }
-
-.alice-carousel .animated-in {
-  z-index: 0; }
-
 .alice-carousel .animated-out {
-  z-index: 1; }
+  z-index: 1;
+}
 
+.alice-carousel  .fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+}
 
 @-webkit-keyframes fadeOut {
   0% {
@@ -36,35 +32,4 @@
     opacity: 0;
     visibility: hidden;
   }
-}
-
-.fadeOut {
-  -webkit-animation-name: fadeOut;
-  animation-name: fadeOut;
-}
-
-
-@-webkit-keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-.fadeIn {
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
 }
