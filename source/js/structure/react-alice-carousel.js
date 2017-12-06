@@ -392,6 +392,10 @@ class AliceCarousel extends React.PureComponent {
     }
   }
 
+  /**
+   * set additional animation props
+   * @param itemIndex {number}
+   */
   _setAnimationPropsOnDotsClick = itemIndex => {
     let fadeOutOffset;
     const { currentIndex, itemWidth } = this.state;

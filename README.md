@@ -1,7 +1,6 @@
 # React Alice Carousel
 
 ![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/source/i/react-alice-carousel.gif)
-</br>
 
 ![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/source/i/react-alice-carousel-demo.gif)
 
@@ -68,7 +67,7 @@ const Gallery = () => (
 #### Props
 * `duration` : Number, default  `250` - Duration of slides transition (milliseconds)
 
-* `responsive` : Object, default `{}` - Number of items in the slide_
+* `responsive` : Object, default `{}` - Number of items in the slide
 
   ```js
     {
