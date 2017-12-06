@@ -18,6 +18,7 @@ React Alice Carousel is a React component for building content galleries, conten
 * Slide to index
 * RTL
 * Keyboard navigation
+* Touch and Drag Support
 * Custom rendered slides
 * Custom animation duration
 * Multiple items in the slide
@@ -90,6 +91,8 @@ const Gallery = () => (
 
 * `swipeDisabled` : Boolean, default `false` - Disable swipe handlers
 
+* `mouseDragEnabled` : Boolean, default `false` - Enable mouse drag animation
+
 * `infinite` : Boolean, default `true` - Disable infinite mode
 
 * `fadeOutAnimation` : Boolean, `false` - Enable fadeout animation. Fired when 1 item is in the slide
@@ -155,6 +158,8 @@ class Gallery extends React.Component {
         duration={400}
         autoPlay={true}
         startIndex = {1}
+        fadeOutAnimation={true}
+        mouseDragEnabled={true}
         playButtonEnabled={true}
         responsive={responsive}
         autoPlayInterval={2000}

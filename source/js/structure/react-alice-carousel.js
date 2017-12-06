@@ -943,7 +943,11 @@ class AliceCarousel extends React.PureComponent {
 
     return (
       <div className="alice-carousel">
-        <Swipeable onSwiping={this._onTouchMove} onSwiped={this._onTouchEnd}>
+        <Swipeable
+          onSwiping={this._onTouchMove}
+          onSwiped={this._onTouchEnd}
+          trackMouse={this.props.mouseDragEnabled}
+        >
           <div
             className="alice-carousel__wrapper"
             onMouseEnter={this._onMouseEnterAutoPlayHandler}
@@ -980,6 +984,7 @@ AliceCarousel.propTypes = {
   slideToIndex: PropTypes.number,
   autoPlay: PropTypes.bool,
   infinite: PropTypes.bool,
+  mouseDragEnabled: PropTypes.bool,
   fadeOutAnimation: PropTypes.bool,
   autoPlayInterval: PropTypes.number,
   autoPlayDirection: PropTypes.string,
