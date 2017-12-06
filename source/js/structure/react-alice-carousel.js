@@ -10,7 +10,7 @@ class AliceCarousel extends React.PureComponent {
     this.state = {
       slides: [],
       currentIndex: 1,
-      duration: props.duration || 250,
+      duration: props.duration,
       style: { transition: 'transform 0ms ease-out' }
     };
 
@@ -989,6 +989,26 @@ AliceCarousel.propTypes = {
   autoPlayInterval: PropTypes.number,
   autoPlayDirection: PropTypes.string,
   autoPlayActionDisabled: PropTypes.bool
+};
+
+AliceCarousel.defaultProps = {
+  children: [],
+  responsive: {},
+  duration: 250,
+  startIndex: 0,
+  slideToIndex: 0,
+  autoPlay: false,
+  infinite: true,
+  dotsDisabled: false,
+  swipeDisabled: false,
+  autoPlayInterval: 250,
+  buttonsDisabled: false,
+  mouseDragEnabled: false,
+  fadeOutAnimation: false,
+  playButtonEnabled: false,
+  autoPlayDirection: 'ltr',
+  keysControlDisabled: false,
+  autoPlayActionDisabled: false
 };
 
 export default AliceCarousel;

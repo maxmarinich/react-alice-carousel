@@ -18,7 +18,7 @@ React Alice Carousel is a React component for building content galleries, conten
 * Slide to index
 * RTL
 * Keyboard navigation
-* Touch and Drag Support
+* Touch and Drag support
 * Custom rendered slides
 * Custom animation duration
 * Multiple items in the slide
