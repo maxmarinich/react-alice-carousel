@@ -253,7 +253,6 @@ class Gallery extends React.Component {
       return (<AliceCarousel
         dotsDisabled={true}
         buttonsDisabled={true}
-        startIndex={currentIndex}
         slideToIndex={currentIndex}
         onSlideChanged={this.onSlideChanged}
       >

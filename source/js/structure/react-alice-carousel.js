@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { setTransformAnimation } from './common';
 
 
-class AliceCarousel extends React.PureComponent {
+export default class AliceCarousel extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -1010,5 +1010,3 @@ AliceCarousel.defaultProps = {
   keysControlDisabled: false,
   autoPlayActionDisabled: false
 };
-
-export default AliceCarousel;
