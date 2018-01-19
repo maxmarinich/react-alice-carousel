@@ -54,7 +54,7 @@ export default class AliceCarousel extends React.PureComponent {
     }
 
     if (this.props.keysControlDisabled !== keysControlDisabled) {
-      keysControlDisabled === true
+      keysControlDisabled
         ? window.removeEventListener('keyup', this._keyUpHandler)
         : window.addEventListener('keyup', this._keyUpHandler);
     }
@@ -137,6 +137,10 @@ export default class AliceCarousel extends React.PureComponent {
 
     if (this._allowFadeOutAnimation()) {
       this._setAnimationPropsOnDotsClick(itemIndex);
+    }
+
+    if (this.props.autoPlayActionDisabled) {
+      this._pause();
     }
     this._slideToItem(itemIndex);
   }
@@ -390,8 +394,8 @@ export default class AliceCarousel extends React.PureComponent {
 
   _renderPlayPauseButton() {
     return (
-      <div className="alice-carousel__play-btn" onClick={() => this._playPauseToggle()}>
-        <div className="alice-carousel__play-btn-wrapper">
+      <div className="alice-carousel__play-btn">
+        <div className="alice-carousel__play-btn-wrapper" onClick={this._playPauseToggle}>
           <div className={`alice-carousel__play-btn-item${this.state.isPlaying ? ' __pause' : ''}`} />
         </div>
       </div>
@@ -414,7 +418,7 @@ export default class AliceCarousel extends React.PureComponent {
     }
   }
 
-  _pause() {
+  _pause = () => {
     if (this._autoPlayIntervalId) {
       window.clearInterval(this._autoPlayIntervalId);
       this._autoPlayIntervalId = null;
@@ -422,7 +426,7 @@ export default class AliceCarousel extends React.PureComponent {
     }
   }
 
-  _playPauseToggle () {
+  _playPauseToggle = () => {
     if (!this.allowAnimation) return;
     this.state.isPlaying ? this._pause() : this._play();
   }
@@ -629,7 +633,11 @@ export default class AliceCarousel extends React.PureComponent {
     this._beforeTouchEnd();
   }
 
-  _onMouseEnterAutoPlayHandler = () => this.isHovered = true;
+  _onMouseEnterAutoPlayHandler = () => {
+    if (this.props.stopAutoPlayOnHover) {
+      this.isHovered = true;
+    }
+  }
 
   _onMouseLeaveAutoPlayHandler = () => this.isHovered = false;
 
@@ -782,7 +790,8 @@ AliceCarousel.propTypes = {
   fadeOutAnimation: PropTypes.bool,
   autoPlayInterval: PropTypes.number,
   autoPlayDirection: PropTypes.string,
-  autoPlayActionDisabled: PropTypes.bool
+  autoPlayActionDisabled: PropTypes.bool,
+  stopAutoPlayOnHover: PropTypes.bool
 };
 
 AliceCarousel.defaultProps = {
@@ -802,5 +811,6 @@ AliceCarousel.defaultProps = {
   playButtonEnabled: false,
   autoPlayDirection: 'ltr',
   keysControlDisabled: false,
-  autoPlayActionDisabled: false
+  autoPlayActionDisabled: false,
+  stopAutoPlayOnHover: true,
 };

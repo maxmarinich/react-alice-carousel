@@ -109,6 +109,8 @@ const Gallery = () => (
 
 * `autoPlayActionDisabled` : Boolean, default `false` - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
 
+* `stopAutoPlayOnHover` : Boolean, default `true` - If this property is identified as `false` auto play animation won't stopped on hover
+
 * `onSlideChange` : Function - Fired when the event object is changing / returns event object
 
 * `onSlideChanged` : Function - Fired when the event object was changed / returns event object
