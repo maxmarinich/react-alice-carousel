@@ -1,6 +1,6 @@
 {
   "name": "react-alice-carousel",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "React image gallery, react slideshow carousel, react content rotator",
   "main": "./source/js/structure/react-alice-carousel.js",
   "types": "./source/js/structure/react-alice-carousel.d.ts",
