@@ -116,6 +116,13 @@ export interface Props {
 	 * Default: false.
 	 */
 	autoPlayActionDisabled?: boolean;
+
+    /**
+     * If this property is identified as `false` auto play animation won't stopped on hover
+     *
+     * Default: true.
+     */
+    stopAutoPlayOnHover?: boolean;
 }
 
 export default class Carousel extends React.PureComponent<Props> {}
