@@ -34,11 +34,11 @@ npm install react-alice-carousel --save-dev
 
 ```
 # SCSS
-@import "node_modules/react-alice-carousel/src/alice-carousel.scss";
+@import "react-alice-carousel/src/alice-carousel.scss";
 ```
 ```
 # CSS
-@import "node_modules/react-alice-carousel/lib/alice-carousel.css";
+@import "react-alice-carousel/lib/alice-carousel.css";
 ```
 ```
 # Webpack
