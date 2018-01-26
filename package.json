@@ -1,9 +1,9 @@
 {
   "name": "react-alice-carousel",
-  "version": "1.7.5",
+  "version": "1.8.0",
   "description": "React image gallery, react slideshow carousel, react content rotator",
   "main": "./source/js/structure/react-alice-carousel.js",
-  "types": "./source/js/structure/react-alice-carousel.d.ts",
+  "types": "./source/types/react-alice-carousel.d.ts",
   "scripts": {
     "start": "node server.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
