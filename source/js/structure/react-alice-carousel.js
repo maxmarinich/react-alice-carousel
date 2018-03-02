@@ -91,6 +91,7 @@ export default class AliceCarousel extends React.PureComponent {
       this._autoPlayIntervalId = null;
     }
   }
+
   _onSlideToIndexChange = (currentIndex, slideToIndex) => {
     if (slideToIndex === currentIndex + 1) {
       this._slideNext();
@@ -300,6 +301,22 @@ export default class AliceCarousel extends React.PureComponent {
         >
           <div className={className} onClick={this._slideNext} />
         </div>
+      </div>
+    );
+  }
+
+  _slideIndexInfo = () => {
+    const { currentIndex, slides: { length }} = this.state;
+    let slideIndex = currentIndex + 1;
+
+    if (slideIndex < 1) { slideIndex = length; }
+    else if (slideIndex > length) { slideIndex = 1; }
+
+    return (
+      <div className="alice-carousel__slide-info">
+        <span className="alice-carousel__slide-info-item">{slideIndex}</span>
+        <span className="alice-carousel__slide-info-item alice-carousel__slide-info-item--separator">/</span>
+        <span className="alice-carousel__slide-info-item">{length}</span>
       </div>
     );
   }
@@ -763,6 +780,7 @@ export default class AliceCarousel extends React.PureComponent {
 
         { !this.props.buttonsDisabled ? this._prevButton() : null }
         { !this.props.buttonsDisabled ? this._nextButton() : null }
+        { this.props.showSlideIndex ? this._slideIndexInfo() : null }
         { !this.props.dotsDisabled ? this._renderDotsNavigation() : null }
         { this.props.playButtonEnabled ? this._renderPlayPauseButton() : null }
 
@@ -786,6 +804,7 @@ AliceCarousel.propTypes = {
   slideToIndex: PropTypes.number,
   autoPlay: PropTypes.bool,
   infinite: PropTypes.bool,
+  showSlideIndex: PropTypes.bool,
   mouseDragEnabled: PropTypes.bool,
   fadeOutAnimation: PropTypes.bool,
   autoPlayInterval: PropTypes.number,
@@ -803,6 +822,7 @@ AliceCarousel.defaultProps = {
   autoPlay: false,
   infinite: true,
   dotsDisabled: false,
+  showSlideIndex: false,
   swipeDisabled: false,
   autoPlayInterval: 250,
   buttonsDisabled: false,

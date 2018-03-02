@@ -2,7 +2,7 @@ import React from 'react';
 import AliceCarousel from './structure/react-alice-carousel';
 
 
-export class App extends React.Component {
+export default class App extends React.Component {
   render() {
     const responsive = {
       0: {

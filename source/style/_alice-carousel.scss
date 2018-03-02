@@ -10,8 +10,8 @@ $play-btn-color: #fff;
     box-sizing: border-box;
     position: relative;
     width: 100%;
-    padding: 60px;
     margin: auto;
+    padding: 60px;
 }
 
 .alice-carousel__wrapper {
@@ -179,6 +179,21 @@ $play-btn-color: #fff;
         &.__active {
             background-color: lighten(#465798, 15%);
         }
+    }
+}
+
+.alice-carousel__slide-info {
+    display: inline-block;
+    position: absolute;
+    right: 80px;
+    bottom: 80px;
+    padding: 5px 10px;
+    color: $clr-blue;
+    border-radius: 5px;
+    background-color: rgba($clr-base, .6);
+    &-item {
+        line-height: 0;
+        vertical-align: middle;
     }
 }
 

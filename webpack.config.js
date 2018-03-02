@@ -27,7 +27,7 @@ module.exports = {
         loader: 'eslint-loader'
       },
       {
-        loaders: ['react-hot-loader', 'babel-loader'],
+        loaders: ['babel-loader'],
         include: [
           path.resolve(__dirname, 'source'),
         ],

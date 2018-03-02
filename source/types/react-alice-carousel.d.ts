@@ -1,4 +1,4 @@
-// Type definitions for react-alice-carousel 1.7
+// Type definitions for react-alice-carousel 1.9
 // Project: https://github.com/maxmarinich/react-alice-carousel
 // Definitions by: endigo <https://github.com/endigo>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -123,6 +123,13 @@ export interface Props {
      * Default: true.
      */
     stopAutoPlayOnHover?: boolean;
+
+    /**
+     * Show slide index info
+     *
+     * Default: false.
+     */
+    showSlideIndex?: false,
 }
 
 export default class Carousel extends React.PureComponent<Props> {}

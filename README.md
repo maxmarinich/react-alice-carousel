@@ -111,6 +111,8 @@ const Gallery = () => (
 
 * `stopAutoPlayOnHover` : Boolean, default `true` - If this property is identified as `false` auto play animation won't stopped on hover
 
+* `showSlideIndex` : Boolean, default `false` - Show slide index info
+
 * `onSlideChange` : Function - Fired when the event object is changing / returns event object
 
 * `onSlideChanged` : Function - Fired when the event object was changed / returns event object
