@@ -66,6 +66,8 @@ export default class AliceCarousel extends React.PureComponent {
       this.props.autoPlay !== autoPlay) {
       this._pause();
     }
+
+    this._setInitialState();
   }
 
   componentDidUpdate(prevProps) {
