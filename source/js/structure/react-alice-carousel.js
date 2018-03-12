@@ -165,7 +165,6 @@ export default class AliceCarousel extends React.PureComponent {
   _calculateInitialProps(config) {
     const  { startIndex, children, responsive } = config;
     const items = this._setTotalItemsInSlide(responsive, children.length);
-    debugger;
     const currentIndex = this._setStartIndex(children.length, startIndex);
     const itemWidth = this.stageComponent.getBoundingClientRect().width / items;
 
