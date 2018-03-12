@@ -33,7 +33,7 @@ export default class AliceCarousel extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const { currentIndex } = this.state;
     const {
-      slideToIndex, duration, startIndex, keysControlDisabled, infinite,
+      children, responsive, slideToIndex, duration, startIndex, keysControlDisabled, infinite,
       autoPlayActionDisabled, autoPlayDirection, autoPlayInterval, autoPlay, fadeOutAnimation
     } = nextProps;
 
@@ -65,6 +65,10 @@ export default class AliceCarousel extends React.PureComponent {
       this.props.infinite !== infinite ||
       this.props.autoPlay !== autoPlay) {
       this._pause();
+    }
+
+    if (this.props.children !== children || this.props.responsive !== responsive) {
+      this.setState(this._calculateInitialProps(nextProps));
     }
   }
 
@@ -158,16 +162,10 @@ export default class AliceCarousel extends React.PureComponent {
     return Math.min(startIndex, (childrenLength - 1));
   }
 
-  _calculateInitialProps(nextProps) {
-    let totalItems;
-    let  { startIndex, children } = this.props;
-
-    if (nextProps) {
-      totalItems = nextProps.responsive;
-      children =  nextProps.children;
-    }
-
-    const items = this._setTotalItemsInSlide(totalItems, children.length);
+  _calculateInitialProps(config) {
+    const  { startIndex, children, responsive } = config;
+    const items = this._setTotalItemsInSlide(responsive, children.length);
+    debugger;
     const currentIndex = this._setStartIndex(children.length, startIndex);
     const itemWidth = this.stageComponent.getBoundingClientRect().width / items;
 
@@ -181,17 +179,16 @@ export default class AliceCarousel extends React.PureComponent {
     };
   }
 
-  _setTotalItemsInSlide(totalItems, childrenLength) {
+  _setTotalItemsInSlide(responsiveConfig, childrenLength) {
     let items = 1;
-    const { innerWidth } = window;
-    const { responsive } = this.props;
+    if (responsiveConfig) {
+      const configKeys = Object.keys(responsiveConfig);
 
-    if (responsive) {
-      const responsiveConfig = totalItems || responsive;
-
-      if (Object.keys(responsiveConfig).length) {
-        Object.keys(responsiveConfig).forEach(width => {
-          if (width < innerWidth) items = Math.min(responsiveConfig[width].items, childrenLength) || items;
+      if (configKeys.length) {
+        configKeys.forEach(width => {
+          if (width < window.innerWidth) {
+            items = Math.min(responsiveConfig[width].items, childrenLength) || items;
+          }
         });
       }
     }
@@ -199,7 +196,7 @@ export default class AliceCarousel extends React.PureComponent {
   }
   
   _setInitialState() {
-    this.setState(this._calculateInitialProps());
+    this.setState(this._calculateInitialProps(this.props));
   }
 
   _windowResizeHandler = () => this._setInitialState();
