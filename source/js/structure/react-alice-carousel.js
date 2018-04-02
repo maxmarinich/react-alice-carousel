@@ -49,7 +49,7 @@ export default class AliceCarousel extends React.PureComponent {
       this._onSlideToIndexChange(currentIndex, slideToIndex);
     }
 
-    if (this.props.startIndex !== startIndex && slideToIndex !== 0) {
+    if (this.props.startIndex !== startIndex && !(slideToIndex !== this.props.slideToIndex)) {
       this._slideToItem(startIndex);
     }
 
