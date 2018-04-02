@@ -31,3 +31,7 @@ export function throttle(func, ms = 0) {
   }
   return wrapper;
 }
+
+export function primitiveEquals(obj1, obj2) {
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Swipeable from 'react-swipeable';
 import PropTypes from 'prop-types';
-import { setTransformAnimation } from './common';
+import { setTransformAnimation, primitiveEquals } from './common';
 
 export default class AliceCarousel extends React.PureComponent {
   constructor(props) {
@@ -33,7 +33,7 @@ export default class AliceCarousel extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const { currentIndex } = this.state;
     const {
-      children, responsive, slideToIndex, duration, startIndex, keysControlDisabled, infinite,
+      responsive, slideToIndex, duration, startIndex, keysControlDisabled, infinite,
       autoPlayActionDisabled, autoPlayDirection, autoPlayInterval, autoPlay, fadeOutAnimation
     } = nextProps;
 
@@ -45,11 +45,11 @@ export default class AliceCarousel extends React.PureComponent {
       this.setState({ fadeOutAnimation: false }, this._resetAnimationProps);
     }
 
-    if (currentIndex !== slideToIndex && slideToIndex !== undefined) {
+    if (slideToIndex !== this.props.slideToIndex) {
       this._onSlideToIndexChange(currentIndex, slideToIndex);
     }
 
-    if (this.props.startIndex !== startIndex && !slideToIndex && slideToIndex !== 0) {
+    if (this.props.startIndex !== startIndex && slideToIndex !== 0) {
       this._slideToItem(startIndex);
     }
 
@@ -67,7 +67,7 @@ export default class AliceCarousel extends React.PureComponent {
       this._pause();
     }
 
-    if (this.props.children !== children || this.props.responsive !== responsive) {
+    if (!primitiveEquals(responsive, this.props.responsive)) {
       this.setState(this._calculateInitialProps(nextProps));
     }
   }
