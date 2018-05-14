@@ -15,6 +15,7 @@ export default class AliceCarousel extends React.PureComponent {
 
     this.swipePosition = {};
     this.animationProps = {};
+    this.preventHorizontalSwiping = false;
     this._onTouchMove = this._onTouchMove.bind(this);
   }
 
@@ -193,7 +194,7 @@ export default class AliceCarousel extends React.PureComponent {
     }
     return items;
   }
-  
+
   _setInitialState() {
     this.setState(this._calculateInitialProps(this.props));
   }
@@ -207,7 +208,7 @@ export default class AliceCarousel extends React.PureComponent {
   _disableAnimation = () => this.allowAnimation = false;
 
   _isHovered = () => this.isHovered;
-  
+
   _checkSlidePosition(skip) {
     this._stopSwipeAnimation();
     this._resetAnimationProps();
@@ -233,7 +234,7 @@ export default class AliceCarousel extends React.PureComponent {
       }
     }, this.state.duration);
   }
-  
+
   _shouldRecalculatePosition = () => {
     const { slides, currentIndex } = this.state;
     return (currentIndex < 0 || currentIndex >= slides.length);
@@ -518,11 +519,18 @@ export default class AliceCarousel extends React.PureComponent {
     this.swipePosition = {};
   }
 
-  _onTouchMove() {
+  _onTouchMove(e, deltaX, deltaY) {
     this._pause();
 
     if (this._isSwipeDisable()) {
       return;
+    }
+
+    if (this._verticalTouchMoveDetected(deltaX, deltaY)) {
+      this.preventHorizontalSwiping = true;
+      return;
+    } else {
+      this.preventHorizontalSwiping = false;
     }
 
     this._disableAnimation();
@@ -531,10 +539,10 @@ export default class AliceCarousel extends React.PureComponent {
     const { slides, items, itemWidth, translate3d } = this.state;
 
     const maxPosition = (slides.length + items) * itemWidth;
-    const direction = arguments[1] > 0 ? 'LEFT' : 'RIGHT';
+    const direction = deltaX > 0 ? 'LEFT' : 'RIGHT';
     const startPosition = this.swipePosition.startPosition || translate3d;
 
-    let position = startPosition - arguments[1];
+    let position = startPosition - deltaX;
 
     if (this.props.infinite === false) {
 
@@ -563,6 +571,14 @@ export default class AliceCarousel extends React.PureComponent {
         recalculatePosition();
       }
     }
+  }
+
+  _verticalTouchMoveDetected = (deltaX, deltaY) => {
+    const gap = 32;
+    const vertical = Math.abs(deltaY);
+    const horizontal = Math.abs(deltaX);
+
+    return (vertical > horizontal) && (horizontal < gap);
   }
 
   _isInfiniteModeDisabledBeforeTouchEnd(swipeIndex, currentIndex, position) {
@@ -635,7 +651,7 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _onTouchEnd = () => {
-    if (this._isSwipeDisable()) {
+    if (this._isSwipeDisable() || this.preventHorizontalSwiping) {
       return;
     }
 
