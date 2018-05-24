@@ -771,8 +771,6 @@ export default class AliceCarousel extends React.PureComponent {
     const { style, translate3d, clones } = this.state
     const stageStyle = { ...style, ...{ transform: `translate3d(${translate3d}px, 0, 0)` }}
 
-    console.warn('gallery render' , clones)
-
     return (
       <div className="alice-carousel">
         <Swipeable
