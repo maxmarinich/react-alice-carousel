@@ -1,7 +1,7 @@
 import React from 'react'
 import Swipeable from 'react-swipeable'
 import PropTypes from 'prop-types'
-import { setTransformAnimation, childrenKeysHaveChanged, primitiveEquals } from './common'
+import { setTransformAnimation } from './common'
 
 export default class AliceCarousel extends React.PureComponent {
   constructor(props) {
@@ -9,8 +9,8 @@ export default class AliceCarousel extends React.PureComponent {
     this.state = {
       clones: [],
       currentIndex: 1,
-      slides: props.children,
       duration: props.duration,
+      slides: this._galleryChildren(props),
       style: { transition: 'transform 0ms ease-out' }
     }
 
@@ -22,20 +22,21 @@ export default class AliceCarousel extends React.PureComponent {
 
   componentDidMount() {
     this._allowAnimation()
-    this.props.children.length && this._setInitialState()
+    this._setInitialState()
     window.addEventListener('resize', this._windowResizeHandler)
 
     if (!this.props.keysControlDisabled) {
       window.addEventListener('keyup', this._keyUpHandler)
     }
 
-    if (this.props.autoPlay) this._play()
+    if (this.props.autoPlay) {
+      this._play()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentIndex } = this.state
     const {
-      children, responsive, slideToIndex, duration, startIndex, keysControlDisabled, infinite,
+      items, responsive, slideToIndex, duration, startIndex, keysControlDisabled, infinite,
       autoPlayActionDisabled, autoPlayDirection, autoPlayInterval, autoPlay, fadeOutAnimation
     } = nextProps
 
@@ -48,7 +49,7 @@ export default class AliceCarousel extends React.PureComponent {
     }
 
     if (slideToIndex !== this.props.slideToIndex) {
-      this._onSlideToIndexChange(currentIndex, slideToIndex)
+      this._onSlideToIndexChange(this.state.currentIndex, slideToIndex)
     }
 
     if (this.props.startIndex !== startIndex && slideToIndex === this.props.slideToIndex) {
@@ -69,7 +70,7 @@ export default class AliceCarousel extends React.PureComponent {
       this._pause()
     }
 
-    if (childrenKeysHaveChanged(this.props.children, children) || !primitiveEquals(this.props.responsive, responsive)) {
+    if (this.props.items !== items || this.props.responsive !== responsive) {
       this.setState(this._calculateInitialProps(nextProps))
     }
   }
@@ -96,6 +97,10 @@ export default class AliceCarousel extends React.PureComponent {
       window.clearInterval(this._autoPlayIntervalId)
       this._autoPlayIntervalId = null
     }
+  }
+
+  _galleryChildren = props => {
+    return props.children.length ? props.children : props.items
   }
 
   _onSlideToIndexChange = (currentIndex, slideToIndex) => {
@@ -164,8 +169,9 @@ export default class AliceCarousel extends React.PureComponent {
     return Math.min(startIndex, (childrenLength - 1))
   }
 
-  _calculateInitialProps(config) {
-    const  { startIndex, children, responsive } = config
+  _calculateInitialProps(props) {
+    const { startIndex, responsive } = props
+    const children = this._galleryChildren(props)
     const items = this._setTotalItemsInSlide(responsive, children.length)
     const currentIndex = this._setStartIndex(children.length, startIndex)
     const itemWidth = this.stageComponent.getBoundingClientRect().width / items
@@ -801,7 +807,8 @@ export default class AliceCarousel extends React.PureComponent {
 }
 
 AliceCarousel.propTypes = {
-  children: PropTypes.array.isRequired,
+  items: PropTypes.array,
+  children: PropTypes.array,
   onSlideChange: PropTypes.func,
   onSlideChanged: PropTypes.func,
   keysControlDisabled: PropTypes.bool,
@@ -825,6 +832,7 @@ AliceCarousel.propTypes = {
 }
 
 AliceCarousel.defaultProps = {
+  items: [],
   children: [],
   responsive: {},
   duration: 250,
