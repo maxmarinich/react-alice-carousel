@@ -152,10 +152,7 @@ class Gallery extends React.Component {
     <div key={`key-${i}`} className="yours-custom-class"><h2>{item}</h2></div>
   ));
   
-  render() {
-    
-    // declare props in the `render` only for stateless components
-    
+  render() {  
     const responsive = {
       0: {
         items: 1
