@@ -206,15 +206,15 @@ export default class AliceCarousel extends React.PureComponent {
     this.setState(this._calculateInitialProps(this.props))
   }
 
-  _windowResizeHandler = () => this._setInitialState();
+  _windowResizeHandler = () => this._setInitialState()
 
-  _getStageComponentNode = node => this.stageComponent = node;
+  _getStageComponentNode = node => this.stageComponent = node
 
-  _allowAnimation = () => this.allowAnimation = true;
+  _allowAnimation = () => this.allowAnimation = true
 
-  _disableAnimation = () => this.allowAnimation = false;
+  _disableAnimation = () => this.allowAnimation = false
 
-  _isHovered = () => this.isHovered;
+  _isHovered = () => this.isHovered
 
   _checkSlidePosition(skip) {
     this._stopSwipeAnimation()
@@ -535,8 +535,6 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _onTouchMove(e, deltaX, deltaY) {
-    this._pause()
-
     if (this._isSwipeDisable()) {
       return
     }
@@ -550,6 +548,7 @@ export default class AliceCarousel extends React.PureComponent {
 
     this._disableAnimation()
     this._startSwipeAnimation()
+    this._onMouseEnterAutoPlayHandler()
 
     const { slides, items, itemWidth, translate3d } = this.state
 
@@ -667,15 +666,16 @@ export default class AliceCarousel extends React.PureComponent {
     this._setSwipePositionProps({ startPosition })
     this._addTouchEventToCallstack()
     this._beforeTouchEnd()
+    this._onMouseLeaveAutoPlayHandler()
   }
 
   _onMouseEnterAutoPlayHandler = () => {
     if (this.props.stopAutoPlayOnHover) {
-      this.isHovered = true
+      return this.isHovered = true
     }
   }
 
-  _onMouseLeaveAutoPlayHandler = () => this.isHovered = false;
+  _onMouseLeaveAutoPlayHandler = () => this.isHovered = false
 
   _setAnimationPropsOnPrevNextClick = (direction = 'next') => {
     const { currentIndex, itemWidth } = this.state

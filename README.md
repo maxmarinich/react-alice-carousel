@@ -136,7 +136,12 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
 
-class Gallery extends React.Component {
+class Gallery extends React.Component {  
+  responsive = {
+    0: { items: 1 },
+    600: { items: 2 },
+    1024: { items: 3 },
+  };
   
   onSlideChange(e) {
     console.log('Item`s position during a change: ', e.item);
@@ -148,38 +153,32 @@ class Gallery extends React.Component {
     console.log('Slide`s position after changes: ', e.slide);
   };
   
-  galleryItems = () => [1,2,3,4,5].map((item, i) => (
-    <div key={`key-${i}`} className="yours-custom-class"><h2>{item}</h2></div>
-  ));
+  galleryItems() {
+    return (
+      [1, 2, 3, 4, 5].map((item, i) => (
+        <div key={`key-${i}`} className="yours-custom-class"><h2>{item}</h2></div>
+      ))
+    )
+  };
   
-  render() {  
-    const responsive = {
-      0: {
-        items: 1
-      },
-      600: {
-        items: 2
-      },
-      1024: {
-        items: 3
-      }
-    };
+  render() {
+    const items = this.galleryItems();
 
     return (
       <AliceCarousel
+        items={items}
         duration={400}
         autoPlay={true}
         startIndex = {1}
         fadeOutAnimation={true}
         mouseDragEnabled={true}
         playButtonEnabled={true}
-        responsive={responsive}
         autoPlayInterval={2000}
         autoPlayDirection="rtl"
+        responsive={this.responsive}
         autoPlayActionDisabled={true}
         onSlideChange={this.onSlideChange}
         onSlideChanged={this.onSlideChanged}
-        items={this.galleryItems()}
       />
     );
   }
@@ -194,34 +193,32 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
 
-class Gallery extends React.Component {
+class Gallery extends React.Component {  
+  items = [1, 2, 3, 4, 5];
   
-  galleryItems = () => [1,2,3,4,5].map((item, i) => (
+  galleryItem = (item, i) => (
     <div key={`key-${i}`} className="yours-custom-class"><h2>{item}</h2></div>
-  ));
+  )
   
-  renderThumbs = () =>
-    <ul>
-      {
-        [1,2,3,4,5].map((item, i) => (
-          <li key={i} onClick={() => this.Carousel._onDotClick(i)}>Thumb {item}</li>
-        ))          
-      }
-    </ul>;
-    
+  thumbItem = (item, i) => (
+    <li key={i} onClick={() => this.Carousel._onDotClick(i)}>Thumb {item}</li>
+  )
+                                   
   render() {
+    const items = this.items.map(this.galleryItem)
+    
     return (
       <div>
         <h3>Navigation</h3>
-        { this.renderThumbs() }
+        <ul>{this.items.map(this.thumbItem)}</ul>
         <button onClick={() => this.Carousel._slidePrev()}>Prev button</button>
         <button onClick={() => this.Carousel._slideNext()}>Next button</button>
         <h3>React Alice Carousel</h3>
         
-        <AliceCarousel 
+        <AliceCarousel
+          items={items}
           dotsDisabled={true}
           buttonsDisabled={true}
-          items={this.galleryItems()}
           ref={ el => this.Carousel = el }
         />
       </div>
@@ -237,56 +234,50 @@ import AliceCarousel from 'react-alice-carousel';
 
 
 class Gallery extends React.Component {
-    constructor() {
-      super();
-      this.state = {
-        currentIndex: 0,
-        items: this.galleryItems(),
-        responsive: { 1024: { items: 3 }},
-      }
-    }
+  items = [1, 2, 3, 4, 5];
+  state = {
+    currentIndex: 0,
+    responsive: { 1024: { items: 3 }},
+    items: this.items.map(this.galleryItem),
+  };
 
-    slideTo = (i) => this.setState({ currentIndex: i });
+  slideTo = (i) => this.setState({ currentIndex: i });
 
-    onSlideChanged = (e) => this.setState({ currentIndex: e.item });
+  onSlideChanged = (e) => this.setState({ currentIndex: e.item });
 
-    slideNext = () => this.setState({ currentIndex: this.state.currentIndex + 1 });
+  slideNext = () => this.setState({ currentIndex: this.state.currentIndex + 1 });
 
-    slidePrev = () => this.setState({ currentIndex: this.state.currentIndex - 1 });
+  slidePrev = () => this.setState({ currentIndex: this.state.currentIndex - 1 });
     
-    galleryItems = () => [1,2,3,4,5].map((item, i) => (
-      <div key={`key-${i}`} className="yours-custom-class"><h2>{item}</h2></div>
-    ));
+  thumbItem = (item, i) => (
+    <li key={`key-${i}`} onClick={() => this.slideTo(i)}>Thumb {item}</li>
+  );
+    
+  galleryItem = (item, i) => (
+    <div key={`key-${i}`} className="yours-custom-class"><h2>{item}</h2></div>
+  );
 
-    renderThumbs = () =>
-      <ul>
-        {
-          [1,2,3,4,5].map((item, i) => (
-            <li key={`key-${i}`} onClick={() => this.slideTo(i)}>Thumb {item}</li>
-          ))
-        }
-      </ul>;
+  render() {
+    const { items, responsive, currentIndex } = this.state
+    return (
+      <div>
+        <h3>Navigation</h3>
+        <ul>{this.items.map(this.thumbItem)}</ul>
+        <button onClick={() => this.slidePrev()}>Prev button</button>
+        <button onClick={() => this.slideNext()}>Next button</button>
+        <h3>React Alice Carousel</h3>
 
-    render() {
-      return (
-        <div>
-          <h3>Navigation</h3>
-          { this.renderThumbs() }
-          <button onClick={() => this.slidePrev()}>Prev button</button>
-          <button onClick={() => this.slideNext()}>Next button</button>
-          <h3>React Alice Carousel</h3>
-
-          <AliceCarousel
-            dotsDisabled={true}
-            buttonsDisabled={true}
-            items={this.state.items}
-            responsive={this.state.responsive}
-            slideToIndex={this.state.currentIndex}
-            onSlideChanged={this.onSlideChanged}
-          />
-        </div>
-      );
-    }
+        <AliceCarousel
+          items={items}
+          dotsDisabled={true}
+          buttonsDisabled={true}
+          responsive={responsive}
+          slideToIndex={currentIndex}
+          onSlideChanged={this.onSlideChanged}
+        />
+      </div>
+    );
+  }
 }
 ```
 
