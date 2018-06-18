@@ -15,7 +15,7 @@ export interface Props {
     /**
      * gallery items(children)
      */
-    items?: Array;
+    items?: Array<{}>;
 	/**
 	 * Fired when the event object is changing / returns event object
 	 */
