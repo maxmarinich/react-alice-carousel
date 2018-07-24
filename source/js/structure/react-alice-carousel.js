@@ -3,6 +3,7 @@ import Swipeable from 'react-swipeable'
 import PropTypes from 'prop-types'
 import { setTransformAnimation } from './common'
 
+
 export default class AliceCarousel extends React.PureComponent {
   constructor(props) {
     super(props)
@@ -16,6 +17,7 @@ export default class AliceCarousel extends React.PureComponent {
 
     this.swipePosition = {}
     this.animationProps = {}
+    this.touchEventsCallstack = []
     this.preventHorizontalSwiping = false
     this._onTouchMove = this._onTouchMove.bind(this)
   }
@@ -219,6 +221,7 @@ export default class AliceCarousel extends React.PureComponent {
   _checkSlidePosition(skip) {
     this._stopSwipeAnimation()
     this._resetAnimationProps()
+    this._resetSwipePositionProps()
     skip ? this._skipSlidePositionRecalculation() : this._updateSlidePosition()
   }
 
@@ -261,7 +264,7 @@ export default class AliceCarousel extends React.PureComponent {
       currentIndex,
       ...fadeOutAnimationState,
       translate3d: -itemWidth * (currentIndex === 0 ? items : slides.length - 1 + items),
-      style: {transition: 'transform 0ms ease-out'}
+      style: { transition: 'transform 0ms ease-out' }
     }, () => this._onSlideChanged())
   }
 
@@ -501,9 +504,11 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _addTouchEventToCallstack = () => {
-    this.touchEventsCallstack
-      ? this.touchEventsCallstack.push(1)
-      : this.touchEventsCallstack = []
+    this.touchEventsCallstack.push(1)
+  }
+
+  _removeTouchEventFromCallstack = () => {
+    this.touchEventsCallstack.pop()
   }
 
   _startSwipeAnimation = () => {
@@ -512,8 +517,6 @@ export default class AliceCarousel extends React.PureComponent {
 
   _stopSwipeAnimation = () => {
     this.swipeAnimation = false
-    this.touchEventsCallstack = null
-    this._resetSwipePositionProps()
   }
 
   _setAnimationProps = newProps => {
@@ -534,6 +537,21 @@ export default class AliceCarousel extends React.PureComponent {
     this.swipePosition = {}
   }
 
+  _calculateSwipeIndex = () => {
+    const { itemWidth } = this.state
+    const swipePosition = Math.abs(this.swipePosition.position)
+
+    return this.swipePosition.direction === 'LEFT'
+      ? Math.floor(swipePosition / itemWidth) + 1
+      : Math.floor(swipePosition / itemWidth)
+  }
+
+  _getNextItemIndex = (index, length) => {
+    if (index === length) { return 0 }
+    if (index < 0) { return length + index }
+    return index
+  }
+
   _onTouchMove(e, deltaX, deltaY) {
     if (this._isSwipeDisable()) {
       return
@@ -543,6 +561,7 @@ export default class AliceCarousel extends React.PureComponent {
       this.preventHorizontalSwiping = true
       return
     } else {
+      this.swipingStarted = true
       this.preventHorizontalSwiping = false
     }
 
@@ -554,6 +573,7 @@ export default class AliceCarousel extends React.PureComponent {
 
     const maxPosition = (slides.length + items) * itemWidth
     const direction = deltaX > 0 ? 'LEFT' : 'RIGHT'
+
     const startPosition = this.swipePosition.startPosition || translate3d
 
     let position = startPosition - deltaX
@@ -574,6 +594,7 @@ export default class AliceCarousel extends React.PureComponent {
     }
 
     setTransformAnimation(this.stageComponent, position)
+
     this._setSwipePositionProps({ position, direction, startPosition })
 
     function recalculatePosition() {
@@ -587,37 +608,19 @@ export default class AliceCarousel extends React.PureComponent {
     }
   }
 
-  _isInfiniteModeDisabledBeforeTouchEnd(swipeIndex, currentIndex, position) {
-    const { items, itemWidth, duration, slides } = this.state
-
-    if (swipeIndex < items) {
-      currentIndex = 0
-      position = items * itemWidth
+  _onTouchEnd = () => {
+    this.swipingStarted = false
+    if (this._isSwipeDisable() || this.preventHorizontalSwiping) {
+      return
     }
 
-    if (swipeIndex > slides.length) {
-      currentIndex = slides.length - items
-      position = slides.length * itemWidth
-    }
+    const startPosition = this.swipePosition.position
 
-    setTransformAnimation(this.stageComponent, -position, duration)
+    this._setSwipePositionProps({ startPosition })
+    this._addTouchEventToCallstack()
 
-    setTimeout(() => {
-
-      if (this.touchEventsCallstack.length) {
-        this.touchEventsCallstack.pop()
-        return
-      }
-
-      setTransformAnimation(this.stageComponent, -position, 0)
-      this._slideToItem(currentIndex, true, 0)
-    }, duration)
-  }
-
-  _checkNextItemIndex = (index, length) => {
-    if (index === length) { return 0 }
-    if (index < 0) { return length + index }
-    return index
+    this._beforeTouchEnd()
+    this._onMouseLeaveAutoPlayHandler()
   }
 
   _beforeTouchEnd() {
@@ -635,43 +638,45 @@ export default class AliceCarousel extends React.PureComponent {
     setTransformAnimation(this.stageComponent, transformPosition, duration)
 
     setTimeout(() => {
+      this._removeTouchEventFromCallstack()
 
-      if (this.touchEventsCallstack.length) {
-        this.touchEventsCallstack.pop()
-        return
+      if (!this.swipingStarted && this.touchEventsCallstack.length === 0) {
+        const nextItemIndex = this._getNextItemIndex(itemIndex, slides.length)
+        setTransformAnimation(this.stageComponent, transformPosition)
+        this._slideToItem(nextItemIndex, true, 0)
       }
-      const nextItemIndex = this._checkNextItemIndex(itemIndex, slides.length)
-
-      setTransformAnimation(this.stageComponent, transformPosition, 0)
-      this._slideToItem(nextItemIndex, true, 0)
     }, duration)
   }
+  
+  _isInfiniteModeDisabledBeforeTouchEnd(swipeIndex, currentIndex, position) {
+    const { items, itemWidth, duration, slides } = this.state
 
-  _calculateSwipeIndex = () => {
-    const { itemWidth } = this.state
-    const swipePosition = Math.abs(this.swipePosition.position)
-
-    return this.swipePosition.direction === 'LEFT'
-      ? Math.floor(swipePosition / itemWidth) + 1
-      : Math.floor(swipePosition / itemWidth)
-  }
-
-  _onTouchEnd = () => {
-    if (this._isSwipeDisable() || this.preventHorizontalSwiping) {
-      return
+    if (swipeIndex < items) {
+      currentIndex = 0
+      position = items * itemWidth
     }
 
-    const startPosition = this.swipePosition.position
+    if (swipeIndex > slides.length) {
+      currentIndex = slides.length - items
+      position = slides.length * itemWidth
+    }
 
-    this._setSwipePositionProps({ startPosition })
-    this._addTouchEventToCallstack()
-    this._beforeTouchEnd()
-    this._onMouseLeaveAutoPlayHandler()
+    setTransformAnimation(this.stageComponent, -position, duration)
+
+    setTimeout(() => {
+      this._removeTouchEventFromCallstack()
+
+      if (!this.swipingStarted && this.touchEventsCallstack.length === 0) {
+        setTransformAnimation(this.stageComponent, -position)
+        this._slideToItem(currentIndex, true, 0)
+      }
+
+    }, duration)
   }
 
   _onMouseEnterAutoPlayHandler = () => {
     if (this.props.stopAutoPlayOnHover) {
-      return this.isHovered = true
+      this.isHovered = true
     }
   }
 

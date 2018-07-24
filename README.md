@@ -52,15 +52,18 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 
 
-const Gallery = () => (
-  <AliceCarousel>
-    <img src="/img1" className="yours-custom-class" />
-    <img src="/img2" className="yours-custom-class" />
-    <img src="/img3" className="yours-custom-class" />
-    <img src="/img4" className="yours-custom-class" />
-    <img src="/img5" className="yours-custom-class" />
-  </AliceCarousel>
-)
+const Gallery = () => {
+  const handleOnDragStart = e => e.preventDefault()
+  return (
+    <AliceCarousel mouseDragEnabled >
+      <img src="/img1" onDragStart={handleOnDragStart} className="yours-custom-class" />
+      <img src="/img2" onDragStart={handleOnDragStart} className="yours-custom-class" />
+      <img src="/img3" onDragStart={handleOnDragStart} className="yours-custom-class" />
+      <img src="/img4" onDragStart={handleOnDragStart} className="yours-custom-class" />
+      <img src="/img5" onDragStart={handleOnDragStart} className="yours-custom-class" />
+    </AliceCarousel>
+  )
+}
 ```
 
 ### Advanced configuration
@@ -95,6 +98,8 @@ const Gallery = () => (
 * `swipeDisabled` : Boolean, default `false` - Disable swipe handlers
 
 * `mouseDragEnabled` : Boolean, default `false` - Enable mouse drag animation
+
+  _To Avoid unexpected behavior you should handle `drag` event independently, something like in an [example](#quick-start)_   
 
 * `infinite` : Boolean, default `true` - Disable infinite mode
 
