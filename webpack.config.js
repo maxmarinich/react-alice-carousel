@@ -1,46 +1,22 @@
-const path = require('path');
-const webpack = require('webpack');
-
-
 module.exports = {
-  context: path.join(__dirname, 'source'),
-  entry: [
-    'webpack-hot-middleware/client',
-    'babel-polyfill',
-    './index'
-  ],
+  entry: "./src/index.tsx",
   output: {
-    path: path.join(__dirname, 'static'),
-    filename: 'index.js',
-    publicPath: '/static/'
+    filename: "bundle.js",
+    path: __dirname + "/dist"
   },
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
-  ],
+
+  devtool: "source-map",
+
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".json", "css"],
+  },
+
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        enforce: 'pre',
-        loader: 'eslint-loader'
-      },
-      {
-        loaders: ['babel-loader'],
-        include: [
-          path.resolve(__dirname, 'source'),
-        ],
-        test: /\.js$/,
-      },
-      {
-        test: /\.(scss|sass)$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
-      },
-      {
-        test: /\.(scss|sass)$/,
-        use: ['postcss-loader']
-      }
+      { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
+      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
     ]
-  }
+  },
+
 };

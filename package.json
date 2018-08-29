@@ -1,79 +1,30 @@
 {
-  "name": "react-alice-carousel",
-  "version": "1.10.4",
-  "description": "React image gallery, react slideshow carousel, react content rotator",
-  "main": "./source/js/structure/react-alice-carousel.js",
-  "types": "./source/types/react-alice-carousel.d.ts",
+  "name": "type-script-example",
+  "version": "0.0.1",
+  "description": "TypeScript example",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./node_modules/.bin/webpack-dev-server --port 3000 --open --hot --inline --content-base src"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/maxmarinich/react-alice-carousel.git"
+  "engines": {
+    "node": ">=v8.9.0"
   },
-  "keywords": [
-    "react",
-    "carousel",
-    "gallery",
-    "slider",
-    "slideshow",
-    "rotator",
-    "react-slideshow",
-    "react-gallery",
-    "react carousel",
-    "react slideshow",
-    "react gallery",
-    "image gallery",
-    "image slider",
-    "image carousel",
-    "image rotator",
-    "content gallery",
-    "content rotator"
-  ],
   "author": "Max Marinich",
-  "maintainers": [
-    {
-      "name": "Max Marinich",
-      "email": "max.marinich@gmail.com"
-    }
-  ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/maxmarinich/react-alice-carousel/issues"
-  },
-  "homepage": "https://github.com/maxmarinich/react-alice-carousel#readme",
   "dependencies": {
-    "prop-types": "^15.5.10",
-    "react": ">=15.4",
-    "react-dom": ">=15.4",
-    "react-swipeable": "^4.0.0"
+    "@types/react": "^16.0.38",
+    "@types/react-dom": "^16.0.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "style-loader": "^0.23.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.7.3",
-    "babel-core": "^6.23.1",
-    "babel-eslint": "^7.1.1",
-    "babel-loader": "^6.3.2",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.23.0",
-    "babel-preset-stage-0": "^6.22.0",
-    "babel-runtime": "^6.23.0",
-    "css-loader": "^0.26.1",
-    "eslint": "^3.15.0",
-    "eslint-loader": "^1.6.1",
-    "eslint-plugin-react": "^6.10.0",
-    "express": "^4.15.2",
-    "extract-text-webpack-plugin": "^2.0.0-rc.3",
-    "node-sass": "^4.5.0",
-    "postcss-loader": "^1.3.1",
-    "pug": "^2.0.0-beta11",
-    "react-hot-loader": "^4.0.0",
-    "sass-loader": "^6.0.1",
-    "style-loader": "^0.13.1",
-    "webpack": "^2.2.1",
-    "webpack-dev-middleware": "^1.10.1",
-    "webpack-hot-middleware": "^2.17.0"
+    "awesome-typescript-loader": "^3.4.1",
+    "css-loader": "^1.0.0",
+    "react-alice-carousel": "^1.10.4",
+    "source-map-loader": "^0.2.3",
+    "typescript": "^2.7.2",
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.2"
   }
 }
