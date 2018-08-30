@@ -1,1 +1,1 @@
-# React Alice Carousel typescript example
+# React Alice Carousel TypeScript example
