@@ -50,7 +50,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
-
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const Gallery = () => {
   const handleOnDragStart = e => e.preventDefault()
@@ -139,6 +139,7 @@ const Gallery = () => {
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
+import "react-alice-carousel/lib/alice-carousel.css";
 
 
 class Gallery extends React.Component {  
@@ -196,6 +197,7 @@ class Gallery extends React.Component {
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
+import "react-alice-carousel/lib/alice-carousel.css";
 
 
 class Gallery extends React.Component {  
@@ -236,6 +238,7 @@ class Gallery extends React.Component {
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
+import "react-alice-carousel/lib/alice-carousel.css";
 
 
 class Gallery extends React.Component {

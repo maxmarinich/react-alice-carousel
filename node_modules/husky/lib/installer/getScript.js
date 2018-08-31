@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var fs = require("fs");
+var path = require("path");
+var pupa = require("pupa");
+var slash = require("slash");
+// Used to identify scripts created by Husky
+exports.huskyIdentifier = '# husky';
+function default_1(userDir) {
+    var runNodePath = slash(path.relative(userDir, require.resolve('.bin/run-node')));
+    var version = JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json'), 'utf-8')).version;
+    var template = fs.readFileSync(path.join(__dirname, '../../templates/hook.sh'), 'utf-8');
+    return pupa(template, { huskyIdentifier: exports.huskyIdentifier, runNodePath: runNodePath, version: version });
+}
+exports.default = default_1;
