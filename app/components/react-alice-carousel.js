@@ -148,7 +148,7 @@ export default class AliceCarousel extends React.PureComponent {
     }
     this._disableAnimation()
 
-    if (this._allowFadeOutAnimation()) {
+    if (this._isFadeOutAnimationAllowed()) {
       this._setAnimationPropsOnDotsClick(itemIndex)
     }
 
@@ -221,11 +221,13 @@ export default class AliceCarousel extends React.PureComponent {
     this._stopSwipeAnimation()
     this._resetAnimationProps()
     this._resetSwipePositionProps()
+    this.SWIPING_ON = false
+
     skip ? this._skipSlidePositionRecalculation() : this._updateSlidePosition()
   }
 
   _skipSlidePositionRecalculation = () => {
-    if (this._allowFadeOutAnimation()) {
+    if (this._isFadeOutAnimationAllowed()) {
       this._resetFadeOutAnimationState()
       return
     }
@@ -236,7 +238,7 @@ export default class AliceCarousel extends React.PureComponent {
     window.setTimeout(() => {
       if (this._shouldRecalculatePosition()) {
         this._recalculateSlidePosition()
-      } else if (this._allowFadeOutAnimation()) {
+      } else if (this._isFadeOutAnimationAllowed()) {
         this._resetFadeOutAnimationState()
       } else {
         this._onSlideChanged()
@@ -256,7 +258,7 @@ export default class AliceCarousel extends React.PureComponent {
   _recalculateSlidePosition() {
     let { items, itemWidth, slides, currentIndex } = this.state
 
-    const fadeOutAnimationState = this._allowFadeOutAnimation() ? { fadeOutAnimation: false } : {}
+    const fadeOutAnimationState = this._isFadeOutAnimationAllowed() ? { fadeOutAnimation: false } : {}
     currentIndex = (currentIndex < 0) ? slides.length - 1 : 0
 
     this.setState({
@@ -456,20 +458,20 @@ export default class AliceCarousel extends React.PureComponent {
 
   _keyUpHandler = (e) => {
     switch(e.keyCode) {
-      case 32:
-        this._playPauseToggle()
-        break
-      case 37:
-        this._slidePrev()
-        break
-      case 39:
-        this._slideNext()
-        break
+    case 32:
+      this._playPauseToggle()
+      break
+    case 37:
+      this._slidePrev()
+      break
+    case 39:
+      this._slideNext()
+      break
     }
   }
 
   _intermediateStateProps = duration => {
-    return this._allowFadeOutAnimation()
+    return !this._isFadeOutAnimationAllowed()
       ? { fadeOutAnimation: true,  style: { transition: 'transform 0ms ease-out' }}
       : { style: { transition: `transform ${duration}ms ease-out` }}
   }
@@ -477,28 +479,29 @@ export default class AliceCarousel extends React.PureComponent {
   _slideToItem(index, skip, duration = this.state.duration) {
     this._onSlideChange()
     const { items, itemWidth } = this.state
-    const translate = (index + items) * itemWidth
+    const translate3d = (index + items) * -itemWidth
+
+    setTransformAnimation(this.stageComponent, translate3d, 0)
 
     this.setState({
       currentIndex: index,
-      translate3d: -translate,
+      translate3d,
       ...this._intermediateStateProps(duration),
     }, () => this._checkSlidePosition(skip))
   }
 
-  _allowFadeOutAnimation = () => {
+  _isFadeOutAnimationAllowed = () => {
     return (this.props.fadeOutAnimation && this.state.items === 1)
   }
 
   _isSwipeDisable = () => {
     return (
       this.props.swipeDisabled ||
-      this.state.fadeOutAnimation ||
-      this.preventHorizontalSwiping
+      this.state.fadeOutAnimation
     )
   }
 
-  _verticalTouchMoveDetected = (deltaX, deltaY) => {
+  _verticalTouchMoveDetected = (e, deltaX, deltaY) => {
     const gap = 32
     const vertical = Math.abs(deltaY)
     const horizontal = Math.abs(deltaX)
@@ -555,52 +558,74 @@ export default class AliceCarousel extends React.PureComponent {
     return index
   }
 
+  _getStartSwipePosition = () => {
+    const { translate3d } = this.state
+    const { startPosition = translate3d } = this.swipePosition
+    return startPosition
+  }
+
+  _getPositionForTranslate = (deltaX) => (
+    this._getStartSwipePosition() - deltaX
+  )
+
+  _getSwipeDirection = (deltaX) => (
+    deltaX > 0 ? 'LEFT' : 'RIGHT'
+  )
+
+  _getMaxSWipePosition = () => {
+    const { slides, items, itemWidth } = this.state
+    return (slides.length + items) * itemWidth
+  }
+
   _onTouchMove(e, deltaX, deltaY) {
-    if (this._isSwipeDisable() ||
-      this._verticalTouchMoveDetected(deltaX, deltaY)
-    ) {
-      this.preventHorizontalSwiping = true
+    e.preventDefault()
+
+    if (this._isSwipeDisable() || this.SWIPING_ON) {
       return
     }
 
+    if (this._verticalTouchMoveDetected(e, deltaX, deltaY)) {
+      this.preventHorizontalSwiping = true
+      return
+    } else {
+      this.preventHorizontalSwiping = false
+    }
+
     this.swipingStarted = true
-    this.preventHorizontalSwiping = false
+
+    const { slides, items, itemWidth } = this.state
 
     this._disableAnimation()
     this._startSwipeAnimation()
     this._onMouseEnterAutoPlayHandler()
 
-    const { slides, items, itemWidth, translate3d } = this.state
+    const maxPosition = this._getMaxSWipePosition()
+    const direction = this._getSwipeDirection(deltaX)
 
-    const maxPosition = (slides.length + items) * itemWidth
-    const direction = deltaX > 0 ? 'LEFT' : 'RIGHT'
+    let position = this._getPositionForTranslate(deltaX)
 
-    const startPosition = this.swipePosition.startPosition || translate3d
+    if (this.props.infinite === false) {
 
-    let position = startPosition - deltaX
+      const slideOffset = Math.min(itemWidth / 2, 250)
+      const leftTranslate = items * -itemWidth + slideOffset
+      const rightTranslate = slides.length * -itemWidth - slideOffset
 
-    // if (this.props.infinite === false) {
-    //
-    //   const slideOffset = Math.min(itemWidth / 2, 250)
-    //   const leftTranslate = items * -itemWidth + slideOffset
-    //   const rightTranslate = slides.length * -itemWidth - slideOffset
-    //
-    //   if (position > leftTranslate || position < rightTranslate) {
-    //     return
-    //   }
-    // }
+      if (position > leftTranslate || position < rightTranslate) {
+        return
+      }
+    }
 
     if (position >= 0 || Math.abs(position) >= maxPosition) {
       recalculatePosition()
     }
 
-    setTransformAnimation(this.stageComponent, position)
+    this._setSwipePositionProps({ position, direction })
 
-    this._setSwipePositionProps({ position, direction, startPosition })
+    setTransformAnimation(this.stageComponent, position)
 
     function recalculatePosition() {
       direction === 'RIGHT'
-        ? position += -slides.length * itemWidth
+        ? position += slides.length * -itemWidth
         : position += maxPosition - items * itemWidth
 
       if (position >= 0 || Math.abs(position) >= maxPosition) {
@@ -611,14 +636,18 @@ export default class AliceCarousel extends React.PureComponent {
 
   _onTouchEnd = () => {
     this.swipingStarted = false
-    if (this._isSwipeDisable()) {
+    if (this._isSwipeDisable() ||
+      this.preventHorizontalSwiping) {
+      this._stopSwipeAnimation()
+      this._resetAnimationProps()
+      this._resetSwipePositionProps()
       return
     }
 
-    const startPosition = this.swipePosition.position
-
-    this._setSwipePositionProps({ startPosition })
     this._addTouchEventToCallstack()
+    this._setSwipePositionProps({
+      startPosition: this._getStartSwipePosition()
+    })
 
     this._beforeTouchEnd()
     this._onMouseLeaveAutoPlayHandler()
@@ -637,13 +666,15 @@ export default class AliceCarousel extends React.PureComponent {
     }
 
     setTransformAnimation(this.stageComponent, transformPosition, duration)
+    this._setSwipePositionProps({ startPosition: transformPosition })
 
     setTimeout(() => {
       this._removeTouchEventFromCallstack()
 
       if (!this.swipingStarted && this.touchEventsCallstack.length === 0) {
+
+        this.SWIPING_ON = true
         const nextItemIndex = this._getNextItemIndex(itemIndex, slides.length)
-        setTransformAnimation(this.stageComponent, transformPosition)
         this._slideToItem(nextItemIndex, true, 0)
       }
     }, duration)
@@ -700,7 +731,7 @@ export default class AliceCarousel extends React.PureComponent {
 
     const { inactivePrev } = this._isInactiveItem()
 
-    if (this._allowFadeOutAnimation()) {
+    if (this._isFadeOutAnimationAllowed()) {
       this._setAnimationPropsOnPrevNextClick('prev')
     }
 
@@ -733,8 +764,8 @@ export default class AliceCarousel extends React.PureComponent {
       this._pause()
     }
 
-    if (this._allowFadeOutAnimation()) {
-      this._setAnimationPropsOnPrevNextClick()
+    if (this._isFadeOutAnimationAllowed()) {
+      this._setAnimationPropsOnPrevNextClick('next')
     }
 
     this._slideToItem(this.state.currentIndex + 1)

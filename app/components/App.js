@@ -9,10 +9,12 @@ const App = () => {
   }
 
   return (
-    <div className="app">
+    <div className="app" id="app">
       <h1 className="h1">React Alice Carousel</h1>
       <AliceCarousel
         duration={400}
+        dotsDisabled={true}
+        buttonsDisabled={true}
         responsive={responsive}
         fadeOutAnimation={true}
         mouseDragEnabled={true}
@@ -20,13 +22,7 @@ const App = () => {
         <div className="item"><h1>1</h1></div>
         <div className="item"><h1>2</h1></div>
         <div className="item"><h1>3</h1></div>
-        <div className="item"><h1>4</h1></div>
-        <div className="item"><h1>5</h1></div>
-        <div className="item"><h1>6</h1></div>
-        <div className="item"><h1>7</h1></div>
-        <div className="item"><h1>8</h1></div>
-        <div className="item"><h1>9</h1></div>
-        <div className="item"><h1>10</h1></div>
+
       </AliceCarousel>
     </div>
   )

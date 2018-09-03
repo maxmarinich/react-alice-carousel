@@ -3,7 +3,7 @@ export function setTransformAnimation(element, position, durationMs = 0) {
 
   for (let value of prefixes) {
     element.style[value + 'Transition'] = `transform ${durationMs}ms ease-out`
-    element.style[value + 'Transform'] = position ? `translate3d(${position}px, 0, 0)` : null
+    element.style[value + 'Transform'] = `translate3d(${position}px, 0, 0)`
   }
 }
 

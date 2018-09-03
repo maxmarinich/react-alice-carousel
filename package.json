@@ -21,6 +21,7 @@
     "setupFiles": [
       "<rootDir>/config/jest/shim.js"
     ],
+    "testURL": "http://localhost/",
     "collectCoverageFrom": [
       "app/**/*.{js,jsx,ts,tsx}"
     ],
