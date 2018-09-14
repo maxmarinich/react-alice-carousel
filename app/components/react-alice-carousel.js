@@ -1,7 +1,7 @@
 import React from 'react'
 import Swipeable from 'react-swipeable'
 import PropTypes from 'prop-types'
-import { setTransformAnimation } from './common'
+import { setTransformAnimation, debounce, getElementWidth, getItemWidth, deviceSize, isDeviceResized } from './common'
 
 export default class AliceCarousel extends React.PureComponent {
   constructor(props) {
@@ -14,17 +14,15 @@ export default class AliceCarousel extends React.PureComponent {
       style: { transition: 'transform 0ms ease-out' }
     }
 
-    this.swipePosition = {}
-    this.animationProps = {}
-    this.touchEventsCallstack = []
-    this.preventHorizontalSwiping = false
     this._onTouchMove = this._onTouchMove.bind(this)
+    this.handleOnResize = debounce(this._windowResizeHandler, 200)
   }
 
   componentDidMount() {
-    this._allowAnimation()
     this._setInitialState()
-    window.addEventListener('resize', this._windowResizeHandler)
+    this._resetAllIntermediateProps()
+
+    window.addEventListener('resize', this.handleOnResize)
 
     if (!this.props.keysControlDisabled) {
       window.addEventListener('keyup', this._keyUpHandler)
@@ -33,6 +31,8 @@ export default class AliceCarousel extends React.PureComponent {
     if (this.props.autoPlay) {
       this._play()
     }
+
+    this.deviseSize = deviceSize()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,7 +88,7 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this._windowResizeHandler)
+    window.removeEventListener('resize', this.handleOnResize)
 
     if (!this.props.keysControlDisabled) {
       window.removeEventListener('keyup', this._keyUpHandler)
@@ -100,13 +100,24 @@ export default class AliceCarousel extends React.PureComponent {
     }
   }
 
+  _resetAllIntermediateProps = () => {
+    this.swipingStarted = false
+    this.touchEventsCallstack = []
+    this.verticalSwipingDetected = false
+
+    this._allowAnimation()
+    this._stopSwipeAnimation()
+    this._resetAnimationProps()
+    this._resetSwipePositionProps()
+  }
+
   _galleryChildren = props => {
     return props.children.length ? props.children : props.items
   }
 
   _onSlideToIndexChange = (currentIndex, slideToIndex) => {
     if (slideToIndex === currentIndex + 1) {
-      this._slideNext()
+      this._handleOnSlideNext()
     } else if (slideToIndex === currentIndex - 1) {
       this._slidePrev()
     } else {
@@ -175,7 +186,8 @@ export default class AliceCarousel extends React.PureComponent {
     const children = this._galleryChildren(props)
     const items = this._setTotalItemsInSlide(responsive, children.length)
     const currentIndex = this._setStartIndex(children.length, startIndex)
-    const itemWidth = this.stageComponent.getBoundingClientRect().width / items
+    const galleryWidth = getElementWidth(this.stageComponent)
+    const itemWidth = getItemWidth(galleryWidth, items)
 
     return {
       items,
@@ -207,7 +219,18 @@ export default class AliceCarousel extends React.PureComponent {
     this.setState(this._calculateInitialProps(this.props))
   }
 
-  _windowResizeHandler = () => this._setInitialState()
+  _windowResizeHandler = () => {
+    const { currentIndex } = this.state
+    const prevProps = this._calculateInitialProps(this.props)
+    const { itemWidth, items } = prevProps
+    const translate3d = -itemWidth * (items + currentIndex)
+    const nextProps = { ...prevProps, currentIndex, translate3d }
+
+    if (isDeviceResized(this.deviseSize)) {
+      this.deviseSize = deviceSize()
+      this.setState(nextProps)
+    }
+  }
 
   _getStageComponentNode = node => this.stageComponent = node
 
@@ -220,8 +243,8 @@ export default class AliceCarousel extends React.PureComponent {
   _checkSlidePosition(skip) {
     this._stopSwipeAnimation()
     this._resetAnimationProps()
+
     this._resetSwipePositionProps()
-    this.SWIPING_ON = false
 
     skip ? this._skipSlidePositionRecalculation() : this._updateSlidePosition()
   }
@@ -307,7 +330,7 @@ export default class AliceCarousel extends React.PureComponent {
           onMouseEnter={this._onMouseEnterAutoPlayHandler}
           onMouseLeave={this._onMouseLeaveAutoPlayHandler}
         >
-          <span className={className} onClick={this._slideNext}>Next</span>
+          <span className={className} onClick={this._handleOnSlideNext}>Next</span>
         </div>
       </div>
     )
@@ -437,7 +460,7 @@ export default class AliceCarousel extends React.PureComponent {
     if (!this._autoPlayIntervalId) {
       this._autoPlayIntervalId = window.setInterval(() => {
         if (!this._isHovered() && this._autoPlayIntervalId) {
-          autoPlayDirection === 'rtl' ? this._slidePrev(false) : this._slideNext(false)
+          autoPlayDirection === 'rtl' ? this._slidePrev(false) : this._handleOnSlideNext(false)
         }
       }, playInterval)
     }
@@ -465,13 +488,13 @@ export default class AliceCarousel extends React.PureComponent {
       this._slidePrev()
       break
     case 39:
-      this._slideNext()
+      this._handleOnSlideNext()
       break
     }
   }
 
-  _intermediateStateProps = duration => {
-    return !this._isFadeOutAnimationAllowed()
+  _intermediateStateProps = (duration, skip) => {
+    return this._isFadeOutAnimationAllowed() && !skip
       ? { fadeOutAnimation: true,  style: { transition: 'transform 0ms ease-out' }}
       : { style: { transition: `transform ${duration}ms ease-out` }}
   }
@@ -481,12 +504,10 @@ export default class AliceCarousel extends React.PureComponent {
     const { items, itemWidth } = this.state
     const translate3d = (index + items) * -itemWidth
 
-    setTransformAnimation(this.stageComponent, translate3d, 0)
-
     this.setState({
       currentIndex: index,
       translate3d,
-      ...this._intermediateStateProps(duration),
+      ...this._intermediateStateProps(duration, skip),
     }, () => this._checkSlidePosition(skip))
   }
 
@@ -506,7 +527,7 @@ export default class AliceCarousel extends React.PureComponent {
     const vertical = Math.abs(deltaY)
     const horizontal = Math.abs(deltaX)
 
-    return vertical > horizontal && horizontal < gap
+    return (vertical > horizontal && horizontal < gap)
   }
 
   _addTouchEventToCallstack = () => {
@@ -578,20 +599,17 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _onTouchMove(e, deltaX, deltaY) {
-    e.preventDefault()
-
-    if (this._isSwipeDisable() || this.SWIPING_ON) {
+    if (this._isSwipeDisable()) {
       return
     }
 
     if (this._verticalTouchMoveDetected(e, deltaX, deltaY)) {
-      this.preventHorizontalSwiping = true
+      this.verticalSwipingDetected = true
       return
-    } else {
-      this.preventHorizontalSwiping = false
     }
 
     this.swipingStarted = true
+    this.verticalSwipingDetected = false
 
     const { slides, items, itemWidth } = this.state
 
@@ -636,11 +654,8 @@ export default class AliceCarousel extends React.PureComponent {
 
   _onTouchEnd = () => {
     this.swipingStarted = false
-    if (this._isSwipeDisable() ||
-      this.preventHorizontalSwiping) {
-      this._stopSwipeAnimation()
-      this._resetAnimationProps()
-      this._resetSwipePositionProps()
+
+    if (this._isSwipeDisable() || this.verticalSwipingDetected) {
       return
     }
 
@@ -673,8 +688,12 @@ export default class AliceCarousel extends React.PureComponent {
 
       if (!this.swipingStarted && this.touchEventsCallstack.length === 0) {
 
-        this.SWIPING_ON = true
         const nextItemIndex = this._getNextItemIndex(itemIndex, slides.length)
+
+        const { items, itemWidth } = this.state
+        const translate3d = (nextItemIndex + items) * -itemWidth
+
+        setTransformAnimation(this.stageComponent, translate3d, 0)
         this._slideToItem(nextItemIndex, true, 0)
       }
     }, duration)
@@ -747,7 +766,7 @@ export default class AliceCarousel extends React.PureComponent {
     this._slideToItem(this.state.currentIndex - 1)
   }
 
-  _slideNext = (action = true) => {
+  _handleOnSlideNext = (action = true) => {
     if (!this.allowAnimation || this.swipeAnimation) {
       return
     }
@@ -820,6 +839,7 @@ export default class AliceCarousel extends React.PureComponent {
           stopPropagation={true}
           onSwiping={this._onTouchMove}
           onSwiped={this._onTouchEnd}
+          rotationAngle={3}
           trackMouse={this.props.mouseDragEnabled}
         >
           <div
@@ -867,7 +887,6 @@ AliceCarousel.propTypes = {
   autoPlayDirection: PropTypes.string,
   autoPlayActionDisabled: PropTypes.bool,
   stopAutoPlayOnHover: PropTypes.bool,
-  stopPropagation: PropTypes.bool
 }
 
 AliceCarousel.defaultProps = {
@@ -891,5 +910,4 @@ AliceCarousel.defaultProps = {
   keysControlDisabled: false,
   autoPlayActionDisabled: false,
   stopAutoPlayOnHover: true,
-  stopPropagation: true
 }

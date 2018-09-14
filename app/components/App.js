@@ -5,7 +5,7 @@ const App = () => {
   const responsive = {
     0: { items: 1 },
     700: { items: 2 },
-    960: { items: 1 }
+    960: { items: 3 }
   }
 
   return (
@@ -13,8 +13,8 @@ const App = () => {
       <h1 className="h1">React Alice Carousel</h1>
       <AliceCarousel
         duration={400}
-        dotsDisabled={true}
-        buttonsDisabled={true}
+        //dotsDisabled={true}
+        //buttonsDisabled={true}
         responsive={responsive}
         fadeOutAnimation={true}
         mouseDragEnabled={true}

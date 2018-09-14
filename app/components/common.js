@@ -1,43 +1,47 @@
 export function setTransformAnimation(element, position, durationMs = 0) {
   const prefixes = ['Webkit', 'Moz', 'ms', 'O', '']
 
-  for (let value of prefixes) {
-    element.style[value + 'Transition'] = `transform ${durationMs}ms ease-out`
-    element.style[value + 'Transform'] = `translate3d(${position}px, 0, 0)`
+  if (element) {
+    for (let value of prefixes) {
+      element.style[value + 'Transition'] = `transform ${durationMs}ms ease-out`
+      element.style[value + 'Transform'] = `translate3d(${position}px, 0, 0)`
+    }
   }
 }
 
-export function throttle(func, ms = 0) {
-  let savedArgs,savedThis, isThrottled = false
+export function debounce(func, ms = 0) {
+  let timer = null
 
-  function wrapper() {
-    if (isThrottled) {
-      savedArgs = arguments
-      savedThis = this
-      return
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer)
     }
 
-    func.apply(this, arguments)
-    isThrottled = true
-
-    setTimeout(() => {
-      isThrottled = false
-
-      if (savedArgs) {
-        wrapper.apply(savedThis, savedArgs)
-        savedArgs = savedThis = null
-      }
+    timer = setTimeout(() => {
+      func.apply(this, args)
+      timer = null
     }, ms)
   }
-  return wrapper
 }
 
-export function primitiveEquals(obj1, obj2) {
-  return JSON.stringify(obj1) === JSON.stringify(obj2)
+export function getElementWidth(element) {
+  if (element && element.getBoundingClientRect) {
+    return element.getBoundingClientRect().width
+  }
 }
 
-export function childrenKeysHaveChanged(currentChildren, nextChildren) {
-  return currentChildren.length === currentChildren.length && (
-    currentChildren.every((item, index) => item.key === nextChildren[index].key)
-  )
+export function getItemWidth(galleryWidth, tottalItems) {
+  return galleryWidth / tottalItems
+}
+
+export const deviceSize = () => {
+  return {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  }
+}
+
+export const isDeviceResized = (prevDimensions) => {
+  const currentDimensions = deviceSize()
+  return (prevDimensions.width !== currentDimensions.width) || ( prevDimensions.height !== currentDimensions.height )
 }
