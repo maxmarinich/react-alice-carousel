@@ -1,5 +1,5 @@
-import React from 'react';
-import AliceCarousel from './structure/react-alice-carousel';
+import React from 'react'
+import AliceCarousel from './structure/react-alice-carousel'
 
 
 export default class App extends React.Component {
@@ -8,19 +8,20 @@ export default class App extends React.Component {
       0: {
         items: 1
       },
-      700: {
+      600: {
         items: 2
       },
       960: {
         items: 1
       }
-    };
+    }
 
     return (
       <div className="app">
         <h1 className="h1">React Alice Carousel</h1>
         <AliceCarousel
           duration={400}
+          infinite={false}
           responsive={responsive}
           fadeOutAnimation={true}
           mouseDragEnabled={true}
@@ -37,6 +38,6 @@ export default class App extends React.Component {
           <div className="item"><h1>10</h1></div>
         </AliceCarousel>
       </div>
-    );
+    )
   }
 }

@@ -12,10 +12,12 @@
   "rules": {
     "max-len": 0,
     "comma-dangle": 0,
-    "semi": 2,
+    "semi": [
+      "error", "never"
+    ],
     "indent": [2, 2],
-    "no-debugger": 0,
-    "no-console": 0,
+    "no-debugger": 2,
+    "no-console": 2,
     "new-cap": 0,
     "strict": 2,
     "no-underscore-dangle": 0,
