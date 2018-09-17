@@ -1,4 +1,4 @@
-export function setTransformAnimation(element, position, durationMs = 0) {
+export function animate(element, position, durationMs = 0) {
   const prefixes = ['Webkit', 'Moz', 'ms', 'O', '']
 
   if (element) {
@@ -30,18 +30,14 @@ export function getElementWidth(element) {
   }
 }
 
-export function getItemWidth(galleryWidth, tottalItems) {
-  return galleryWidth / tottalItems
-}
-
-export const deviceSize = () => {
+export const deviceInfo = () => {
   return {
     width: window.innerWidth,
     height: window.innerHeight,
   }
 }
 
-export const isDeviceResized = (prevDimensions) => {
-  const currentDimensions = deviceSize()
-  return (prevDimensions.width !== currentDimensions.width) || ( prevDimensions.height !== currentDimensions.height )
+export const shouldCallHandlerOnWindowResize = (prevDimensions) => {
+  const { width, height } = deviceInfo()
+  return (prevDimensions.width !== width) || (prevDimensions.height !== height)
 }

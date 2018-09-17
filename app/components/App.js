@@ -4,7 +4,7 @@ import AliceCarousel from './react-alice-carousel'
 const App = () => {
   const responsive = {
     0: { items: 1 },
-    700: { items: 2 },
+    600: { items: 2 },
     960: { items: 3 }
   }
 
@@ -13,8 +13,6 @@ const App = () => {
       <h1 className="h1">React Alice Carousel</h1>
       <AliceCarousel
         duration={400}
-        //dotsDisabled={true}
-        //buttonsDisabled={true}
         responsive={responsive}
         fadeOutAnimation={true}
         mouseDragEnabled={true}
