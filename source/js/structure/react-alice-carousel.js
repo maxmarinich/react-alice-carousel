@@ -102,7 +102,7 @@ export default class AliceCarousel extends React.PureComponent {
 
   _onSlideToIndexChange = (currentIndex, slideToIndex) => {
     if (slideToIndex === currentIndex + 1) {
-      this._handleOnSlideNext()
+      this._slideNext()
     } else if (slideToIndex === currentIndex - 1) {
       this._slidePrev()
     } else {
@@ -356,7 +356,7 @@ export default class AliceCarousel extends React.PureComponent {
           onMouseEnter={this._onMouseEnterAutoPlayHandler}
           onMouseLeave={this._onMouseLeaveAutoPlayHandler}
         >
-          <span className={className} onClick={this._handleOnSlideNext}>Next</span>
+          <span className={className} onClick={this._slideNext}>Next</span>
         </div>
       </div>
     )
@@ -496,7 +496,7 @@ export default class AliceCarousel extends React.PureComponent {
     if (!this._autoPlayIntervalId) {
       this._autoPlayIntervalId = window.setInterval(() => {
         if (!this._isHovered() && this._autoPlayIntervalId) {
-          autoPlayDirection === 'rtl' ? this._slidePrev(false) : this._handleOnSlideNext(false)
+          autoPlayDirection === 'rtl' ? this._slidePrev(false) : this._slideNext(false)
         }
       }, playInterval)
     }
@@ -524,7 +524,7 @@ export default class AliceCarousel extends React.PureComponent {
       this._slidePrev()
       break
     case 39:
-      this._handleOnSlideNext()
+      this._slideNext()
       break
     }
   }
@@ -799,7 +799,7 @@ export default class AliceCarousel extends React.PureComponent {
     this._slideToItem(this.state.currentIndex - 1)
   }
 
-  _handleOnSlideNext = (action = true) => {
+  _slideNext = (action = true) => {
     if (!this.allowAnimation || this.swipeAnimation) {
       return
     }
