@@ -339,7 +339,7 @@ export default class AliceCarousel extends React.PureComponent {
           onMouseEnter={this._onMouseEnterAutoPlayHandler}
           onMouseLeave={this._onMouseLeaveAutoPlayHandler}
         >
-          <span className={className} onClick={this._slidePrev}>Prev</span>
+          <p className={className} onClick={this._slidePrev}><span>Prev</span></p>
         </div>
       </div>
     )
@@ -356,7 +356,7 @@ export default class AliceCarousel extends React.PureComponent {
           onMouseEnter={this._onMouseEnterAutoPlayHandler}
           onMouseLeave={this._onMouseLeaveAutoPlayHandler}
         >
-          <span className={className} onClick={this._slideNext}>Next</span>
+          <p className={className} onClick={this._slideNext}><span>Next</span></p>
         </div>
       </div>
     )
@@ -479,8 +479,11 @@ export default class AliceCarousel extends React.PureComponent {
   _renderPlayPauseButton() {
     return (
       <div className="alice-carousel__play-btn">
-        <div className="alice-carousel__play-btn-wrapper" onClick={this._playPauseToggle}>
-          <div className={`alice-carousel__play-btn-item${this.state.isPlaying ? ' __pause' : ''}`} />
+        <div className="alice-carousel__play-btn-wrapper">
+          <div
+            onClick={this._playPauseToggle}
+            className={`alice-carousel__play-btn-item${this.state.isPlaying ? ' __pause' : ''}`}
+          />
         </div>
       </div>
     )
@@ -874,6 +877,7 @@ export default class AliceCarousel extends React.PureComponent {
           onSwiped={this._onTouchEnd}
           rotationAngle={3}
           trackMouse={this.props.mouseDragEnabled}
+          preventDefaultTouchmoveEvent={this.props.preventEventOnTouchMove}
         >
           <div
             className="alice-carousel__wrapper"
@@ -920,6 +924,7 @@ AliceCarousel.propTypes = {
   autoPlayDirection: PropTypes.string,
   autoPlayActionDisabled: PropTypes.bool,
   stopAutoPlayOnHover: PropTypes.bool,
+  preventEventOnTouchMove: PropTypes.bool,
 }
 
 AliceCarousel.defaultProps = {
@@ -943,4 +948,5 @@ AliceCarousel.defaultProps = {
   keysControlDisabled: false,
   autoPlayActionDisabled: false,
   stopAutoPlayOnHover: true,
+  preventEventOnTouchMove: false,
 }

@@ -3,7 +3,8 @@ $clr-blue: #465798;
 $clr-darkred: darkred;
 
 $transition-time: .3s;
-$play-btn-color: #fff;
+$play-btn-color: $clr-blue;
+$play-btn-size: 32px;
 
 
 .alice-carousel {
@@ -72,10 +73,6 @@ $play-btn-color: #fff;
     display: inline-block;
     color: $clr-blue;
     cursor: pointer;
-    &:before {
-        content: '';
-        display: inline-block;
-    }
     &:hover {
         color: $clr-darkred;
     }
@@ -87,41 +84,47 @@ $play-btn-color: #fff;
 .alice-carousel__play-btn {
     display: inline-block;
     position: absolute;
-    bottom: 90px;
-    left: 80px;
-    transform: scale(.8);
+    top: 30px;
+    left: 20px;
     &:hover { cursor: pointer }
+    &-wrapper {
+      position: relative;
+      background-color: #fff;
+      padding: 10px;
+      width: $play-btn-size;
+      height: $play-btn-size;
+      border-radius: 50%;
+    }
 }
 
 .alice-carousel__play-btn-item {
     cursor: pointer;
     position: absolute;
-    top: 50%;
     background: transparent;
-    border: 0;
-    transform: translateY(-50%);
-    width: 32px;
-    height: 30px;
+    width: $play-btn-size;
+    height: $play-btn-size;
     outline: none;
+    border: 0;
     &::before,
     &::after {
         content: '';
+        width: 0;
+        height: 0;
         display: block;
         position: absolute;
-        left: 0;
-        top: 0;
         border-style: solid;
         border-color: transparent;
         border-width: 8px 0 8px 15px;
         border-left-color: $play-btn-color;
-        width: 0;
-        height: 0;
         transition: all $transition-time linear;
     }
-    &::before { height: 16px; }
+    &::before {
+        height: 14px;
+        left: 5px;
+    }
     &::after {
-        left: 15px;
-        top: 8px;
+        left: 18px;
+        top: 7px;
     }
     &.__pause {
         &::before,

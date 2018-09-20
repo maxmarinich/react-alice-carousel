@@ -125,6 +125,8 @@ const Gallery = () => {
 
 * `onSlideChanged` : Function - Fired when the event object was changed / returns event object
 
+* `preventEventOnTouchMove` : Boolean, default `false` - Prevent the browser's touchmove event when carousel is swiping
+
   _Both functions return next object_
   ```js
     {
