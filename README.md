@@ -50,7 +50,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
-
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const Gallery = () => {
   const handleOnDragStart = e => e.preventDefault()
@@ -121,6 +121,8 @@ const Gallery = () => {
 
 * `showSlideIndex` : Boolean, default `false` - Show slide info
 
+* `preventEventOnTouchMove` : Boolean, default `false` - Prevent the browser's touchmove event when carousel is swiping
+
 * `onSlideChange` : Function - Fired when the event object is changing / returns event object
 
 * `onSlideChanged` : Function - Fired when the event object was changed / returns event object
@@ -139,7 +141,7 @@ const Gallery = () => {
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
-
+import "react-alice-carousel/lib/alice-carousel.css";
 
 class Gallery extends React.Component {  
   responsive = {
@@ -196,7 +198,7 @@ class Gallery extends React.Component {
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
-
+import "react-alice-carousel/lib/alice-carousel.css";
 
 class Gallery extends React.Component {  
   items = [1, 2, 3, 4, 5];
@@ -236,7 +238,7 @@ class Gallery extends React.Component {
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
-
+import "react-alice-carousel/lib/alice-carousel.css";
 
 class Gallery extends React.Component {
   items = [1, 2, 3, 4, 5];
@@ -298,6 +300,11 @@ cd react-alice-carousel
 ```apacheconfig
 npm i
 npm start
+```
+
+#### Test
+```apacheconfig
+npm test
 ```
 
 #### License
