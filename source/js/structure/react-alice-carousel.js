@@ -339,7 +339,7 @@ export default class AliceCarousel extends React.PureComponent {
           onMouseEnter={this._onMouseEnterAutoPlayHandler}
           onMouseLeave={this._onMouseLeaveAutoPlayHandler}
         >
-          <p className={className} onClick={this._slidePrev}><span>Prev</span></p>
+          <p className={className} onClick={this._slidePrev}><span data-area="Prev" /></p>
         </div>
       </div>
     )
@@ -356,7 +356,7 @@ export default class AliceCarousel extends React.PureComponent {
           onMouseEnter={this._onMouseEnterAutoPlayHandler}
           onMouseLeave={this._onMouseLeaveAutoPlayHandler}
         >
-          <p className={className} onClick={this._slideNext}><span>Next</span></p>
+          <p className={className} onClick={this._slideNext}><span data-area="Next" /></p>
         </div>
       </div>
     )
