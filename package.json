@@ -19,7 +19,7 @@
     "precommit": "cross-env npm run lint && npm test",
     "prepush": "cross-env npm run lint && npm test",
     "webpack:dev": "webpack --colors",
-    "webpack:lib": "webpack --config webpack.lib.config.js --colors"
+    "build:lib": "webpack --config webpack.lib.config.js --colors"
   },
   "keywords": [
     "react",
@@ -72,12 +72,10 @@
     }
   },
   "dependencies": {
-    "cross-env": "5.2.0",
     "prop-types": "^15.5.10",
     "react": ">=15.4",
     "react-dom": ">=15.4",
-    "react-router-dom": "^4.3.1",
-    "react-swipeable": "^4.0.0"
+    "react-swipeable": "^4.3.0"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -94,6 +92,7 @@
     "babel-preset-react-hmre": "1.1.1",
     "babel-preset-stage-2": "6.24.1",
     "copy-webpack-plugin": "4.5.2",
+    "cross-env": "5.2.0",
     "css-hot-loader": "1.4.2",
     "css-loader": "1.0.0",
     "enzyme": "3.4.4",
@@ -113,6 +112,7 @@
     "open-browser-webpack-plugin": "0.0.5",
     "react-addons-test-utils": "15.6.2",
     "react-hot-loader": "4.3.5",
+    "react-router-dom": "^4.3.1",
     "react-test-renderer": "16.4.2",
     "rimraf": "2.6.2",
     "sass-loader": "7.1.0",

@@ -16,6 +16,10 @@ const App = () => {
         responsive={responsive}
         fadeOutAnimation={true}
         mouseDragEnabled={true}
+        stagePadding={{
+          paddingLeft: 50,
+          paddingRight: 50,
+        }}
       >
         <div className="item"><h1>1</h1></div>
         <div className="item"><h1>2</h1></div>

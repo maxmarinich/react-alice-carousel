@@ -154,9 +154,17 @@ export default class AliceCarousel extends React.PureComponent {
     this._slideToItem(itemIndex)
   }
 
-  _cloneCarouselItems = (children, itemsInSlide) => {
-    const first = children.slice(0, itemsInSlide)
-    const last = children.slice(children.length - itemsInSlide)
+  _cloneCarouselItems = (children, itemsInSlide, props) => {
+    let cloneItems = itemsInSlide
+
+    const { stagePadding } = props || this.props
+    const { paddingLeft, paddingRight } = stagePadding
+
+    // if (paddingLeft || paddingRight) {
+    //   cloneItems += 1
+    // }
+    const first = children.slice(0, cloneItems)
+    const last = children.slice(children.length - cloneItems)
 
     return last.concat(children, first)
   }
@@ -173,6 +181,7 @@ export default class AliceCarousel extends React.PureComponent {
     const currentIndex = this._setStartIndex(children.length, startIndex)
     const galleryWidth = getElementWidth(this.stageComponent)
     const itemWidth = this._getItemWidth(galleryWidth, items)
+    const translate3d = this._getTranslate3dPosition(currentIndex, { itemWidth, items })
 
     return {
       items,
@@ -180,7 +189,7 @@ export default class AliceCarousel extends React.PureComponent {
       currentIndex,
       slides: children,
       clones: this._cloneCarouselItems(children, items),
-      translate3d: -itemWidth * (items + currentIndex)
+      translate3d,
     }
   }
 
@@ -229,8 +238,8 @@ export default class AliceCarousel extends React.PureComponent {
     return children && children.length ? children : items
   }
 
-  _recalculateTranslatePosition = (state = this.state) => {
-    const { items, itemWidth, slides } = state
+  _recalculateTranslatePosition = (state) => {
+    const { items, itemWidth, slides } = state || this.state
     const maxSlidePosition = slides.length - 1
     const currentIndex = (this.state.currentIndex < 0) ? maxSlidePosition : 0
     const nextIndex = (currentIndex === 0) ? items : (maxSlidePosition + items)
@@ -238,8 +247,8 @@ export default class AliceCarousel extends React.PureComponent {
     return nextIndex * -itemWidth
   }
 
-  _recalculateCurrentSlideIndex = (state = this.state) => {
-    const { slides, currentIndex } = state
+  _recalculateCurrentSlideIndex = (state) => {
+    const { slides, currentIndex } = state || this.state
     return currentIndex < 0 ? (slides.length - 1) : 0
   }
 
@@ -549,8 +558,15 @@ export default class AliceCarousel extends React.PureComponent {
     }, () => this._checkSlidePosition(skip))
   }
 
-  _isFadeOutAnimationAllowed = () => {
-    return (this.props.fadeOutAnimation && this.state.items === 1)
+  _isFadeOutAnimationAllowed = (props) => {
+    const { stagePadding } = props || this.props
+    const { paddingLeft, paddingRight } = stagePadding
+
+    return (
+      this.props.fadeOutAnimation &&
+      !(paddingLeft || paddingRight) &&
+      (this.state.items === 1)
+    )
   }
 
   _isSwipeDisable = () => {
@@ -670,6 +686,15 @@ export default class AliceCarousel extends React.PureComponent {
         return
       }
     }
+
+    /*
+    const { stagePadding } = this.props
+    const { paddingLeft = 0, paddingRight = 0 } = stagePadding
+
+    if (position >= (0 - paddingLeft) || Math.abs(position) >= (maxPosition - paddingRight)) {
+      recalculatePosition()
+    }
+    */
 
     if (position >= 0 || Math.abs(position) >= maxPosition) {
       recalculatePosition()
@@ -866,9 +891,14 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   render() {
+    const { stagePadding } = this.props
+    const { paddingLeft = 0, paddingRight = 0 } = stagePadding
     const { style, translate3d, clones } = this.state
     const stageStyle = { ...style, ...{ transform: `translate3d(${translate3d}px, 0, 0)` }}
-
+    const wrapperStyle = {
+      paddingLeft: paddingLeft + 'px',
+      paddingRight: paddingRight + 'px',
+    }
     return (
       <div className="alice-carousel">
         <Swipeable
@@ -880,6 +910,7 @@ export default class AliceCarousel extends React.PureComponent {
           preventDefaultTouchmoveEvent={this.props.preventEventOnTouchMove}
         >
           <div
+            style={wrapperStyle}
             className="alice-carousel__wrapper"
             onMouseEnter={this._onMouseEnterAutoPlayHandler}
             onMouseLeave={this._onMouseLeaveAutoPlayHandler}
@@ -912,6 +943,7 @@ AliceCarousel.propTypes = {
   dotsDisabled: PropTypes.bool,
   swipeDisabled: PropTypes.bool,
   responsive: PropTypes.object,
+  stagePadding: PropTypes.object,
   duration: PropTypes.number,
   startIndex: PropTypes.number,
   slideToIndex: PropTypes.number,
@@ -931,6 +963,7 @@ AliceCarousel.defaultProps = {
   items: [],
   children: [],
   responsive: {},
+  stagePadding: {},
   duration: 250,
   startIndex: 0,
   slideToIndex: 0,
