@@ -149,7 +149,7 @@ const config = {
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new ExtractTextPlugin({ filename: './styles/style.css', disable: false, allChunks: true }),
-    new OpenBrowserPlugin({ url: 'http://localhost:8080' }),
+    //new OpenBrowserPlugin({ url: 'http://localhost:8080' }),
     new webpack.HotModuleReplacementPlugin(),
   ]
 }

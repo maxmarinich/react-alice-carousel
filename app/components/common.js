@@ -41,3 +41,10 @@ export const shouldCallHandlerOnWindowResize = (prevDimensions) => {
   const { width, height } = deviceInfo()
   return (prevDimensions.width !== width) || (prevDimensions.height !== height)
 }
+
+export const getStagePadding = (padding) => {
+  const { stagePadding } = padding || {}
+  const { paddingLeft = 0, paddingRight = 0 } = stagePadding
+
+  return { paddingLeft, paddingRight }
+}
