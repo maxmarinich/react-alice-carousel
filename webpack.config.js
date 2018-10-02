@@ -4,6 +4,8 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 
+const PORT = 8080
+
 const config = {
   stats: {
     maxModules: 0
@@ -13,7 +15,7 @@ const config = {
 
   entry: [
     'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:8080',
+    `webpack-dev-server/client?http://localhost:${PORT}`,
     'webpack/hot/only-dev-server',
     './index.js',
     './assets/scss/main.scss',
@@ -149,7 +151,7 @@ const config = {
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new ExtractTextPlugin({ filename: './styles/style.css', disable: false, allChunks: true }),
-    //new OpenBrowserPlugin({ url: 'http://localhost:8080' }),
+    //new OpenBrowserPlugin({ url: `http://localhost:${PORT}` }),
     new webpack.HotModuleReplacementPlugin(),
   ]
 }
