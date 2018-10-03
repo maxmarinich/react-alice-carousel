@@ -225,18 +225,20 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _setInitialState() {
-    this.setState(this._calculateInitialProps(this.props))
+    const initialState = this._calculateInitialProps(this.props)
+    this.setState(initialState)
   }
 
   _windowResizeHandler = () => {
     if (shouldCallHandlerOnWindowResize(this.deviceInfo)) {
       this._pause()
+      this.deviceInfo = deviceInfo()
+
       const { currentIndex } = this.state
       const prevProps = this._calculateInitialProps(this.props)
       const translate3d = this._getTranslate3dPosition(currentIndex, prevProps)
       const nextProps = { ...prevProps, currentIndex, translate3d }
 
-      this.deviceInfo = deviceInfo()
       this.setState(nextProps)
     }
   }
@@ -738,28 +740,28 @@ export default class AliceCarousel extends React.PureComponent {
     this._startSwipeAnimation()
     this._onMouseEnterAutoPlayHandler()
 
-    const maxPosition = this._getMaxSWipePosition()
     const direction = this._getSwipeDirection(deltaX)
     let position = this._getStartSwipePositionOnTouchMove(deltaX)
 
     if (this.props.infinite === false) {
 
       const slideOffset = Math.min(itemWidth / 2, 250)
-      const leftTranslate = (items * -itemWidth) + slideOffset
-      const rightTranslate = (slides.length * -itemWidth) - slideOffset
+      const leftTranslateLimit = (items * -itemWidth) + slideOffset
+      const rightTranslateLimit = (slides.length * -itemWidth) - slideOffset
 
-      if (position > leftTranslate || position < rightTranslate) {
+      if (position > leftTranslateLimit || position < rightTranslateLimit) {
         return
       }
+
+      animate(this.stageComponent, position)
+      this._setSwipePositionProps({ position, direction })
+      return
     }
 
+    const maxPosition = this._getMaxSWipePosition()
     const { paddingLeft, paddingRight } = getStagePadding(this.props)
     const limitMinPos = (paddingLeft) ? (itemWidth + paddingLeft) : 0
     const limitMaxPos = (paddingRight) ? (maxPosition + itemWidth - paddingRight) : maxPosition
-
-    // if (position >= (0 - limitMinPos) || Math.abs(position) >= (limitMaxPos)) {
-    //   recalculatePosition()
-    // }
 
     if (position >= 0 - limitMinPos || Math.abs(position) >= limitMaxPos) {
       recalculatePosition()
