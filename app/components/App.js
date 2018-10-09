@@ -12,11 +12,12 @@ const App = () => {
     <div className="app" id="app">
       <h1 className="h1">React Alice Carousel</h1>
       <AliceCarousel
-        duration={600}
+        duration={400}
         //infinite={false}
+        autoPlay={true}
         responsive={responsive}
         //fadeOutAnimation={true}
-        //mouseDragEnabled={true}
+        mouseDragEnabled={true}
         //dotsDisabled={true}
         //buttonsDisabled={true}
         stagePadding={{

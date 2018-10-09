@@ -9,18 +9,10 @@ export function animate(element, position, durationMs = 0) {
   }
 }
 
-export function getTransformMatrix(element) {
-  const { transform = '' } = element && getComputedStyle && getComputedStyle(element)
-  const matched = transform.match(/[0-9., -]+/) || []
-  if (typeof matched[0] === 'string') {
-    return matched[0].split(',')
-  }
-  return []
-}
-
 export function getTranslateX(element) {
-  const matrix = getTransformMatrix(element)
-  return matrix[4]
+  const translateXIndex = 4
+  const matrix = getTransformMatrixValues(element)
+  return matrix[translateXIndex]
 }
 
 export function debounce(func, ms = 0) {
@@ -61,4 +53,15 @@ export const getStagePadding = (padding = {}) => {
   const { paddingLeft = 0, paddingRight = 0 } = stagePadding
 
   return { paddingLeft, paddingRight }
+}
+
+export const noop = (args) => { return args }
+
+function getTransformMatrixValues(element) {
+  const { transform = '' } = element && getComputedStyle && getComputedStyle(element) || {}
+  const matched = transform.match(/[0-9., -]+/) || []
+  if (typeof matched[0] === 'string') {
+    return matched[0].split(',')
+  }
+  return []
 }
