@@ -1,3 +1,5 @@
+import { getStagePadding } from './elements'
+
 function animate(element, position, durationMs = 0) {
   const prefixes = ['webkit', 'moz', 'ms', 'o', '']
 
@@ -7,6 +9,19 @@ function animate(element, position, durationMs = 0) {
       element.style[value + 'Transform'] = `translate3d(${position}px, 0, 0)`
     }
   }
+}
+
+const getTranslate3dPosition = (currentIndex, state) => {
+  const { itemWidth, items, infinite } = state
+
+  if (infinite) {
+    const { paddingLeft, paddingRight } = getStagePadding(state)
+    if (paddingLeft || paddingRight) {
+      currentIndex += 1
+    }
+  }
+
+  return (items + currentIndex) * -itemWidth
 }
 
 function getTranslateX(element) {
@@ -24,4 +39,4 @@ function getTransformMatrix(element) {
   return []
 }
 
-export { animate, getTranslateX }
+export { animate, getTranslateX, getTranslate3dPosition }
