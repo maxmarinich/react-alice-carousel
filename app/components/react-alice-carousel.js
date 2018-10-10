@@ -3,10 +3,10 @@ import Swipeable from 'react-swipeable'
 import PropTypes from 'prop-types'
 import { debug } from './utils/debug'
 import { debounce } from './utils/timers'
-import { animate, getTranslateX, getTranslate3dPosition } from './utils/animation'
+import { getStagePadding, getSlides, getSlideInfo } from './utils/elements'
 import { deviceInfo, shouldCallHandlerOnWindowResize } from './utils/device'
-import { setTotalItemsInSlide, getActiveSlideIndex, getDotsCeilLength } from './utils/common'
-import { getElementWidth, getStagePadding, getItemWidth, getSlides, getSlideInfo, cloneCarouselItems } from './utils/elements'
+import { getActiveSlideIndex, getDotsCeilLength, calculateInitialProps } from './utils/common'
+import { animate, getTranslateX, getTranslate3dPosition, getFadeOutOffset } from './utils/animation'
 
 export default class AliceCarousel extends React.PureComponent {
   constructor(props) {
@@ -94,7 +94,7 @@ export default class AliceCarousel extends React.PureComponent {
       this.props.items !== prevProps.items
     ) {
       this._resetAllIntermediateProps()
-      this.setState(this._calculateInitialProps(this.props))
+      this.setState(calculateInitialProps(this.props, this.stageComponent))
     }
   }
 
@@ -165,36 +165,8 @@ export default class AliceCarousel extends React.PureComponent {
     this._slideToItem(itemIndex)
   }
 
-  _setStartIndex = (childrenLength, index) => {
-    const startIndex = index ? Math.abs(Math.ceil(index)) : 0
-    return Math.min(startIndex, (childrenLength - 1))
-  }
-
-  _calculateInitialProps(props) {
-    const { startIndex, responsive, infinite } = props
-    const slides = getSlides(props)
-    const stagePadding = getStagePadding(props)
-    const items = setTotalItemsInSlide(responsive, slides.length)
-    const currentIndex = this._setStartIndex(slides.length, startIndex)
-    const galleryWidth = getElementWidth(this.stageComponent)
-    const itemWidth = getItemWidth(galleryWidth, items)
-    const clones = cloneCarouselItems(slides, items, { stagePadding, infinite })
-    const translate3d = getTranslate3dPosition(currentIndex, { itemWidth, items, stagePadding, infinite })
-
-    return {
-      items,
-      itemWidth,
-      currentIndex,
-      slides,
-      clones,
-      infinite,
-      translate3d,
-      stagePadding,
-    }
-  }
-
   _setInitialState() {
-    const initialState = this._calculateInitialProps(this.props)
+    const initialState = calculateInitialProps(this.props, this.stageComponent)
     this.setState(initialState)
   }
 
@@ -205,7 +177,7 @@ export default class AliceCarousel extends React.PureComponent {
       this.deviceInfo = deviceInfo()
 
       const { currentIndex } = this.state
-      const currState = this._calculateInitialProps(this.props)
+      const currState = calculateInitialProps(this.props, this.stageComponent)
       const translate3d = getTranslate3dPosition(currentIndex, currState)
       const nextState = { ...currState, currentIndex, translate3d }
 
@@ -380,21 +352,11 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _setAnimationPropsOnDotsClick = (itemIndex) => {
-    const { currentIndex } = this.state
+    const { currentIndex, itemWidth } = this.state
     const fadeOutIndex = currentIndex + 1
-    const fadeOutOffset = this._fadeOutOffset(itemIndex)
+    const fadeOutOffset = getFadeOutOffset(itemIndex, currentIndex, itemWidth)
 
     this._setAnimationProps({ fadeOutIndex, fadeOutOffset, allowFadeOutAnimation: true })
-  }
-
-  _fadeOutOffset = (itemIndex, state)=> {
-    const { currentIndex, itemWidth } = state || this.state
-
-    if (itemIndex < currentIndex) {
-      return (currentIndex - itemIndex) * -itemWidth
-    } else {
-      return (itemIndex - currentIndex) * itemWidth
-    }
   }
 
   _renderDotsNavigation(state) {

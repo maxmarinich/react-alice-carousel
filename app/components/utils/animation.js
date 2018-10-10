@@ -11,6 +11,29 @@ function animate(element, position, durationMs = 0) {
   }
 }
 
+function getTranslateX(element) {
+  const translateXIndex = 4
+  const matrix = getTransformMatrix(element)
+  return matrix[translateXIndex]
+}
+
+function getFadeOutOffset(itemIndex, currentIndex, itemWidth) {
+  if (itemIndex < currentIndex) {
+    return (currentIndex - itemIndex) * -itemWidth
+  } else {
+    return (itemIndex - currentIndex) * itemWidth
+  }
+}
+
+function getTransformMatrix(element) {
+  const { transform = '' } = element && getComputedStyle && getComputedStyle(element) || {}
+  const matched = transform.match(/[0-9., -]+/) || []
+  if (typeof matched[0] === 'string') {
+    return matched[0].split(',')
+  }
+  return []
+}
+
 const getTranslate3dPosition = (currentIndex, state) => {
   const { itemWidth, items, infinite } = state
 
@@ -24,19 +47,4 @@ const getTranslate3dPosition = (currentIndex, state) => {
   return (items + currentIndex) * -itemWidth
 }
 
-function getTranslateX(element) {
-  const translateXIndex = 4
-  const matrix = getTransformMatrix(element)
-  return matrix[translateXIndex]
-}
-
-function getTransformMatrix(element) {
-  const { transform = '' } = element && getComputedStyle && getComputedStyle(element) || {}
-  const matched = transform.match(/[0-9., -]+/) || []
-  if (typeof matched[0] === 'string') {
-    return matched[0].split(',')
-  }
-  return []
-}
-
-export { animate, getTranslateX, getTranslate3dPosition }
+export { animate, getTranslateX, getTranslate3dPosition, getFadeOutOffset }
