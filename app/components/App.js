@@ -3,8 +3,8 @@ import AliceCarousel from './react-alice-carousel'
 
 const App = () => {
   const responsive = {
-    0: { items: 2 },
-    600: { items: 3 },
+    0: { items: 1 },
+    600: { items: 2 },
     960: { items: 4 }
   }
 
@@ -14,20 +14,25 @@ const App = () => {
       <AliceCarousel
         duration={400}
         //infinite={false}
-        autoPlay={true}
+        //playButtonEnabled={true}
+        //stopAutoPlayOnHover={false}
+        //autoPlayActionDisabled={true}
         responsive={responsive}
-        //fadeOutAnimation={true}
+        fadeOutAnimation={true}
         mouseDragEnabled={true}
+        showSlideIndex={true}
         //dotsDisabled={true}
         //buttonsDisabled={true}
-        stagePadding={{
-          paddingLeft: 50,
-          paddingRight: 50,
-        }}
+        // stagePadding={{
+        //   paddingLeft: 50,
+        //   paddingRight: 50,
+        // }}
       >
         <div className="item"><h1>1</h1></div>
         <div className="item"><h1>2</h1></div>
         <div className="item"><h1>3</h1></div>
+        <div className="item"><h1>4</h1></div>
+        <div className="item"><h1>5</h1></div>
 
       </AliceCarousel>
     </div>

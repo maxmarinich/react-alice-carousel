@@ -34,7 +34,11 @@
     "no-extra-semi": "error",
     "indent": [2, 2],
     "no-debugger": 0,
-    "no-console": 1,
+    "no-console": [
+      "warn", {
+        "allow": ["warn", "error", "debug"]
+      }
+    ],
     "new-cap": 0,
     "strict": 2,
     "no-unused-vars" : 1,

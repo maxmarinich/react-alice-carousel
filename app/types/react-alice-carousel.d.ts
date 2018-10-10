@@ -119,7 +119,7 @@ export interface Props {
      *
      * Default: false.
      */
-    autoPlayActionDisabled?: boolean;
+    disableAutoPlayOnAction?: boolean;
 
     /**
      * If this property is identified as `false` auto play animation won't stopped on hover
@@ -133,7 +133,7 @@ export interface Props {
      *
      * Default: false.
      */
-    showSlideIndex?: false,
+    showSlideInfo?: false,
 
     /**
      * Prevent the browser's touchmove event

@@ -115,11 +115,11 @@ const Gallery = () => {
 
 * `autoPlayDirection` : String, default `ltr` - To run auto play in the left direction specify `rtl` value
 
-* `autoPlayActionDisabled` : Boolean, default `false` - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
+* `disableAutoPlayOnAction` : Boolean, default `false` - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
 
 * `stopAutoPlayOnHover` : Boolean, default `true` - If this property is identified as `false` auto play animation won't stopped on hover
 
-* `showSlideIndex` : Boolean, default `false` - Show slide info
+* `showSlideInfo` : Boolean, default `false` - Show slide info
 
 * `preventEventOnTouchMove` : Boolean, default `false` - Prevent the browser's touchmove event when carousel is swiping
 
@@ -183,7 +183,7 @@ class Gallery extends React.Component {
         autoPlayInterval={2000}
         autoPlayDirection="rtl"
         responsive={this.responsive}
-        autoPlayActionDisabled={true}
+        disableAutoPlayOnAction={true}
         onSlideChange={this.onSlideChange}
         onSlideChanged={this.onSlideChanged}
       />

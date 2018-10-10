@@ -4,6 +4,7 @@ import { AppContainer } from 'react-hot-loader'
 import Root from './config/Root'
 
 const render = (Component) => {
+  window.__DEBUG__ = true
   ReactDOM.render(
     <AppContainer>
       <Component />
