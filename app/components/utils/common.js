@@ -88,4 +88,10 @@ const calculateInitialProps = (props, rootComponent) => {
   }
 }
 
-export { setTotalItemsInSlide, getActiveSlideIndex, getDotsCeilLength, setStartIndex, calculateInitialProps }
+export {
+  setTotalItemsInSlide,
+  getActiveSlideIndex,
+  getDotsCeilLength,
+  setStartIndex,
+  calculateInitialProps
+}

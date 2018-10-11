@@ -13,7 +13,7 @@ const App = () => {
       <h1 className="h1">React Alice Carousel</h1>
       <AliceCarousel
         duration={400}
-        //infinite={false}
+        infinite={false}
         //playButtonEnabled={true}
         //stopAutoPlayOnHover={false}
         //autoPlayActionDisabled={true}

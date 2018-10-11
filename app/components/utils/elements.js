@@ -33,9 +33,18 @@ const getSlides = ({ children, items = []}) => {
   return children && children.length ? children : items
 }
 
+const isInactiveItem = (props) => {
+  const { items, currentIndex, infinite, slides = []} = props || {}
+  const inactivePrev = infinite === false && currentIndex === 0
+  const inactiveNext = infinite === false && (slides.length - items === currentIndex)
+
+  return { inactivePrev, inactiveNext }
+}
+
 const getStagePadding = (props) => {
   const { stagePadding } = props || {}
-  const { paddingLeft = 0, paddingRight = 0 } = stagePadding
+  const paddingLeft = Math.abs(stagePadding.paddingLeft) || 0
+  const paddingRight = Math.abs(stagePadding.paddingRight) || 0
 
   return { paddingLeft, paddingRight }
 }
@@ -58,4 +67,32 @@ const getSlideInfo = (index, slidesLength) => {
   }
 }
 
-export { getElementWidth, getSlides, getStagePadding, getItemWidth, getSlideInfo, cloneCarouselItems }
+const getNextItemIndexBeforeTouchEnd = (currentTranslateXPosition, state) => {
+  const { infinite, items, itemWidth, slides = [], stagePadding = {}} = state || {}
+  const { paddingLeft, paddingRight } = stagePadding
+  let currInd = (currentTranslateXPosition / -itemWidth - items)
+
+  if (infinite) {
+    if (paddingLeft || paddingRight) {
+      currInd -= 1
+    }
+  }
+
+  if (currInd === slides.length) { return 0 }
+  if (currInd < 0) {
+    return slides.length + currInd
+  }
+
+  return currInd
+}
+
+export {
+  getElementWidth,
+  getSlides,
+  getStagePadding,
+  getItemWidth,
+  getSlideInfo,
+  cloneCarouselItems,
+  isInactiveItem,
+  getNextItemIndexBeforeTouchEnd
+}

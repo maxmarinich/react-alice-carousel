@@ -1,5 +1,3 @@
-import { getStagePadding } from './elements'
-
 function animate(element, position, durationMs = 0) {
   const prefixes = ['webkit', 'moz', 'ms', 'o', '']
 
@@ -35,10 +33,10 @@ function getTransformMatrix(element) {
 }
 
 const getTranslate3dPosition = (currentIndex, state) => {
-  const { itemWidth, items, infinite } = state
+  const { itemWidth, items, infinite, stagePadding } = state
 
   if (infinite) {
-    const { paddingLeft, paddingRight } = getStagePadding(state)
+    const { paddingLeft, paddingRight } = stagePadding
     if (paddingLeft || paddingRight) {
       currentIndex += 1
     }
