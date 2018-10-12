@@ -1,8 +1,8 @@
 # React Alice Carousel
 
-![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/source/i/react-alice-carousel.gif)
+![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/app/assets/img/react-alice-carousel.gif)
 
-![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/source/i/react-alice-carousel-demo.gif)
+![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/app/assets/img/react-alice-carousel-demo.gif)
 
 React Alice Carousel is a React component for building content galleries, content rotators and any React carousels.
 
