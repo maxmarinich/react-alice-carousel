@@ -1,10 +1,10 @@
 @import 'alice-carousel';
 
-
 .app {
   max-width: 800px;
   margin: auto;
   font-family: Arial, Helvetica, sans-serif;
+  opacity: 0.5;
 }
 
 .h1 {
@@ -18,7 +18,7 @@
 }
 
 .item {
-  background-color: $clr-blue;
+  background-color: #ddd;
   height: 170px;
   margin: 5px;
   h1 {
