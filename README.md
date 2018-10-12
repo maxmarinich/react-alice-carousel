@@ -13,6 +13,7 @@ React Alice Carousel is a React component for building content galleries, conten
 * AutoPlay mode
 * Mobile friendly
 * Responsive design
+* Stage padding
 * Swipe to slide
 * Start index
 * Slide to index
@@ -50,7 +51,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
-
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const Gallery = () => {
   const handleOnDragStart = e => e.preventDefault()
@@ -86,6 +87,14 @@ const Gallery = () => {
         }
     }
   ```
+* `stagePadding` : Object, default `{}` - Padding left and right on the stage
+
+  ```js
+    {
+        paddingLeft: 0,
+        paddingRight: 0
+    }
+  ```
 
 * `buttonsDisabled` : Boolean, `false` - Disable buttons control
 
@@ -115,17 +124,17 @@ const Gallery = () => {
 
 * `autoPlayDirection` : String, default `ltr` - To run auto play in the left direction specify `rtl` value
 
-* `autoPlayActionDisabled` : Boolean, default `false` - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
+* `disableAutoPlayOnAction` : Boolean, default `false` - If this property is identified as `true` auto play animation will be stopped after clicking user on any gallery button
 
 * `stopAutoPlayOnHover` : Boolean, default `true` - If this property is identified as `false` auto play animation won't stopped on hover
 
-* `showSlideIndex` : Boolean, default `false` - Show slide info
+* `showSlideInfo` : Boolean, default `false` - Show slide info
+
+* `preventEventOnTouchMove` : Boolean, default `false` - Prevent the browser's touchmove event when carousel is swiping
 
 * `onSlideChange` : Function - Fired when the event object is changing / returns event object
 
 * `onSlideChanged` : Function - Fired when the event object was changed / returns event object
-
-* `preventEventOnTouchMove` : Boolean, default `false` - Prevent the browser's touchmove event when carousel is swiping
 
   _Both functions return next object_
   ```js
@@ -141,7 +150,7 @@ const Gallery = () => {
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
-
+import "react-alice-carousel/lib/alice-carousel.css";
 
 class Gallery extends React.Component {  
   responsive = {
@@ -183,7 +192,7 @@ class Gallery extends React.Component {
         autoPlayInterval={2000}
         autoPlayDirection="rtl"
         responsive={this.responsive}
-        autoPlayActionDisabled={true}
+        disableAutoPlayOnAction={true}
         onSlideChange={this.onSlideChange}
         onSlideChanged={this.onSlideChanged}
       />
@@ -198,7 +207,7 @@ class Gallery extends React.Component {
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
-
+import "react-alice-carousel/lib/alice-carousel.css";
 
 class Gallery extends React.Component {  
   items = [1, 2, 3, 4, 5];
@@ -238,7 +247,7 @@ class Gallery extends React.Component {
 ```javascript
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
-
+import "react-alice-carousel/lib/alice-carousel.css";
 
 class Gallery extends React.Component {
   items = [1, 2, 3, 4, 5];
@@ -300,6 +309,11 @@ cd react-alice-carousel
 ```apacheconfig
 npm i
 npm start
+```
+
+#### Test
+```apacheconfig
+npm test
 ```
 
 #### License

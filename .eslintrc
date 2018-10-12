@@ -1,25 +1,47 @@
 {
   "extends": "eslint:recommended",
   "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true,
+      "arrowFunctions": true
+    }
+  },
   "env": {
     "browser": true,
     "node": true,
+    "mocha": true,
     "es6": true
   },
   "plugins": [
     "react"
   ],
   "rules": {
+    "space-before-function-paren": "off",
+    "react/prefer-stateless-function": "warn",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "linebreak-style": "off",
+    "global-require": "off",
+    "arrow-body-style": "off",
+    "no-multiple-empty-lines": ["warn", {"max": 1}],
     "max-len": 0,
     "comma-dangle": 0,
     "semi": [
       "error", "never"
     ],
+    "no-extra-semi": "error",
     "indent": [2, 2],
-    "no-debugger": 2,
-    "no-console": 2,
+    "no-debugger": 0,
+    "no-console": [
+      "warn", {
+        "allow": ["warn", "error", "debug"]
+      }
+    ],
     "new-cap": 0,
     "strict": 2,
+    "no-unused-vars" : 1,
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
     "no-extra-boolean-cast": 0,
