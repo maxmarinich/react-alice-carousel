@@ -5,7 +5,12 @@ const App = () => {
   const responsive = {
     0: { items: 1 },
     600: { items: 2 },
-    960: { items: 4 }
+    960: { items: 3 }
+  }
+
+  const stagePadding = {
+    paddingLeft: 50,
+    paddingRight: 50,
   }
 
   return (
@@ -13,20 +18,11 @@ const App = () => {
       <h1 className="h1">React Alice Carousel</h1>
       <AliceCarousel
         duration={400}
-        infinite={false}
-        //playButtonEnabled={true}
-        //stopAutoPlayOnHover={false}
-        //autoPlayActionDisabled={true}
-        responsive={responsive}
+        showSlideInfo={true}
         fadeOutAnimation={true}
         mouseDragEnabled={true}
-        showSlideIndex={true}
-        //dotsDisabled={true}
-        //buttonsDisabled={true}
-        // stagePadding={{
-        //   paddingLeft: 50,
-        //   paddingRight: 50,
-        // }}
+        responsive={responsive}
+        stagePadding={stagePadding}
       >
         <div className="item"><h1>1</h1></div>
         <div className="item"><h1>2</h1></div>

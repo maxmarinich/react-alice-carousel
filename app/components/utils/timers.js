@@ -1,7 +1,7 @@
 function debounce(func, ms = 0) {
   let timer = null
 
-  return function (...args) {
+  return function(...args) {
     if (timer) {
       clearTimeout(timer)
     }

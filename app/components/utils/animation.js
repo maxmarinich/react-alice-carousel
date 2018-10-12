@@ -15,16 +15,8 @@ function getTranslateX(element) {
   return matrix[translateXIndex]
 }
 
-function getFadeOutOffset(itemIndex, currentIndex, itemWidth) {
-  if (itemIndex < currentIndex) {
-    return (currentIndex - itemIndex) * -itemWidth
-  } else {
-    return (itemIndex - currentIndex) * itemWidth
-  }
-}
-
 function getTransformMatrix(element) {
-  const { transform = '' } = element && getComputedStyle && getComputedStyle(element) || {}
+  const { transform = '' } = (element && getComputedStyle && getComputedStyle(element)) || {}
   const matched = transform.match(/[0-9., -]+/) || []
   if (typeof matched[0] === 'string') {
     return matched[0].split(',')
@@ -32,7 +24,7 @@ function getTransformMatrix(element) {
   return []
 }
 
-const getTranslate3dPosition = (currentIndex, state) => {
+const getTranslate3dPosition = (currentIndex, state = {}) => {
   const { itemWidth, items, infinite, stagePadding } = state
 
   if (infinite) {
@@ -45,4 +37,9 @@ const getTranslate3dPosition = (currentIndex, state) => {
   return (items + currentIndex) * -itemWidth
 }
 
-export { animate, getTranslateX, getTranslate3dPosition, getFadeOutOffset }
+const isAnimatedItem = (i, animationProps = {}) => {
+  const { allowFadeOutAnimation, fadeOutIndex } = animationProps
+  return allowFadeOutAnimation && fadeOutIndex === i
+}
+
+export { animate, getTranslateX, getTranslate3dPosition, isAnimatedItem }

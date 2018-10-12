@@ -86,6 +86,14 @@ const Gallery = () => {
         }
     }
   ```
+* `stagePadding` : Object, default `{}` - Padding left and right on the stage
+
+  ```js
+    {
+        paddingLeft: 0,
+        paddingRight: 0
+    }
+  ```
 
 * `buttonsDisabled` : Boolean, `false` - Disable buttons control
 

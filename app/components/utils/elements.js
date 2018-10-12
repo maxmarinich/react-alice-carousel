@@ -29,14 +29,14 @@ const getElementWidth = (element) => {
   }
 }
 
-const getSlides = ({ children, items = []}) => {
+const getSlides = ({ children, items = [] }) => {
   return children && children.length ? children : items
 }
 
 const isInactiveItem = (props) => {
-  const { items, currentIndex, infinite, slides = []} = props || {}
+  const { items, currentIndex, infinite, slides = [] } = props || {}
   const inactivePrev = infinite === false && currentIndex === 0
-  const inactiveNext = infinite === false && (slides.length - items === currentIndex)
+  const inactiveNext = infinite === false && slides.length - items === currentIndex
 
   return { inactivePrev, inactiveNext }
 }
@@ -52,25 +52,25 @@ const getStagePadding = (props) => {
 const getItemWidth = (galleryWidth = 0, totalItems) => {
   const width = Number(galleryWidth)
   const items = Number(totalItems)
-  return (width && items > 0) ? (width / items) : 0
+  return width && items > 0 ? width / items : 0
 }
 
 const getSlideInfo = (index, slidesLength) => {
   let slideIndex = index + 1
 
-  if (slideIndex < 1) { slideIndex = slidesLength }
-  else if (slideIndex > slidesLength) { slideIndex = 1 }
-
-  return {
-    slideIndex,
-    slidesLength,
+  if (slideIndex < 1) {
+    slideIndex = slidesLength
+  } else if (slideIndex > slidesLength) {
+    slideIndex = 1
   }
+
+  return { slideIndex, slidesLength }
 }
 
 const getNextItemIndexBeforeTouchEnd = (currentTranslateXPosition, state) => {
-  const { infinite, items, itemWidth, slides = [], stagePadding = {}} = state || {}
+  const { infinite, items, itemWidth, slides = [], stagePadding = {} } = state || {}
   const { paddingLeft, paddingRight } = stagePadding
-  let currInd = (currentTranslateXPosition / -itemWidth - items)
+  let currInd = currentTranslateXPosition / -itemWidth - items
 
   if (infinite) {
     if (paddingLeft || paddingRight) {
@@ -79,9 +79,7 @@ const getNextItemIndexBeforeTouchEnd = (currentTranslateXPosition, state) => {
   }
 
   if (currInd === slides.length) { return 0 }
-  if (currInd < 0) {
-    return slides.length + currInd
-  }
+  if (currInd < 0) { return slides.length + currInd }
 
   return currInd
 }

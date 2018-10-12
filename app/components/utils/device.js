@@ -1,13 +1,13 @@
-function deviceInfo () {
+function deviceInfo() {
   return {
     width: window.innerWidth,
-    height: window.innerHeight,
+    height: window.innerHeight
   }
 }
 
-function shouldCallHandlerOnWindowResize (prevDimensions) {
+function shouldCallHandlerOnWindowResize(prevDimensions) {
   const { width, height } = deviceInfo()
-  return (prevDimensions.width !== width) || (prevDimensions.height !== height)
+  return prevDimensions.width !== width || prevDimensions.height !== height
 }
 
 export { deviceInfo, shouldCallHandlerOnWindowResize }

@@ -61,6 +61,12 @@ export interface Props {
      */
     responsive?: {};
     /**
+     * Padding left and right on the stage
+     *
+     * Default: {}.
+     */
+    stagePadding?: {},
+    /**
      * Duration of slides transition (milliseconds)
      *
      * Default: 250.
