@@ -1,3 +1,5 @@
+import { isElement } from './elements'
+
 function animate(element, position = 0, durationMs = 0) {
   if (isElement(element)) {
     element.style['transition'] = `transform ${durationMs}ms ease-out`
@@ -12,7 +14,6 @@ function getTranslateX(element) {
     const matrix = getTransformMatrix(element)
     return matrix[translateXIndex]
   }
-  return element
 }
 
 function getTransformMatrix(element) {
@@ -44,8 +45,4 @@ const isAnimatedItem = (i, animationProps = {}) => {
   return !!allowFadeOutAnimation && fadeOutIndex === i
 }
 
-function isElement(element) {
-  return element instanceof Element || element instanceof HTMLDocument
-}
-
-export { animate, getTranslateX, getTranslate3dPosition, isAnimatedItem, getTransformMatrix, isElement }
+export { animate, getTranslateX, getTranslate3dPosition, isAnimatedItem, getTransformMatrix }

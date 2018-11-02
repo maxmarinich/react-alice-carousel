@@ -9,6 +9,7 @@ import * as React from "react";
 export interface EventObject {
     item: number;
     slide: number;
+    itemsInSlide: number;
 }
 
 export interface Props {
@@ -24,6 +25,14 @@ export interface Props {
      * Fired when the event object was changed / returns event object
      */
     onSlideChanged?: (e: EventObject) => void;
+    /**
+     * Fired on Carousel was initialized
+     */
+    onInitialized?: (e: EventObject) => void;
+    /**
+     * Fired if Carousel was resized
+     */
+    onResized?: (e: EventObject) => void;
     /**
      * Disable keys controls (left, right, space)
      *

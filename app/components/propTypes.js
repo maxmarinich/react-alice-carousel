@@ -5,6 +5,8 @@ const propTypes = {
   children: PropTypes.array,
   onSlideChange: PropTypes.func,
   onSlideChanged: PropTypes.func,
+  onInitialized: PropTypes.func,
+  onResized: PropTypes.func,
   keysControlDisabled: PropTypes.bool,
   playButtonEnabled: PropTypes.bool,
   buttonsDisabled: PropTypes.bool,

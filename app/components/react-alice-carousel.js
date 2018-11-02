@@ -34,7 +34,7 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { slideToIndex, duration, startIndex, fadeOutAnimation } = nextProps
+    const { slideToIndex, duration, fadeOutAnimation } = nextProps
 
     if (this.props.duration !== duration) {
       this.setState({ duration })
@@ -46,10 +46,6 @@ export default class AliceCarousel extends React.PureComponent {
 
     if (slideToIndex !== this.props.slideToIndex) {
       this._onSlideToIndexChange(this.state.currentIndex, slideToIndex)
-    }
-
-    if (this.props.startIndex !== startIndex && slideToIndex === this.props.slideToIndex) {
-      this._slideToItem(startIndex)
     }
   }
 
@@ -94,6 +90,27 @@ export default class AliceCarousel extends React.PureComponent {
     }
   }
 
+  _windowResizeHandler = () => {
+    if (Utils.shouldCallHandlerOnWindowResize(this.deviceInfo)) {
+      const { currentIndex, isPlaying } = this.state
+
+      this._pause()
+      this._resetAllIntermediateProps()
+      this._disableAnimation()
+      this.deviceInfo = Utils.deviceInfo()
+
+      const currState = Utils.calculateInitialProps(this.props, this.stageComponent)
+      const translate3d = Utils.getTranslate3dPosition(currentIndex, currState)
+      const nextState = { ...currState, currentIndex, translate3d }
+
+      this.setState(nextState, () => {
+        this.props.autoPlay && isPlaying && this._play()
+        this._allowAnimation()
+        this._onResized()
+      })
+    }
+  }
+
   _onSlideToIndexChange = (currentIndex, slideToIndex) => {
     if (slideToIndex === currentIndex + 1) {
       this._slideNext()
@@ -113,21 +130,35 @@ export default class AliceCarousel extends React.PureComponent {
 
   _onSlideChange() {
     if (this.props.onSlideChange) {
-      this.props.onSlideChange({
-        item: this.state.currentIndex,
-        slide: this._getActiveSlideIndex()
-      })
+      this.props.onSlideChange(
+        this._getEventObject()
+      )
     }
   }
 
   _onSlideChanged() {
     if (this.props.onSlideChanged) {
-      this.props.onSlideChanged({
-        item: this.state.currentIndex,
-        slide: this._getActiveSlideIndex()
-      })
+      this.props.onSlideChanged(
+        this._getEventObject()
+      )
     }
     this._allowAnimation()
+  }
+
+  _onInitialized(initialState) {
+    if (this.props.onInitialized) {
+      this.props.onInitialized(
+        this._getEventObject(initialState)
+      )
+    }
+  }
+
+  _onResized() {
+    if (this.props.onResized) {
+      this.props.onResized(
+        this._getEventObject()
+      )
+    }
   }
 
   _onDotClick = (itemIndex) => {
@@ -141,27 +172,8 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _setInitialState() {
-    this.setState(Utils.calculateInitialProps(this.props, this.stageComponent))
-  }
-
-  _windowResizeHandler = () => {
-    if (Utils.shouldCallHandlerOnWindowResize(this.deviceInfo)) {
-      const { currentIndex, isPlaying } = this.state
-
-      this._pause()
-      this._resetAllIntermediateProps()
-      this._disableAnimation()
-      this.deviceInfo = Utils.deviceInfo()
-
-      const currState = Utils.calculateInitialProps(this.props, this.stageComponent)
-      const translate3d = Utils.getTranslate3dPosition(currentIndex, currState)
-      const nextState = { ...currState, currentIndex, translate3d }
-
-      this.setState(nextState, () => {
-        this.props.autoPlay && isPlaying && this._play()
-        this._allowAnimation()
-      })
-    }
+    const initialState = Utils.calculateInitialProps(this.props, this.stageComponent)
+    this.setState(initialState, this._onInitialized(initialState))
   }
 
   _recalculateFadeOutAnimationState = (shouldRecalculate) => {
@@ -298,9 +310,16 @@ export default class AliceCarousel extends React.PureComponent {
     )
   }
 
-  _getActiveSlideIndex = () => {
-    const { slides, items, currentIndex } = this.state
-    const { inactiveNext } = Utils.isInactiveItem(this.state)
+  _getEventObject = (state = this.state) => {
+    const { items: itemsInSlide, currentIndex: item } = state
+    const slide = this._getActiveSlideIndex(state)
+
+    return { item, slide, itemsInSlide }
+  }
+
+  _getActiveSlideIndex = (state = this.state) => {
+    const { slides, items, currentIndex } = state
+    const { inactiveNext } = Utils.isInactiveItem(state)
 
     return Utils.getActiveSlideIndex(inactiveNext, currentIndex, items, slides.length)
   }

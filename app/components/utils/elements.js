@@ -84,6 +84,10 @@ const getNextItemIndexBeforeTouchEnd = (currentTranslateXPosition, state) => {
   return currInd
 }
 
+const isElement = (element) => {
+  return element instanceof Element || element instanceof HTMLDocument
+}
+
 export {
   getElementWidth,
   getSlides,
@@ -92,5 +96,6 @@ export {
   getSlideInfo,
   cloneCarouselItems,
   isInactiveItem,
-  getNextItemIndexBeforeTouchEnd
+  getNextItemIndexBeforeTouchEnd,
+  isElement
 }

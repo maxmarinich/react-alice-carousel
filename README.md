@@ -136,11 +136,16 @@ const Gallery = () => {
 
 * `onSlideChanged` : Function - Fired when the event object was changed / returns event object
 
-  _Both functions return next object_
+* `onInitialized` : Function - Fired when the gallery was initialized / returns event object
+
+* `onResized` : Function - Fired when the gallery was resized / returns event object
+
+  _All functions return an next object_
   ```js
     {
-        item: index,   // index of the item`s position
-        slide: index   // index of the slide`s position
+        item: index,   // index of the current item`s position
+        slide: index   // index of the current slide`s position
+        itemsInSlide: number   // number of elements in the slide
     }
   ```
 
