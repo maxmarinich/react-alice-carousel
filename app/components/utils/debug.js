@@ -1,5 +1,5 @@
-export function debug(args) {
+export function debug() {
   if (window.__DEBUG__) {
-    console.debug(args)
+    console.debug(...arguments) //eslint-disable-line
   }
 }

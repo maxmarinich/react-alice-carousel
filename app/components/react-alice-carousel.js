@@ -389,10 +389,14 @@ export default class AliceCarousel extends React.PureComponent {
 
   _keyUpHandler = (e) => {
     switch(e.keyCode) {
-    case 32: return this._playPauseToggle()
+    case 32: return this._handleOnSpaceBarClick()
     case 37: return this._slidePrev()
     case 39: return this._slideNext()
     }
+  }
+
+  _handleOnSpaceBarClick = () => {
+    this.props.autoPlay && this._playPauseToggle()
   }
 
   _intermediateStateProps = (duration, shouldSkipRecalculation) => {
