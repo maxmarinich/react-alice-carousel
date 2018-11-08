@@ -9,11 +9,9 @@ function animate(element, position = 0, durationMs = 0) {
 }
 
 function getTranslateX(element) {
-  if (isElement(element)) {
-    const translateXIndex = 4
-    const matrix = getTransformMatrix(element)
-    return matrix[translateXIndex]
-  }
+  const translateXIndex = 4
+  const matrix = getTransformMatrix(element)
+  return matrix[translateXIndex] || ''
 }
 
 function getTransformMatrix(element) {
@@ -37,10 +35,10 @@ const getTranslate3dPosition = (currentIndex = 0, state = {}) => {
     }
   }
 
-  return (items + currentIndex) * -itemWidth
+  return ((items + currentIndex) * -itemWidth) || 0
 }
 
-const isAnimatedItem = (i, animationProps = {}) => {
+const isAnimatedItem = (i = 0, animationProps = {}) => {
   const { allowFadeOutAnimation, fadeOutIndex } = animationProps
   return !!allowFadeOutAnimation && fadeOutIndex === i
 }
