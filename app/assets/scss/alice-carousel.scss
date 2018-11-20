@@ -1,10 +1,10 @@
-$clr-base: #e0e4fb;
-$clr-blue: #465798;
-$clr-darkred: darkred;
+$clr-base: #e0e4fb !default;
+$clr-blue: #465798 !default;
+$clr-darkred: darkred !default;
 
-$transition-time: .3s;
-$play-btn-color: $clr-blue;
-$play-btn-size: 32px;
+$transition-time: .3s !default;
+$play-btn-color: $clr-blue !default;
+$play-btn-size: 32px !default;
 
 
 .alice-carousel {
