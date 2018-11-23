@@ -5,7 +5,7 @@ function deviceInfo() {
   }
 }
 
-function shouldCallHandlerOnWindowResize(prevDimensions) {
+function shouldCallHandlerOnWindowResize(prevDimensions = {}) {
   const { width, height } = deviceInfo()
   return prevDimensions.width !== width || prevDimensions.height !== height
 }

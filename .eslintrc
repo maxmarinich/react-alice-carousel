@@ -14,9 +14,7 @@
     "mocha": true,
     "es6": true
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["prettier", "react"],
   "rules": {
     "space-before-function-paren": "off",
     "react/prefer-stateless-function": "warn",
@@ -32,11 +30,11 @@
       "error", "never"
     ],
     "no-extra-semi": "error",
-    "indent": [2, 2],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-debugger": 0,
     "no-console": [
-      "warn", {
-        "allow": ["warn", "error", "debug"]
+      "error", {
+        "allow": ["debug"]
       }
     ],
     "new-cap": 0,
