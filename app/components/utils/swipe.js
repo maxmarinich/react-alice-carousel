@@ -1,5 +1,4 @@
-const isVerticalTouchMoveDetected = (e, deltaX, deltaY) => {
-  const gap = 32
+const isVerticalTouchMoveDetected = (e, deltaX, deltaY, gap = 32) => {
   const vertical = Math.abs(deltaY)
   const horizontal = Math.abs(deltaX)
   return vertical > horizontal && horizontal < gap

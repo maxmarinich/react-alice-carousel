@@ -332,7 +332,7 @@ export default class AliceCarousel extends React.PureComponent {
 
   _renderDotsNavigation() {
     const { slides, items } = this.state
-    const dotsLength = Utils.getDotsCeilLength(slides.length, items)
+    const dotsLength = Utils.getDotsNavigationLength(slides.length, items)
 
     return (
       <ul className="alice-carousel__dots">
@@ -545,8 +545,8 @@ export default class AliceCarousel extends React.PureComponent {
     let position = this._getStartSwipePositionOnTouchMove(deltaX)
 
     if (infinite === false) {
-      const leftTranslateLimit = Utils.getLeftTranslateLimit(items, itemWidth)
-      const rightTranslateLimit = Utils.getRightTranslateLimit(slidesLength, itemWidth)
+      const leftTranslateLimit = Utils.geTranslateLimit(items, itemWidth)
+      const rightTranslateLimit = Utils.geTranslateLimit(slidesLength, itemWidth)
 
       if (position > leftTranslateLimit || position < rightTranslateLimit) {
         return
