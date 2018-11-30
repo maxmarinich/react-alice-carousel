@@ -1,5 +1,5 @@
 export const getDotsLength = (slidesLength, items) => {
-  if (Number(items) !== 0) {
+  if (items && slidesLength) {
     return slidesLength % items === 0 ? Math.floor(slidesLength / items) - 1 : Math.floor(slidesLength / items)
   }
   return 0

@@ -12,10 +12,12 @@ describe('elements: getStagePadding, return plan object, {}', () => {
   })
 
   it('should return expected paddingLeft value', () => {
-    expect(Utils.getStagePadding({ stagePadding })).toEqual(10)
+    const { paddingLeft } = Utils.getStagePadding({ stagePadding })
+    expect(paddingLeft).toEqual(10)
   })
 
   it('should return expected paddingRight value', () => {
-    expect(Utils.getStagePadding({ stagePadding })).toEqual(20)
+    const { paddingRight } = Utils.getStagePadding({ stagePadding })
+    expect(paddingRight).toEqual(20)
   })
 })
