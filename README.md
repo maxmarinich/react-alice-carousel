@@ -91,7 +91,7 @@ const Gallery = () => {
 
   ```js
     {
-        paddingLeft: 0,
+        paddingLeft: 0,     // in pixels
         paddingRight: 0
     }
   ```
@@ -157,7 +157,9 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 
-class Gallery extends React.Component {  
+class Gallery extends React.Component {
+  items = this.galleryItems();
+
   responsive = {
     0: { items: 1 },
     600: { items: 2 },
@@ -183,11 +185,9 @@ class Gallery extends React.Component {
   };
   
   render() {
-    const items = this.galleryItems();
-
     return (
       <AliceCarousel
-        items={items}
+        items={this.items}
         duration={400}
         autoPlay={true}
         startIndex = {1}
@@ -216,7 +216,10 @@ import "react-alice-carousel/lib/alice-carousel.css";
 
 class Gallery extends React.Component {  
   items = [1, 2, 3, 4, 5];
-  
+  state = {
+    items: this.items.map(this.galleryItem),
+  };
+
   galleryItem = (item, i) => (
     <div key={`key-${i}`} className="yours-custom-class"><h2>{item}</h2></div>
   )
@@ -226,8 +229,6 @@ class Gallery extends React.Component {
   )
                                    
   render() {
-    const items = this.items.map(this.galleryItem)
-    
     return (
       <div>
         <h3>Navigation</h3>
@@ -237,7 +238,7 @@ class Gallery extends React.Component {
         <h3>React Alice Carousel</h3>
         
         <AliceCarousel
-          items={items}
+          items={this.state.items}
           dotsDisabled={true}
           buttonsDisabled={true}
           ref={ el => this.Carousel = el }
@@ -279,7 +280,7 @@ class Gallery extends React.Component {
   );
 
   render() {
-    const { items, responsive, currentIndex } = this.state
+    const { items, responsive, currentIndex } = this.state;
     return (
       <div>
         <h3>Navigation</h3>
@@ -296,6 +297,71 @@ class Gallery extends React.Component {
           slideToIndex={currentIndex}
           onSlideChanged={this.onSlideChanged}
         />
+      </div>
+    );
+  }
+}
+```
+
+###### Example for _slidePrev/slideNext_ page
+
+```javascript
+import React from 'react';
+import AliceCarousel from 'react-alice-carousel';
+import "react-alice-carousel/lib/alice-carousel.css";
+
+class Gallery extends React.Component {
+  state = {
+    currentIndex: 0,
+    itemsInSlide: 1,
+    galleryItems: this.galleryItems(),
+  };
+
+  responsive = {
+    0: { items: 3 },
+  };
+
+  galleryItems() {
+    return Array(7).fill().map((item, i) => (
+      <div className="item"><h1>{i + 1}</h1></div>
+    ))
+  };
+
+  slidePrevPage = () => {
+    let currentIndex = this.state.currentIndex - this.state.itemsInSlide
+    if (currentIndex < 0) currentIndex = -1
+
+    this.setState({ currentIndex })
+  };
+
+  slideNextPage = () => {
+    const { itemsInSlide, galleryItems: { length }} = this.state
+    let currentIndex = this.state.currentIndex + itemsInSlide
+    if (currentIndex > length) currentIndex = length
+
+    this.setState({ currentIndex })
+  };
+
+  handleOnSlideChange = (event) => {
+    const { itemsInSlide, item } = event
+    this.setState({ itemsInSlide, currentIndex: item })
+  };
+
+  render() {
+    const { currentIndex, galleryItems } = this.state;
+
+    return (
+      <div className="app" id="app">
+        <AliceCarousel
+          items={galleryItems}
+          slideToIndex={currentIndex}
+          responsive={this.responsive}
+          onSlideChanged={this.handleOnSlideChange}
+          onResized={this.handleOnSlideChange}
+          onInitialized={this.handleOnSlideChange}
+        />
+        <button onClick={this.slidePrevPage}>Prev Page</button>
+        <button onClick={this.slideNextPage}>Next Page</button>
       </div>
     );
   }
