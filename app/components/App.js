@@ -18,22 +18,17 @@ class App extends React.PureComponent {
       <div className="app" id="app">
         <h1 className="h1">React Alice Carousel</h1>
         <AliceCarousel
-          duration={400}
           showSlideInfo={true}
           fadeOutAnimation={true}
           mouseDragEnabled={true}
           responsive={this.responsive}
           stagePadding={this.stagePadding}
-          onSlideChanged={(e) => console.debug(e)}
-          onResized={(e) => this.setState(e)}
-          onInitialized={(e) => this.setState(e)}
         >
           <div className="item"><h1>1</h1></div>
           <div className="item"><h1>2</h1></div>
           <div className="item"><h1>3</h1></div>
           <div className="item"><h1>4</h1></div>
           <div className="item"><h1>5</h1></div>
-
         </AliceCarousel>
       </div>
     )

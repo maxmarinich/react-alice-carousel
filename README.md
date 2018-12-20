@@ -49,9 +49,9 @@ import "react-alice-carousel/lib/alice-carousel.css";
 #### Quick start
 
 ```javascript
-import React from 'react';
-import AliceCarousel from 'react-alice-carousel';
-import "react-alice-carousel/lib/alice-carousel.css";
+import React from 'react'
+import AliceCarousel from 'react-alice-carousel'
+import 'react-alice-carousel/lib/alice-carousel.css'
 
 const Gallery = () => {
   const handleOnDragStart = e => e.preventDefault()
@@ -153,55 +153,46 @@ const Gallery = () => {
 ### Examples
 
 ```javascript
-import React from 'react';
-import AliceCarousel from 'react-alice-carousel';
-import "react-alice-carousel/lib/alice-carousel.css";
+import React from 'react'
+import AliceCarousel from 'react-alice-carousel'
+import "react-alice-carousel/lib/alice-carousel.css"
 
 class Gallery extends React.Component {
-  items = this.galleryItems();
+  state = {
+    galleryItems: [1, 2, 3].map((i) => (<h2 key={i}>{i}</h2>)),
+  }
 
   responsive = {
     0: { items: 1 },
-    600: { items: 2 },
-    1024: { items: 3 },
-  };
-  
+    1024: { items: 2 },
+  }
+
   onSlideChange(e) {
-    console.log('Item`s position during a change: ', e.item);
-    console.log('Slide`s position during a change: ', e.slide);
-  };
+    console.debug('Item`s position during a change: ', e.item)
+    console.debug('Slide`s position during a change: ', e.slide)
+  }
 
   onSlideChanged(e) {
-    console.log('Item`s position after changes: ', e.item);
-    console.log('Slide`s position after changes: ', e.slide);
-  };
-  
-  galleryItems() {
-    return (
-      [1, 2, 3, 4, 5].map((item, i) => (
-        <div key={`key-${i}`} className="yours-custom-class"><h2>{item}</h2></div>
-      ))
-    )
-  };
-  
+    console.debug('Item`s position after changes: ', e.item)
+    console.debug('Slide`s position after changes: ', e.slide)
+  }
+
   render() {
     return (
       <AliceCarousel
-        items={this.items}
-        duration={400}
+        items={this.state.galleryItems}
+        responsive={this.responsive}
+        autoPlayInterval={2000}
+        autoPlayDirection="rtl"
         autoPlay={true}
-        startIndex = {1}
         fadeOutAnimation={true}
         mouseDragEnabled={true}
         playButtonEnabled={true}
-        autoPlayInterval={2000}
-        autoPlayDirection="rtl"
-        responsive={this.responsive}
         disableAutoPlayOnAction={true}
         onSlideChange={this.onSlideChange}
         onSlideChanged={this.onSlideChanged}
       />
-    );
+    )
   }
 }
 ```
@@ -210,95 +201,87 @@ class Gallery extends React.Component {
 * Using -  [_refs_](https://facebook.github.io/react/docs/refs-and-the-dom.html).
 
 ```javascript
-import React from 'react';
-import AliceCarousel from 'react-alice-carousel';
-import "react-alice-carousel/lib/alice-carousel.css";
+import React from 'react'
+import AliceCarousel from 'react-alice-carousel'
+import "react-alice-carousel/lib/alice-carousel.css"
 
 class Gallery extends React.Component {  
-  items = [1, 2, 3, 4, 5];
-  state = {
-    items: this.items.map(this.galleryItem),
-  };
+  items = [1, 2, 3, 4, 5]
 
-  galleryItem = (item, i) => (
-    <div key={`key-${i}`} className="yours-custom-class"><h2>{item}</h2></div>
-  )
-  
+  state = {
+    galleryItems: this.items.map((i) => (<h2 key={i}>{i}</h2>))
+  }
+
   thumbItem = (item, i) => (
-    <li key={i} onClick={() => this.Carousel._onDotClick(i)}>Thumb {item}</li>
+    <span key={item} onClick={() => this.Carousel._onDotClick(i)}>* </span>
   )
-                                   
+
   render() {
     return (
       <div>
-        <h3>Navigation</h3>
-        <ul>{this.items.map(this.thumbItem)}</ul>
-        <button onClick={() => this.Carousel._slidePrev()}>Prev button</button>
-        <button onClick={() => this.Carousel._slideNext()}>Next button</button>
-        <h3>React Alice Carousel</h3>
-        
         <AliceCarousel
-          items={this.state.items}
           dotsDisabled={true}
           buttonsDisabled={true}
-          ref={ el => this.Carousel = el }
+          items={this.state.galleryItems}
+          ref={(el) => (this.Carousel = el)}
         />
+
+        <nav>{this.items.map(this.thumbItem)}</nav>
+        <button onClick={() => this.Carousel._slidePrev()}>Prev button</button>
+        <button onClick={() => this.Carousel._slideNext()}>Next button</button>
       </div>
-    );
+    )
   }
 }
 ```
 * Using [_props_](https://facebook.github.io/react/docs/components-and-props.html)
 
 ```javascript
-import React from 'react';
-import AliceCarousel from 'react-alice-carousel';
-import "react-alice-carousel/lib/alice-carousel.css";
+import React from 'react'
+import AliceCarousel from 'react-alice-carousel'
+import "react-alice-carousel/lib/alice-carousel.css"
 
 class Gallery extends React.Component {
-  items = [1, 2, 3, 4, 5];
+  items = [1, 2, 3, 4, 5]
+
   state = {
     currentIndex: 0,
-    responsive: { 1024: { items: 3 }},
-    items: this.items.map(this.galleryItem),
-  };
+    responsive: { 1024: { items: 3 } },
+    galleryItems: this.galleryItems(),
+  }
 
-  slideTo = (i) => this.setState({ currentIndex: i });
+  slideTo = (i) => this.setState({ currentIndex: i })
 
-  onSlideChanged = (e) => this.setState({ currentIndex: e.item });
+  onSlideChanged = (e) => this.setState({ currentIndex: e.item })
 
-  slideNext = () => this.setState({ currentIndex: this.state.currentIndex + 1 });
+  slideNext = () => this.setState({ currentIndex: this.state.currentIndex + 1 })
 
-  slidePrev = () => this.setState({ currentIndex: this.state.currentIndex - 1 });
-    
-  thumbItem = (item, i) => (
-    <li key={`key-${i}`} onClick={() => this.slideTo(i)}>Thumb {item}</li>
-  );
-    
-  galleryItem = (item, i) => (
-    <div key={`key-${i}`} className="yours-custom-class"><h2>{item}</h2></div>
-  );
+  slidePrev = () => this.setState({ currentIndex: this.state.currentIndex - 1 })
+
+  thumbItem = (item, i) => <span onClick={() => this.slideTo(i)}>* </span>
+
+  galleryItems() {
+    return this.items.map((i) => <h2 key={i}> {i}</h2>)
+  }
 
   render() {
-    const { items, responsive, currentIndex } = this.state;
+    const { galleryItems, responsive, currentIndex } = this.state
     return (
       <div>
-        <h3>Navigation</h3>
-        <ul>{this.items.map(this.thumbItem)}</ul>
-        <button onClick={() => this.slidePrev()}>Prev button</button>
-        <button onClick={() => this.slideNext()}>Next button</button>
-        <h3>React Alice Carousel</h3>
-
         <AliceCarousel
-          items={items}
           dotsDisabled={true}
           buttonsDisabled={true}
+          items={galleryItems}
           responsive={responsive}
           slideToIndex={currentIndex}
           onSlideChanged={this.onSlideChanged}
         />
+
+        <ul>{this.items.map(this.thumbItem)}</ul>
+        <button onClick={() => this.slidePrev()}>Prev button</button>
+        <button onClick={() => this.slideNext()}>Next button</button>
       </div>
-    );
+    )
   }
 }
 ```
@@ -306,33 +289,28 @@ class Gallery extends React.Component {
 ###### Example for _slidePrev/slideNext_ page
 
 ```javascript
-import React from 'react';
-import AliceCarousel from 'react-alice-carousel';
-import "react-alice-carousel/lib/alice-carousel.css";
+import React from 'react'
+import AliceCarousel from 'react-alice-carousel'
+import 'react-alice-carousel/lib/alice-carousel.css'
 
 class Gallery extends React.Component {
   state = {
     currentIndex: 0,
     itemsInSlide: 1,
+    responsive: { 0: { items: 3 }},
     galleryItems: this.galleryItems(),
-  };
-
-  responsive = {
-    0: { items: 3 },
-  };
+  }
 
   galleryItems() {
-    return Array(7).fill().map((item, i) => (
-      <div className="item"><h1>{i + 1}</h1></div>
-    ))
-  };
+    return (
+      Array(7).fill().map((item, i) => <h2 className="item">{i + 1}</h2>)
+    )
+  }
 
   slidePrevPage = () => {
-    let currentIndex = this.state.currentIndex - this.state.itemsInSlide
-    if (currentIndex < 0) currentIndex = -1
-
+    const currentIndex = this.state.currentIndex - this.state.itemsInSlide
     this.setState({ currentIndex })
-  };
+  }
 
   slideNextPage = () => {
     const { itemsInSlide, galleryItems: { length }} = this.state
@@ -340,30 +318,30 @@ class Gallery extends React.Component {
     if (currentIndex > length) currentIndex = length
 
     this.setState({ currentIndex })
-  };
+  }
 
   handleOnSlideChange = (event) => {
     const { itemsInSlide, item } = event
     this.setState({ itemsInSlide, currentIndex: item })
-  };
+  }
 
   render() {
-    const { currentIndex, galleryItems } = this.state;
+    const { currentIndex, galleryItems, responsive } = this.state
 
     return (
-      <div className="app" id="app">
+      <div>
         <AliceCarousel
           items={galleryItems}
           slideToIndex={currentIndex}
-          responsive={this.responsive}
+          responsive={responsive}
+          onInitialized={this.handleOnSlideChange}
           onSlideChanged={this.handleOnSlideChange}
           onResized={this.handleOnSlideChange}
-          onInitialized={this.handleOnSlideChange}
         />
         <button onClick={this.slidePrevPage}>Prev Page</button>
         <button onClick={this.slideNextPage}>Next Page</button>
       </div>
-    );
+    )
   }
 }
 ```
