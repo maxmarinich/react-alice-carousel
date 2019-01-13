@@ -26,7 +26,9 @@ const propTypes = {
   autoPlayDirection: PropTypes.string,
   disableAutoPlayOnAction: PropTypes.bool,
   stopAutoPlayOnHover: PropTypes.bool,
-  preventEventOnTouchMove: PropTypes.bool
+  preventEventOnTouchMove: PropTypes.bool,
+  nextButtonText: PropTypes.string,
+  prevButtonText: PropTypes.string,
 }
 
 const defaultProps = {
@@ -51,7 +53,9 @@ const defaultProps = {
   keysControlDisabled: false,
   disableAutoPlayOnAction: false,
   stopAutoPlayOnHover: true,
-  preventEventOnTouchMove: false
+  preventEventOnTouchMove: false,
+  nextButtonText: 'Next',
+  prevButtonText: 'Prev',
 }
 
 export { propTypes, defaultProps }

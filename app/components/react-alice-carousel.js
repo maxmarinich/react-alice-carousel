@@ -270,7 +270,7 @@ export default class AliceCarousel extends React.PureComponent {
           onMouseLeave={this._onMouseLeaveAutoPlayHandler}
         >
           <p className={className} onClick={this._slidePrev}>
-            <span data-area="Prev" />
+            <span data-area={this.props.prevButtonText} />
           </p>
         </div>
       </div>
@@ -289,7 +289,7 @@ export default class AliceCarousel extends React.PureComponent {
           onMouseLeave={this._onMouseLeaveAutoPlayHandler}
         >
           <p className={className} onClick={this._slideNext}>
-            <span data-area="Next" />
+            <span data-area={this.props.nextButtonText} />
           </p>
         </div>
       </div>
