@@ -2,7 +2,7 @@ import { cloneCarouselItems, getElementWidth, getItemWidth, getSlides, getStageP
 import { getTranslate3dPosition } from './animation'
 import { setStartIndex } from './math'
 
-const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
+export const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
   let items = 1
   if (responsiveConfig) {
     const configKeys = Object.keys(responsiveConfig)
@@ -18,7 +18,7 @@ const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
   return items
 }
 
-const calculateInitialProps = (props, rootComponent) => {
+export const calculateInitialProps = (props, rootComponent) => {
   const slides = getSlides(props)
   const stagePadding = getStagePadding(props)
   const { startIndex, responsive, infinite } = props
@@ -37,8 +37,6 @@ const calculateInitialProps = (props, rootComponent) => {
     clones,
     infinite,
     translate3d,
-    stagePadding
+    stagePadding,
   }
 }
-
-export { setTotalItemsInSlide, calculateInitialProps }

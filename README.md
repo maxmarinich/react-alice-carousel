@@ -51,9 +51,9 @@ import "react-alice-carousel/lib/alice-carousel.css";
 #### Quick start
 
 ```javascript
-import React from 'react'
-import AliceCarousel from 'react-alice-carousel'
-import 'react-alice-carousel/lib/alice-carousel.css'
+import React from 'react';
+import AliceCarousel from 'react-alice-carousel';
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const Gallery = () => {
   const handleOnDragStart = e => e.preventDefault()
@@ -110,7 +110,7 @@ const Gallery = () => {
 
 * `mouseDragEnabled` : Boolean, default `false` - Enable mouse drag animation
 
-  _To Avoid unexpected behavior you should handle `drag` event independently, something like in an [example](#quick-start)_   
+  _To Avoid unexpected behavior you should handle `drag` event independently, something like in an [example](#quick-start)_
 
 * `infinite` : Boolean, default `true` - Disable infinite mode
 
@@ -142,7 +142,7 @@ const Gallery = () => {
 
 * `onResized` : Function - Fired when the gallery was resized / returns event object
 
-  _All functions return an next object_
+  _All functions return the next object_
   ```js
     {
         item: index,   // index of the current item`s position

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const propTypes = {
+export const propTypes = {
   items: PropTypes.array,
   children: PropTypes.array,
   onSlideChange: PropTypes.func,
@@ -29,7 +29,7 @@ const propTypes = {
   preventEventOnTouchMove: PropTypes.bool
 }
 
-const defaultProps = {
+export const defaultProps = {
   items: [],
   children: [],
   responsive: {},
@@ -53,5 +53,3 @@ const defaultProps = {
   stopAutoPlayOnHover: true,
   preventEventOnTouchMove: false
 }
-
-export { propTypes, defaultProps }

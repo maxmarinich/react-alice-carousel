@@ -1,12 +1,12 @@
 import { isAnimatedItem } from './animation'
 
-const intermediateTransitionProps = (condition, duration) => {
+export const intermediateTransitionProps = (condition, duration) => {
   return condition
     ? { fadeoutAnimationProcessing: true, style: { transition: 'transform 0ms ease-out' } }
     : { style: { transition: `transform ${duration}ms ease-out` } }
 }
 
-const itemStyles = (i, state, animationProps) => {
+export const itemStyles = (i, state, animationProps) => {
   const { fadeOutOffset } = animationProps
   const { itemWidth, duration } = state
 
@@ -15,16 +15,13 @@ const itemStyles = (i, state, animationProps) => {
     : { width: `${itemWidth}px` }
 }
 
-const stageStyle = (style, translate3d) => {
-  return { ...style, transform: `translate3d(${translate3d}px, 0, 0)` }
-}
-const wrapperStyle = ({ paddingLeft, paddingRight }) => {
-  return { paddingLeft: `${paddingLeft}px`, paddingRight: `${paddingRight}px` }
+export const stageStyle = (currentStyles = {}, nextStyles ={}) => {
+  const { translate3d = 0, height } = nextStyles
+  const transform = `translate3d(${translate3d}px, 0, 0)`
+
+  return { ...currentStyles, transform, height  }
 }
 
-export {
-  itemStyles,
-  stageStyle,
-  wrapperStyle,
-  intermediateTransitionProps
+export const wrapperStyle = ({ paddingLeft, paddingRight }) => {
+  return { paddingLeft: `${paddingLeft}px`, paddingRight: `${paddingRight}px` }
 }

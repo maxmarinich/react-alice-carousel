@@ -1,6 +1,6 @@
 import { isElement } from './elements'
 
-function animate(element, position = 0, durationMs = 0) {
+export function animate(element, position = 0, durationMs = 0) {
   if (isElement(element)) {
     element.style['transition'] = `transform ${durationMs}ms ease-out`
     element.style['transform'] = `translate3d(${position}px, 0, 0)`
@@ -8,13 +8,13 @@ function animate(element, position = 0, durationMs = 0) {
   return element
 }
 
-function getTranslateX(element) {
+export function getTranslateX(element) {
   const translateXIndex = 4
   const matrix = getTransformMatrix(element)
   return matrix[translateXIndex] || ''
 }
 
-function getTransformMatrix(element) {
+export function getTransformMatrix(element) {
   if (isElement(element)) {
     const { transform = '' } = getComputedStyle(element) || {}
     const matched = transform.match(/[0-9., -]+/) || []
@@ -25,7 +25,7 @@ function getTransformMatrix(element) {
   return []
 }
 
-const getTranslate3dPosition = (currentIndex = 0, state = {}) => {
+export const getTranslate3dPosition = (currentIndex = 0, state = {}) => {
   const { itemWidth, items, infinite, stagePadding = {}} = state
 
   if (infinite) {
@@ -38,9 +38,7 @@ const getTranslate3dPosition = (currentIndex = 0, state = {}) => {
   return ((items + currentIndex) * -itemWidth) || 0
 }
 
-const isAnimatedItem = (i = 0, animationProps = {}) => {
+export const isAnimatedItem = (i = 0, animationProps = {}) => {
   const { allowFadeOutAnimation, fadeOutIndex } = animationProps
   return !!allowFadeOutAnimation && fadeOutIndex === i
 }
-
-export { animate, getTranslateX, getTranslate3dPosition, isAnimatedItem, getTransformMatrix }

@@ -72,11 +72,12 @@
       "\\.js$": "babel-jest"
     }
   },
+  "peerDependencies": {
+    "react": ">=15.4"
+  },
   "dependencies": {
     "prop-types": "^15.5.10",
-    "react": ">=15.4",
-    "react-dom": ">=15.4",
-    "react-swipeable": "^4.3.0"
+    "react-swipeable": "4.3.0"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -114,7 +115,9 @@
     "node-sass": "4.9.3",
     "open-browser-webpack-plugin": "0.0.5",
     "prettier": "^1.14.3",
+    "react": ">=15.4",
     "react-addons-test-utils": "15.6.2",
+    "react-dom": ">=15.4",
     "react-hot-loader": "4.3.5",
     "react-router-dom": "^4.3.1",
     "react-test-renderer": "16.4.2",
@@ -125,6 +128,6 @@
     "url-loader": "1.0.1",
     "webpack": "4.17.0",
     "webpack-cli": "3.1.0",
-    "webpack-dev-server": ">=3.1.11"
+    "webpack-dev-server": "3.1.6"
   }
 }

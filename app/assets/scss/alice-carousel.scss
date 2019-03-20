@@ -67,6 +67,7 @@ $play-btn-size: 32px !default;
     &::after {
       content: attr(data-area);
       position: relative;
+      text-transform: capitalize;
     }
   }
 }
