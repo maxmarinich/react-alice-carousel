@@ -1,5 +1,6 @@
 import React from 'react'
 import Swipeable from 'react-swipeable'
+
 import * as Utils from './utils'
 import { propTypes, defaultProps } from './propTypes'
 
@@ -545,10 +546,10 @@ export default class AliceCarousel extends React.PureComponent {
     let position = this._getStartSwipePositionOnTouchMove(deltaX)
 
     if (infinite === false) {
-      const leftTranslateLimit = Utils.geTranslateLimit(items, itemWidth)
-      const rightTranslateLimit = Utils.geTranslateLimit(slidesLength, itemWidth)
+      const minSwipeLimit = Utils.getMinSwipeLimitIfNotInfinite(itemWidth)
+      const maxSwipeLimit = Utils.getMaxSwipeLimitIfNotInfinite(slidesLength, itemWidth)
 
-      if (position > leftTranslateLimit || position < rightTranslateLimit) {
+      if (position > -minSwipeLimit || Math.abs(position) > maxSwipeLimit) {
         return
       }
 
@@ -557,11 +558,12 @@ export default class AliceCarousel extends React.PureComponent {
       return
     }
 
-    const maxPosition = Utils.getMaxSWipePosition(items, itemWidth, slidesLength)
-    const limitMinPos = Utils.getSwipeMinLimit(itemWidth, stagePadding)
-    const limitMaxPos = Utils.getSwipeMaxLimit(itemWidth, maxPosition, stagePadding)
+    const maxPosition = Utils.getMaxSwipePosition(items, itemWidth, slidesLength)
+    const minPosition = Utils.getMinSwipePosition(items, itemWidth)
+    const maxSwipeLimit = Utils.getMaxSwipeLimit(maxPosition, stagePadding)
+    const minSwipeLimit = Utils.getMinSwipeLimit(minPosition, stagePadding)
 
-    if (position >= 0 - limitMinPos || Math.abs(position) >= limitMaxPos) {
+    if (position >= 0 - minSwipeLimit || Math.abs(position) >= maxSwipeLimit) {
       try {
         recalculatePosition()
       } catch (err) {
@@ -575,12 +577,8 @@ export default class AliceCarousel extends React.PureComponent {
     function recalculatePosition() {
       direction === 'RIGHT' ? (position += slidesLength * -itemWidth) : (position += maxPosition - items * itemWidth)
 
-      if (position >= 0 - limitMinPos || Math.abs(position) >= limitMaxPos) {
-        try {
-          recalculatePosition()
-        } catch (err) {
-          Utils.debug(err)
-        }
+      if (position >= 0 - minSwipeLimit || Math.abs(position) >= maxSwipeLimit) {
+        recalculatePosition()
       }
     }
   }
