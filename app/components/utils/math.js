@@ -58,6 +58,10 @@ export const getMaxSwipePosition = (items, itemWidth, slidesLength) => {
   return (slidesLength + items) * itemWidth || 0
 }
 
+export const getMinSwipePosition = (items, itemWidth) => {
+  return items * itemWidth || 0
+}
+
 export const getMinSwipeLimit = (stagePadding = {}) => {
   const { paddingLeft = 0 } = stagePadding
   return paddingLeft ? paddingLeft : 0
@@ -73,8 +77,12 @@ export const getSlideOffset = (itemWidth, offset = 250) => {
   return Math.min(itemWidth / 2, offset) || 0
 }
 
-export const geTranslateLimit = (items, itemWidth) => {
-  return items * itemWidth - getSlideOffset(itemWidth) || 0
+export const getMinSwipeLimitIfNotInfinite = (itemWidth) => {
+  return itemWidth - getSlideOffset(itemWidth) || 0
+}
+
+export const getMaxSwipeLimitIfNotInfinite = (slidesLength, itemWidth) => {
+  return slidesLength * itemWidth + getSlideOffset(itemWidth) || 0
 }
 
 export const getDotsNavigationLength = (slidesLength, items) => {

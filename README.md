@@ -2,11 +2,11 @@
 [![npm version](https://badge.fury.io/js/react-alice-carousel.svg)](https://badge.fury.io/js/react-alice-carousel)
 [![Build Status](https://travis-ci.com/maxmarinich/react-alice-carousel.svg?branch=master)](https://travis-ci.com/maxmarinich/react-alice-carousel)
 
+React Alice Carousel is a React component for building content galleries, content rotators and any React carousels.
+
 ![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/app/assets/img/react-alice-carousel.gif)
 
 ![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/app/assets/img/react-alice-carousel-demo.gif)
-
-React Alice Carousel is a React component for building content galleries, content rotators and any React carousels.
 
 ## Features of react-alice-carousel
 
