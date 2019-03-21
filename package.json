@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config config/webpack/webpack.config.js",
-    "clean": "rimraf dist",
+    "clean": "rimraf lib dist",
     "lint": "eslint ./app/**/**.js",
     "format": "prettier --write ./app/**/**.js",
     "test": "jest",
