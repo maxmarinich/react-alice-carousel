@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('elements: getItemWidth, return gallery item width, number', () => {
   it('should return default value', () => {

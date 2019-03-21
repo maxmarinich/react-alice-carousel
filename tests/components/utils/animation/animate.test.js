@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('animation: animate, should update Element style properties, {}', () => {
   const element = document.createElement('div')

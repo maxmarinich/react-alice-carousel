@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('classnames: itemClassName: should return className, string', () => {
   const className = 'alice-carousel__stage-item'

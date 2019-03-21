@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('animation: getTranslate3dPosition, should return translate3d position value, number', () => {
   const params = { items: 1, itemWidth: 100 }

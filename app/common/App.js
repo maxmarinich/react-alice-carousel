@@ -1,16 +1,16 @@
 import React from 'react'
-import AliceCarousel from './react-alice-carousel'
+import AliceCarousel from '../lib/react-alice-carousel'
 
 class App extends React.PureComponent {
   responsive = {
-    0: { items: 1 },
+    0: { items: 2 },
     600: { items: 2 },
     960: { items: 3 }
   }
 
   stagePadding = {
-    paddingLeft: 100,
-    paddingRight: 100,
+    paddingLeft: 30,
+    paddingRight: 30,
   }
 
   render() {
@@ -24,8 +24,9 @@ class App extends React.PureComponent {
           onInitialized={() => console.debug('IDD:')}
           fadeOutAnimation={true}
           mouseDragEnabled={true}
+          //infinite={false}
           responsive={this.responsive}
-          //stagePadding={this.stagePadding}
+          stagePadding={this.stagePadding}
         >
           <div className="item" style={{ height: 180 }}><h1>1</h1></div>
           <div className="item" style={{ height: 200 }}><h1>2</h1></div>

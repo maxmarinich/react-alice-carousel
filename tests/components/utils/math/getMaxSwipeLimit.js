@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('math: getMaxSwipeLimit, return max swipe position, number', () => {
   it('should return default data', () => {

@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('elements: getNextItemIndexBeforeTouchEnd, return item info, {}', () => {
   const position = 300

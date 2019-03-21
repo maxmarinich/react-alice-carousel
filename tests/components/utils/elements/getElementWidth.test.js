@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('elements: getElementWidth, return element width, number', () => {
   const element = document.createElement('div')

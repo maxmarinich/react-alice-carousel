@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('math: getDotsNavigationLength, return length of dots navigation, number', () => {
   it('should return default data', () => {

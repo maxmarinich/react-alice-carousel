@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('animation: getTransformMatrix, should return matrix transformation data, []', () => {
   it('should return expected empty data if no element', () => {

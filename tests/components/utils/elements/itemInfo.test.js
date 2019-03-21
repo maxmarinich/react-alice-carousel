@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('elements: itemInfo, return item info, {}', () => {
   it('should return default value', () => {

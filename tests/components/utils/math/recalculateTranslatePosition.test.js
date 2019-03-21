@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('math: recalculateTranslatePosition, return translate position, number', () => {
   const state = { currentIndex: 1, items: 1, itemWidth: 100, stagePadding: {}, slides: [1, 2, 3] }

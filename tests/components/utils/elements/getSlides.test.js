@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../app/lib/utils'
 
 describe('elements: getSlides, return gallery items, []', () => {
   it('should return expected value', () => {
