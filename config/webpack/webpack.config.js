@@ -28,7 +28,7 @@ const config = {
     publicPath: '',
   },
 
-  context: resolve(rootPath, 'app'),
+  context: resolve(rootPath, 'src'),
 
   devServer: {
     hot: true,

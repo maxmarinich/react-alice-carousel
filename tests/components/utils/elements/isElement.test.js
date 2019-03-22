@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/lib/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('elements: isElement, return info is instance a valid html element, boolean', () => {
   const element = document.createElement('div')

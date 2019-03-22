@@ -38,7 +38,7 @@ npm install react-alice-carousel --save-dev
 
 ```
 # SCSS
-@import "react-alice-carousel/src/alice-carousel.scss";
+@import "react-alice-carousel/lib/scss/alice-carousel.scss";
 ```
 ```
 # CSS

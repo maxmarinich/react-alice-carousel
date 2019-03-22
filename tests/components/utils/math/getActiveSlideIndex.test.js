@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/lib/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('math: getActiveSlideIndex, return current slide`s index, number', () => {
   it('should return default data', () => {

@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/lib/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('classnames: isClonedItem: should return flag, boolean', () => {
   const params = { items: 1, slides: [1], infinite: false }

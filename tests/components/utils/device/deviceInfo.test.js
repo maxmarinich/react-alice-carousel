@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/lib/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('device: deviceInfo, return info object, {}', () => {
   const width = 1000

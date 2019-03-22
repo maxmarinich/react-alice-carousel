@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/lib/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('math: getSlideOffset, return slide offset, number', () => {
   it('should return default data', () => {

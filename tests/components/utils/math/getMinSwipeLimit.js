@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/lib/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('math: getMinSwipeLimit, return min swipe position, number', () => {
   it('should return default data', () => {

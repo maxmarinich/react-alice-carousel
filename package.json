@@ -11,8 +11,8 @@
   "scripts": {
     "start": "webpack-dev-server --config config/webpack/webpack.config.js",
     "clean": "rimraf lib dist",
-    "lint": "eslint ./app/**/**.js",
-    "format": "prettier --write ./app/**/**.js",
+    "lint": "eslint ./src/**/**.js",
+    "format": "prettier --write ./src/**/**.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
@@ -59,7 +59,7 @@
     ],
     "testURL": "http://localhost/",
     "collectCoverageFrom": [
-      "app/**/*.{js,jsx,ts,tsx}"
+      "src/**/*.{js,jsx,ts,tsx}"
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/jest/assetsTransformer.js",

@@ -7,7 +7,7 @@ const autoprefixer = require('gulp-autoprefixer')
 const strip = require('gulp-strip-comments')
 
 const rootPath = resolve(__dirname, '../..')
-const libPath = resolve(rootPath, 'app/lib')
+const libPath = resolve(rootPath, 'src/lib')
 const outputPath = resolve(rootPath, 'lib')
 
 const babelOptions = {

@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/lib/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('animation: isAnimatedItem, should return flag, boolean', () => {
   const params = { allowFadeOutAnimation: true, fadeOutIndex: 0 }

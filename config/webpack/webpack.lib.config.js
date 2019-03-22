@@ -18,7 +18,7 @@ const config = {
     path: resolve(rootPath, 'lib'),
   },
 
-  context: resolve(rootPath, 'app'),
+  context: resolve(rootPath, 'src'),
 
   resolve: {
     extensions: ['.js', '.jsx'],

@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/lib/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('elements: cloneCarouselItems, return cloned items, []', () => {
   const children = [1, 2, 3]
