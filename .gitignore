@@ -55,11 +55,13 @@ npm-debug.log
 
 # vs code
 .vscode
+.DS_Store
 
 # coverage
 
 /coverage
 
 # Dist folder
-dist/
-lib/
+dist
+lib
+!src/lib

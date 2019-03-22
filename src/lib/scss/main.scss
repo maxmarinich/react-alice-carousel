@@ -1,0 +1,36 @@
+@import 'alice-carousel';
+
+.app {
+  max-width: 800px;
+  margin: auto;
+  font-family: Arial, Helvetica, sans-serif;
+  opacity: 0.5;
+}
+
+.h1 {
+  text-align: center;
+  font-size: 1.5em;
+  flex: 1;
+  color: #fff;
+}
+.alice-carousel__wrapper {
+  border: solid 1px rgba($clr-blue, .3)
+}
+
+.item {
+  background-color: #ddd;
+  height: 170px;
+  margin: 5px;
+  h1 {
+    margin: 0;
+    height: 100%;
+    text-align: center;
+    color: #ccc;
+    &:before {
+      content: '';
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}
