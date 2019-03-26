@@ -1,7 +1,7 @@
 export const cloneCarouselItems = (children = [], itemsInSlide, props) => {
   let items = itemsInSlide || 1
   const { stagePadding, infinite } = props || {}
-  const { paddingLeft, paddingRight } = getStagePadding({ stagePadding })
+  const { paddingLeft, paddingRight } = stagePadding
 
   if (items > children.length) {
     items = children.length
@@ -120,5 +120,6 @@ export const getNextItemIndexBeforeTouchEnd = (currentTranslateXPosition, props 
 }
 
 export const getCurrentIndex = (currentTranslateXPosition, itemWidth, items) => {
-  return Math.abs(currentTranslateXPosition / itemWidth) - items
+  const value = Math.abs(currentTranslateXPosition / itemWidth)
+  return Math.ceil(value) - items
 }

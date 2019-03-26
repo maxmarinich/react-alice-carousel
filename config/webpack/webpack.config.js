@@ -32,7 +32,7 @@ const config = {
 
   devServer: {
     hot: true,
-    contentBase: resolve(rootPath, 'build'),
+    contentBase: resolve(rootPath, 'public'),
     historyApiFallback: true,
     publicPath: '/'
   },

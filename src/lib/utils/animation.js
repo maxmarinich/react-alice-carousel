@@ -42,3 +42,10 @@ export const isAnimatedItem = (i = 0, animationProps = {}) => {
   const { allowFadeOutAnimation, fadeOutIndex } = animationProps
   return !!allowFadeOutAnimation && fadeOutIndex === i
 }
+
+export const isFadeOutAnimationAllowed = (state = {}, props = {}) => {
+  const { stagePadding, items } = state
+  const hasNoStagePadding = !(stagePadding.paddingLeft || stagePadding.paddingRight)
+
+  return props.fadeOutAnimation && items === 1 && hasNoStagePadding
+}

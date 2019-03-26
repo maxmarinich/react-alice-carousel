@@ -19,9 +19,9 @@ export const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
 }
 
 export const calculateInitialProps = (props, rootComponent) => {
+  const { startIndex, responsive, infinite } = props
   const slides = getSlides(props)
   const stagePadding = getStagePadding(props)
-  const { startIndex, responsive, infinite } = props
   const items = setTotalItemsInSlide(responsive, slides.length)
   const currentIndex = setStartIndex(slides.length, startIndex)
   const galleryWidth = getElementWidth(rootComponent)
