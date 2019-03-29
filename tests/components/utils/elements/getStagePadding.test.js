@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('elements: getStagePadding, return plan object, {}', () => {
   const stagePadding = { paddingLeft: 10, paddingRight: 20 }

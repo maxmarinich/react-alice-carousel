@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
-import Root from './config/Root'
+
+import Routes from './common/Routes'
 
 const render = (Component) => {
   window.__DEBUG__ = true
@@ -13,11 +14,11 @@ const render = (Component) => {
   )
 }
 
-render(Root)
+render(Routes)
 
 if (module.hot) {
-  module.hot.accept('./config/Root', () => {
-    const newApp = require('./config/Root').default
-    render(newApp)
+  module.hot.accept('./common/Routes', () => {
+    const newApp = require('./common/Routes')
+    render(newApp.default)
   })
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import App from '../components/App'
+import App from './App'
 
-const Root = () => {
+const Routes = () => {
   return (
     <Router>
       <Switch>
@@ -12,4 +12,4 @@ const Root = () => {
   )
 }
 
-export default Root
+export default Routes

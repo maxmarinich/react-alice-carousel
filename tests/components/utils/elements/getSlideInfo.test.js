@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('elements: getSlideInfo, return slide info, {}', () => {
   it('should return default value', () => {

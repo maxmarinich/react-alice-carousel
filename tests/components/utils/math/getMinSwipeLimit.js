@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('math: getMinSwipeLimit, return min swipe position, number', () => {
   it('should return default data', () => {
@@ -12,7 +12,7 @@ describe('math: getMinSwipeLimit, return min swipe position, number', () => {
   })
 
   it('should return expected data if paddingLeft', () => {
-    const data = Utils.getMinSwipeLimit(100, { paddingLeft: 50 })
-    expect(data).toEqual(150)
+    const data = Utils.getMinSwipeLimit({ paddingLeft: 50 })
+    expect(data).toEqual(50)
   })
 })

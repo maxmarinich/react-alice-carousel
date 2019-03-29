@@ -5,6 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 
 const PORT = 8080
+const rootPath = resolve(__dirname, '../../')
 
 const config = {
   stats: {
@@ -18,20 +19,20 @@ const config = {
     `webpack-dev-server/client?http://localhost:${PORT}`,
     'webpack/hot/only-dev-server',
     './index.js',
-    './assets/scss/main.scss',
+    './lib/scss/main.scss',
   ],
 
   output: {
     filename: 'bundle.js',
-    path: resolve(__dirname, 'dist'),
+    path: resolve(rootPath, 'dist'),
     publicPath: '',
   },
 
-  context: resolve(__dirname, 'app'),
+  context: resolve(rootPath, 'src'),
 
   devServer: {
     hot: true,
-    contentBase: resolve(__dirname, 'build'),
+    contentBase: resolve(rootPath, 'public'),
     historyApiFallback: true,
     publicPath: '/'
   },
@@ -144,7 +145,7 @@ const config = {
       test: /\.jsx?$/,
       options: {
         eslint: {
-          configFile: resolve(__dirname, '.eslintrc'),
+          configFile: resolve(rootPath, '.eslintrc'),
           cache: false,
         }
       },

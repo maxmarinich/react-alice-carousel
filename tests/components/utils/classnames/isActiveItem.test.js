@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('classnames: isActiveItem, should return flag, boolean', () => {
   const params = { currentIndex: 1, items: 1 }

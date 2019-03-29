@@ -1,4 +1,4 @@
-import * as Utils from '../../../../app/components/utils'
+import * as Utils from '../../../../src/lib/utils'
 
 describe('device: shouldCallHandlerOnWindowResize, return flag, boolean', () => {
   const width = 1000

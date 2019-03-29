@@ -2,11 +2,11 @@
 [![npm version](https://badge.fury.io/js/react-alice-carousel.svg)](https://badge.fury.io/js/react-alice-carousel)
 [![Build Status](https://travis-ci.com/maxmarinich/react-alice-carousel.svg?branch=master)](https://travis-ci.com/maxmarinich/react-alice-carousel)
 
+React Alice Carousel is a React component for building content galleries, content rotators and any React carousels.
+
 ![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/app/assets/img/react-alice-carousel.gif)
 
 ![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/app/assets/img/react-alice-carousel-demo.gif)
-
-React Alice Carousel is a React component for building content galleries, content rotators and any React carousels.
 
 ## Features of react-alice-carousel
 
@@ -26,6 +26,7 @@ React Alice Carousel is a React component for building content galleries, conten
 * Custom animation duration
 * Multiple items in the slide
 * Show / hide anything (indicators, arrows, slides indexes)
+* TypeScript type definitions
 
 ## How to use
 
@@ -37,7 +38,7 @@ npm install react-alice-carousel --save-dev
 
 ```
 # SCSS
-@import "react-alice-carousel/src/alice-carousel.scss";
+@import "react-alice-carousel/lib/scss/alice-carousel.scss";
 ```
 ```
 # CSS
@@ -51,9 +52,9 @@ import "react-alice-carousel/lib/alice-carousel.css";
 #### Quick start
 
 ```javascript
-import React from 'react'
-import AliceCarousel from 'react-alice-carousel'
-import 'react-alice-carousel/lib/alice-carousel.css'
+import React from 'react';
+import AliceCarousel from 'react-alice-carousel';
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const Gallery = () => {
   const handleOnDragStart = e => e.preventDefault()
@@ -110,7 +111,7 @@ const Gallery = () => {
 
 * `mouseDragEnabled` : Boolean, default `false` - Enable mouse drag animation
 
-  _To Avoid unexpected behavior you should handle `drag` event independently, something like in an [example](#quick-start)_   
+  _To Avoid unexpected behavior you should handle `drag` event independently, something like in an [example](#quick-start)_
 
 * `infinite` : Boolean, default `true` - Disable infinite mode
 
@@ -142,7 +143,7 @@ const Gallery = () => {
 
 * `onResized` : Function - Fired when the gallery was resized / returns event object
 
-  _All functions return an next object_
+  _All functions return the next object_
   ```js
     {
         item: index,   // index of the current item`s position
