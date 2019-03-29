@@ -1,6 +1,6 @@
 {
   "name": "react-alice-carousel",
-  "version": "1.13.7",
+  "version": "1.13.8",
   "description": "React image gallery, react slideshow carousel, react content rotator",
   "main": "./lib/react-alice-carousel",
   "types": "./lib/types/react-alice-carousel.d.ts",
@@ -77,6 +77,7 @@
   },
   "dependencies": {
     "prop-types": "^15.5.10",
+    "react-alice-carousel": "^1.13.7",
     "react-swipeable": "4.3.0"
   },
   "devDependencies": {

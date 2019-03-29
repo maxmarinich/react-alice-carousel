@@ -55,6 +55,6 @@ config
 tests
 public
 static
-dist,
-src,
+dist
+src
 gulpfile.js
