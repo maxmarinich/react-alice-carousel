@@ -1,6 +1,7 @@
 export const getDotsLength = (slidesLength, items) => {
-  if (items && slidesLength) {
-    return slidesLength % items === 0 ? Math.floor(slidesLength / items) - 1 : Math.floor(slidesLength / items)
+  if (slidesLength && items) {
+    const dots = Math.floor(slidesLength / items)
+    return slidesLength % items === 0 ? dots - 1 : dots
   }
   return 0
 }
@@ -10,27 +11,27 @@ export const getActiveSlideIndex = (isNextSlideDisabled, props = {}) => {
   const currentIndex = index + items
   const slidesLength = slides.length
 
-  if (items === 1) {
-    if (currentIndex < items) {
-      return slidesLength - items
-    } else if (currentIndex > slidesLength) {
-      return 0
-    } else {
-      return currentIndex - 1
-    }
-  } else {
-    const dotsLength = getDotsLength(slidesLength, items)
+  return items === 1
+    ? getSlideIndexForNotMultipleItems(currentIndex, items, slidesLength)
+    : getSlideIndexForMultipleItems(currentIndex, items, slidesLength, isNextSlideDisabled)
+}
 
-    if (currentIndex === slidesLength + items) {
-      return 0
-    } else if (isNextSlideDisabled || (currentIndex < items && currentIndex !== 0)) {
-      return dotsLength
-    } else if (currentIndex === 0) {
-      return slidesLength % items === 0 ? dotsLength : dotsLength - 1
-    } else {
-      return items > 0 ? Math.floor(currentIndex / items) - 1 : 0
-    }
+export const getSlideIndexForNotMultipleItems = (currentIndex, items, slidesLength) => {
+  if (currentIndex < items) return slidesLength - items
+  if (currentIndex > slidesLength) return 0
+  return currentIndex - 1
+}
+
+export const getSlideIndexForMultipleItems = (currentIndex, items, slidesLength, isNextSlideDisabled) => {
+  const dotsLength = getDotsLength(slidesLength, items)
+
+  if (currentIndex === slidesLength + items) return 0
+  if (isNextSlideDisabled || (currentIndex < items && currentIndex !== 0)) return dotsLength
+  if (currentIndex === 0) {
+    return slidesLength % items === 0 ? dotsLength : dotsLength - 1
   }
+
+  return items > 0 ? Math.floor(currentIndex / items) - 1 : 0
 }
 
 export const setStartIndex = (childrenLength, index) => {
@@ -62,6 +63,14 @@ export const getMinSwipePosition = (items, itemWidth) => {
   return items * itemWidth || 0
 }
 
+export const recalculatePositionOnBeforeTouchEnd = (items, itemWidth) => {
+  return -getMinSwipePosition(items, itemWidth)
+}
+
+export const recalculateCurrentIndexOnBeforeTouchEnd = (slidesLength, items) => {
+  return slidesLength - items || 0
+}
+
 export const getMinSwipeLimit = (minSwipePosition, stagePadding = {}) => {
   const { paddingLeft = 0 } = stagePadding
   return paddingLeft ? minSwipePosition + paddingLeft : 0
@@ -81,7 +90,7 @@ export const getMinSwipeLimitIfNotInfinite = (items, itemWidth) => {
   return items * itemWidth - getSlideOffset(itemWidth) || 0
 }
 
-export const shouldRecalculateSwipePosition = (currentPosition, minPosition, maxPosition ) => {
+export const shouldRecalculateSwipePosition = (currentPosition, minPosition, maxPosition) => {
   return currentPosition >= 0 - minPosition || Math.abs(currentPosition) >= maxPosition
 }
 

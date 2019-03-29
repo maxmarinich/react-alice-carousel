@@ -53,9 +53,13 @@ node_modules
 # npm debug log
 npm-debug.log
 
-# vs code
+# misc
 .vscode
 .DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # coverage
 

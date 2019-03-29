@@ -1,7 +1,7 @@
 export const cloneCarouselItems = (children = [], itemsInSlide, props) => {
   let items = itemsInSlide || 1
   const { stagePadding, infinite } = props || {}
-  const { paddingLeft, paddingRight } = stagePadding
+  const { paddingLeft, paddingRight } = stagePadding || {}
 
   if (items > children.length) {
     items = children.length

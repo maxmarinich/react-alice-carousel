@@ -20,19 +20,18 @@ class App extends React.PureComponent {
         <AliceCarousel
           duration={3000}
           showSlideInfo={true}
-          autoHeigth={true}
-          onInitialized={() => console.debug('IDD:')}
           fadeOutAnimation={true}
           mouseDragEnabled={true}
-          //infinite={false}
+          onSlideChanged={console.debug}
+          infinite={false}
           responsive={this.responsive}
           stagePadding={this.stagePadding}
         >
-          <div className="item" style={{ height: 180 }}><h1>1</h1></div>
-          <div className="item" style={{ height: 200 }}><h1>2</h1></div>
-          <div className="item" style={{ height: 220 }}><h1>3</h1></div>
-          <div className="item" style={{ height: 240 }}><h1>4</h1></div>
-          <div className="item" style={{ height: 260 }}><h1>5</h1></div>
+          <div className="item"><h1>1</h1></div>
+          <div className="item"><h1>2</h1></div>
+          <div className="item"><h1>3</h1></div>
+          <div className="item"><h1>4</h1></div>
+          <div className="item"><h1>5</h1></div>
         </AliceCarousel>
       </div>
     )
