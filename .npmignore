@@ -46,6 +46,7 @@ jspm_packages
 .npmrc
 .prettierrc
 .travis.yml
+.DS_Store
 package-lock.json
 
 # Static files
@@ -55,6 +56,6 @@ config
 tests
 public
 static
-dist,
-src,
+dist
+src
 gulpfile.js
