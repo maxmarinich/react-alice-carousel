@@ -15,17 +15,26 @@ export const itemStyles = (i, state, animationProps) => {
     : { width: `${itemWidth}px` }
 }
 
-export const getDefaultStyle = () => {
-  return { transition: 'transform 0ms ease-out' }
+export const getDefaultStyle = (duration = 0) => {
+  return { transition: `transform ${duration}ms ease-out` }
 }
 
-export const stageStyle = (currentStyles = {}, nextStyles = {}) => {
+export const stageStyle = (nextStyles = {}, currentStyles = {}) => {
   const { translate3d = 0, height } = nextStyles
   const transform = `translate3d(${translate3d}px, 0, 0)`
 
   return { ...currentStyles, transform, height }
 }
 
-export const wrapperStyle = ({ paddingLeft, paddingRight }) => {
-  return { paddingLeft: `${paddingLeft}px`, paddingRight: `${paddingRight}px` }
+export const wrapperStyle = (nextStyles = {}, currentStyles = {}) => {
+  const { paddingLeft, paddingRight, height } = nextStyles
+  const { duration, initialStageHeight  } = currentStyles
+  const transition = undefined // initialStageHeight && `height ${duration}ms ease-out`
+  return {
+    ...currentStyles,
+    paddingLeft: `${paddingLeft}px`,
+    paddingRight: `${paddingRight}px`,
+    height,
+    transition,
+  }
 }

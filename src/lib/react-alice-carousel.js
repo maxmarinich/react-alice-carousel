@@ -12,6 +12,7 @@ export default class AliceCarousel extends React.PureComponent {
       clones: [],
       stagePadding: {},
       currentIndex: 1,
+      initialStageHeight: 0,
       duration: props.duration,
       slides: Utils.getSlides(props),
       style: Utils.getDefaultStyle(),
@@ -37,6 +38,11 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    if (this.props.autoHeight && this.stageComponent && !this.state.initialStageHeight) {
+      const initialStageHeight = this._getStageHeight()
+      this.setState({ initialStageHeight })
+    }
+
     if (this.props.duration !== prevProps.duration) {
       this.setState({ duration: this.props.duration })
     }
@@ -205,6 +211,14 @@ export default class AliceCarousel extends React.PureComponent {
 
   _getStageComponentNode = (node) => {
     return (this.stageComponent = node)
+  }
+
+  _getStageHeight() {
+    const slidesOffset = 2
+    const itemIndex = this.state.currentIndex + slidesOffset
+    const height = Utils.getGalleryItemHeight(this.stageComponent, itemIndex)
+
+    return height || this.state.initialStageHeight
   }
 
   _allowAnimation = () => {
@@ -670,10 +684,13 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   render() {
-    const { style, translate3d, clones } = this.state
+    const { style, translate3d, clones, initialStageHeight } = this.state
+    const height = this.props.autoHeight ? this._getStageHeight() : ''
     const stagePadding = Utils.getStagePadding(this.props)
-    const wrapperStyle = Utils.wrapperStyle(stagePadding)
-    const stageStyle = Utils.stageStyle(style, { translate3d })
+    const wrapperStyle = Utils.wrapperStyle({ ...stagePadding, height }, this.state)
+    const stageStyle = Utils.stageStyle({ translate3d }, style)
+
+    console.debug('item: ', height, ' in: ', initialStageHeight)
 
     return (
       <div className="alice-carousel">

@@ -1,4 +1,4 @@
-// Type definitions for react-alice-carousel 1.13
+// Type definitions for react-alice-carousel 1.14
 // Project: https://github.com/maxmarinich/react-alice-carousel
 // Definitions by: endigo <https://github.com/endigo>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -145,6 +145,12 @@ export interface Props {
    * Default: false.
    */
   preventEventOnTouchMove?: boolean;
+  /**
+   * Set auto height of the stage
+   *
+   * Default: false.
+   */
+  autoHeight?: false;
   /**
    * Fired when the event object is changing / returns event object
    */
