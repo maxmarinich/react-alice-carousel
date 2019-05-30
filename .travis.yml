@@ -7,7 +7,6 @@ branches:
 notifications:
   email: false
 node_js:
-  - "node"
   - "lts/*"
 before_install:
   - npm cache clean --force
