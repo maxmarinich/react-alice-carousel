@@ -1,8 +1,5 @@
 sudo: false
 language: node_js
-cache:
-  directories:
-    - node_modules
 branches:
   only:
       - master
@@ -13,7 +10,7 @@ node_js:
   - "node"
   - "lts/*"
 before_install:
-  - npm i -g npm
+  - npm i -g npm@2
 before_script:
   - npm prune
 script:
