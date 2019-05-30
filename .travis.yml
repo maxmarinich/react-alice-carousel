@@ -10,7 +10,8 @@ node_js:
   - "node"
   - "lts/*"
 before_install:
-  - npm i -g npm@2
+  - npm cache clean --force
+  - npm i -g npm
 before_script:
   - npm prune
 script:
