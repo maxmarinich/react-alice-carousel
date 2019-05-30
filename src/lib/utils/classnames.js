@@ -1,11 +1,15 @@
 import { isAnimatedItem } from './animation'
 
 export const isActiveItem = (i = 0, state = {}) => {
-  let { currentIndex, items, stagePadding = {}} = state
-  if (stagePadding.paddingLeft || stagePadding.paddingRight) {
+  let { currentIndex, items, infinite, stagePadding = {}} = state
+
+  if (infinite && (stagePadding.paddingLeft || stagePadding.paddingRight)) {
     currentIndex += 1
   }
-  return currentIndex + items === i
+
+  const index = currentIndex + items
+
+  return i >= index && i < index + items
 }
 
 export const isClonedItem = (i = 0, state = {}) => {

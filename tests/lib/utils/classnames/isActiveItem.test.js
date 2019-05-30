@@ -1,7 +1,7 @@
 import * as Utils from '../../../../src/lib/utils'
 
 describe('classnames: isActiveItem, should return flag, boolean', () => {
-  const params = { currentIndex: 1, items: 1 }
+  const params = { currentIndex: 1, items: 1, infinite: true }
   const stagePadding = { paddingLeft: 1 }
 
   it('should return default value', () => {
@@ -21,6 +21,14 @@ describe('classnames: isActiveItem, should return flag, boolean', () => {
   })
 
   it('should return expected data if expected value && stage padding', () => {
-    expect(Utils.isActiveItem(3, { ...params, stagePadding })).toEqual(true)
+    expect(Utils.isActiveItem(4, { ...params, items: 2, stagePadding })).toEqual(true)
+  })
+
+  it('should return expected data if expected value && stage padding and index equal 5', () => {
+    expect(Utils.isActiveItem(5, { ...params, items: 2, stagePadding })).toEqual(true)
+  })
+
+  it('should return expected data if expected value && stage padding and index equal 6', () => {
+    expect(Utils.isActiveItem(6, { ...params, items: 2, stagePadding })).toEqual(false)
   })
 })
