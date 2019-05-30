@@ -50,5 +50,9 @@
     "react/jsx-uses-react": 1,
     "react/jsx-uses-vars": 1,
     "react/prop-types": 1
+  },
+  "globals": {
+    "Promise": true,
+    "expect": true
   }
 }
