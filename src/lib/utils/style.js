@@ -1,6 +1,6 @@
 import { isAnimatedItem } from './animation'
 
-export const intermediateTransitionProps = (condition, duration) => {
+export const getIntermediateTransitionProps = (condition, duration) => {
   return condition
     ? { fadeoutAnimationProcessing: true, style: { transition: 'transform 0ms ease-out' } }
     : { style: { transition: `transform ${duration}ms ease-out` } }

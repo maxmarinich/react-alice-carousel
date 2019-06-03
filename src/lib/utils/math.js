@@ -73,7 +73,8 @@ export const recalculateCurrentIndexOnBeforeTouchEnd = (slidesLength, items) => 
 
 export const getMinSwipeLimit = (minSwipePosition, stagePadding = {}) => {
   const { paddingLeft = 0 } = stagePadding
-  return paddingLeft ? minSwipePosition + paddingLeft : 0
+  const result = paddingLeft ? minSwipePosition + paddingLeft : 0
+  return result || 0
 }
 
 export const getMaxSwipeLimit = (maxSwipePosition, stagePadding = {}) => {
@@ -106,10 +107,8 @@ export const getDotsNavigationLength = (slidesLength, items) => {
 }
 
 export const getItemIndexForDotNavigation = (index, isTheLastIndex, slidesLength, itemsLength) => {
-  if (isTheLastIndex) {
-    return slidesLength - itemsLength
-  }
-  return index * itemsLength
+  const result = isTheLastIndex ? slidesLength - itemsLength : index * itemsLength
+  return result || 0
 }
 
 export const isTheLastDotIndex = (index, infinite, dotsLength) => {

@@ -55,6 +55,11 @@ export const getStagePadding = (props) => {
   return { paddingLeft, paddingRight }
 }
 
+export const isStagePadding = (props = {}) => {
+  const { paddingLeft, paddingRight } = props.stagePadding || {}
+  return paddingLeft || paddingRight
+}
+
 export const getItemWidth = (galleryWidth = 0, totalItems) => {
   const width = Number(galleryWidth)
   const items = Number(totalItems)

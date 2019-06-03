@@ -20,14 +20,14 @@ export default class AliceCarousel extends React.PureComponent {
 
     this.touchEventsCallstack = []
     this._onTouchMove = this._onTouchMove.bind(this)
-    this.handleOnResize = Utils.debounce(this._handleOnWindowResize, 100)
+    this._debouncedHandleOnWindowResize = Utils.debounce(this._handleOnWindowResize, 100)
   }
 
   componentDidMount() {
     this._setInitialState()
     this._resetAllIntermediateProps()
 
-    window.addEventListener('resize', this.handleOnResize)
+    window.addEventListener('resize', this._debouncedHandleOnWindowResize)
 
     if (!this.props.keysControlDisabled) {
       window.addEventListener('keyup', this._handleOnKeyUp)
@@ -83,7 +83,7 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleOnResize)
+    window.removeEventListener('resize', this._debouncedHandleOnWindowResize)
 
     if (!this.props.keysControlDisabled) {
       window.removeEventListener('keyup', this._handleOnKeyUp)
@@ -202,7 +202,7 @@ export default class AliceCarousel extends React.PureComponent {
     this.setState(initialState, this._onInitialized(initialState))
   }
 
-  _recalculateFadeOutAnimationState = (shouldRecalculate) => {
+  _getFadeOutAnimationState = (shouldRecalculate) => {
     if (shouldRecalculate || this._isFadeOutAnimationAllowed()) {
       return { fadeoutAnimationProcessing: false }
     }
@@ -214,7 +214,9 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _getStageHeight() {
-    const slidesOffset = 2
+    const { items } = this.state
+    console.debug('items: ', items, Utils.isStagePadding(this.props))
+    const slidesOffset = items + (Utils.isStagePadding(this.props) ? 1 : 0)
     const itemIndex = this.state.currentIndex + slidesOffset
     const height = Utils.getGalleryItemHeight(this.stageComponent, itemIndex)
 
@@ -285,7 +287,7 @@ export default class AliceCarousel extends React.PureComponent {
         currentIndex,
         translate3d,
         style,
-        ...this._recalculateFadeOutAnimationState(),
+        ...this._getFadeOutAnimationState(),
       },
       () => this._onSlideChanged(),
     )
@@ -347,9 +349,9 @@ export default class AliceCarousel extends React.PureComponent {
     this.state.isPlaying ? this._pause() : this._play()
   }
 
-  _intermediateStateProps = (duration, shouldSkipRecalculation) => {
+  _getIntermediateStateProps = (duration, shouldSkipRecalculation) => {
     const condition = !shouldSkipRecalculation && this._isFadeOutAnimationAllowed()
-    return Utils.intermediateTransitionProps(condition, duration)
+    return Utils.getIntermediateTransitionProps(condition, duration)
   }
 
   _slideToItem(index, options = {}) {
@@ -361,7 +363,7 @@ export default class AliceCarousel extends React.PureComponent {
       {
         currentIndex: index,
         translate3d,
-        ...this._intermediateStateProps(duration, shouldSkipRecalculation),
+        ...this._getIntermediateStateProps(duration, shouldSkipRecalculation),
       },
       () => this._checkSlidePosition(shouldSkipRecalculation),
     )
@@ -684,13 +686,14 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   render() {
-    const { style, translate3d, clones, initialStageHeight } = this.state
+    const { style, translate3d, clones } = this.state
     const height = this.props.autoHeight ? this._getStageHeight() : ''
     const stagePadding = Utils.getStagePadding(this.props)
     const wrapperStyle = Utils.wrapperStyle({ ...stagePadding, height }, this.state)
     const stageStyle = Utils.stageStyle({ translate3d }, style)
 
-    console.debug('item: ', height, ' in: ', initialStageHeight)
+    // istanbul ignore next
+    console.debug('item: ', height)
 
     return (
       <div className="alice-carousel">

@@ -146,7 +146,7 @@ export interface Props {
    */
   preventEventOnTouchMove?: boolean;
   /**
-   * Set auto height of the stage
+   * Set auto height for the stage
    *
    * Default: false.
    */
