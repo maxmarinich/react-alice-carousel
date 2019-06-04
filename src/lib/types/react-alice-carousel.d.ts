@@ -144,7 +144,7 @@ export interface Props {
    *
    * Default: false.
    */
-  preventEventOnTouchMove?: false;
+  preventEventOnTouchMove?: boolean;
   /**
    * Fired when the event object is changing / returns event object
    */
