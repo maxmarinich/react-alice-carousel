@@ -20,11 +20,12 @@ class App extends React.PureComponent {
         <AliceCarousel
           duration={600}
           showSlideInfo={true}
-          fadeOutAnimation={true}
+          // fadeOutAnimation={true}
           mouseDragEnabled={true}
           onSlideChanged={console.debug}
-          infinite={false}
+          // infinite={false}
           autoHeight
+          // autoPlay
           responsive={this.responsive}
           stagePadding={this.stagePadding}
         >

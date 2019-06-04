@@ -28,8 +28,7 @@ export const stageStyle = (nextStyles = {}, currentStyles = {}) => {
 
 export const wrapperStyle = (nextStyles = {}, currentStyles = {}) => {
   const { paddingLeft, paddingRight, height } = nextStyles
-  const { duration, initialStageHeight  } = currentStyles
-  const transition = undefined // initialStageHeight && `height ${duration}ms ease-out`
+  const transition = height && `height ${currentStyles.duration}ms ease-out`
   return {
     ...currentStyles,
     paddingLeft: `${paddingLeft}px`,

@@ -39,7 +39,7 @@ export default class AliceCarousel extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     if (this.props.autoHeight && this.stageComponent && !this.state.initialStageHeight) {
-      const initialStageHeight = this._getStageHeight()
+      const initialStageHeight = Utils.getGalleryItemHeight(this.stageComponent, this.props, this.state)
       this.setState({ initialStageHeight })
     }
 
@@ -104,7 +104,7 @@ export default class AliceCarousel extends React.PureComponent {
       const isAnimationCanceled = this._isSwipeAnimationProcessing()
       const currState = Utils.calculateInitialProps(this.props, this.stageComponent)
       const translate3d = Utils.getTranslate3dPosition(currState.currentIndex, currState)
-      const nextState = { ...currState, translate3d, isAnimationCanceled }
+      const nextState = { ...currState, translate3d, isAnimationCanceled, initialStageHeight: 0 }
 
       if (isAnimationCanceled) Utils.animate(this.stageComponent, translate3d)
 
@@ -211,16 +211,6 @@ export default class AliceCarousel extends React.PureComponent {
 
   _getStageComponentNode = (node) => {
     return (this.stageComponent = node)
-  }
-
-  _getStageHeight() {
-    const { items } = this.state
-    console.debug('items: ', items, Utils.isStagePadding(this.props))
-    const slidesOffset = items + (Utils.isStagePadding(this.props) ? 1 : 0)
-    const itemIndex = this.state.currentIndex + slidesOffset
-    const height = Utils.getGalleryItemHeight(this.stageComponent, itemIndex)
-
-    return height || this.state.initialStageHeight
   }
 
   _allowAnimation = () => {
@@ -687,13 +677,10 @@ export default class AliceCarousel extends React.PureComponent {
 
   render() {
     const { style, translate3d, clones } = this.state
-    const height = this.props.autoHeight ? this._getStageHeight() : ''
+    const height = this.props.autoHeight ? Utils.getGalleryItemHeight(this.stageComponent, this.props, this.state) : ''
     const stagePadding = Utils.getStagePadding(this.props)
     const wrapperStyle = Utils.wrapperStyle({ ...stagePadding, height }, this.state)
     const stageStyle = Utils.stageStyle({ translate3d }, style)
-
-    // istanbul ignore next
-    console.debug('item: ', height)
 
     return (
       <div className="alice-carousel">

@@ -150,7 +150,7 @@ export interface Props {
    *
    * Default: false.
    */
-  autoHeight?: false;
+  autoHeight?: boolean;
   /**
    * Fired when the event object is changing / returns event object
    */

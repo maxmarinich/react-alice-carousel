@@ -8,7 +8,6 @@ export const isActiveItem = (i = 0, state = {}) => {
   }
 
   const index = currentIndex + items
-
   return i >= index && i < index + items
 }
 

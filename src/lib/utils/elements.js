@@ -1,3 +1,5 @@
+import * as Utils from './math'
+
 export const cloneCarouselItems = (children = [], itemsInSlide, props) => {
   let items = itemsInSlide || 1
   const { stagePadding, infinite } = props || {}
@@ -71,7 +73,10 @@ export const getNextItem = (stageComponent, itemIndex) => {
   return (children[itemIndex] && children[itemIndex].firstChild) || null
 }
 
-export const getGalleryItemHeight = (stageComponent, itemIndex) => {
+export const getGalleryItemHeight = (stageComponent, props, state) => {
+  const { currentIndex } = state
+  const slidesOffset = Utils.calculateSlidesOffset(props, state)
+  const itemIndex = Utils.getIndexForItemHeightCalculation(currentIndex, slidesOffset)
   const element = getNextItem(stageComponent, itemIndex)
 
   if (isElement(element)) {
