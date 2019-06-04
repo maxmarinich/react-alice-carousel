@@ -138,7 +138,7 @@ export interface Props {
    *
    * Default: false.
    */
-  showSlideInfo?: false;
+  showSlideInfo?: boolean;
   /**
    * Prevent the browser's touchmove event when carousel is swiping
    *
