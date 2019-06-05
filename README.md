@@ -20,6 +20,7 @@ React Alice Carousel is a React component for building content galleries, conten
 * Start index
 * Slide to index
 * RTL
+* Auto Height
 * Keyboard navigation
 * Touch and Drag support
 * Custom rendered slides
@@ -122,6 +123,8 @@ const Gallery = () => {
 * `playButtonEnabled` :  Boolean, default `false` - Disable play/pause button
 
 * `autoPlay` : Boolean, default `false` - Set auto play mode
+
+* `autoHeight` : Boolean, default `false` - Set auto height mode
 
 * `autoPlayInterval` : Number, default  `250` - Interval of auto play animation (milliseconds). If specified, a larger value will be taken from comparing this property and the `duration` one
 

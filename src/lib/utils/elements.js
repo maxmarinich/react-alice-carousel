@@ -1,4 +1,4 @@
-import * as Utils from './math'
+import * as Utils from './index'
 
 export const cloneCarouselItems = (children = [], itemsInSlide, props) => {
   let items = itemsInSlide || 1

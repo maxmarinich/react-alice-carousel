@@ -1,7 +1,7 @@
-import { isElement } from './elements'
+import * as Utils from './index'
 
 export function animate(element, position = 0, durationMs = 0) {
-  if (isElement(element)) {
+  if (Utils.isElement(element)) {
     element.style['transition'] = `transform ${durationMs}ms ease-out`
     element.style['transform'] = `translate3d(${position}px, 0, 0)`
   }
@@ -15,7 +15,7 @@ export function getTranslateX(element) {
 }
 
 export function getTransformMatrix(element) {
-  if (isElement(element)) {
+  if (Utils.isElement(element)) {
     const { transform = '' } = getComputedStyle(element) || {}
     const matched = transform.match(/[0-9., -]+/) || []
     if (typeof matched[0] === 'string') {
@@ -34,18 +34,10 @@ export const getTranslate3dPosition = (currentIndex = 0, state = {}) => {
       currentIndex += 1
     }
   }
-
   return ((items + currentIndex) * -itemWidth) || 0
 }
 
 export const isAnimatedItem = (i = 0, animationProps = {}) => {
   const { allowFadeOutAnimation, fadeOutIndex } = animationProps
   return !!allowFadeOutAnimation && fadeOutIndex === i
-}
-
-export const isFadeOutAnimationAllowed = (state = {}, props = {}) => {
-  const { stagePadding, items } = state
-  const hasNoStagePadding = !(stagePadding.paddingLeft || stagePadding.paddingRight)
-
-  return props.fadeOutAnimation && items === 1 && hasNoStagePadding
 }

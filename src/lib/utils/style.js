@@ -1,4 +1,4 @@
-import { isAnimatedItem } from './animation'
+import * as Utils from './index'
 
 export const getIntermediateTransitionProps = (condition, duration) => {
   return condition
@@ -10,30 +10,31 @@ export const itemStyles = (i, state, animationProps) => {
   const { fadeOutOffset } = animationProps
   const { itemWidth, duration } = state
 
-  return isAnimatedItem(i, animationProps)
+  return Utils.isAnimatedItem(i, animationProps)
     ? { transform: `translateX(${fadeOutOffset}px)`, animationDuration: `${duration}ms`, width: `${itemWidth}px` }
     : { width: `${itemWidth}px` }
 }
 
-export const getDefaultStyle = (duration = 0) => {
+export const getDefaultStyles = (duration = 0) => {
   return { transition: `transform ${duration}ms ease-out` }
 }
 
-export const stageStyle = (nextStyles = {}, currentStyles = {}) => {
+export const getStageStyles = (nextStyles = {}, currentStyles = {}) => {
   const { translate3d = 0, height } = nextStyles
   const transform = `translate3d(${translate3d}px, 0, 0)`
 
   return { ...currentStyles, transform, height }
 }
 
-export const wrapperStyle = (nextStyles = {}, currentStyles = {}) => {
-  const { paddingLeft, paddingRight, height } = nextStyles
-  const transition = height && `height ${currentStyles.duration}ms ease-out`
+export const getWrapperStyles = (element, props = {}, state = {}) => {
+  const { paddingLeft, paddingRight } = Utils.getStagePadding(props)
+  const height = props.autoHeight && Utils.getGalleryItemHeight(element, props, state)
+  const transition = height && `height ${state.duration}ms ease-out`
+
   return {
-    ...currentStyles,
-    paddingLeft: `${paddingLeft}px`,
-    paddingRight: `${paddingRight}px`,
     height,
     transition,
+    paddingLeft: `${paddingLeft}px`,
+    paddingRight: `${paddingRight}px`,
   }
 }

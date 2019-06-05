@@ -1,4 +1,4 @@
-import { isAnimatedItem } from './animation'
+import * as Utils from './index'
 
 export const isActiveItem = (i = 0, state = {}) => {
   let { currentIndex, items, infinite, stagePadding = {}} = state
@@ -19,7 +19,7 @@ export const isClonedItem = (i = 0, state = {}) => {
 export const itemClassName = (i = 0, state = {}, animationProps = {}) => {
   const isActive = isActiveItem(i, state) ? ' __active' : ''
   const isCloned = isClonedItem(i, state) ? ' __cloned' : ''
-  const isAnimated = isAnimatedItem(i, animationProps) ? ' animated animated-out fadeOut' : ''
+  const isAnimated = Utils.isAnimatedItem(i, animationProps) ? ' animated animated-out fadeOut' : ''
 
   return 'alice-carousel__stage-item' + isActive + isCloned + isAnimated
 }

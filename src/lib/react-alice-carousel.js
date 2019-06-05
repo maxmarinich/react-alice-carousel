@@ -15,7 +15,7 @@ export default class AliceCarousel extends React.PureComponent {
       initialStageHeight: 0,
       duration: props.duration,
       slides: Utils.getSlides(props),
-      style: Utils.getDefaultStyle(),
+      style: Utils.getDefaultStyles(),
     }
 
     this.touchEventsCallstack = []
@@ -268,7 +268,7 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _recalculateSlidePosition = () => {
-    const style = Utils.getDefaultStyle()
+    const style = Utils.getDefaultStyles()
     const currentIndex = Utils.recalculateCurrentSlideIndex(this.state)
     const translate3d = Utils.recalculateTranslatePosition(this.state)
 
@@ -677,10 +677,8 @@ export default class AliceCarousel extends React.PureComponent {
 
   render() {
     const { style, translate3d, clones } = this.state
-    const height = this.props.autoHeight ? Utils.getGalleryItemHeight(this.stageComponent, this.props, this.state) : ''
-    const stagePadding = Utils.getStagePadding(this.props)
-    const wrapperStyle = Utils.wrapperStyle({ ...stagePadding, height }, this.state)
-    const stageStyle = Utils.stageStyle({ translate3d }, style)
+    const wrapperStyles = Utils.getWrapperStyles(this.stageComponent, this.props, this.state)
+    const stageStyles = Utils.getStageStyles({ translate3d }, style)
 
     return (
       <div className="alice-carousel">
@@ -693,12 +691,12 @@ export default class AliceCarousel extends React.PureComponent {
           preventDefaultTouchmoveEvent={this.props.preventEventOnTouchMove}
         >
           <div
-            style={wrapperStyle}
+            style={wrapperStyles}
             className="alice-carousel__wrapper"
             onMouseEnter={this._handleOnMouseEnter}
             onMouseLeave={this._handleOnMouseLeave}
           >
-            <ul style={stageStyle} className="alice-carousel__stage" ref={this._getStageComponentNode}>
+            <ul style={stageStyles} className="alice-carousel__stage" ref={this._getStageComponentNode}>
               {clones.map(this._renderStageItem)}
             </ul>
           </div>
