@@ -1,3 +1,5 @@
+import * as Utils from './index'
+
 export const cloneCarouselItems = (children = [], itemsInSlide, props) => {
   let items = itemsInSlide || 1
   const { stagePadding, infinite } = props || {}
@@ -55,6 +57,11 @@ export const getStagePadding = (props) => {
   return { paddingLeft, paddingRight }
 }
 
+export const isStagePadding = (props = {}) => {
+  const { paddingLeft, paddingRight } = props.stagePadding || {}
+  return paddingLeft || paddingRight
+}
+
 export const getItemWidth = (galleryWidth = 0, totalItems) => {
   const width = Number(galleryWidth)
   const items = Number(totalItems)
@@ -66,7 +73,10 @@ export const getNextItem = (stageComponent, itemIndex) => {
   return (children[itemIndex] && children[itemIndex].firstChild) || null
 }
 
-export const getGalleryItemHeight = (stageComponent, itemIndex) => {
+export const getGalleryItemHeight = (stageComponent, props, state) => {
+  const { currentIndex } = state
+  const slidesOffset = Utils.calculateSlidesOffset(props, state)
+  const itemIndex = Utils.getIndexForItemHeightCalculation(currentIndex, slidesOffset)
   const element = getNextItem(stageComponent, itemIndex)
 
   if (isElement(element)) {

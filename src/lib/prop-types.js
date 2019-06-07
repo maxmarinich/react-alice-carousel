@@ -26,7 +26,8 @@ export const propTypes = {
   autoPlayDirection: PropTypes.string,
   disableAutoPlayOnAction: PropTypes.bool,
   stopAutoPlayOnHover: PropTypes.bool,
-  preventEventOnTouchMove: PropTypes.bool
+  preventEventOnTouchMove: PropTypes.bool,
+  autoHeight: PropTypes.bool
 }
 
 export const defaultProps = {
@@ -51,5 +52,6 @@ export const defaultProps = {
   keysControlDisabled: false,
   disableAutoPlayOnAction: false,
   stopAutoPlayOnHover: true,
-  preventEventOnTouchMove: false
+  preventEventOnTouchMove: false,
+  autoHeight: false,
 }

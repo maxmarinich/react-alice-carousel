@@ -3,7 +3,7 @@ import AliceCarousel from '../lib/react-alice-carousel'
 
 class App extends React.PureComponent {
   responsive = {
-    0: { items: 2 },
+    0: { items: 1 },
     600: { items: 2 },
     960: { items: 3 }
   }
@@ -18,9 +18,8 @@ class App extends React.PureComponent {
       <div className="app" id="app">
         <h1 className="h1">React Alice Carousel</h1>
         <AliceCarousel
-          duration={3000}
+          duration={600}
           showSlideInfo={true}
-          fadeOutAnimation={true}
           mouseDragEnabled={true}
           onSlideChanged={console.debug}
           infinite={false}

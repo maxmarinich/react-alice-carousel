@@ -12,21 +12,22 @@ export default class AliceCarousel extends React.PureComponent {
       clones: [],
       stagePadding: {},
       currentIndex: 1,
+      initialStageHeight: 0,
       duration: props.duration,
       slides: Utils.getSlides(props),
-      style: Utils.getDefaultStyle(),
+      style: Utils.getDefaultStyles(),
     }
 
     this.touchEventsCallstack = []
     this._onTouchMove = this._onTouchMove.bind(this)
-    this.handleOnResize = Utils.debounce(this._handleOnWindowResize, 100)
+    this._debouncedHandleOnWindowResize = Utils.debounce(this._handleOnWindowResize, 100)
   }
 
   componentDidMount() {
     this._setInitialState()
     this._resetAllIntermediateProps()
 
-    window.addEventListener('resize', this.handleOnResize)
+    window.addEventListener('resize', this._debouncedHandleOnWindowResize)
 
     if (!this.props.keysControlDisabled) {
       window.addEventListener('keyup', this._handleOnKeyUp)
@@ -37,6 +38,11 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    if (this.props.autoHeight && this.stageComponent && !this.state.initialStageHeight) {
+      const initialStageHeight = Utils.getGalleryItemHeight(this.stageComponent, this.props, this.state)
+      this.setState({ initialStageHeight })
+    }
+
     if (this.props.duration !== prevProps.duration) {
       this.setState({ duration: this.props.duration })
     }
@@ -77,7 +83,7 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleOnResize)
+    window.removeEventListener('resize', this._debouncedHandleOnWindowResize)
 
     if (!this.props.keysControlDisabled) {
       window.removeEventListener('keyup', this._handleOnKeyUp)
@@ -98,7 +104,7 @@ export default class AliceCarousel extends React.PureComponent {
       const isAnimationCanceled = this._isSwipeAnimationProcessing()
       const currState = Utils.calculateInitialProps(this.props, this.stageComponent)
       const translate3d = Utils.getTranslate3dPosition(currState.currentIndex, currState)
-      const nextState = { ...currState, translate3d, isAnimationCanceled }
+      const nextState = { ...currState, translate3d, isAnimationCanceled, initialStageHeight: 0 }
 
       if (isAnimationCanceled) Utils.animate(this.stageComponent, translate3d)
 
@@ -196,7 +202,7 @@ export default class AliceCarousel extends React.PureComponent {
     this.setState(initialState, this._onInitialized(initialState))
   }
 
-  _recalculateFadeOutAnimationState = (shouldRecalculate) => {
+  _getFadeOutAnimationState = (shouldRecalculate) => {
     if (shouldRecalculate || this._isFadeOutAnimationAllowed()) {
       return { fadeoutAnimationProcessing: false }
     }
@@ -262,7 +268,7 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _recalculateSlidePosition = () => {
-    const style = Utils.getDefaultStyle()
+    const style = Utils.getDefaultStyles()
     const currentIndex = Utils.recalculateCurrentSlideIndex(this.state)
     const translate3d = Utils.recalculateTranslatePosition(this.state)
 
@@ -271,7 +277,7 @@ export default class AliceCarousel extends React.PureComponent {
         currentIndex,
         translate3d,
         style,
-        ...this._recalculateFadeOutAnimationState(),
+        ...this._getFadeOutAnimationState(),
       },
       () => this._onSlideChanged(),
     )
@@ -333,9 +339,9 @@ export default class AliceCarousel extends React.PureComponent {
     this.state.isPlaying ? this._pause() : this._play()
   }
 
-  _intermediateStateProps = (duration, shouldSkipRecalculation) => {
+  _getIntermediateStateProps = (duration, shouldSkipRecalculation) => {
     const condition = !shouldSkipRecalculation && this._isFadeOutAnimationAllowed()
-    return Utils.intermediateTransitionProps(condition, duration)
+    return Utils.getIntermediateTransitionProps(condition, duration)
   }
 
   _slideToItem(index, options = {}) {
@@ -347,7 +353,7 @@ export default class AliceCarousel extends React.PureComponent {
       {
         currentIndex: index,
         translate3d,
-        ...this._intermediateStateProps(duration, shouldSkipRecalculation),
+        ...this._getIntermediateStateProps(duration, shouldSkipRecalculation),
       },
       () => this._checkSlidePosition(shouldSkipRecalculation),
     )
@@ -671,9 +677,8 @@ export default class AliceCarousel extends React.PureComponent {
 
   render() {
     const { style, translate3d, clones } = this.state
-    const stagePadding = Utils.getStagePadding(this.props)
-    const wrapperStyle = Utils.wrapperStyle(stagePadding)
-    const stageStyle = Utils.stageStyle(style, { translate3d })
+    const wrapperStyles = Utils.getWrapperStyles(this.stageComponent, this.props, this.state)
+    const stageStyles = Utils.getStageStyles({ translate3d }, style)
 
     return (
       <div className="alice-carousel">
@@ -686,12 +691,12 @@ export default class AliceCarousel extends React.PureComponent {
           preventDefaultTouchmoveEvent={this.props.preventEventOnTouchMove}
         >
           <div
-            style={wrapperStyle}
+            style={wrapperStyles}
             className="alice-carousel__wrapper"
             onMouseEnter={this._handleOnMouseEnter}
             onMouseLeave={this._handleOnMouseLeave}
           >
-            <ul style={stageStyle} className="alice-carousel__stage" ref={this._getStageComponentNode}>
+            <ul style={stageStyles} className="alice-carousel__stage" ref={this._getStageComponentNode}>
               {clones.map(this._renderStageItem)}
             </ul>
           </div>

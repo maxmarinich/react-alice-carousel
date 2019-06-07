@@ -1,3 +1,5 @@
+import * as Utils from './index'
+
 export const getDotsLength = (slidesLength, items) => {
   if (slidesLength && items) {
     const dots = Math.floor(slidesLength / items)
@@ -73,7 +75,8 @@ export const recalculateCurrentIndexOnBeforeTouchEnd = (slidesLength, items) => 
 
 export const getMinSwipeLimit = (minSwipePosition, stagePadding = {}) => {
   const { paddingLeft = 0 } = stagePadding
-  return paddingLeft ? minSwipePosition + paddingLeft : 0
+  const result = paddingLeft ? minSwipePosition + paddingLeft : 0
+  return result || 0
 }
 
 export const getMaxSwipeLimit = (maxSwipePosition, stagePadding = {}) => {
@@ -106,10 +109,8 @@ export const getDotsNavigationLength = (slidesLength, items) => {
 }
 
 export const getItemIndexForDotNavigation = (index, isTheLastIndex, slidesLength, itemsLength) => {
-  if (isTheLastIndex) {
-    return slidesLength - itemsLength
-  }
-  return index * itemsLength
+  const result = isTheLastIndex ? slidesLength - itemsLength : index * itemsLength
+  return result || 0
 }
 
 export const isTheLastDotIndex = (index, infinite, dotsLength) => {
@@ -132,4 +133,14 @@ export const recalculateTranslatePosition = (state = {}) => {
     return (nextIndex + 1) * -itemWidth || 0
   }
   return nextIndex * -itemWidth || 0
+}
+
+export const calculateSlidesOffset = (props, state) => {
+  const { items, infinite } = state
+  const offset = infinite && Utils.isStagePadding(props) ? 1 : 0
+  return items + offset
+}
+
+export const getIndexForItemHeightCalculation = (currentIndex, slidesOffset) => {
+  return currentIndex + slidesOffset
 }

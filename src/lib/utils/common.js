@@ -1,7 +1,4 @@
-import { cloneCarouselItems, getElementWidth, getItemWidth, getSlides, getStagePadding } from './elements'
-import { getTranslate3dPosition } from './animation'
-import { getDefaultStyle } from './style'
-import { setStartIndex } from './math'
+import * as Utils from './index'
 
 export const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
   let items = 1
@@ -21,15 +18,15 @@ export const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
 
 export const calculateInitialProps = (props, rootComponent) => {
   const { startIndex, responsive, infinite } = props
-  const style = getDefaultStyle()
-  const slides = getSlides(props)
-  const stagePadding = getStagePadding(props)
+  const style = Utils.getDefaultStyles()
+  const slides = Utils.getSlides(props)
+  const stagePadding = Utils.getStagePadding(props)
   const items = setTotalItemsInSlide(responsive, slides.length)
-  const currentIndex = setStartIndex(slides.length, startIndex)
-  const galleryWidth = getElementWidth(rootComponent)
-  const itemWidth = getItemWidth(galleryWidth, items)
-  const clones = cloneCarouselItems(slides, items, { stagePadding, infinite })
-  const translate3d = getTranslate3dPosition(currentIndex, { itemWidth, items, stagePadding, infinite })
+  const currentIndex = Utils.setStartIndex(slides.length, startIndex)
+  const galleryWidth = Utils.getElementWidth(rootComponent)
+  const itemWidth = Utils.getItemWidth(galleryWidth, items)
+  const clones = Utils.cloneCarouselItems(slides, items, { stagePadding, infinite })
+  const translate3d = Utils.getTranslate3dPosition(currentIndex, { itemWidth, items, stagePadding, infinite })
 
   return {
     items,
