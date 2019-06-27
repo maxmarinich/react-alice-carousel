@@ -1,7 +1,6 @@
 export * from './animation'
 export * from './common'
 export * from './debug'
-export * from './device'
 export * from './elements'
 export * from './swipe'
 export * from './timers'

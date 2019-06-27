@@ -133,3 +133,20 @@ export const getCurrentIndex = (currentTranslateXPosition, itemWidth, items) => 
   const value = Math.abs(currentTranslateXPosition / itemWidth)
   return Math.ceil(value) - items
 }
+
+export function getElementDimensions(element) {
+  const dimensions = {}
+
+  if (element) {
+    dimensions['clientWidth'] = element.clientWidth
+    dimensions['clientHeight'] = element.clientHeight
+  }
+  return dimensions
+}
+
+export function shouldHandleResizeEvent(e, prevDimensions = {}, currentDimensions = {}) {
+  return (
+    prevDimensions.clientWidth !== currentDimensions.clientWidth ||
+    prevDimensions.clientHeight !== currentDimensions.clientHeight
+  )
+}

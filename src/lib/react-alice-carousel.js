@@ -26,6 +26,7 @@ export default class AliceCarousel extends React.PureComponent {
   componentDidMount() {
     this._setInitialState()
     this._resetAllIntermediateProps()
+    this.rootComponentDimensions = Utils.getElementDimensions(this.rootComponent)
 
     window.addEventListener('resize', this._debouncedHandleOnWindowResize)
 
@@ -33,7 +34,6 @@ export default class AliceCarousel extends React.PureComponent {
       window.addEventListener('keyup', this._handleOnKeyUp)
     }
 
-    this.deviceInfo = Utils.deviceInfo()
     this.props.autoPlay && this._play()
   }
 
@@ -95,9 +95,13 @@ export default class AliceCarousel extends React.PureComponent {
     }
   }
 
-  _handleOnWindowResize = () => {
-    if (Utils.shouldCallHandlerOnWindowResize(this.deviceInfo)) {
-      this.deviceInfo = Utils.deviceInfo()
+  _handleOnWindowResize = (e) => {
+    const { shouldHandleResizeEvent } = this.props
+    const currentDimensions = Utils.getElementDimensions(this.rootComponent)
+    const shouldProcessEvent = shouldHandleResizeEvent || Utils.shouldHandleResizeEvent
+
+    if (shouldProcessEvent(e, this.rootComponentDimensions, currentDimensions)) {
+      this.rootComponentDimensions = currentDimensions
       this._disableAnimation()
       this._handleOnMouseEnter()
 
@@ -209,7 +213,11 @@ export default class AliceCarousel extends React.PureComponent {
     return {}
   }
 
-  _getStageComponentNode = (node) => {
+  _setRootComponentRef = (node) => {
+    return (this.rootComponent = node)
+  }
+
+  _setStageComponentRef = (node) => {
     return (this.stageComponent = node)
   }
 
@@ -681,7 +689,7 @@ export default class AliceCarousel extends React.PureComponent {
     const stageStyles = Utils.getStageStyles({ translate3d }, style)
 
     return (
-      <div className="alice-carousel">
+      <div className="alice-carousel" ref={this._setRootComponentRef}>
         <Swipeable
           rotationAngle={3}
           stopPropagation={true}
@@ -696,7 +704,7 @@ export default class AliceCarousel extends React.PureComponent {
             onMouseEnter={this._handleOnMouseEnter}
             onMouseLeave={this._handleOnMouseLeave}
           >
-            <ul style={stageStyles} className="alice-carousel__stage" ref={this._getStageComponentNode}>
+            <ul style={stageStyles} className="alice-carousel__stage" ref={this._setStageComponentRef}>
               {clones.map(this._renderStageItem)}
             </ul>
           </div>
