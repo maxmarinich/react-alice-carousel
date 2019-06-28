@@ -155,7 +155,7 @@ const Gallery = () => {
     }
   ```
   
-  * `shouldHandleResizeEvent` : Function - Fired during resize event to determine whether the event handler should be called / returns boolean
+ * `shouldHandleResizeEvent` : Function - Fired during resize event to determine whether the event handler should be called / returns boolean
 
 
 ### Examples
