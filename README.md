@@ -146,9 +146,7 @@ const Gallery = () => {
 
 * `onResized` : Function - Fired when the gallery was resized / returns event object
 
-* `shouldHandleResizeEvent` : Function - Fired during resize event to determine whether the event handler should be called / returns boolean
-
-  _All functions return the next object_
+  _Event object example_
   ```js
     {
         item: index,   // index of the current item`s position
@@ -156,6 +154,8 @@ const Gallery = () => {
         itemsInSlide: number   // number of elements in the slide
     }
   ```
+  
+  * `shouldHandleResizeEvent` : Function - Fired during resize event to determine whether the event handler should be called / returns boolean
 
 
 ### Examples
