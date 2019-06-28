@@ -7,6 +7,7 @@ export const propTypes = {
   onSlideChanged: PropTypes.func,
   onInitialized: PropTypes.func,
   onResized: PropTypes.func,
+  shouldHandleResizeEvent: PropTypes.func,
   keysControlDisabled: PropTypes.bool,
   playButtonEnabled: PropTypes.bool,
   buttonsDisabled: PropTypes.bool,

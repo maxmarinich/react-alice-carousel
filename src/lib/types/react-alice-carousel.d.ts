@@ -1,4 +1,4 @@
-// Type definitions for react-alice-carousel 1.14
+// Type definitions for react-alice-carousel 1.15
 // Project: https://github.com/maxmarinich/react-alice-carousel
 // Definitions by: endigo <https://github.com/endigo>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -167,6 +167,10 @@ export interface Props {
    * Fired when the gallery was resized / returns event object
    */
   onResized?: (e: EventObject) => void;
+  /**
+   * Fired during resize event to determine whether the event handler should be called / return boolean
+   */
+  shouldHandleResizeEvent?: (e: any) => boolean
 }
 
 export default class ReactAliceCarousel extends React.PureComponent<Props> {}
