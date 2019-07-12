@@ -157,6 +157,13 @@ const Gallery = () => {
   
  * `shouldHandleResizeEvent` : Function - Fired during resize event to determine whether the event handler should be called / returns boolean
 
+#### Methods
+*  `slideTo(index: number)` : Go to the specified slide
+
+*  `slidePrev()` : Go to the prev slide
+
+*  `slideNext()` : Go to the next slide
+
 
 ### Examples
 
@@ -221,7 +228,7 @@ class Gallery extends React.Component {
   }
 
   thumbItem = (item, i) => (
-    <span key={item} onClick={() => this.Carousel._onDotClick(i)}>* </span>
+    <span key={item} onClick={() => this.Carousel.slideTo(i)}>* </span>
   )
 
   render() {
@@ -235,8 +242,8 @@ class Gallery extends React.Component {
         />
 
         <nav>{this.items.map(this.thumbItem)}</nav>
-        <button onClick={() => this.Carousel._slidePrev()}>Prev button</button>
-        <button onClick={() => this.Carousel._slideNext()}>Next button</button>
+        <button onClick={() => this.Carousel.slidePrev()}>Prev button</button>
+        <button onClick={() => this.Carousel.slideNext()}>Next button</button>
       </div>
     )
   }
