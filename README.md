@@ -32,7 +32,7 @@ React Alice Carousel is a React component for building content galleries, conten
 ## How to use
 
 ```apacheconfig
-npm install react-alice-carousel --save-dev
+npm install react-alice-carousel
 ```
 
 ### Style import
