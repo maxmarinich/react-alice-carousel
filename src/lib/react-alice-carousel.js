@@ -1,5 +1,5 @@
 import React from 'react'
-import Swipeable from 'react-swipeable'
+import { Swipeable } from 'react-swipeable'
 
 import * as Utils from './utils'
 import * as Views from './views'
@@ -451,11 +451,13 @@ export default class AliceCarousel extends React.PureComponent {
     return startPosition - deltaX
   }
 
-  _onTouchMove(e, deltaX, deltaY) {
+  _onTouchMove({ event, deltaX, deltaY }) {
+    event.stopPropagation()
+
     this.swipingStarted = true
     this._handleOnMouseEnter()
 
-    if (Utils.isVerticalTouchMoveDetected(e, deltaX, deltaY)) {
+    if (Utils.isVerticalTouchMoveDetected(event, deltaX, deltaY)) {
       this.verticalSwipingDetected = true
       return
     } else {
@@ -515,7 +517,9 @@ export default class AliceCarousel extends React.PureComponent {
     }
   }
 
-  _onTouchEnd = () => {
+  _onTouchEnd = ({ event }) => {
+    event.stopPropagation()
+
     this.swipingStarted = false
 
     if (this._isSwipeDisable()) {
@@ -695,7 +699,6 @@ export default class AliceCarousel extends React.PureComponent {
       <div className="alice-carousel" ref={this._setRootComponentRef}>
         <Swipeable
           rotationAngle={3}
-          stopPropagation={true}
           onSwiping={this._onTouchMove}
           onSwiped={this._onTouchEnd}
           trackMouse={this.props.mouseDragEnabled}
