@@ -1,5 +1,5 @@
 import React from 'react'
-import Swipeable from 'react-swipeable'
+import VanillaSwipe from 'vanilla-swipe'
 
 import * as Utils from './utils'
 import * as Views from './views'
@@ -28,6 +28,7 @@ export default class AliceCarousel extends React.PureComponent {
 
   componentDidMount() {
     this._setInitialState()
+    this._setupSwipeHahdlers()
     this._resetAllIntermediateProps()
     this.rootComponentDimensions = Utils.getElementDimensions(this.rootComponent)
 
@@ -83,19 +84,19 @@ export default class AliceCarousel extends React.PureComponent {
         ? window.removeEventListener('keyup', this._handleOnKeyUp)
         : window.addEventListener('keyup', this._handleOnKeyUp)
     }
+
+    this.swiper.update({
+      mouseTrackingEnabled: this.props.mouseTrackingEnabled,
+      touchTrackingEnabled: this.props.touchTrackingEnabled,
+      preventDefaultTouchmoveEvent: this.props.preventEventOnTouchMove,
+    })
   }
 
   componentWillUnmount() {
+    clearInterval(this._autoPlayIntervalId)
     window.removeEventListener('resize', this._debouncedHandleOnWindowResize)
-
-    if (!this.props.keysControlDisabled) {
-      window.removeEventListener('keyup', this._handleOnKeyUp)
-    }
-
-    if (this._autoPlayIntervalId) {
-      clearInterval(this._autoPlayIntervalId)
-      this._autoPlayIntervalId = null
-    }
+    window.removeEventListener('keyup', this._handleOnKeyUp)
+    this.swiper.destroy()
   }
 
   slideTo(index = 0) {
@@ -129,6 +130,20 @@ export default class AliceCarousel extends React.PureComponent {
     if (action && this.props.disableAutoPlayOnAction) this._pause()
 
     this._slideToItem(this.state.currentIndex + 1)
+  }
+
+  _setupSwipeHahdlers() {
+    this.swiper = new VanillaSwipe({
+      element: this.swipeWrapper,
+      onSwiping: this._onTouchMove,
+      onSwiped: this._onTouchEnd,
+      rotationAngle: 10,
+      mouseTrackingEnabled: this.props.mouseTrackingEnabled,
+      touchTrackingEnabled: this.props.touchTrackingEnabled,
+      preventDefaultTouchmoveEvent: this.props.preventEventOnTouchMove,
+    })
+
+    this.swiper.init()
   }
 
   _handleOnWindowResize = (e) => {
@@ -348,15 +363,15 @@ export default class AliceCarousel extends React.PureComponent {
 
   _clearAutoPlayInterval() {
     clearInterval(this._autoPlayIntervalId)
-    this._autoPlayIntervalId = null
   }
 
   _clearUpdateSlidePositionIntervalId() {
-    clearInterval(this._updateSlidePositionIntervalId)
+    clearTimeout(this._updateSlidePositionIntervalId)
   }
 
   _play() {
     this.setState({ isPlaying: true })
+
     if (!this._autoPlayIntervalId) {
       this._setAutoPlayInterval()
     }
@@ -693,14 +708,7 @@ export default class AliceCarousel extends React.PureComponent {
 
     return (
       <div className="alice-carousel" ref={this._setRootComponentRef}>
-        <Swipeable
-          rotationAngle={3}
-          stopPropagation={true}
-          onSwiping={this._onTouchMove}
-          onSwiped={this._onTouchEnd}
-          trackMouse={this.props.mouseDragEnabled}
-          preventDefaultTouchmoveEvent={this.props.preventEventOnTouchMove}
-        >
+        <div ref={(el) => (this.swipeWrapper = el)}>
           <div
             style={wrapperStyles}
             className="alice-carousel__wrapper"
@@ -711,7 +719,7 @@ export default class AliceCarousel extends React.PureComponent {
               {clones.map(this._renderStageItem)}
             </ul>
           </div>
-        </Swipeable>
+        </div>
 
         {this.props.showSlideInfo ? this._renderSlideInfo() : null}
         {!this.props.dotsDisabled ? this._renderDotsNavigation() : null}

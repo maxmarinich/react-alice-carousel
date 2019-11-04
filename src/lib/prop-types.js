@@ -21,14 +21,15 @@ export const propTypes = {
   autoPlay: PropTypes.bool,
   infinite: PropTypes.bool,
   showSlideInfo: PropTypes.bool,
-  mouseDragEnabled: PropTypes.bool,
+  mouseTrackingEnabled: PropTypes.bool,
+  touchTrackingEnabled: PropTypes.bool,
   fadeOutAnimation: PropTypes.bool,
   autoPlayInterval: PropTypes.number,
   autoPlayDirection: PropTypes.string,
   disableAutoPlayOnAction: PropTypes.bool,
   stopAutoPlayOnHover: PropTypes.bool,
   preventEventOnTouchMove: PropTypes.bool,
-  autoHeight: PropTypes.bool
+  autoHeight: PropTypes.bool,
 }
 
 export const defaultProps = {
@@ -46,7 +47,8 @@ export const defaultProps = {
   swipeDisabled: false,
   autoPlayInterval: 250,
   buttonsDisabled: false,
-  mouseDragEnabled: false,
+  mouseTrackingEnabled: false,
+  touchTrackingEnabled: true,
   fadeOutAnimation: false,
   playButtonEnabled: false,
   autoPlayDirection: 'ltr',
