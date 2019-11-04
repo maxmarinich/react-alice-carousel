@@ -63,7 +63,7 @@ import 'react-alice-carousel/lib/alice-carousel.css'
 const Gallery = () => {
   const handleOnDragStart = (e) => e.preventDefault()
   return (
-    <AliceCarousel mouseDragEnabled>
+    <AliceCarousel mouseTrackingEnabled>
       <img src="/img1" onDragStart={handleOnDragStart} className="yours-custom-class" />
       <img src="/img2" onDragStart={handleOnDragStart} className="yours-custom-class" />
       <img src="/img3" onDragStart={handleOnDragStart} className="yours-custom-class" />
@@ -114,7 +114,11 @@ const Gallery = () => {
 
 - `swipeDisabled` : Boolean, default `false` - Disable swipe handlers
 
-- `mouseDragEnabled` : Boolean, default `false` - Enable mouse drag animation
+- `touchTrackingEnabled` : Boolean, default `true` - Enable touch move animation
+
+- `mouseTrackingEnabled` : Boolean, default `false` - Enable mouse drag animation
+
+- `mouseDragEnabled` : **Deprecated from version 1.16.0 (use "mouseTrackingEnabled" instead)** Boolean, default `false` - Enable mouse drag animation
 
   _To Avoid unexpected behavior you should handle `drag` event independently, something like in an [example](#quick-start)_
 
@@ -206,7 +210,7 @@ class Gallery extends React.Component {
         autoPlayDirection="rtl"
         autoPlay={true}
         fadeOutAnimation={true}
-        mouseDragEnabled={true}
+        mouseTrackingEnabled={true}
         playButtonEnabled={true}
         disableAutoPlayOnAction={true}
         onSlideChange={this.onSlideChange}

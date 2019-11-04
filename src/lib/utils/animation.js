@@ -26,7 +26,7 @@ export function getTransformMatrix(element) {
 }
 
 export const getTranslate3dPosition = (currentIndex = 0, state = {}) => {
-  const { itemWidth, items, infinite, stagePadding = {}} = state
+  const { itemWidth, items, infinite, stagePadding = {} } = state
 
   if (infinite) {
     const { paddingLeft, paddingRight } = stagePadding
@@ -34,7 +34,7 @@ export const getTranslate3dPosition = (currentIndex = 0, state = {}) => {
       currentIndex += 1
     }
   }
-  return ((items + currentIndex) * -itemWidth) || 0
+  return (items + currentIndex) * -itemWidth || 0
 }
 
 export const isAnimatedItem = (i = 0, animationProps = {}) => {
