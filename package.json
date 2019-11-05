@@ -121,7 +121,7 @@
     "html-webpack-plugin": "3.2.0",
     "husky": "0.15.0-rc.2",
     "jest": "22.1.0",
-    "node-sass": "4.9.3",
+    "node-sass": "^4.13.0",
     "open-browser-webpack-plugin": "0.0.5",
     "prettier": "^1.14.3",
     "react": ">=15.4",
