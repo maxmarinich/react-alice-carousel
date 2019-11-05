@@ -70,4 +70,3 @@ dist
 lib
 !tests/lib
 !src/lib
-package-lock.json

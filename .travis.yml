@@ -2,12 +2,12 @@ sudo: false
 language: node_js
 branches:
   only:
-      - master
-      - /^greenkeeper/.*$/
+    - master
+    - /^greenkeeper/.*$/
 notifications:
   email: false
 node_js:
-  - "lts/*"
+  - 11
 before_install:
   - npm cache clean --force
   - npm i -g npm
