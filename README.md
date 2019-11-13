@@ -124,7 +124,9 @@ const Gallery = () => {
 
 - `infinite` : Boolean, default `true` - Disable infinite mode
 
-- `fadeOutAnimation` : Boolean, `false` - Enable fadeout animation. Fired when 1 item is in the slide
+- `fadeOutAnimation` : Boolean, default `false` - Enable fadeout animation. Fired when 1 item is in the slide
+
+- `controlStrategy` : String (`default` | `responsive`), default `default` - If `responsive` is specified, dots navigation will be hidden if the number of gallery items is equal to the number of items on the slide
 
 - `keysControlDisabled` : Boolean, default `false` - Disable keys controls (left, right, space)
 

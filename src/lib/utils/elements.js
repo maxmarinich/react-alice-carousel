@@ -150,3 +150,18 @@ export function shouldHandleResizeEvent(e, prevDimensions = {}, currentDimension
     prevDimensions.clientHeight !== currentDimensions.clientHeight
   )
 }
+
+export function shouldDisableDots(props, state) {
+  const { dotsDisabled, controlStrategy } = props || {}
+  const { items, slides } = state || {}
+
+  if (dotsDisabled) {
+    return true
+  }
+
+  if (controlStrategy === 'responsive' && items === slides.length) {
+    return true
+  }
+
+  return false
+}

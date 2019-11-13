@@ -159,6 +159,13 @@ export interface Props {
    * Default: false.
    */
   autoHeight?: boolean
+  /** Defines the behavior strategy for controls.
+   *
+   * Default: 'default'
+   *
+   * If `responsive` is specified, dots navigation will be hidden if the number of gallery items is equal to the number of items on the slide
+   */
+  controlStrategy?: 'default' | 'responsive'
   /**
    * Fired when the event object is changing / returns event object
    */

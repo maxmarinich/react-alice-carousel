@@ -85,11 +85,13 @@ export default class AliceCarousel extends React.PureComponent {
         : window.addEventListener('keyup', this._handleOnKeyUp)
     }
 
-    this.swiper.update({
-      mouseTrackingEnabled: this.props.mouseTrackingEnabled,
-      touchTrackingEnabled: this.props.touchTrackingEnabled,
-      preventDefaultTouchmoveEvent: this.props.preventEventOnTouchMove,
-    })
+    if (!this.swipingStarted) {
+      this.swiper.update({
+        mouseTrackingEnabled: this.props.mouseTrackingEnabled,
+        touchTrackingEnabled: this.props.touchTrackingEnabled,
+        preventDefaultTouchmoveEvent: this.props.preventEventOnTouchMove,
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -705,6 +707,7 @@ export default class AliceCarousel extends React.PureComponent {
     const { style, translate3d, clones } = this.state
     const wrapperStyles = Utils.getWrapperStyles(this.stageComponent, this.props, this.state)
     const stageStyles = Utils.getStageStyles({ translate3d }, style)
+    const dotsDisabled = Utils.shouldDisableDots(this.props, this.state)
 
     return (
       <div className="alice-carousel" ref={this._setRootComponentRef}>
@@ -722,7 +725,7 @@ export default class AliceCarousel extends React.PureComponent {
         </div>
 
         {this.props.showSlideInfo ? this._renderSlideInfo() : null}
-        {!this.props.dotsDisabled ? this._renderDotsNavigation() : null}
+        {dotsDisabled ? null : this._renderDotsNavigation()}
         {!this.props.buttonsDisabled ? this._renderPrevButton() : null}
         {!this.props.buttonsDisabled ? this._renderNextButton() : null}
         {this.props.playButtonEnabled ? this._renderPlayPauseButton() : null}
