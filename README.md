@@ -160,7 +160,9 @@ const Gallery = () => {
     {
         item: index,   // index of the current item`s position
         slide: index,   // index of the current slide`s position
-        itemsInSlide: number   // number of elements in the slide
+        itemsInSlide: number,   // number of elements in the slide
+        isPrevSlideDisabled, // indicator to control the visibility of navigation dots
+        isNextSlideDisabled,
     }
   ```
 

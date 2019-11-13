@@ -4,9 +4,9 @@ import AliceCarousel from '../lib/react-alice-carousel'
 class App extends React.PureComponent {
   state = { mouseTrackingEnabled: true, preventEventOnTouchMove: true }
   responsive = {
-    0: { items: 1 },
-    600: { items: 2 },
-    960: { items: 3 },
+    0: { items: 5 },
+    // 600: { items: 2 },
+    // 960: { items: 3 },
   }
 
   stagePadding = {

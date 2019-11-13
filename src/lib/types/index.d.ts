@@ -10,6 +10,8 @@ export interface EventObject {
   item: number
   slide: number
   itemsInSlide: number
+  isPrevSlideDisabled: boolean // indicator to control the visibility of navigation dots
+  isNextSlideDisabled: boolean
 }
 
 export interface Props {

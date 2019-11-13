@@ -335,10 +335,10 @@ export default class AliceCarousel extends React.PureComponent {
 
   _getEventObject = (state = this.state) => {
     const { items: itemsInSlide, currentIndex: item } = state
-    const { isNextSlideDisabled } = Utils.itemInfo(state)
+    const { isNextSlideDisabled, isPrevSlideDisabled } = Utils.itemInfo(state)
     const slide = Utils.getActiveSlideIndex(isNextSlideDisabled, state)
 
-    return { item, slide, itemsInSlide }
+    return { item, slide, itemsInSlide, isNextSlideDisabled, isPrevSlideDisabled }
   }
 
   setAnimationPropsOnDotClick = (itemIndex) => {
