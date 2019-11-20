@@ -165,7 +165,7 @@ export interface Props {
    *
    * If `responsive` is specified, dots navigation will be hidden if the number of gallery items is equal to the number of items on the slide
    */
-  controlStrategy?: 'default' | 'responsive'
+  controlsStrategy?: 'default' | 'responsive'
   /**
    * Fired when the event object is changing / returns event object
    */
