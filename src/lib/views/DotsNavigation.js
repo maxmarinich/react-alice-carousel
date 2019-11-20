@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import * as Utils from '../utils'
 
-export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave }) => {
+export const DotsNavigation = ({ state, onClick }) => {
   const { slides, items, infinite } = state
   const { isNextSlideDisabled } = Utils.itemInfo(state)
   const dotsLength = Utils.getDotsNavigationLength(slides.length, items)
@@ -21,8 +21,6 @@ export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave }) =
             <li
               key={`dot-item-${i}`}
               onClick={() => onClick(itemIndex)}
-              onMouseEnter={onMouseEnter}
-              onMouseLeave={onMouseLeave}
               className={`alice-carousel__dots-item${className}`}
             />
           )

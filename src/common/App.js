@@ -11,7 +11,7 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const { mouseTrackingEnabled, preventEventOnTouchMove } = this.state
+    const { mouseTrackingEnabled, preventEventOnTouchMove, isRTL } = this.state
     return (
       <div className="app" id="app">
         <h1 className="h1">React Alice Carousel</h1>
@@ -23,6 +23,7 @@ class App extends React.PureComponent {
           onSlideChanged={console.debug}
           responsive={this.responsive}
           ref={this.carouselRef}
+          isRTL={isRTL}
         >
           <div className="item">
             <h1>1</h1>
@@ -47,6 +48,9 @@ class App extends React.PureComponent {
         <button type="button" onClick={this.slide} data-action="next">
           next
         </button>
+        <button type="button" onClick={this.toggleDirection}>
+          {this.state.isRTL ? 'RTL' : 'LTR'}
+        </button>
       </div>
     )
   }
@@ -60,6 +64,8 @@ class App extends React.PureComponent {
       this.carouselRef.current.slidePrev()
     }
   }
+
+  toggleDirection = () => this.setState({ isRTL: !this.state.isRTL })
 }
 
 export default App

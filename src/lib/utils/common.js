@@ -26,7 +26,13 @@ export const calculateInitialProps = (props, rootComponent) => {
   const galleryWidth = Utils.getElementWidth(rootComponent)
   const itemWidth = Utils.getItemWidth(galleryWidth, items)
   const clones = Utils.cloneCarouselItems(slides, items, { stagePadding, infinite })
-  const translate3d = Utils.getTranslate3dPosition(currentIndex, { itemWidth, items, stagePadding, infinite })
+  const translate3d = Utils.getTranslate3dPosition(currentIndex, {
+    itemWidth,
+    items,
+    stagePadding,
+    infinite,
+    isRTL: props.isRTL,
+  })
 
   return {
     items,
@@ -38,5 +44,6 @@ export const calculateInitialProps = (props, rootComponent) => {
     translate3d,
     stagePadding,
     style,
+    isRTL: props.isRTL
   }
 }

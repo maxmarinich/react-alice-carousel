@@ -91,8 +91,8 @@ export const getMinSwipeLimitIfNotInfinite = (items, itemWidth) => {
   return items * itemWidth - getSlideOffset(itemWidth) || 0
 }
 
-export const shouldRecalculateSwipePosition = (currentPosition, minPosition, maxPosition) => {
-  return currentPosition >= 0 - minPosition || Math.abs(currentPosition) >= maxPosition
+export const shouldRecalculateSwipePosition = (currentPosition, minPosition, maxPosition, isRTL) => {
+  return (currentPosition * (isRTL ? -1 : 1)) >= 0 - minPosition || Math.abs(currentPosition) >= maxPosition
 }
 
 export const getMaxSwipeLimitIfNotInfinite = (slidesLength, itemWidth) => {
@@ -121,16 +121,17 @@ export const recalculateCurrentSlideIndex = (state = {}) => {
 }
 
 export const recalculateTranslatePosition = (state = {}) => {
-  const { items, itemWidth, stagePadding = {}, slides = [] } = state
+  const { items, itemWidth, stagePadding = {}, slides = [], isRTL } = state
   const maxSlidePosition = slides.length - 1
 
   const currentIndex = state.currentIndex < 0 ? maxSlidePosition : 0
   const nextIndex = currentIndex === 0 ? items : maxSlidePosition + items
 
+  const itemWidthWithDirection = itemWidth * (isRTL ? 1 : -1)
   if (stagePadding.paddingLeft || stagePadding.paddingRight) {
-    return (nextIndex + 1) * -itemWidth || 0
+    return (nextIndex + 1) * itemWidthWithDirection || 0
   }
-  return nextIndex * -itemWidth || 0
+  return nextIndex * itemWidthWithDirection || 0
 }
 
 export const calculateSlidesOffset = (props, state) => {
