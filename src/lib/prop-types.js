@@ -2,9 +2,6 @@ import PropTypes from 'prop-types'
 
 export const propTypes = {
   autoHeight: PropTypes.bool,
-  autoPlay: PropTypes.bool,
-  autoPlayDirection: PropTypes.string,
-  autoPlayInterval: PropTypes.number,
   buttonsDisabled: PropTypes.bool,
   children: PropTypes.array,
   controlsStrategy: PropTypes.oneOf(['default', 'responsive']),
@@ -28,16 +25,12 @@ export const propTypes = {
   slideToIndex: PropTypes.number,
   stagePadding: PropTypes.object,
   startIndex: PropTypes.number,
-  stopAutoPlayOnHover: PropTypes.bool,
   swipeDisabled: PropTypes.bool,
   touchTrackingEnabled: PropTypes.bool,
 }
 
 export const defaultProps = {
   autoHeight: false,
-  autoPlay: false,
-  autoPlayDirection: 'ltr',
-  autoPlayInterval: 250,
   buttonsDisabled: false,
   children: [],
   controlsStrategy: 'default',
@@ -56,7 +49,6 @@ export const defaultProps = {
   slideToIndex: 0,
   stagePadding: {},
   startIndex: 0,
-  stopAutoPlayOnHover: true,
   swipeDisabled: false,
   touchTrackingEnabled: true,
 }
