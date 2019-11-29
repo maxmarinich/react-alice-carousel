@@ -14,24 +14,18 @@ class App extends React.PureComponent {
     paddingRight: 30,
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ mouseTrackingEnabled: false, preventEventOnTouchMove: false })
-    }, 5000)
-  }
-
   render() {
     const { mouseTrackingEnabled, preventEventOnTouchMove } = this.state
     return (
       <div className="app" id="app">
         <h1 className="h1">React Alice Carousel</h1>
         <AliceCarousel
-          duration={600}
           showSlideInfo={true}
           preventEventOnTouchMove={preventEventOnTouchMove}
           mouseTrackingEnabled={mouseTrackingEnabled}
           onSlideChanged={console.debug}
           responsive={this.responsive}
+          infinite={false}
           stagePadding={this.stagePadding}
         >
           <div className="item">

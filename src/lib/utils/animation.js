@@ -10,8 +10,8 @@ export function animate(element, position = 0, durationMs = 0) {
 
 export function getTranslateX(element) {
   const matrix = getTransformMatrix(element)
-
-  return (matrix && matrix[4]) || ''
+  const tx = (matrix && matrix[4]) || ''
+  return Number(tx)
 }
 
 export function getTransformMatrix(element) {
