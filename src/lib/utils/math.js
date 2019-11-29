@@ -66,19 +66,19 @@ export const recalculateCurrentIndexOnBeforeTouchEnd = (slidesLength, items) => 
 }
 
 export const getMaxSwipePosition = (items, itemWidth, slidesLength) => {
-  return (slidesLength + items) * itemWidth // TODO return
+  return (slidesLength + items) * itemWidth || 0
 }
 
 export const getMinSwipePosition = (items, itemWidth) => {
   return items * itemWidth || 0
 }
 
-export const getMinSwipeLimit = (minSwipePosition, stagePadding = {}) => {
+export const getMinSwipeLimit = (minSwipePosition = 0, stagePadding = {}) => {
   const { paddingLeft = 0 } = stagePadding
   return paddingLeft ? minSwipePosition : 0
 }
 
-export const getMaxSwipeLimit = (maxSwipePosition, stagePadding = {}, itemWidth = 0) => {
+export const getMaxSwipeLimit = (maxSwipePosition = 0, stagePadding = {}, itemWidth = 0) => {
   const { paddingRight = 0 } = stagePadding
   return paddingRight ? maxSwipePosition + itemWidth : maxSwipePosition
 }
