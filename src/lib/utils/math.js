@@ -57,14 +57,6 @@ export const getFadeOutOffsetOnClick = (direction, itemWidth) => {
   return direction === 'next' ? itemWidth : -itemWidth
 }
 
-export const getMaxSwipePosition = (items, itemWidth, slidesLength) => {
-  return (slidesLength + items) * itemWidth || 0
-}
-
-export const getMinSwipePosition = (items, itemWidth) => {
-  return items * itemWidth || 0
-}
-
 export const recalculatePositionOnBeforeTouchEnd = (items, itemWidth) => {
   return -getMinSwipePosition(items, itemWidth)
 }
@@ -73,16 +65,22 @@ export const recalculateCurrentIndexOnBeforeTouchEnd = (slidesLength, items) => 
   return slidesLength - items || 0
 }
 
-export const getMinSwipeLimit = (minSwipePosition, stagePadding = {}) => {
-  const { paddingLeft = 0 } = stagePadding
-  const result = paddingLeft ? minSwipePosition + paddingLeft : 0
-  return result || 0
+export const getMaxSwipePosition = (items, itemWidth, slidesLength) => {
+  return (slidesLength + items) * itemWidth || 0
 }
 
-export const getMaxSwipeLimit = (maxSwipePosition, stagePadding = {}) => {
+export const getMinSwipePosition = (items, itemWidth) => {
+  return items * itemWidth || 0
+}
+
+export const getMinSwipeLimit = (minSwipePosition = 0, stagePadding = {}) => {
+  const { paddingLeft = 0 } = stagePadding
+  return paddingLeft ? minSwipePosition : 0
+}
+
+export const getMaxSwipeLimit = (maxSwipePosition = 0, stagePadding = {}, itemWidth = 0) => {
   const { paddingRight = 0 } = stagePadding
-  const limit = paddingRight ? maxSwipePosition + paddingRight : maxSwipePosition
-  return limit || 0
+  return paddingRight ? maxSwipePosition + itemWidth : maxSwipePosition
 }
 
 export const getSlideOffset = (itemWidth, offset = 250) => {

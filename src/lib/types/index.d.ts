@@ -10,6 +10,8 @@ export interface EventObject {
   item: number
   slide: number
   itemsInSlide: number
+  isPrevSlideDisabled: boolean // indicator to control the visibility of navigation dots
+  isNextSlideDisabled: boolean
 }
 
 export interface Props {
@@ -157,6 +159,13 @@ export interface Props {
    * Default: false.
    */
   autoHeight?: boolean
+  /** Defines the behavior strategy for controls.
+   *
+   * Default: 'default'
+   *
+   * If `responsive` is specified, dots navigation will be hidden if the number of gallery items is equal to the number of items on the slide
+   */
+  controlsStrategy?: 'default' | 'responsive'
   /**
    * Fired when the event object is changing / returns event object
    */

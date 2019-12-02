@@ -3,6 +3,11 @@ import * as Utils from '../../../../src/lib/utils'
 describe('animation: animate, should update Element style properties, {}', () => {
   const element = document.createElement('div')
 
+  it('should return default data', () => {
+    Utils.animate()
+    expect(element.style['transform']).toEqual('')
+  })
+
   it('should return expected transform data', () => {
     Utils.animate(element)
     expect(element.style['transform']).toEqual('translate3d(0px, 0, 0)')

@@ -9,18 +9,17 @@ export function animate(element, position = 0, durationMs = 0) {
 }
 
 export function getTranslateX(element) {
-  const translateXIndex = 4
   const matrix = getTransformMatrix(element)
-  return matrix[translateXIndex] || ''
+  const tx = (matrix && matrix[4]) || ''
+  return Number(tx)
 }
 
 export function getTransformMatrix(element) {
   if (Utils.isElement(element)) {
-    const { transform = '' } = getComputedStyle(element) || {}
-    const matched = transform.match(/[0-9., -]+/) || []
-    if (typeof matched[0] === 'string') {
-      return matched[0].split(',')
-    }
+    const { transform } = getComputedStyle(element)
+    const matched = transform.match(/(-?[0-9.]+)/g)
+
+    return matched || []
   }
   return []
 }

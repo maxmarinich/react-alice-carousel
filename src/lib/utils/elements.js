@@ -38,6 +38,7 @@ export const getElementWidth = (element) => {
 
 export const getSlides = (props) => {
   const { children, items = [] } = props || {}
+
   return children && children.length ? children : items
 }
 
@@ -131,7 +132,8 @@ export const getNextItemIndexBeforeTouchEnd = (currentTranslateXPosition, props 
 
 export const getCurrentIndex = (currentTranslateXPosition, itemWidth, items) => {
   const value = Math.abs(currentTranslateXPosition / itemWidth)
-  return Math.ceil(value) - items
+
+  return Math.floor(value) - items
 }
 
 export function getElementDimensions(element) {
@@ -149,4 +151,19 @@ export function shouldHandleResizeEvent(e, prevDimensions = {}, currentDimension
     prevDimensions.clientWidth !== currentDimensions.clientWidth ||
     prevDimensions.clientHeight !== currentDimensions.clientHeight
   )
+}
+
+export function shouldDisableDots(props, state) {
+  const { dotsDisabled, controlsStrategy } = props || {}
+  const { items, slides } = state || {}
+
+  if (dotsDisabled) {
+    return true
+  }
+
+  if (controlsStrategy === 'responsive' && items === slides.length) {
+    return true
+  }
+
+  return false
 }
