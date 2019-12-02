@@ -2,16 +2,16 @@ $clr-base: #e0e4fb !default;
 $clr-blue: #465798 !default;
 $clr-darkred: darkred !default;
 
-$transition-time: .3s !default;
+$transition-time: 0.3s !default;
 $play-btn-color: $clr-blue !default;
 $play-btn-size: 32px !default;
-
 
 .alice-carousel {
   box-sizing: border-box;
   position: relative;
   width: 100%;
   margin: auto;
+  direction: ltr;
 }
 
 .alice-carousel__wrapper {
@@ -46,14 +46,6 @@ $play-btn-size: 32px !default;
       visibility: hidden;
     }
   }
-  &:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
-  }
 }
 
 .alice-carousel__prev-btn,
@@ -85,7 +77,7 @@ $play-btn-size: 32px !default;
     color: $clr-darkred;
   }
   &.__inactive {
-    opacity: .4;
+    opacity: 0.4;
   }
 }
 
@@ -94,7 +86,9 @@ $play-btn-size: 32px !default;
   position: absolute;
   top: 30px;
   left: 20px;
-  &:hover { cursor: pointer }
+  &:hover {
+    cursor: pointer;
+  }
   &-wrapper {
     position: relative;
     background-color: #fff;
@@ -177,11 +171,11 @@ $play-btn-size: 32px !default;
   padding: 5px 10px;
   color: $clr-blue;
   border-radius: 5px;
-  background-color: rgba($clr-base, .6);
+  background-color: rgba($clr-base, 0.6);
   &-item {
     line-height: 0;
     vertical-align: middle;
   }
 }
 
-@import "fade-animation";
+@import 'fade-animation';
