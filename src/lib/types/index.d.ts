@@ -148,6 +148,12 @@ export interface Props {
    */
   showSlideInfo?: boolean
   /**
+   * Show the slides around the stage
+   *
+   * Default: false.
+   */
+  showSurroundingSlides?: boolean
+  /**
    * Prevent the browser's touchmove event when carousel is swiping
    *
    * Default: false.

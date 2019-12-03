@@ -29,11 +29,13 @@ export const getStageStyles = (nextStyles = {}, currentStyles = {}) => {
 export const getWrapperStyles = (element, props = {}, state = {}) => {
   const { paddingLeft, paddingRight } = Utils.getStagePadding(props)
   const height = props.autoHeight && Utils.getGalleryItemHeight(element, props, state)
+  const overflow = props.showSurroundingSlides && 'visible'
   const transition = height && `height ${state.duration}ms ease-out`
 
   return {
     height,
     transition,
+    overflow,
     paddingLeft: `${paddingLeft}px`,
     paddingRight: `${paddingRight}px`,
   }

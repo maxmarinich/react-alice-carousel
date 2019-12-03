@@ -170,6 +170,8 @@ const Gallery = () => {
 
 - `shouldHandleResizeEvent` : Function - Fired during resize event to determine whether the event handler should be called / returns boolean
 
+- `showSurroundingSlides` : Boolean, default `false` - Show the slides around the stage
+
 #### Methods
 
 - `slideTo(index: number)` : Go to the specified slide
