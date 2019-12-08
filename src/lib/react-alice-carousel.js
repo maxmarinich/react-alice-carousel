@@ -566,15 +566,6 @@ export default class AliceCarousel extends React.PureComponent {
     return <Views.StageItem styles={style} className={className} key={`stage-item-${i}`} item={item} />
   }
 
-  _renderDotsNavigation() {
-    return (
-      <Views.DotsNavigation
-        state={this.state}
-        onClick={this.slideTo}
-      />
-    )
-  }
-
   render() {
     const { style, translate3d, clones } = this.state
     const wrapperStyles = Utils.getWrapperStyles(this.stageComponent, this.props, this.state)
@@ -594,7 +585,6 @@ export default class AliceCarousel extends React.PureComponent {
         </div>
 
         {this.props.showSlideInfo ? this._renderSlideInfo() : null}
-        {!this.props.dotsDisabled ? this._renderDotsNavigation() : null}
       </div>
     )
   }

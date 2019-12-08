@@ -60,33 +60,6 @@ $play-btn-size: 32px !default;
   }
 }
 
-.alice-carousel__dots {
-  margin: 30px 3px 5px;
-  padding: 0;
-
-  &-item {
-    display: inline-block;
-
-    width: 8px;
-    height: 8px;
-    margin-right: 15px;
-
-    cursor: pointer;
-
-    border-radius: 50%;
-    background-color: $clr-base;
-
-    &:not(:last-child) {
-      margin-right: 15px;
-    }
-
-    &:hover,
-    &.__active {
-      background-color: lighten(#465798, 15%);
-    }
-  }
-}
-
 .alice-carousel__slide-info {
   position: absolute;
   top: 20px;
