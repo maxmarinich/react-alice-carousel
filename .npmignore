@@ -43,6 +43,7 @@ jspm_packages
 .babelrc
 .eslint
 .gitignore
+.vscode
 .npmrc
 .prettierrc
 .travis.yml
