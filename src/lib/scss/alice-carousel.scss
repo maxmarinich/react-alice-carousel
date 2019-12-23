@@ -7,43 +7,54 @@ $play-btn-color: $clr-blue !default;
 $play-btn-size: 32px !default;
 
 .alice-carousel {
-  box-sizing: border-box;
   position: relative;
+
+  box-sizing: border-box;
   width: 100%;
   margin: auto;
+
   direction: ltr;
 }
 
 .alice-carousel__wrapper {
   position: relative;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
   width: 100%;
   height: auto;
-  box-sizing: border-box;
-  overflow: hidden;
 }
 
 .alice-carousel__stage {
   position: relative;
+
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
+
   white-space: nowrap;
-  box-sizing: border-box;
   &-item {
+    position: relative;
+
+    display: inline-block;
+
     width: 100%;
     height: 100%;
-    position: relative;
-    display: inline-block;
+
     vertical-align: top;
     white-space: normal;
+
     line-height: 0;
     * {
       line-height: initial;
     }
     &.__cloned {
-      opacity: 0;
       visibility: hidden;
+
+      opacity: 0;
     }
   }
 }
@@ -51,14 +62,16 @@ $play-btn-size: 32px !default;
 .alice-carousel__prev-btn,
 .alice-carousel__next-btn {
   display: inline-block;
+
+  box-sizing: border-box;
   width: 50%;
   padding: 15px 10px;
-  box-sizing: border-box;
 
   [data-area] {
     &::after {
-      content: attr(data-area);
       position: relative;
+
+      content: attr(data-area);
       text-transform: capitalize;
     }
   }
@@ -71,8 +84,10 @@ $play-btn-size: 32px !default;
 .alice-carousel__prev-btn-item,
 .alice-carousel__next-btn-item {
   display: inline-block;
-  color: $clr-blue;
+
   cursor: pointer;
+
+  color: $clr-blue;
   &:hover {
     color: $clr-darkred;
   }
@@ -82,80 +97,96 @@ $play-btn-size: 32px !default;
 }
 
 .alice-carousel__play-btn {
-  display: inline-block;
   position: absolute;
   top: 30px;
   left: 20px;
+
+  display: inline-block;
   &:hover {
     cursor: pointer;
   }
   &-wrapper {
     position: relative;
-    background-color: #fff;
-    padding: 10px;
+
     width: $play-btn-size;
     height: $play-btn-size;
+    padding: 10px;
+
     border-radius: 50%;
+    background-color: #fff;
   }
 }
 
 .alice-carousel__play-btn-item {
-  cursor: pointer;
   position: absolute;
-  background: transparent;
+
   width: $play-btn-size;
   height: $play-btn-size;
-  outline: none;
+
+  cursor: pointer;
+
   border: 0;
+  outline: none;
+  background: transparent;
   &::before,
   &::after {
-    content: '';
+    position: absolute;
+
+    display: block;
+
     width: 0;
     height: 0;
-    display: block;
-    position: absolute;
+
+    content: '';
+    transition: all $transition-time linear;
+
+    border-width: 8px 0 8px 15px;
     border-style: solid;
     border-color: transparent;
-    border-width: 8px 0 8px 15px;
     border-left-color: $play-btn-color;
-    transition: all $transition-time linear;
   }
   &::before {
-    height: 14px;
     left: 5px;
+
+    height: 14px;
   }
   &::after {
-    left: 18px;
     top: 7px;
+    left: 18px;
   }
   &.__pause {
     &::before,
     &::after {
-      border-width: 0 0 0 10px;
       height: 30px;
+
+      border-width: 0 0 0 10px;
     }
     &::after {
-      left: 18px;
       top: 0;
+      left: 18px;
     }
   }
 }
 
 .alice-carousel__dots {
-  margin: 30px 0 5px;
-  text-align: center;
-  list-style: none;
+  margin: 30px 3px 5px;
   padding: 0;
+
+  list-style: none;
+
+  text-align: center;
   &-item {
     display: inline-block;
+
     width: 8px;
     height: 8px;
+    margin-right: 15px;
+
     cursor: pointer;
+
     border-radius: 50%;
     background-color: $clr-base;
-    &:not(:last-child) {
-      margin-right: 15px;
-    }
+
     &:hover,
     &.__active {
       background-color: lighten(#465798, 15%);
@@ -164,17 +195,21 @@ $play-btn-size: 32px !default;
 }
 
 .alice-carousel__slide-info {
-  display: inline-block;
   position: absolute;
-  right: 20px;
   top: 20px;
+  right: 20px;
+
+  display: inline-block;
+
   padding: 5px 10px;
+
   color: $clr-blue;
   border-radius: 5px;
   background-color: rgba($clr-base, 0.6);
   &-item {
-    line-height: 0;
     vertical-align: middle;
+
+    line-height: 0;
   }
 }
 
