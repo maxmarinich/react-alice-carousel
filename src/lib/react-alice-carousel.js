@@ -459,8 +459,9 @@ export default class AliceCarousel extends React.PureComponent {
     this._handleOnMouseEnter()
 
     if (Utils.isVerticalTouchMoveDetected(e, deltaX, deltaY)) {
+      if (this.swipePosition.direction) return
+
       this.verticalSwipingDetected = true
-      return
     } else {
       this.verticalSwipingDetected = false
     }
