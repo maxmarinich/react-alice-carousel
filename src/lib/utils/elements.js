@@ -102,7 +102,11 @@ export const getSlideInfo = (currentIndex = 0, slidesLength = 0) => {
 }
 
 export const isElement = (element) => {
-  return element instanceof Element || element instanceof HTMLDocument
+  try {
+    return element instanceof Element || element instanceof HTMLDocument
+  } catch (e) {
+    return false
+  }
 }
 
 export const getNextItemIndexBeforeTouchEnd = (currentTranslateXPosition, props = {}) => {
