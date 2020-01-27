@@ -30,12 +30,6 @@ export const cloneCarouselItems = (children = [], itemsInSlide, props) => {
   return [].concat(clonesBefore, children, clonesAfter)
 }
 
-export const getElementWidth = (element) => {
-  if (element && element.getBoundingClientRect) {
-    return element.getBoundingClientRect().width
-  }
-}
-
 export const getSlides = (props) => {
   const { children, items = [] } = props || {}
 
@@ -141,19 +135,17 @@ export const getCurrentIndex = (currentTranslateXPosition, itemWidth, items) => 
 }
 
 export function getElementDimensions(element) {
-  const dimensions = {}
+  if (element && element.getBoundingClientRect) {
+    const { width, height } = element.getBoundingClientRect()
 
-  if (element) {
-    dimensions['clientWidth'] = element.clientWidth
-    dimensions['clientHeight'] = element.clientHeight
+    return { width, height }
   }
-  return dimensions
+  return {}
 }
 
 export function shouldHandleResizeEvent(e, prevDimensions = {}, currentDimensions = {}) {
   return (
-    prevDimensions.clientWidth !== currentDimensions.clientWidth ||
-    prevDimensions.clientHeight !== currentDimensions.clientHeight
+    prevDimensions.width !== currentDimensions.width
   )
 }
 

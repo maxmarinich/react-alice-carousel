@@ -30,7 +30,6 @@ export default class AliceCarousel extends React.PureComponent {
     this._setInitialState()
     this._setupSwipeHahdlers()
     this._resetAllIntermediateProps()
-    this.rootComponentDimensions = Utils.getElementDimensions(this.rootComponent)
 
     window.addEventListener('resize', this._debouncedHandleOnWindowResize)
 
@@ -136,7 +135,7 @@ export default class AliceCarousel extends React.PureComponent {
 
   _setupSwipeHahdlers() {
     this.swiper = new VanillaSwipe({
-      element: this.swipeWrapper,
+      element: this.rootComponent,
       onSwiping: this._throttledOnTouchMove,
       onSwiped: this._onTouchEnd,
       rotationAngle: 10,
@@ -234,6 +233,8 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _onInitialized(initialState) {
+    this.rootComponentDimensions = Utils.getElementDimensions(this.rootComponent)
+
     if (this.props.onInitialized) {
       this.props.onInitialized(this._getEventObject(initialState))
     }
@@ -690,8 +691,8 @@ export default class AliceCarousel extends React.PureComponent {
     const dotsDisabled = Utils.shouldDisableDots(this.props, this.state)
 
     return (
-      <div className="alice-carousel" ref={this._setRootComponentRef}>
-        <div ref={(el) => (this.swipeWrapper = el)}>
+      <div className="alice-carousel">
+        <div ref={this._setRootComponentRef}>
           <div
             style={wrapperStyles}
             className="alice-carousel__wrapper"
