@@ -31,7 +31,6 @@ export default class AliceCarousel extends React.PureComponent {
     this._setInitialState()
     this._setupSwipeHahdlers()
     this._resetAllIntermediateProps()
-    this.rootComponentDimensions = Utils.getElementDimensions(this.rootComponent)
 
     window.addEventListener('resize', this._debouncedHandleOnWindowResize)
 
@@ -122,7 +121,7 @@ export default class AliceCarousel extends React.PureComponent {
 
   _setupSwipeHahdlers() {
     this.swiper = new VanillaSwipe({
-      element: this.swipeWrapper,
+      element: this.rootComponent,
       onSwiping: this._throttledOnTouchMove,
       onSwiped: this._onTouchEnd,
       rotationAngle: 10,
@@ -201,6 +200,8 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _onInitialized(initialState) {
+    this.rootComponentDimensions = Utils.getElementDimensions(this.rootComponent)
+
     if (this.props.onInitialized) {
       this.props.onInitialized(this._getEventObject(initialState))
     }
@@ -576,9 +577,12 @@ export default class AliceCarousel extends React.PureComponent {
     const rootStyle = { direction: isRTL ? 'rtl' : 'ltr' }
 
     return (
-      <div className="alice-carousel" ref={this._setRootComponentRef} style={rootStyle}>
-        <div ref={(el) => (this.swipeWrapper = el)}>
-          <div style={wrapperStyles} className="alice-carousel__wrapper">
+      <div className="alice-carousel" style={rootStyle}>
+        <div ref={this._setRootComponentRef}>
+          <div
+            style={wrapperStyles}
+            className="alice-carousel__wrapper"
+          >
             <ul style={stageStyles} className="alice-carousel__stage" ref={this._setStageComponentRef}>
               {clones.map(this._renderStageItem)}
             </ul>
