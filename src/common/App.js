@@ -44,6 +44,7 @@ class App extends React.PureComponent {
             <h1>5</h1>
           </div>
         </AliceCarousel>
+        <div style={{ height: 1000 }} />
       </div>
     )
   }
