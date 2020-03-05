@@ -16,7 +16,7 @@ const babelOptions = {
 }
 
 gulp.task('sass', function() {
-  gulp
+  return gulp
     .src(resolve(libPath, 'scss/alice-carousel.scss'))
     .pipe(sass())
     .pipe(
@@ -37,11 +37,15 @@ gulp.task('source-js', function() {
 })
 
 gulp.task('scss', function() {
-  return gulp.src(resolve(libPath, 'scss/**/*.scss')).pipe(gulp.dest(resolve(outputPath, 'scss')))
+  return gulp
+    .src(resolve(libPath, 'scss/**/*.scss'))
+    .pipe(gulp.dest(resolve(outputPath, 'scss')))
 })
 
 gulp.task('types', function() {
-  return gulp.src(resolve(libPath, 'types/**/*.ts')).pipe(gulp.dest(resolve(outputPath, 'types')))
+  return gulp
+    .src(resolve(libPath, 'types/**/*.ts'))
+    .pipe(gulp.dest(resolve(outputPath, 'types')))
 })
 
-gulp.task('default', ['source-js', 'sass', 'scss', 'types'])
+gulp.task('default', gulp.series('source-js', 'sass', 'scss', 'types'))

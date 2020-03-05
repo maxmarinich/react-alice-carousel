@@ -28,7 +28,7 @@ export default class AliceCarousel extends React.PureComponent {
 
   componentDidMount() {
     this._setInitialState()
-    this._setupSwipeHahdlers()
+    this._setupSwipeHandlers()
     this._resetAllIntermediateProps()
 
     window.addEventListener('resize', this._debouncedHandleOnWindowResize)
@@ -133,7 +133,7 @@ export default class AliceCarousel extends React.PureComponent {
     this._slideToItem(this.state.currentIndex + 1)
   }
 
-  _setupSwipeHahdlers() {
+  _setupSwipeHandlers() {
     this.swiper = new VanillaSwipe({
       element: this.rootComponent,
       onSwiping: this._throttledOnTouchMove,
