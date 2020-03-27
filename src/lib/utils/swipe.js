@@ -1,7 +1,5 @@
-export const isVerticalTouchMoveDetected = (e, deltaX, deltaY, gap = 32) => {
-  const vertical = Math.abs(deltaY)
-  const horizontal = Math.abs(deltaX)
-  return vertical > horizontal && horizontal < gap
+export const isVerticalTouchMoveDetected = (e, deltaX, deltaY, gap = 20) => {
+  return deltaY > deltaX && deltaX < gap
 }
 
 export const calculateSwipeIndex = (itemWidth, position, direction) => {
@@ -10,8 +8,9 @@ export const calculateSwipeIndex = (itemWidth, position, direction) => {
   return index + offset
 }
 
-export const getSwipeDirection = (deltaX) => {
-  return deltaX > 0 ? 'LEFT' : 'RIGHT'
+export const getSwipeDirection = (prevDeltaX = 0, deltaX = 0) => {
+  const vector = Math.round((prevDeltaX - deltaX) * 100)
+  return vector < 0 ? 'LEFT' : 'RIGHT'
 }
 
 export const getSwipeOffset = (direction) => {

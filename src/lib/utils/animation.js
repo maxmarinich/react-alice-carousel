@@ -1,8 +1,10 @@
 import * as Utils from './index'
 
-export function animate(element, position = 0, durationMs = 0) {
+export function animate(element, options) {
+  const { position = 0, duration = 0, transitionTimingFunction = 'step-start' } = options || {}
+
   if (Utils.isElement(element)) {
-    element.style['transition'] = `transform ${durationMs}ms ease-out`
+    element.style['transition'] = `transform ${duration}ms ${transitionTimingFunction}`
     element.style['transform'] = `translate3d(${position}px, 0, 0)`
   }
   return element

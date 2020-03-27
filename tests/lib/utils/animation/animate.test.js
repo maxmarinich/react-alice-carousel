@@ -14,17 +14,17 @@ describe('animation: animate, should update Element style properties, {}', () =>
   })
 
   it('should return expected transform data with if translateX parameter: 100 ', () => {
-    Utils.animate(element, 100)
+    Utils.animate(element, { position: 100 })
     expect(element.style['transform']).toEqual('translate3d(100px, 0, 0)')
   })
 
   it('should return expected transition data if default duration', () => {
     Utils.animate(element)
-    expect(element.style['transition']).toEqual('transform 0ms ease-out')
+    expect(element.style['transition']).toEqual('transform 0ms step-start')
   })
 
   it('should return expected transition data if duration: 100', () => {
-    Utils.animate(element, 0, 100)
-    expect(element.style['transition']).toEqual('transform 100ms ease-out')
+    Utils.animate(element, { position: 100, duration: 100 })
+    expect(element.style['transition']).toEqual('transform 100ms step-start')
   })
 })
