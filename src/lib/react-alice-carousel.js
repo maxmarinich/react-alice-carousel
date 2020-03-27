@@ -84,8 +84,15 @@ export default class AliceCarousel extends React.PureComponent {
         : window.addEventListener('keyup', this._handleOnKeyUp)
     }
 
-    if (!this.swipingStarted) {
+    if (
+      !this.swipingStarted &&
+      (this.props.mouseTrackingEnabled !== prevProps.mouseTrackingEnabled ||
+        this.props.touchTrackingEnabled !== prevProps.touchTrackingEnabled ||
+        this.props.preventEventOnTouchMove !== prevProps.preventEventOnTouchMove ||
+        this.props.swipeDelta !== prevProps.swipeDelta)
+    ) {
       this.swiper.update({
+        delta: this.props.swipeDelta,
         mouseTrackingEnabled: this.props.mouseTrackingEnabled,
         touchTrackingEnabled: this.props.touchTrackingEnabled,
         preventDefaultTouchmoveEvent: this.props.preventEventOnTouchMove,
@@ -136,12 +143,14 @@ export default class AliceCarousel extends React.PureComponent {
   _setupSwipeHandlers() {
     this.swiper = new VanillaSwipe({
       element: this.rootComponent,
+      delta: this.props.swipeDelta,
       onSwiping: this._throttledOnTouchMove,
       onSwiped: this._onTouchEnd,
-      rotationAngle: 10,
+      rotationAngle: 5,
       mouseTrackingEnabled: this.props.mouseTrackingEnabled,
       touchTrackingEnabled: this.props.touchTrackingEnabled,
       preventDefaultTouchmoveEvent: this.props.preventEventOnTouchMove,
+      preventTrackingOnMouseleave: true,
     })
 
     this.swiper.init()
@@ -162,7 +171,7 @@ export default class AliceCarousel extends React.PureComponent {
       const translate3d = Utils.getTranslate3dPosition(currState.currentIndex, currState)
       const nextState = { ...currState, translate3d, isAnimationCanceled, initialStageHeight: 0 }
 
-      if (isAnimationCanceled) Utils.animate(this.stageComponent, translate3d)
+      if (isAnimationCanceled) Utils.animate(this.stageComponent, { position: translate3d })
 
       this.setState(nextState, () => {
         this._resetAllIntermediateProps()
@@ -309,8 +318,8 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _resetAllIntermediateProps = () => {
+    this.prevSwipPosition = 0
     this.swipingStarted = false
-    this.verticalSwipingDetected = false
 
     this._stopSwipeAnimation()
     this._resetAnimationProps()
@@ -392,8 +401,9 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _getIntermediateStateProps = (duration, shouldSkipRecalculation) => {
+    const { transitionTimingFunction } = this.props
     const condition = !shouldSkipRecalculation && this._isFadeOutAnimationAllowed()
-    return Utils.getIntermediateTransitionProps(condition, duration)
+    return Utils.getIntermediateTransitionProps(condition, duration, transitionTimingFunction)
   }
 
   _slideToItem(index, options = {}) {
@@ -455,21 +465,18 @@ export default class AliceCarousel extends React.PureComponent {
     return position - Math.floor(deltaX)
   }
 
-  _onTouchMove(e, deltaX, deltaY) {
-    this.swipingStarted = true
+  _onTouchMove(e, deltaX, deltaY, absX, absY) {
     this._handleOnMouseEnter()
 
-    if (Utils.isVerticalTouchMoveDetected(e, deltaX, deltaY)) {
-      if (this.swipePosition.direction) return
-
-      this.verticalSwipingDetected = true
-    } else {
-      this.verticalSwipingDetected = false
-    }
-
-    if (this._isSwipeDisable()) {
+    if (this._isSwipeDisabled()) {
       return
     }
+
+    if (!this.swipingStarted && Utils.isVerticalTouchMoveDetected(e, absX, absY)) {
+      return
+    }
+
+    this.swipingStarted = true
 
     this._disableAnimation()
     this._startSwipeAnimation()
@@ -478,7 +485,8 @@ export default class AliceCarousel extends React.PureComponent {
 
     const { slides, items, itemWidth, infinite, stagePadding } = this.state
     const slidesLength = slides.length
-    const direction = Utils.getSwipeDirection(deltaX)
+    const direction = Utils.getSwipeDirection(this.prevSwipPosition, deltaX)
+    this.prevSwipPosition = deltaX
 
     let position = this._getTranslateXPosition(deltaX)
 
@@ -490,7 +498,7 @@ export default class AliceCarousel extends React.PureComponent {
         return
       }
 
-      Utils.animate(this.stageComponent, position)
+      Utils.animate(this.stageComponent, { position })
       this._setSwipePositionProps({ position, direction })
       return
     }
@@ -508,10 +516,12 @@ export default class AliceCarousel extends React.PureComponent {
       }
     }
 
-    Utils.animate(this.stageComponent, position)
+    Utils.animate(this.stageComponent, { position })
     this._setSwipePositionProps({ position, direction })
 
     function recalculatePosition() {
+      const direction = Utils.getSwipeDirection(0, deltaX)
+
       direction === 'RIGHT'
         ? (position = position + slidesLength * -itemWidth)
         : (position = position + maxPosition - items * itemWidth)
@@ -523,9 +533,9 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _onTouchEnd = () => {
+    if (!this.swipingStarted || this._isSwipeDisabled()) return
     this.swipingStarted = false
-
-    if (this._isSwipeDisable()) return
+    this.prevSwipPosition = 0
 
     this._setSwipePositionProps({ lastSwipePosition: this.swipePosition.position })
     this._beforeTouchEnd()
@@ -533,6 +543,7 @@ export default class AliceCarousel extends React.PureComponent {
 
   _beforeTouchEnd() {
     const { direction, position } = this.swipePosition
+    const { transitionTimingFunction } = this.props
     const { itemWidth, items, duration, infinite } = this.state
     const swipeIndex = Utils.calculateSwipeIndex(itemWidth, position, direction)
     const currentIndex = Utils.getSwipeIndexOnBeforeTouchEnd(swipeIndex, items)
@@ -543,7 +554,7 @@ export default class AliceCarousel extends React.PureComponent {
       return
     }
 
-    Utils.animate(this.stageComponent, translateXPosition, duration)
+    Utils.animate(this.stageComponent, { position: translateXPosition, duration, transitionTimingFunction })
 
     this.touchEndAnimation = true
     this.touchEndTimeoutId = setTimeout(() => {
@@ -555,13 +566,14 @@ export default class AliceCarousel extends React.PureComponent {
         const nextItemIndex = Utils.getNextItemIndexBeforeTouchEnd(translateXPosition, this.state)
         const nextTranslateXPosition = Utils.getTranslate3dPosition(nextItemIndex, this.state)
 
-        Utils.animate(this.stageComponent, nextTranslateXPosition, 0)
+        Utils.animate(this.stageComponent, { position: nextTranslateXPosition })
         this._slideToItem(nextItemIndex, { duration: 0, shouldSkipRecalculation: true })
       }
     }, duration)
   }
 
   _isInfiniteModeDisabledBeforeTouchEnd(swipeIndex, currentIndex) {
+    const { transitionTimingFunction } = this.props
     const { items, itemWidth, duration, slides } = this.state
     let position = Utils.getTranslate3dPosition(currentIndex, { itemWidth, items })
 
@@ -575,7 +587,7 @@ export default class AliceCarousel extends React.PureComponent {
       position = Utils.recalculatePositionOnBeforeTouchEnd(slides.length, itemWidth)
     }
 
-    Utils.animate(this.stageComponent, position, duration)
+    Utils.animate(this.stageComponent, { position, duration, transitionTimingFunction })
 
     this.touchEndAnimation = true
     this.touchEndTimeoutId = setTimeout(() => {
@@ -584,7 +596,7 @@ export default class AliceCarousel extends React.PureComponent {
           return this._handleOnAnimationCanceled()
         }
 
-        Utils.animate(this.stageComponent, position)
+        Utils.animate(this.stageComponent, { position })
         this._slideToItem(currentIndex, { duration: 0, shouldSkipRecalculation: true })
       }
     }, duration)
@@ -606,9 +618,9 @@ export default class AliceCarousel extends React.PureComponent {
     return this.props.fadeOutAnimation && items === 1 && hasNoStagePadding
   }
 
-  _isSwipeDisable = () => {
-    const { isAnimationCanceled, fadeOutAnimation } = this.state
-    return this.props.swipeDisabled || fadeOutAnimation || isAnimationCanceled || this.verticalSwipingDetected
+  _isSwipeDisabled = () => {
+    const { isAnimationCanceled, fadeoutAnimationProcessing } = this.state
+    return this.props.swipeDisabled || fadeoutAnimationProcessing || isAnimationCanceled
   }
 
   _isSwipeAnimationLastFrame = () => {

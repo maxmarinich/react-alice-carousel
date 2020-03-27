@@ -2,7 +2,6 @@ const { resolve } = require('path')
 
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 
 const PORT = 8080
 const rootPath = resolve(__dirname, '../../')
@@ -152,7 +151,6 @@ const config = {
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new ExtractTextPlugin({ filename: './styles/style.css', disable: false, allChunks: true }),
-    //new OpenBrowserPlugin({ url: `http://localhost:${PORT}` }),
     new webpack.HotModuleReplacementPlugin(),
   ]
 }

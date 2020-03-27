@@ -1,9 +1,9 @@
 import * as Utils from './index'
 
-export const getIntermediateTransitionProps = (condition, duration) => {
+export const getIntermediateTransitionProps = (condition, duration, transitionTimingFunction = '') => {
   return condition
-    ? { fadeoutAnimationProcessing: true, style: { transition: 'transform 0ms ease-out' } }
-    : { style: { transition: `transform ${duration}ms ease-out` } }
+    ? { fadeoutAnimationProcessing: true, style: { transition: 'transform 0ms' } }
+    : { style: { transition: `transform ${duration}ms ${transitionTimingFunction}` } }
 }
 
 export const itemStyles = (i, state, animationProps) => {
@@ -15,8 +15,9 @@ export const itemStyles = (i, state, animationProps) => {
     : { width: `${itemWidth}px` }
 }
 
-export const getDefaultStyles = (duration = 0) => {
-  return { transition: `transform ${duration}ms ease-out` }
+export const getDefaultStyles = (options) => {
+  const { duration = 0, transitionTimingFunction = '' } = options || {}
+  return { transition: `transform ${duration}ms ${transitionTimingFunction}` }
 }
 
 export const getStageStyles = (nextStyles = {}, currentStyles = {}) => {
@@ -29,7 +30,7 @@ export const getStageStyles = (nextStyles = {}, currentStyles = {}) => {
 export const getWrapperStyles = (element, props = {}, state = {}) => {
   const { paddingLeft, paddingRight } = Utils.getStagePadding(props)
   const height = props.autoHeight && Utils.getGalleryItemHeight(element, props, state)
-  const transition = height && `height ${state.duration}ms ease-out`
+  const transition = height && `height ${state.duration}ms`
 
   return {
     height,

@@ -29,8 +29,10 @@ export const propTypes = {
   stagePadding: PropTypes.object,
   startIndex: PropTypes.number,
   stopAutoPlayOnHover: PropTypes.bool,
+  swipeDelta: PropTypes.number,
   swipeDisabled: PropTypes.bool,
   touchTrackingEnabled: PropTypes.bool,
+  transitionTimingFunction: PropTypes.string,
 }
 
 export const defaultProps = {
@@ -58,5 +60,7 @@ export const defaultProps = {
   startIndex: 0,
   stopAutoPlayOnHover: true,
   swipeDisabled: false,
+  swipeDelta: 10,
   touchTrackingEnabled: true,
+  transitionTimingFunction: 'ease-out',
 }

@@ -11,8 +11,8 @@ const libPath = resolve(rootPath, 'src/lib')
 const outputPath = resolve(rootPath, 'lib')
 
 const babelOptions = {
-  plugins: ['transform-object-assign'],
-  presets: ['env', 'react', 'stage-2'],
+  plugins: ['transform-object-assign', 'transform-class-properties'],
+  presets: ['@babel/env', '@babel/react'],
 }
 
 gulp.task('sass', function() {

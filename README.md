@@ -146,7 +146,11 @@ const Gallery = () => {
 
 - `showSlideInfo` : Boolean, default `false` - Show slide info
 
+- `swipeDelta` : Number, default `10` - Minimum distance to the start of the swiping (px)
+
 - `preventEventOnTouchMove` : Boolean, default `false` - Prevent the browser's touchmove event when carousel is swiping
+
+- `transitionTimingFunction` : String, default `ease-out` -  Sets how intermediate values are calculated for CSS properties being affected by a transition effect.
 
 - `onSlideChange` : Function - Fired when the event object is changing / returns event object
 
