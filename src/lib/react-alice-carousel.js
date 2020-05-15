@@ -166,8 +166,10 @@ export default class AliceCarousel extends React.PureComponent {
       this._disableAnimation()
       this._handleOnMouseEnter()
 
+      const { currentIndex } = this.state
       const isAnimationCanceled = this._isSwipeAnimationProcessing()
-      const currState = Utils.calculateInitialProps(this.props, this.stageComponent)
+      const initialProps = Utils.preserveProps(this.props, { startIndex: currentIndex })
+      const currState = Utils.calculateInitialProps(initialProps, this.stageComponent)
       const translate3d = Utils.getTranslate3dPosition(currState.currentIndex, currState)
       const nextState = { ...currState, translate3d, isAnimationCanceled, initialStageHeight: 0 }
 

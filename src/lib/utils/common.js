@@ -1,5 +1,10 @@
 import * as Utils from './index'
 
+export const preserveProps = (props, values) => {
+  const { preservePosition } = props || {}
+  return preservePosition ? { ...props,  ...values } : props
+}
+
 export const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
   let items = 1
   if (responsiveConfig) {

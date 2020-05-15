@@ -52,6 +52,7 @@ export const defaultProps = {
   keysControlDisabled: false,
   mouseTrackingEnabled: false,
   playButtonEnabled: false,
+  preservePosition: false,
   preventEventOnTouchMove: false,
   responsive: {},
   showSlideInfo: false,
