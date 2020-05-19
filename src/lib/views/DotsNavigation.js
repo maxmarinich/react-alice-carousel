@@ -35,6 +35,6 @@ export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave }) =
 DotsNavigation.propTypes = {
   state: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
-  onMouseEnter: PropTypes.func.isRequired,
-  onMouseLeave: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
 }
