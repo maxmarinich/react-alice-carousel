@@ -216,14 +216,14 @@ export default class AliceCarousel extends React.PureComponent {
 
   _handleOnMouseEnter = () => {
     if (this.props.stopAutoPlayOnHover && this.state.isAutoPlaying) {
-      this.hovered = true
+      this.isHovered = true
       this._pause()
     }
   }
 
   _handleOnMouseLeave = () => {
     if (this.state.isAutoPlaying) {
-      this.hovered = false
+      this.isHovered = false
       this._play()
     }
   }
@@ -392,7 +392,7 @@ export default class AliceCarousel extends React.PureComponent {
     const { autoPlayDirection, autoPlayInterval } = this.props
 
     this._autoPlayIntervalId = setTimeout(() => {
-      if (!this.hovered) {
+      if (!this.isHovered) {
         autoPlayDirection === 'rtl' ? this.slidePrev() : this.slideNext()
       }
     }, autoPlayInterval)
