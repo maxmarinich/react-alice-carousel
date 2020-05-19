@@ -150,6 +150,8 @@ const Gallery = () => {
 
 - `preventEventOnTouchMove` : Boolean, default `false` - Prevent the browser's touchmove event when carousel is swiping
 
+- `preservePosition` : Boolean, default `false` - Preserve current slide position when resize event fired
+
 - `transitionTimingFunction` : String, default `ease-out` -  Sets how intermediate values are calculated for CSS properties being affected by a transition effect.
 
 - `onSlideChange` : Function - Fired when the event object is changing / returns event object

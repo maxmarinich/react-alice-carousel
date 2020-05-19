@@ -1,5 +1,10 @@
 import * as Utils from './index'
 
+export const preserveProps = (props, values) => {
+  const { preservePosition } = props || {}
+  return preservePosition ? { ...props,  ...values } : props
+}
+
 export const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
   let items = 1
   if (responsiveConfig) {
@@ -17,7 +22,7 @@ export const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
 }
 
 export const calculateInitialProps = (props, el) => {
-  const { startIndex, responsive, infinite } = props
+  const { startIndex, responsive, infinite, autoPlay } = props
   const style = Utils.getDefaultStyles()
   const slides = Utils.getSlides(props)
   const stagePadding = Utils.getStagePadding(props)
@@ -38,5 +43,6 @@ export const calculateInitialProps = (props, el) => {
     translate3d,
     stagePadding,
     style,
+    isAutoPlaying: autoPlay,
   }
 }
