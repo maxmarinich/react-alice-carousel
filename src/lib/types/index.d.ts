@@ -159,6 +159,12 @@ export interface Props {
    * Default: false.
    */
   autoHeight?: boolean
+  /**
+   * Preserve current slide position when resize event fired
+   *
+   * Default: false.
+   */
+  preservePosition?: boolean
   /** Defines the behavior strategy for controls.
    *
    * Default: 'default'
@@ -166,6 +172,12 @@ export interface Props {
    * If `responsive` is specified, dots navigation will be hidden if the number of gallery items is equal to the number of items on the slide
    */
   controlsStrategy?: 'default' | 'responsive'
+  /** Sets how intermediate values are calculated for CSS properties being affected by a transition effect.
+   *
+   * Default: 'ease-out'
+   *
+   */
+  transitionTimingFunction?: 'string'
   /**
    * Fired when the event object is changing / returns event object
    */
