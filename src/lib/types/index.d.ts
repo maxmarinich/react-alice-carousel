@@ -177,7 +177,7 @@ export interface Props {
    * Default: 'ease-out'
    *
    */
-  transitionTimingFunction?: 'string'
+  transitionTimingFunction?: string
   /**
    * Fired when the event object is changing / returns event object
    */
