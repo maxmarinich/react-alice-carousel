@@ -8,15 +8,19 @@ import { propTypes, defaultProps } from './prop-types'
 export default class AliceCarousel extends React.PureComponent {
   constructor(props) {
     super(props)
+
+    const slides = Utils.getSlides(props)
+    const clones = Utils.cloneCarouselItems(slides)
+
     this.state = {
-      clones: [],
-      stagePadding: {},
+      clones,
       currentIndex: 1,
+      duration: props.duration,
       initialStageHeight: 0,
       isAutoPlaying: false,
       isAutoplayCanceledOnAction: false,
-      duration: props.duration,
-      slides: Utils.getSlides(props),
+      slides,
+      stagePadding: {},
       style: Utils.getDefaultStyles(),
     }
 
