@@ -1,4 +1,5 @@
 import * as Utils from './index'
+import { withDirection } from './index'
 
 export function animate(element, options) {
   const { position = 0, duration = 0, transitionTimingFunction = 'step-start' } = options || {}
@@ -27,7 +28,7 @@ export function getTransformMatrix(element) {
 }
 
 export const getTranslate3dPosition = (currentIndex = 0, state = {}) => {
-  const { itemWidth, items, infinite, stagePadding = {} } = state
+  const { itemWidth, items, infinite, stagePadding = {}, isRTL } = state
 
   if (infinite) {
     const { paddingLeft, paddingRight } = stagePadding
@@ -35,7 +36,8 @@ export const getTranslate3dPosition = (currentIndex = 0, state = {}) => {
       currentIndex += 1
     }
   }
-  return (items + currentIndex) * -itemWidth || 0
+
+  return (items + currentIndex) * withDirection(-itemWidth, isRTL) || 0
 }
 
 export const isAnimatedItem = (i = 0, animationProps = {}) => {

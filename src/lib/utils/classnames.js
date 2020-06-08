@@ -1,7 +1,7 @@
 import * as Utils from './index'
 
 export const isActiveItem = (i = 0, state = {}) => {
-  let { currentIndex, items, infinite, stagePadding = {}} = state
+  let { currentIndex, items, infinite, stagePadding = {} } = state
 
   if (infinite && (stagePadding.paddingLeft || stagePadding.paddingRight)) {
     currentIndex += 1
@@ -22,4 +22,9 @@ export const itemClassName = (i = 0, state = {}, animationProps = {}) => {
   const isAnimated = Utils.isAnimatedItem(i, animationProps) ? ' animated animated-out fadeOut' : ''
 
   return 'alice-carousel__stage-item' + isActive + isCloned + isAnimated
+}
+
+export const containerClassName = (state = {}) => {
+  const { isRTL } = state
+  return 'alice-carousel' + (isRTL? ' alice-carousel__rtl':'')
 }

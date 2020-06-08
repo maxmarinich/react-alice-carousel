@@ -2,7 +2,11 @@ import * as Utils from './index'
 
 export const preserveProps = (props, values) => {
   const { preservePosition } = props || {}
-  return preservePosition ? { ...props,  ...values } : props
+  return preservePosition ? { ...props, ...values } : props
+}
+
+export const withDirection = (value, isRTL) => {
+  return value * (isRTL ? -1 : 1)
 }
 
 export const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
@@ -22,7 +26,7 @@ export const setTotalItemsInSlide = (responsiveConfig, childrenLength) => {
 }
 
 export const calculateInitialProps = (props, el) => {
-  const { startIndex, responsive, infinite, autoPlay } = props
+  const { startIndex, responsive, infinite, autoPlay, isRTL } = props
   const style = Utils.getDefaultStyles()
   const slides = Utils.getSlides(props)
   const stagePadding = Utils.getStagePadding(props)
@@ -31,7 +35,13 @@ export const calculateInitialProps = (props, el) => {
   const { width: galleryWidth } = Utils.getElementDimensions(el)
   const itemWidth = Utils.getItemWidth(galleryWidth, items)
   const clones = Utils.cloneCarouselItems(slides, items, { stagePadding, infinite })
-  const translate3d = Utils.getTranslate3dPosition(currentIndex, { itemWidth, items, stagePadding, infinite })
+  const translate3d = Utils.getTranslate3dPosition(currentIndex, {
+    itemWidth,
+    items,
+    stagePadding,
+    infinite,
+    isRTL,
+  })
 
   return {
     items,
@@ -44,5 +54,6 @@ export const calculateInitialProps = (props, el) => {
     stagePadding,
     style,
     isAutoPlaying: autoPlay,
+    isRTL,
   }
 }
