@@ -198,6 +198,7 @@ export interface Props {
    * Fired during resize event to determine whether the event handler should be called / return boolean
    */
   shouldHandleResizeEvent?: (e: any) => boolean
+  isRTL?: boolean;
 }
 
 export function slideTo(index: number): void

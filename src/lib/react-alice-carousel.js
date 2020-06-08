@@ -3,7 +3,7 @@ import VanillaSwipe from 'vanilla-swipe'
 
 import * as Utils from './utils'
 import * as Views from './views'
-import { propTypes, defaultProps } from './prop-types'
+import { defaultProps, propTypes } from './prop-types'
 
 export default class AliceCarousel extends React.PureComponent {
   constructor(props) {
@@ -22,6 +22,7 @@ export default class AliceCarousel extends React.PureComponent {
       slides,
       stagePadding: {},
       style: Utils.getDefaultStyles(),
+      isRTL: !!props.isRTL,
     }
 
     this.hasUserAction = false
@@ -75,7 +76,8 @@ export default class AliceCarousel extends React.PureComponent {
       this.props.stagePadding !== prevProps.stagePadding ||
       this.props.responsive !== prevProps.responsive ||
       this.props.infinite !== prevProps.infinite ||
-      this.props.items !== prevProps.items
+      this.props.items !== prevProps.items ||
+      this.props.isRTL !== prevProps.isRTL
     ) {
       this._resetAllIntermediateProps()
       this.setState(Utils.calculateInitialProps(this.props, this.stageComponent))
@@ -513,7 +515,7 @@ export default class AliceCarousel extends React.PureComponent {
     this._clearUpdateSlidePositionIntervalId()
     this.touchEndTimeoutId && clearTimeout(this.touchEndTimeoutId)
 
-    const { slides, items, itemWidth, infinite, stagePadding } = this.state
+    const { slides, items, itemWidth, infinite, stagePadding, isRTL } = this.state
     const slidesLength = slides.length
     const direction = Utils.getSwipeDirection(this.prevSwipPosition, deltaX)
     this.prevSwipPosition = deltaX
@@ -524,7 +526,7 @@ export default class AliceCarousel extends React.PureComponent {
       const minSwipeLimit = Utils.getMinSwipeLimitIfNotInfinite(items, itemWidth)
       const maxSwipeLimit = Utils.getMaxSwipeLimitIfNotInfinite(slidesLength, itemWidth)
 
-      if (Utils.shouldRecalculateSwipePosition(position, minSwipeLimit, maxSwipeLimit)) {
+      if (Utils.shouldRecalculateSwipePosition(position, minSwipeLimit, maxSwipeLimit, isRTL)) {
         return
       }
 
@@ -538,7 +540,7 @@ export default class AliceCarousel extends React.PureComponent {
     const maxPosition = Utils.getMaxSwipePosition(items, itemWidth, slidesLength)
     const maxSwipeLimit = Utils.getMaxSwipeLimit(maxPosition, stagePadding, itemWidth)
 
-    if (Utils.shouldRecalculateSwipePosition(position, minSwipeLimit, maxSwipeLimit)) {
+    if (Utils.shouldRecalculateSwipePosition(position, minSwipeLimit, maxSwipeLimit, isRTL)) {
       try {
         recalculatePosition()
       } catch (err) {
@@ -556,7 +558,7 @@ export default class AliceCarousel extends React.PureComponent {
         ? (position = position + slidesLength * -itemWidth)
         : (position = position + maxPosition - items * itemWidth)
 
-      if (Utils.shouldRecalculateSwipePosition(position, minSwipeLimit, maxSwipeLimit)) {
+      if (Utils.shouldRecalculateSwipePosition(position, minSwipeLimit, maxSwipeLimit, isRTL)) {
         recalculatePosition()
       }
     }
@@ -574,10 +576,10 @@ export default class AliceCarousel extends React.PureComponent {
   _beforeTouchEnd() {
     const { direction, position } = this.swipePosition
     const { transitionTimingFunction } = this.props
-    const { itemWidth, items, duration, infinite } = this.state
-    const swipeIndex = Utils.calculateSwipeIndex(itemWidth, position, direction)
+    const { itemWidth, items, duration, infinite, isRTL } = this.state
+    const swipeIndex = Utils.calculateSwipeIndex(itemWidth, position, direction, isRTL)
     const currentIndex = Utils.getSwipeIndexOnBeforeTouchEnd(swipeIndex, items)
-    const translateXPosition = Utils.getSwipePositionOnBeforeTouchEnd(swipeIndex, itemWidth)
+    const translateXPosition = Utils.getSwipePositionOnBeforeTouchEnd(swipeIndex, itemWidth, isRTL)
 
     if (infinite === false) {
       this._isInfiniteModeDisabledBeforeTouchEnd(swipeIndex, currentIndex)
@@ -604,8 +606,8 @@ export default class AliceCarousel extends React.PureComponent {
 
   _isInfiniteModeDisabledBeforeTouchEnd(swipeIndex, currentIndex) {
     const { transitionTimingFunction } = this.props
-    const { items, itemWidth, duration, slides } = this.state
-    let position = Utils.getTranslate3dPosition(currentIndex, { itemWidth, items })
+    const { items, itemWidth, duration, slides, isRTL } = this.state
+    let position = Utils.getTranslate3dPosition(currentIndex, { itemWidth, items, isRTL })
 
     if (swipeIndex < items) {
       currentIndex = Utils.recalculateCurrentIndexOnBeforeTouchEnd()
@@ -722,9 +724,10 @@ export default class AliceCarousel extends React.PureComponent {
     const wrapperStyles = Utils.getWrapperStyles(this.stageComponent, this.props, this.state)
     const stageStyles = Utils.getStageStyles({ translate3d }, style)
     const dotsDisabled = Utils.shouldDisableDots(this.props, this.state)
+    const containerClassName = Utils.containerClassName(this.state)
 
     return (
-      <div className="alice-carousel">
+      <div className={containerClassName}>
         <div ref={this._setRootComponentRef}>
           <div
             style={wrapperStyles}
