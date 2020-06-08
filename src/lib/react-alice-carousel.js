@@ -3,7 +3,7 @@ import VanillaSwipe from 'vanilla-swipe'
 
 import * as Utils from './utils'
 import * as Views from './views'
-import { propTypes, defaultProps } from './prop-types'
+import { defaultProps, propTypes } from './prop-types'
 
 export default class AliceCarousel extends React.PureComponent {
   constructor(props) {
@@ -748,5 +748,7 @@ export default class AliceCarousel extends React.PureComponent {
   }
 }
 
-AliceCarousel.propTypes = propTypes
+if (process.env.NODE_ENV === 'development') {
+  AliceCarousel.propTypes = propTypes
+}
 AliceCarousel.defaultProps = defaultProps

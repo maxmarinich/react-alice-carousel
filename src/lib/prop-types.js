@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export const propTypes = {
+export const propTypes = process.env.NODE_ENV === 'development' ? {
   autoHeight: PropTypes.bool,
   autoPlay: PropTypes.bool,
   autoPlayDirection: PropTypes.string,
@@ -33,7 +33,7 @@ export const propTypes = {
   swipeDisabled: PropTypes.bool,
   touchTrackingEnabled: PropTypes.bool,
   transitionTimingFunction: PropTypes.string,
-}
+} : undefined
 
 export const defaultProps = {
   autoHeight: false,
