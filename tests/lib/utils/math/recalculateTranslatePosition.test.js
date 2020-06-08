@@ -26,4 +26,30 @@ describe('math: recalculateTranslatePosition, return translate position, number'
     const data = Utils.recalculateTranslatePosition({ ...state, stagePadding: { paddingLeft: 1 }, currentIndex: -1 })
     expect(data).toEqual(-400)
   })
+
+  describe('RTL mode', () => {
+    beforeEach(() => {
+      state.isRTL = true;
+    })
+
+    it('should return expected data in case 1', () => {
+      const data = Utils.recalculateTranslatePosition(state)
+      expect(data).toEqual(100)
+    })
+
+    it('should return expected data in case 2', () => {
+      const data = Utils.recalculateTranslatePosition({ ...state, currentIndex: -1 })
+      expect(data).toEqual(300)
+    })
+
+    it('should return expected data in case 3', () => {
+      const data = Utils.recalculateTranslatePosition({ ...state, stagePadding: { paddingLeft: 1 } })
+      expect(data).toEqual(200)
+    })
+
+    it('should return expected data in case 4', () => {
+      const data = Utils.recalculateTranslatePosition({ ...state, stagePadding: { paddingLeft: 1 }, currentIndex: -1 })
+      expect(data).toEqual(400)
+    })
+  })
 })
