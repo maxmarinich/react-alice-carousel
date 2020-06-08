@@ -22,4 +22,25 @@ describe('animation: getTranslate3dPosition, should return translate3d position 
     const data = Utils.getTranslate3dPosition(1, { ...params, infinite: true, stagePadding: { paddingLeft: 1 } })
     expect(data).toEqual(-300)
   })
+
+  describe('RTL mode', () => {
+    beforeEach(() => {
+      params.isRTL = true
+    })
+
+    it('should return expected value if not infinite', () => {
+      const data = Utils.getTranslate3dPosition(1, params)
+      expect(data).toEqual(200)
+    })
+
+    it('should return expected value if infinite only', () => {
+      const data = Utils.getTranslate3dPosition(1, { ...params, infinite: true })
+      expect(data).toEqual(200)
+    })
+
+    it('should return expected value if infinite && stage padding', () => {
+      const data = Utils.getTranslate3dPosition(1, { ...params, infinite: true, stagePadding: { paddingLeft: 1 } })
+      expect(data).toEqual(300)
+    })
+  });
 })
