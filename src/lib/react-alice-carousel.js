@@ -210,13 +210,14 @@ export default class AliceCarousel extends React.PureComponent {
   }
 
   _handleOnKeyUp = (e) => {
+    const { isRTL } = this.state
     switch (e.code) {
       case 'Space':
         return this.props.autoPlay && this._playPauseToggle()
       case 'ArrowLeft':
-        return this.slidePrev()
+        return isRTL? this.slideNext() : this.slidePrev()
       case 'ArrowRight':
-        return this.slideNext()
+        return isRTL? this.slidePrev() : this.slideNext()
     }
   }
 
