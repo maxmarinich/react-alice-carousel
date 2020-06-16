@@ -11,7 +11,9 @@ export const PlayPauseButton = ({ isPlaying, onClick }) => {
   )
 }
 
-PlayPauseButton.propTypes = {
-  isPlaying: PropTypes.bool,
-  onClick: PropTypes.func,
+if (process.env.NODE_ENV !== 'production') {
+  PlayPauseButton.propTypes = {
+    isPlaying: PropTypes.bool,
+    onClick: PropTypes.func,
+  }
 }

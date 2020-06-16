@@ -32,9 +32,11 @@ export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave }) =
   )
 }
 
-DotsNavigation.propTypes = {
-  state: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
+if (process.env.NODE_ENV !== 'production') {
+  DotsNavigation.propTypes = {
+    state: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+  }
 }
