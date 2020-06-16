@@ -15,7 +15,7 @@ export const PrevNextButton = ({ name, disabled, onClick }) => {
   )
 }
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   PrevNextButton.propTypes = {
     name: PropTypes.oneOf(['next', 'prev']),
     disabled: PropTypes.bool.isRequired,

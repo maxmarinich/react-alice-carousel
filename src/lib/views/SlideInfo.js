@@ -15,7 +15,7 @@ export const SlideInfo = ({ currentIndex, slidesLength }) => {
   )
 }
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   SlideInfo.propTypes = {
     currentIndex: PropTypes.number.isRequired,
     slidesLength: PropTypes.number.isRequired,

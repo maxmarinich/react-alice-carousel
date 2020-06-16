@@ -748,7 +748,7 @@ export default class AliceCarousel extends React.PureComponent {
   }
 }
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   AliceCarousel.propTypes = propTypes
 }
 AliceCarousel.defaultProps = defaultProps

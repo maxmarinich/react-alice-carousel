@@ -9,7 +9,7 @@ export const StageItem = ({ item, className, styles }) => {
   )
 }
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   StageItem.propTypes = {
     item: PropTypes.node,
     className: PropTypes.string.isRequired,

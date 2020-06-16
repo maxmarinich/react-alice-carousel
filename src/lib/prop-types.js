@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export const propTypes = process.env.NODE_ENV === 'development' ? {
+export const propTypes = process.env.NODE_ENV !== 'production' ? {
   autoHeight: PropTypes.bool,
   autoPlay: PropTypes.bool,
   autoPlayDirection: PropTypes.string,
