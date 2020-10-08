@@ -19,17 +19,9 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.ts(x?)$/,
+				test: /\.(ts|js)x?$/,
 				exclude: /node_modules/,
-				use: [
-					'babel-loader',
-					{
-						loader: 'ts-loader',
-						options: {
-							transpileOnly: true,
-						},
-					},
-				],
+				use: 'babel-loader',
 			},
 			{
 				test: /\.(sa|sc|c)ss$/,
@@ -39,8 +31,7 @@ module.exports = {
 		],
 	},
 	externals: {
-		react: 'react',
-		reactDOM: 'react-dom',
+		react: 'React',
 	},
 	plugins: [
 		new webpack.optimize.OccurrenceOrderPlugin(),

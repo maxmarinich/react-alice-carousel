@@ -19,10 +19,10 @@ const StagePaddingPage = () => {
 				paddingRight={50}
 			>
 				<div className="item">
-					<h1 className="__mod">1</h1>
+					<h1>1</h1>
 				</div>
 				<div className="item">
-					<h1 className="__mod-2">2</h1>
+					<h1>2</h1>
 				</div>
 				<div className="item">
 					<h1>3</h1>

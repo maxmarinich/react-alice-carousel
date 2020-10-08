@@ -5,7 +5,7 @@ import { AutoplayDirection, AnimationType, Props, RootElement, SlideTo, State } 
 import * as Views from './views';
 import * as Utils from './utils';
 
-class AliceCarousel extends React.PureComponent<Props, State> {
+export default class AliceCarousel extends React.PureComponent<Props, State> {
 	static defaultProps = defaultProps;
 	private autoPlayTimeoutId: undefined | number;
 	private isAnimationDisabled: boolean;
@@ -623,5 +623,3 @@ class AliceCarousel extends React.PureComponent<Props, State> {
 		);
 	}
 }
-
-export default AliceCarousel;
