@@ -1,0 +1,33 @@
+@import '~highlight.js/styles/github.css';
+@import '../../common';
+
+.alice-carousel__wrapper {
+	border: solid 1px rgba($color-dark, 0.3);
+}
+
+.alice-carousel__stage-item {
+	.item {
+		padding: 2px;
+	}
+}
+
+.item {
+	height: 200px;
+	h1 {
+		height: 100%;
+		margin: 0;
+		text-align: center;
+		user-select: none;
+		color: $color-light;
+		background-color: $color-bg;
+		&:before {
+			content: '';
+			height: 100%;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		&.__mod {
+			background-color: $color-dark;
+		}
+	}
+}

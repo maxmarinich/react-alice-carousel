@@ -1,6 +1,11 @@
 {
-  "extends": "eslint:recommended",
-  "parser": "babel-eslint",
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
@@ -14,21 +19,20 @@
     "mocha": true,
     "es6": true
   },
-  "plugins": ["prettier", "react"],
   "rules": {
     "space-before-function-paren": "off",
     "react/prefer-stateless-function": "off",
     "react/jsx-one-expression-per-line": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
     "linebreak-style": "off",
     "global-require": "off",
     "arrow-body-style": "off",
     "no-multiple-empty-lines": ["warn", { "max": 1 }],
     "max-len": 0,
     "comma-dangle": 0,
-    "semi": ["error", "never"],
+    "semi": ["error", "always"],
     "no-extra-semi": "error",
-    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "indent": ["warn", "tab", { "SwitchCase": 1 }],
     "no-debugger": 0,
     "no-console": [
       "error",
@@ -38,7 +42,9 @@
     ],
     "new-cap": 0,
     "strict": 2,
+    "prefer-rest-params": 0,
     "no-unused-vars": 1,
+    "no-self-assign": 0,
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
     "no-extra-boolean-cast": 0,
@@ -48,9 +54,8 @@
     "react/jsx-no-undef": 1,
     "react/jsx-uses-react": 1,
     "react/jsx-uses-vars": 1,
-    "react/prop-types": 1
-  },
-  "globals": {
-    "expect": true
+    "react/prop-types": 0,
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

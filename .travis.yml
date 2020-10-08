@@ -15,4 +15,4 @@ before_script:
   - npm prune
 script:
   - npm run test
-install: npm install
+install: npm ci

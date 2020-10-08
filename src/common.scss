@@ -1,0 +1,20 @@
+$color-light: #fff;
+$color-bg: #C7CDDE;
+$color-accent: darkred;
+$color-dark: #435794;
+$color-dark-lighten: #3f51b5;
+$color-base: #0099bf;
+$color-base-lighten: #b1e9ea;
+$content-max-width: 1200px;
+$content-min-width: 320px;
+
+@mixin container {
+	width: 100%;
+	height: 100%;
+	max-width: $content-max-width;
+	min-width: $content-min-width;
+	box-sizing: border-box;
+	margin: auto;
+	overflow-x: hidden;
+    padding: 20px;
+}

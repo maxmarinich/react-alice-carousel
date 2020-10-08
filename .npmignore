@@ -32,6 +32,7 @@ jspm_packages
 
 # Optional npm cache directory
 .npm
+.DS_Store
 
 # Optional REPL history
 .node_repl_history
@@ -47,16 +48,15 @@ jspm_packages
 .npmrc
 .prettierrc
 .travis.yml
-.DS_Store
 package-lock.json
+jestconfig.json
+tsconfig.json
 
 # Static files
-app
-build
 config
-tests
+coverage
+docs
 public
-static
-dist
 src
-gulpfile.js
+static
+tests
