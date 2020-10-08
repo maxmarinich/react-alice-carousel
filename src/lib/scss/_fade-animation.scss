@@ -7,20 +7,9 @@
   z-index: 1;
 }
 
-.alice-carousel  .fadeOut {
+.alice-carousel .fadeOut {
   -webkit-animation-name: fadeOut;
   animation-name: fadeOut;
-}
-
-@-webkit-keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    visibility: hidden;
-  }
 }
 
 @keyframes fadeOut {

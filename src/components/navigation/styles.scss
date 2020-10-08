@@ -1,0 +1,36 @@
+@import "../../common";
+
+.navigation {
+    @include container;
+    padding: 0 5px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    overflow-x: auto;
+    margin-top: 15px;
+
+    &-item {
+        position: relative;
+        display: inline-block;
+        padding: 10px 15px;
+        text-decoration: none;
+        text-transform: capitalize;
+        font-size: 1rem;
+        font-style: italic;
+        font-weight: bold;
+        color: $color-dark;
+        white-space: nowrap;
+        &:after {
+            content: '/';
+            position: absolute;
+            font-size: 1.4rem;
+            font-weight: 300;
+            top: 4px;
+            right: -4px;
+            color: lighten($color-dark, 50%);
+        }
+        &:last-child:after {
+            content: '';
+        }
+    }
+}

@@ -1,10 +1,7 @@
 {
   "presets": [
     "@babel/react",
-    "@babel/env"
-  ],
-  "plugins": [
-    "transform-class-properties",
-    "transform-object-assign"
+    "@babel/env",
+    "@babel/typescript"
   ]
 }

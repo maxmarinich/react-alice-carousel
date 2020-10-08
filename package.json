@@ -1,33 +1,33 @@
 {
   "name": "react-alice-carousel",
-  "version": "1.19.3",
+  "version": "2.0.0",
   "description": "React image gallery, react slideshow carousel, react content rotator",
-  "main": "./lib/react-alice-carousel",
-  "types": "./lib/types/index.d.ts",
+  "main": "./lib/react-alice-carousel.js",
+  "types": "./lib/react-alice-carousel.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maxmarinich/react-alice-carousel.git"
   },
   "scripts": {
-    "build:dev": "webpack --colors --config config/webpack/webpack.config.js",
-    "build:prod": "cross-env npm run clean && webpack --config config/webpack/webpack.lib.config.js --progress --profile --colors",
-    "clean": "rm -rf lib dist",
     "remove:nm": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
-    "remove:dist": "npm run clean",
     "remove:lock": "find . -type f \\( -name 'yarn.lock' -or -name 'package-lock.json' \\) -delete",
     "remove:cache": "yarn cache clean --force; npm cache clean --force",
-    "clear:all-hard": "npm-run-all 'remove:*'",
-    "lib": "cross-env npm run clean && gulp --gulpfile config/gulp/gulpfile.js",
-    "lint": "eslint ./src/**/**.js",
-    "format": "prettier --write ./src/**/**.js",
+    "lint": "eslint ./src/**/**.ts",
+    "format": "prettier --write ./src/**/**.ts",
     "postpublish": "git push --tags",
-    "precommit": "cross-env npm run lint && npm test",
-    "prepare": "npm run lib",
-    "prepush": "cross-env npm run lint && npm test",
-    "start": "webpack-dev-server --config config/webpack/webpack.config.js",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch"
+    "precommit": "npm run lint && npm test",
+    "prepare": "npm run build:lib",
+    "prepush": "npm run lint && npm test",
+    "start": "webpack-dev-server --hot --config config/webpack/config.dev.js",
+    "test": "jest --config jestconfig.json",
+    "test:watch": "jest --watch --config jestconfig.json",
+    "test:coverage": "jest --config jestconfig.json --coverage",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build:lib": "rimraf lib && rimraf coverage && npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "webpack -p --config config/webpack/config.lib.js",
+    "build:static": "rimraf lib static && webpack -p --config config/webpack/config.static.js"
   },
   "keywords": [
     "react",
@@ -60,81 +60,63 @@
     "url": "https://github.com/maxmarinich/react-alice-carousel/issues"
   },
   "homepage": "https://github.com/maxmarinich/react-alice-carousel#readme",
-  "jest": {
-    "setupFiles": [
-      "<rootDir>/config/jest/shim.js"
-    ],
-    "testURL": "http://localhost/",
-    "collectCoverageFrom": [
-      "src/lib/**/*.{js,jsx,ts,tsx}"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/jest/assetsTransformer.js",
-      "\\.(css|less)$": "<rootDir>/config/jest/assetsTransformer.js"
-    },
-    "testMatch": [
-      "**/?(*.)(spec|test).js?(x)"
-    ],
-    "transform": {
-      "\\.js$": "babel-jest"
-    }
-  },
   "peerDependencies": {
     "react": ">=15.4"
   },
   "dependencies": {
-    "prop-types": "^15.5.10",
-    "vanilla-swipe": "1.2.0"
+    "vanilla-swipe": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.4",
-    "babel-eslint": "8.2.6",
-    "babel-jest": "^25.2.3",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-object-assign": "^7.10.3",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.10.1",
+    "@babel/preset-typescript": "^7.3.3",
+    "@babel/runtime": "^7.10.3",
+    "@types/jest": "^24.0.18",
+    "@types/react": "^16.9.38",
+    "@types/react-dom": "^16.9.8",
+    "@types/webpack-env": "^1.15.1",
+    "@typescript-eslint/eslint-plugin": "^3.4.0",
+    "@typescript-eslint/parser": "^3.4.0",
+    "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.1.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-preset-react-hmre": "1.1.1",
-    "copy-webpack-plugin": "^5.1.1",
-    "cross-env": "5.2.0",
-    "css-hot-loader": "1.4.2",
-    "css-loader": "1.0.0",
-    "enzyme": "3.4.4",
-    "enzyme-adapter-react-16": "1.2.0",
-    "eslint": "5.0.0",
-    "eslint-config-airbnb": "17.1.0",
-    "eslint-config-prettier": "^3.1.0",
-    "eslint-loader": "2.1.0",
-    "eslint-plugin-import": "2.13.0",
-    "eslint-plugin-jsx-a11y": "6.1.1",
-    "eslint-plugin-prettier": "^2.6.2",
-    "eslint-plugin-react": "7.11.1",
-    "extract-text-webpack-plugin": "4.0.0-beta.0",
-    "file-loader": "1.1.11",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^3.1.1",
-    "gulp-babel": "^8.0.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
-    "gulp-strip-comments": "^2.5.1",
-    "html-webpack-plugin": "3.2.0",
-    "husky": "0.15.0-rc.2",
-    "jest": "^25.1.0",
-    "node-sass": "^4.13.0",
-    "prettier": "^1.14.3",
+    "copy-webpack-plugin": "^6.1.1",
+    "css-loader": "^3.5.0",
+    "eslint": "^7.3.1",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-react": "^7.20.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "highlight.js": "^10.2.0",
+    "html-loader": "^1.1.0",
+    "html-webpack-plugin": "^4.0.4",
+    "husky": "^4.3.0",
+    "jest": "^26.4.2",
+    "markdown-loader": "^5.1.0",
+    "marked": "^1.2.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
-    "react-addons-test-utils": "15.6.2",
     "react-dom": "^16.13.1",
-    "react-hot-loader": "^4.12.20",
-    "react-router-dom": "^4.3.1",
-    "react-test-renderer": "16.4.2",
+    "rimraf": "^3.0.0",
     "sass-loader": "7.1.0",
-    "style-loader": "0.22.1",
-    "url-loader": "1.0.1",
-    "webpack": "^4.42.0",
+    "style-loader": "^1.1.3",
+    "ts-jest": "^26.1.1",
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.5",
+    "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.1.11"
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^5.1.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run precommit",
+      "pre-push": "npm run precommit"
+    }
   }
 }

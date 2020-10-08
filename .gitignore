@@ -68,5 +68,4 @@ npm-debug.log
 # Dist folder
 dist
 lib
-!tests/lib
-!src/lib
+static

@@ -1,0 +1,24 @@
+@import '../../common';
+
+.s-code {
+  margin-top: 10px;
+}
+
+.b-code {
+  padding: 30px;
+  border-radius: 2px;
+  border: solid 1px $color-bg;
+  background-color: rgba($color-bg, 0.3);
+  overflow-x: auto;
+
+  pre {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-subst {
+    color: #07a;
+  }
+}

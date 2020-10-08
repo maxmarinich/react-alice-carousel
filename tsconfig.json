@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "baseUrl": "./",
+    "outDir": "lib",
+    "noImplicitThis": false,
+    "noImplicitAny": false
+  },
+  "files": ["src/types/globals.d.ts"],
+  "include": ["src/lib/*"],
+  "exclude": ["tests"]
+}
