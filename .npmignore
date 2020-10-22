@@ -42,6 +42,7 @@ jspm_packages
 
 # Setup
 .babelrc
+.babelrc.json
 .eslint
 .gitignore
 .vscode

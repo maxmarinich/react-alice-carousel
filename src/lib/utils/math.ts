@@ -4,11 +4,18 @@ export const getShiftIndex = (itemsInSlide = 0, itemsOffset = 0) => {
 	return itemsInSlide + itemsOffset;
 };
 
-export const getStartIndex = (index, childrenLength) => {
-	return Math.min(index, childrenLength - 1) || 0;
+export const getStartIndex = (index = 0, childrenLength = 0) => {
+	if (childrenLength) {
+		return Math.min(index, childrenLength - 1) || 0;
+	}
+	return 0;
 };
 
-export const getUpdateSlidePositionIndex = (activeIndex, itemsCount) => {
+export const getActiveIndex = (index: number, dotsLength: number, infinite: boolean) => {
+	return infinite ? index : Math.min(index, dotsLength);
+};
+
+export const getUpdateSlidePositionIndex = (activeIndex: number, itemsCount: number) => {
 	if (activeIndex < 0) return itemsCount - 1;
 	if (activeIndex >= itemsCount) return 0;
 

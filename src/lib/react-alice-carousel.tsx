@@ -418,7 +418,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	async _handleSlideChanged() {
 		const { isAutoPlaying, isAutoPlayCanceledOnAction } = this.state;
 		const { autoPlayStrategy, onSlideChanged } = this.props;
-		// debugger;
+
 		if (Utils.shouldCancelAutoPlayOnAction(autoPlayStrategy) && this.hasUserAction && !isAutoPlayCanceledOnAction) {
 			await this.setState({ isAutoPlayCanceledOnAction: true, isAutoPlaying: false });
 		} else {
