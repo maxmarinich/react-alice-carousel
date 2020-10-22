@@ -51,7 +51,7 @@ export const calculateInitialState = (props: Partial<Props>, el): State => {
 	const itemsInSlide = getItemsInSlide(itemsCount, props);
 	const startIndex = Utils.getStartIndex(props.activeIndex, itemsCount);
 	const dotsLength = Utils.getDotsNavigationLength(itemsCount, itemsInSlide, autoWidth);
-	const activeIndex = Math.min(startIndex, dotsLength);
+	const activeIndex = Utils.getActiveIndex(startIndex, dotsLength, infinite);
 	const { width: stageWidth } = Utils.getElementDimensions(el);
 
 	if (autoWidth) {

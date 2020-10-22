@@ -4,7 +4,7 @@ import { defaultProps } from '../../../src/lib/defaultProps';
 describe('Utils.calculateInitialState', function () {
 	it('should return correct value', function () {
 		expect(Utils.calculateInitialState(defaultProps, null)).toEqual({
-			activeIndex: -1,
+			activeIndex: 0,
 			animationDuration: 400,
 			autoWidth: false,
 			clones: [],
