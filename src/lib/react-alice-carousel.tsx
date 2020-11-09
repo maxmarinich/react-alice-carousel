@@ -575,7 +575,13 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	};
 
 	_renderDotsNavigation() {
-		return <Views.DotsNavigation state={this.state} onClick={this._handleDotClick} />;
+		const {renderDotsNavigation} = this.props;
+		if(typeof renderDotsNavigation == "function"){
+			const {activeIndex, itemsCount} = this.state;
+			return renderDotsNavigation(itemsCount, activeIndex);
+		} else {
+			return  <Views.DotsNavigation state={this.state} onClick={this._handleDotClick} />;
+		}
 	}
 
 	_renderPrevButton() {

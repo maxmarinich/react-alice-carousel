@@ -31,6 +31,7 @@ export interface Props {
 	onResized?: (e: EventObject) => void;
 	onSlideChange?: (e: EventObject) => void;
 	onSlideChanged?: (e: EventObject) => void;
+	renderDotsNavigation?: (itemsCount: number, activeIndex: number) => any;
 }
 
 export interface State {

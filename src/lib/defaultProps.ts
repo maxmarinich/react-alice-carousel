@@ -32,4 +32,5 @@ export const defaultProps = {
 	onResizeEvent: undefined,
 	onSlideChange: () => undefined,
 	onSlideChanged: () => undefined,
+	renderDotsNavigation: undefined
 };
