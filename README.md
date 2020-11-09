@@ -99,6 +99,7 @@ const Gallery = () => {
 - `onResized`: Function - Fired as callback after the gallery was resized.
 - `onSlideChange`: Function - Fired while the event object is changing.
 - `onSlideChanged`: Function - Fired after the event object was changed.
+- `renderDotsNavigation`: Function - Returns a custom react component to use as the navigation dots.
 
 #### Methods
 - `slidePrev(e: any) => void` : Go to the prev slide.
