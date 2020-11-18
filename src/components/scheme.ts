@@ -27,6 +27,10 @@ export default [
 		id: 'events',
 		title: 'Events',
 	},
+	{
+		id: 'custom-components',
+		title: 'custom components',
+	},
 	// {
 	// 	id: 'sandbox',
 	// 	title: 'sandbox',

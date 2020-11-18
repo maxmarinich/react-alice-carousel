@@ -31,6 +31,11 @@ export interface Props {
 	onResized?: (e: EventObject) => void;
 	onSlideChange?: (e: EventObject) => void;
 	onSlideChanged?: (e: EventObject) => void;
+	renderSlideInfo?: (e: SlideInfo) => any;
+	renderDotsItem?: (e: DotsItem) => any;
+	renderPrevButton?: ({ isDisabled }) => any;
+	renderNextButton?: ({ isDisabled }) => any;
+	renderPlayPauseButton?: ({ isPlaying, activeIndex }) => any;
 }
 
 export interface State {
@@ -98,6 +103,16 @@ export type SlideTo = {
 	activeIndex: number;
 	fadeoutAnimationIndex?: number | null;
 	fadeoutAnimationPosition?: number | null;
+};
+
+export type SlideInfo = {
+	item: number;
+	itemsCount: number;
+};
+
+export type DotsItem = {
+	isActive: boolean;
+	activeIndex: number;
 };
 
 export enum AnimationType {

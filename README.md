@@ -99,6 +99,11 @@ const Gallery = () => {
 - `onResized(e: EventObject)`: Function - Fired as callback after the gallery was resized.
 - `onSlideChange(e: EventObject)`: Function - Fired before the event object changes.
 - `onSlideChanged(e: EventObject)`: Function - Fired after the event object was changed.
+- `renderSlideInfo(e: SlideInfo)`: Rendering function - create a custom component.
+- `renderDotsItem(e: DotsItem)`: Rendering function - create a custom component.
+- `renderPrevButton({ isDisabled })`: Rendering function - create a custom component.
+- `renderNextButton({ isDisabled })`: Rendering function - create a custom component.
+- `renderPlayPauseButton({ isPlaying })`: Rendering function - create a custom component.
 
 #### Methods
 - `slidePrev(e: Event) => void` : Go to the prev slide.
@@ -113,6 +118,16 @@ type EventObject = {
   itemsInSlide: number;
   isPrevSlideDisabled: boolean;
   isNextSlideDisabled: boolean;
+};
+
+type SlideInfo = {
+	item: number;
+	itemsCount: number;
+};
+
+type DotsItem = {
+	isActive: boolean;
+	activeIndex: number;
 };
 ```
 

@@ -6,6 +6,7 @@ import AutowidthPage from './auto-width';
 import AutoplayPage from './auto-play';
 import StagePaddingPage from './stage-padding';
 import Events from './events';
+import CustomComponents from './custom-components';
 import './styles.scss';
 
 export default function getPageComponent(pageID = '') {
@@ -29,6 +30,9 @@ export default function getPageComponent(pageID = '') {
 	}
 	if (pageID === 'events') {
 		return <Events />;
+	}
+	if (pageID === 'custom-components') {
+		return <CustomComponents />;
 	}
 
 	return null;
