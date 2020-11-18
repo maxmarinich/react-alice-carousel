@@ -121,13 +121,13 @@ type EventObject = {
 };
 
 type SlideInfo = {
-	item: number;
-	itemsCount: number;
+  item: number;
+  itemsCount: number;
 };
 
 type DotsItem = {
-	isActive: boolean;
-	activeIndex: number;
+  isActive: boolean;
+  activeIndex: number;
 };
 ```
 

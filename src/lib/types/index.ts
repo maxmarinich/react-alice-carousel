@@ -35,7 +35,7 @@ export interface Props {
 	renderDotsItem?: (e: DotsItem) => any;
 	renderPrevButton?: ({ isDisabled }) => any;
 	renderNextButton?: ({ isDisabled }) => any;
-	renderPlayPauseButton?: ({ isPlaying, activeIndex }) => any;
+	renderPlayPauseButton?: ({ isPlaying }) => any;
 }
 
 export interface State {

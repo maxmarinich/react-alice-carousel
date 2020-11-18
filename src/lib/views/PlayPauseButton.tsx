@@ -21,5 +21,5 @@ export const PlayPauseButton = ({ isPlaying, onClick, renderPlayPauseButton }: P
 type Props = {
 	isPlaying: boolean;
 	onClick: (e) => void;
-	renderPlayPauseButton?: (e?: any) => any;
+	renderPlayPauseButton?: ({ isPlaying }) => any;
 };
