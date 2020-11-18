@@ -94,16 +94,42 @@ const Gallery = () => {
 - `swipeExtraPadding`: Number, default `200`  - Set maximum distance from initial place before swipe action will be stopped (px).
 - `touchTracking`: Boolean, default `true`  - Enable touch move animation.
 - `touchMoveDefaultEvents`: Boolean, default `true`  - Enable touch move default events on swiping.
-- `onInitialized`: Function - Fired as callback after the gallery was created.
-- `onResizeEvent`: Function - Fired during `resize` event to determine whether the event handler should be called.
-- `onResized`: Function - Fired as callback after the gallery was resized.
-- `onSlideChange`: Function - Fired while the event object is changing.
-- `onSlideChanged`: Function - Fired after the event object was changed.
+- `onInitialized(e: EventObject)`: Function - Fired as callback after the gallery was created.
+- `onResizeEvent(e: Event)`: Function - Fired during `resize` event to determine whether the event handler should be called.
+- `onResized(e: EventObject)`: Function - Fired as callback after the gallery was resized.
+- `onSlideChange(e: EventObject)`: Function - Fired before the event object changes.
+- `onSlideChanged(e: EventObject)`: Function - Fired after the event object was changed.
 
 #### Methods
-- `slidePrev(e: any) => void` : Go to the prev slide.
-- `slideNext(e: any) => void` : Go to the next slide.
+- `slidePrev(e: Event) => void` : Go to the prev slide.
+- `slideNext(e: Event) => void` : Go to the next slide.
 - `slideTo(activeIndex?: number) => void` : Go to the specified slide.
+
+#### Types
+```typescript
+type EventObject = {
+  item: number;
+  slide: number;
+  itemsInSlide: number;
+  isPrevSlideDisabled: boolean;
+  isNextSlideDisabled: boolean;
+};
+```
+
+#### CSS class names
+```css
+.alice-carousel__stage
+.alice-carousel__stage-item
+
+.alice-carousel__prev-btn
+.alice-carousel__next-btn
+.alice-carousel__play-btn
+
+.alice-carousel__dots
+.alice-carousel__dots-item
+
+.alice-carousel__slide-info
+```
 
 ## Build the project locally
 #### Clone

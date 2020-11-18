@@ -1,7 +1,7 @@
 import React from 'react';
 import VS, { EventData } from 'vanilla-swipe';
 import { defaultProps } from './defaultProps';
-import { AutoplayDirection, AnimationType, Props, RootElement, SlideTo, State } from './types';
+import { AutoplayDirection, AnimationType, Props, RootElement, SlideTo, State, EventObject } from './types';
 import * as Views from './views';
 import * as Utils from './utils';
 
@@ -142,7 +142,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		window.removeEventListener('resize', this._handleResizeDebounced);
 	}
 
-	get eventObject() {
+	get eventObject(): EventObject {
 		const { itemsInSlide: itemsInSlide, activeIndex: item } = this.state;
 		const { isNextSlideDisabled, isPrevSlideDisabled } = Utils.getSlideItemInfo(this.state);
 		const slide = Utils.getActiveSlideIndex(isNextSlideDisabled, this.state);

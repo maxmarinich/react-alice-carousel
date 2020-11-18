@@ -5,6 +5,7 @@ import AutoheightPage from './auto-height';
 import AutowidthPage from './auto-width';
 import AutoplayPage from './auto-play';
 import StagePaddingPage from './stage-padding';
+import Events from './events';
 import './styles.scss';
 
 export default function getPageComponent(pageID = '') {
@@ -25,6 +26,9 @@ export default function getPageComponent(pageID = '') {
 	}
 	if (pageID === 'stage-padding') {
 		return <StagePaddingPage />;
+	}
+	if (pageID === 'events') {
+		return <Events />;
 	}
 
 	return null;

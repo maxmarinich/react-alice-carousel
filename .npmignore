@@ -44,6 +44,7 @@ jspm_packages
 .babelrc
 .babelrc.json
 .eslint
+.eslintrc
 .gitignore
 .vscode
 .npmrc
