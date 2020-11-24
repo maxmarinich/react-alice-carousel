@@ -12,7 +12,7 @@ export default function App() {
 	useEffect(() => {
 		const { hash = '#' } = window.location;
 		const hashId = hash.slice(1);
-		const page = scheme.find(({ id }) => id === hashId);
+		const page = scheme.find(({ id }) => id === hashId || hashId.includes(id));
 
 		if (page) setPage(page);
 	}, []);

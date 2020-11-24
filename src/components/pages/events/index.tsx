@@ -6,11 +6,21 @@ import AliceCarousel from '../../../lib/react-alice-carousel';
 import '../../../lib/scss/alice-carousel.scss';
 
 const items = [
-	<div className="item">1</div>,
-	<div className="item">2</div>,
-	<div className="item">3</div>,
-	<div className="item">4</div>,
-	<div className="item">5</div>,
+	<div className="item" data-value="1">
+		1
+	</div>,
+	<div className="item" data-value="2">
+		2
+	</div>,
+	<div className="item" data-value="3">
+		3
+	</div>,
+	<div className="item" data-value="4">
+		4
+	</div>,
+	<div className="item" data-value="5">
+		5
+	</div>,
 ];
 
 const onInitialized = (e) => {
@@ -34,23 +44,7 @@ function Events() {
 				onInitialized={onInitialized}
 				onSlideChange={onSlideChange}
 				onSlideChanged={onSlideChanged}
-			>
-				<div className="item">
-					<h1>1</h1>
-				</div>
-				<div className="item">
-					<h1>2</h1>
-				</div>
-				<div className="item">
-					<h1>3</h1>
-				</div>
-				<div className="item">
-					<h1>4</h1>
-				</div>
-				<div className="item">
-					<h1>5</h1>
-				</div>
-			</AliceCarousel>
+			/>
 			<TheCode html={markdown} />
 		</section>
 	);

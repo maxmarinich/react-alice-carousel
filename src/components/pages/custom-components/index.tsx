@@ -1,60 +1,41 @@
 import React from 'react';
+import Anchor from '../../the-anchor';
+import RenderExample from './render-components';
+import RefsExample from './refs-components';
+import PropsExample from './props-components';
 
-import markdown from './code.md';
-import TheCode from '../../the-code';
-import AliceCarousel from '../../../lib/react-alice-carousel';
-import '../../../lib/scss/alice-carousel.scss';
-
-const renderSlideInfo = ({ item, itemsCount }) => {
-	return `${item}\\${itemsCount}`;
-};
-
-const renderPrevButton = ({ isDisabled }) => {
-	return <span style={{ opacity: isDisabled ? '0.5' : 1 }}>prev</span>;
-};
-
-const renderNextButton = ({ isDisabled }) => {
-	return <span style={{ opacity: isDisabled ? '0.5' : 1 }}>next</span>;
-};
-
-const renderPlayPauseButton = ({ isPlaying }) => {
-	return isPlaying ? 'PAUSE' : 'PLAY';
-};
-
-const renderDotsItem = ({ isActive }) => {
-	return isActive ? 'X' : '*';
+const genAnchor = (str = '') => {
+	const anchorString = `custom-components${str}`;
+	return {
+		anchor: `#${anchorString}`,
+		id: anchorString,
+	};
 };
 
 const StagePaddingPage = () => {
 	return (
 		<section className="p-basic">
-			<AliceCarousel
-				mouseTracking
-				autoPlayControls
-				disableSlideInfo={false}
-				renderSlideInfo={renderSlideInfo}
-				renderDotsItem={renderDotsItem}
-				renderPrevButton={renderPrevButton}
-				renderNextButton={renderNextButton}
-				renderPlayPauseButton={renderPlayPauseButton}
-			>
-				<div className="item">
-					<h1>1</h1>
-				</div>
-				<div className="item">
-					<h1>2</h1>
-				</div>
-				<div className="item">
-					<h1>3</h1>
-				</div>
-				<div className="item">
-					<h1>4</h1>
-				</div>
-				<div className="item">
-					<h1>5</h1>
-				</div>
-			</AliceCarousel>
-			<TheCode html={markdown} />
+			<h2 className="title">
+				<Anchor {...genAnchor('-render')} />
+				&nbsp; Render functions
+			</h2>
+			<RenderExample />
+			<br />
+			<br />
+			<br />
+			<h2 className="title">
+				<Anchor {...genAnchor('-refs')} />
+				&nbsp; Refs
+			</h2>
+			<RefsExample />
+			<br />
+			<br />
+			<br />
+			<h2 className="title">
+				<Anchor {...genAnchor('-props')} />
+				&nbsp; Props
+			</h2>
+			<PropsExample />
 		</section>
 	);
 };
