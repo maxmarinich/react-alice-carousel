@@ -35,16 +35,16 @@ export const getSlideIndexForMultipleItems = (activeIndex, itemsInSlide, slidesL
 	return itemsInSlide > 0 ? Math.floor(activeIndex / itemsInSlide) - 1 : 0;
 };
 
-export const getSlideInfo = (activeIndex = 0, slidesLength = 0) => {
-	let slideIndex = activeIndex + 1;
+export const getSlideInfo = (activeIndex = 0, itemsCount = 0) => {
+	let item = activeIndex + 1;
 
-	if (slideIndex < 1) {
-		slideIndex = slidesLength;
-	} else if (slideIndex > slidesLength) {
-		slideIndex = 1;
+	if (item < 1) {
+		item = itemsCount;
+	} else if (item > itemsCount) {
+		item = 1;
 	}
 
-	return { slideIndex, slidesLength };
+	return { item, itemsCount };
 };
 
 export const getSlideItemInfo = (state: State) => {

@@ -1,24 +1,53 @@
 @import '../../common';
 
 .s-code {
-  margin-top: 10px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	&__item {
+		position: relative;
+	}
+	&__layer {
+		background-color: $color-light;
+		position: absolute;
+		height: 110px;
+		padding: 30px;
+		width: 100%;
+		bottom: 0;
+		box-sizing: border-box;
+		pointer-events: none;
+		background: linear-gradient(to top, rgba($color-light, .8) 0%, rgba($color-light, 0) 100%);
+	}
+	&__button {
+		position: absolute;
+		right: 0;
+		top: 0;
+		line-height: 10px;
+		padding: 5px 10px;
+		cursor: pointer;
+		background-color: $color-bg;
+	}
 }
 
 .b-code {
-  padding: 30px;
-  border-radius: 2px;
-  border: solid 1px $color-bg;
-  background-color: rgba($color-bg, 0.3);
-  overflow-x: auto;
+	padding: 30px;
+	border-radius: 2px;
+	border: solid 1px $color-bg;
+	background-color: rgba($color-bg, 0.3);
+	overflow-x: auto;
 
-  pre {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.4;
-  }
-  .hljs-keyword,
-  .hljs-selector-tag,
-  .hljs-subst {
-    color: #07a;
-  }
+	pre {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.4;
+	}
+	.hljs-keyword,
+	.hljs-selector-tag,
+	.hljs-subst {
+		color: #07a;
+	}
+
+	&.__hidden {
+		height: 50px;
+		overflow-y: hidden;
+	}
 }

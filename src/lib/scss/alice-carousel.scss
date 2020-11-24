@@ -187,9 +187,12 @@ $play-btn-size: 32px !default;
   list-style: none;
 
   text-align: center;
-  &-item {
-    display: inline-block;
 
+  & > li {
+    display: inline-block;
+  }
+
+  &-item:not(.__custom) {
     width: 8px;
     height: 8px;
 

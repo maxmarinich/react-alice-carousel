@@ -3,7 +3,6 @@ import React from 'react';
 import markdown from './code.md';
 import TheCode from '../../the-code';
 import AliceCarousel from '../../../lib/react-alice-carousel';
-import { AutoPlayStrategy, AnimationType } from '../../../lib/types';
 import '../../../lib/scss/alice-carousel.scss';
 
 const items = [
@@ -24,27 +23,31 @@ const items = [
 	</div>,
 ];
 
-const AutoplayPage = () => {
+const onInitialized = (e) => {
+	console.debug('Start position(activeIndex) on init: ', e.item);
+};
+
+const onSlideChange = (e) => {
+	console.debug('Item`s position before a change: ', e.item);
+};
+
+const onSlideChanged = (e) => {
+	console.debug('Item`s position after changes: ', e.item);
+};
+
+function Events() {
 	return (
 		<section className="p-basic">
 			<AliceCarousel
-				autoPlay
-				autoPlayControls
-				autoPlayStrategy={AutoPlayStrategy.NONE}
-				autoPlayInterval={1000}
-				animationDuration={1000}
-				animationType={AnimationType.FADEOUT}
-				infinite
-				touchTracking={false}
-				disableDotsControls
-				disableButtonsControls
+				mouseTracking
 				items={items}
+				onInitialized={onInitialized}
+				onSlideChange={onSlideChange}
+				onSlideChanged={onSlideChanged}
 			/>
-			<br />
-			<br />
 			<TheCode html={markdown} />
 		</section>
 	);
-};
+}
 
-export default AutoplayPage;
+export default Events;

@@ -1,7 +1,7 @@
 import React from 'react';
 import VS, { EventData } from 'vanilla-swipe';
 import { defaultProps } from './defaultProps';
-import { AutoplayDirection, AnimationType, Props, RootElement, SlideTo, State } from './types';
+import { AutoplayDirection, AnimationType, Props, RootElement, SlideTo, State, EventObject } from './types';
 import * as Views from './views';
 import * as Utils from './utils';
 
@@ -142,7 +142,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		window.removeEventListener('resize', this._handleResizeDebounced);
 	}
 
-	get eventObject() {
+	get eventObject(): EventObject {
 		const { itemsInSlide: itemsInSlide, activeIndex: item } = this.state;
 		const { isNextSlideDisabled, isPrevSlideDisabled } = Utils.getSlideItemInfo(this.state);
 		const slide = Utils.getActiveSlideIndex(isNextSlideDisabled, this.state);
@@ -570,27 +570,52 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	};
 
 	_renderSlideInfo = () => {
+		const { renderSlideInfo } = this.props;
 		const { activeIndex, itemsCount } = this.state;
-		return <Views.SlideInfo slidesLength={itemsCount} activeIndex={activeIndex} />;
+		return <Views.SlideInfo itemsCount={itemsCount} activeIndex={activeIndex} renderSlideInfo={renderSlideInfo} />;
 	};
 
 	_renderDotsNavigation() {
-		return <Views.DotsNavigation state={this.state} onClick={this._handleDotClick} />;
+		const { renderDotsItem } = this.props;
+		return <Views.DotsNavigation state={this.state} onClick={this._handleDotClick} renderDotsItem={renderDotsItem} />;
 	}
 
 	_renderPrevButton() {
+		const { renderPrevButton } = this.props;
 		const { isPrevSlideDisabled } = Utils.getSlideItemInfo(this.state);
-		return <Views.PrevNextButton name="prev" disabled={isPrevSlideDisabled} onClick={this.slidePrev} />;
+		return (
+			<Views.PrevNextButton
+				name="prev"
+				onClick={this.slidePrev}
+				isDisabled={isPrevSlideDisabled}
+				renderPrevButton={renderPrevButton}
+			/>
+		);
 	}
 
 	_renderNextButton() {
+		const { renderNextButton } = this.props;
 		const { isNextSlideDisabled } = Utils.getSlideItemInfo(this.state);
-		return <Views.PrevNextButton name="next" disabled={isNextSlideDisabled} onClick={this.slideNext} />;
+		return (
+			<Views.PrevNextButton
+				name="next"
+				onClick={this.slideNext}
+				isDisabled={isNextSlideDisabled}
+				renderNextButton={renderNextButton}
+			/>
+		);
 	}
 
 	_renderPlayPauseButton() {
+		const { renderPlayPauseButton } = this.props;
 		const { isAutoPlaying } = this.state;
-		return <Views.PlayPauseButton isPlaying={isAutoPlaying} onClick={this._handlePlayPauseToggle} />;
+		return (
+			<Views.PlayPauseButton
+				isPlaying={isAutoPlaying}
+				onClick={this._handlePlayPauseToggle}
+				renderPlayPauseButton={renderPlayPauseButton}
+			/>
+		);
 	}
 
 	render() {

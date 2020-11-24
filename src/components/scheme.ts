@@ -23,6 +23,15 @@ export default [
 		id: 'fadeout',
 		title: 'fadeout animation',
 	},
+	{
+		id: 'events',
+		title: 'Events',
+	},
+	{
+		id: 'custom-components',
+		title: 'custom components',
+	},
+
 	// {
 	// 	id: 'sandbox',
 	// 	title: 'sandbox',

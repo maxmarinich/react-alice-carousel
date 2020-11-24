@@ -8,9 +8,7 @@ import '../../../lib/scss/alice-carousel.scss';
 const itemsLength = Array.from({ length: 5 });
 
 const items = itemsLength.map((item, index) => (
-	<div className="item" style={{ width: 150 + index * 100 }}>
-		<h1>{index + 1}</h1>
-	</div>
+	<div className="item" style={{ width: 150 + index * 100 }} data-value={index + 1} />
 ));
 
 const AutowidthPage = () => {

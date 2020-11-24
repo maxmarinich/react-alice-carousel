@@ -1,7 +1,23 @@
 import React from 'react';
 
-export const PrevNextButton = ({ name, disabled, onClick }: Props) => {
-	const className = `alice-carousel__${name}-btn-item${disabled ? ' __inactive' : ''}`;
+export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, renderNextButton }: Props) => {
+	const className = `alice-carousel__${name}-btn-item${isDisabled ? ' __inactive' : ''}`;
+
+	if (typeof renderPrevButton === 'function') {
+		return (
+			<div className={`alice-carousel__${name}-btn`} onClick={onClick}>
+				{renderPrevButton({ isDisabled })}
+			</div>
+		);
+	}
+
+	if (typeof renderNextButton === 'function') {
+		return (
+			<div className={`alice-carousel__${name}-btn`} onClick={onClick}>
+				{renderNextButton({ isDisabled })}
+			</div>
+		);
+	}
 
 	return (
 		<div className={`alice-carousel__${name}-btn`}>
@@ -16,6 +32,8 @@ export const PrevNextButton = ({ name, disabled, onClick }: Props) => {
 
 type Props = {
 	name: 'prev' | 'next';
-	disabled: boolean;
+	isDisabled: boolean;
 	onClick: (e) => void;
+	renderPrevButton?: ({ isDisabled }) => any;
+	renderNextButton?: ({ isDisabled }) => any;
 };

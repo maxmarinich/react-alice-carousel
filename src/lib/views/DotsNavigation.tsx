@@ -3,7 +3,7 @@ import React, { MouseEventHandler } from 'react';
 import * as Utils from '../utils';
 import { State } from '../types';
 
-export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave }: Props) => {
+export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave, renderDotsItem }: Props) => {
 	const { itemsCount, itemsInSlide, infinite, autoWidth, activeIndex } = state;
 	const { isNextSlideDisabled } = Utils.getSlideItemInfo(state);
 	const dotsLength = Utils.getDotsNavigationLength(itemsCount, itemsInSlide, autoWidth);
@@ -29,7 +29,8 @@ export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave }: P
 						nextIndex = i;
 					}
 
-					const className = currentIndex === i ? ' __active' : '';
+					const isActive = currentIndex === i ? ' __active' : '';
+					const isCustom = renderDotsItem ? ' __custom' : '';
 
 					return (
 						<li
@@ -37,8 +38,10 @@ export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave }: P
 							onMouseEnter={onMouseEnter}
 							onMouseLeave={onMouseLeave}
 							onClick={() => onClick(nextIndex)}
-							className={`alice-carousel__dots-item${className}`}
-						/>
+							className={`alice-carousel__dots-item${isActive}${isCustom}`}
+						>
+							{renderDotsItem && renderDotsItem({ isActive, activeIndex: i })}
+						</li>
 					);
 				}
 			})}
@@ -51,4 +54,5 @@ type Props = {
 	onClick: (index: number) => void;
 	onMouseEnter?: MouseEventHandler;
 	onMouseLeave?: MouseEventHandler;
+	renderDotsItem?: ({ isActive, activeIndex }) => any;
 };

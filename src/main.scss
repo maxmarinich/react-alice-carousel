@@ -1,7 +1,8 @@
 @import 'common';
 
 body,
-html {
+html,
+#root {
 	margin: 0;
 	padding: 0;
 	width: 100%;
@@ -14,6 +15,7 @@ html {
 	width: 100%;
 	height: 100%;
 	margin: auto;
+	background-color: $color-light;
 
 	.title {
 		font-weight: 300;
@@ -23,9 +25,52 @@ html {
 			text-transform: capitalize;
 		}
 	}
+
+	.anchor {
+		opacity: 0.5;
+		&:hover {
+			opacity: 1;
+		}
+	}
 }
 
 .s-main {
 	@include container;
+	height: auto;
 	padding-top: 0;
+}
+
+.s-render-components {
+	color: $color-dark;
+}
+
+.b-refs-buttons {
+	margin: 15px auto;
+	text-align: center;
+
+	button {
+		outline: none;
+		color: $color-light;
+		border: none;
+		text-decoration: none;
+		background-color: $color-bg;
+		margin: 0 5px;
+		padding: 5px 15px;
+		border-radius: 2px;
+	}
+}
+
+.b-refs-navs {
+	margin-top: 20px;
+	text-align: center;
+	i {
+		vertical-align: middle;
+		cursor: pointer;
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		margin: 5px;
+		background-color: $color-bg;
+		border-radius: 6px;
+	}
 }

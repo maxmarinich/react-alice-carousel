@@ -3,35 +3,37 @@ import React from 'react';
 import markdown from './code.md';
 import TheCode from '../../the-code';
 import AliceCarousel from '../../../lib/react-alice-carousel';
-import { AnimationType } from '../../../lib/types';
 import '../../../lib/scss/alice-carousel.scss';
+
+const items = [
+	<div className="item" data-value="1">
+		1
+	</div>,
+	<div className="item" data-value="2">
+		2
+	</div>,
+	<div className="item" data-value="3">
+		3
+	</div>,
+	<div className="item" data-value="4">
+		4
+	</div>,
+	<div className="item" data-value="5">
+		5
+	</div>,
+];
 
 const FadeoutPage = () => {
 	return (
 		<section className="p-basic">
 			<AliceCarousel
-				infinite
-				mouseTracking
-				disableButtonsControls
-				animationType={AnimationType.FADEOUT}
+				animationType="fadeout"
 				animationDuration={800}
-			>
-				<div className="item">
-					<h1>1</h1>
-				</div>
-				<div className="item">
-					<h1 className="__mod">2</h1>
-				</div>
-				<div className="item">
-					<h1>3</h1>
-				</div>
-				<div className="item">
-					<h1 className="__mod">4</h1>
-				</div>
-				<div className="item">
-					<h1>5</h1>
-				</div>
-			</AliceCarousel>
+				disableButtonsControls
+				infinite
+				items={items}
+				mouseTracking
+			/>
 			<TheCode html={markdown} />
 		</section>
 	);

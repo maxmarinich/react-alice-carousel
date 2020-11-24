@@ -2,6 +2,7 @@
 
 .navigation {
     @include container;
+    height: auto;
     padding: 0 5px;
     display: flex;
     justify-content: start;
