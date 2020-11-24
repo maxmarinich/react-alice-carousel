@@ -5,9 +5,9 @@
 
 React Alice Carousel is a React component for building content galleries, content rotators and any React carousels.
 
-#### 👉 &nbsp;Live demo: [v2.x.x](https://maxmarinich.github.io/react-alice-carousel/static)
+#### 👉 &nbsp;Live demo (API): [v2.x.x](https://maxmarinich.github.io/react-alice-carousel/static)
 
-#### 👉 &nbsp;Previous version: [v1.x.x](https://github.com/maxmarinich/react-alice-carousel/tree/v1)
+#### 👉 &nbsp;Previous version (API): [v1.x.x](https://github.com/maxmarinich/react-alice-carousel/tree/v1)
 
 ![demo gif](https://github.com/maxmarinich/react-alice-carousel/raw/master/src/assets/img/react-alice-carousel.gif)
 
@@ -90,6 +90,17 @@ const Gallery = () => {
 - `paddingLeft`: Number, default `0`  - Set the gallery offset from the left.
 - `paddingRight`: Number, default `0`  - Set the gallery offset from the right.
 - `responsive`: Object, default `undefined` - Set number of items in the slide. The key is the breakpoint (default is the result of: () => window.innerWidth).
+    ```js
+        {
+          0: {
+              items: 1,
+          },
+          1024: {
+              items: 3
+          }
+        }
+    ```
+
 - `swipeDelta`: Number, default `20`  - Set minimum distance to the start of the swiping (px).
 - `swipeExtraPadding`: Number, default `200`  - Set maximum distance from initial place before swipe action will be stopped (px).
 - `touchTracking`: Boolean, default `true`  - Enable touch move animation.
