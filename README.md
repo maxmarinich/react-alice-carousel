@@ -104,7 +104,7 @@ const Gallery = () => {
 - `swipeDelta`: Number, default `20`  - Set minimum distance to the start of the swiping (px).
 - `swipeExtraPadding`: Number, default `200`  - Set maximum distance from initial place before swipe action will be stopped (px).
 - `touchTracking`: Boolean, default `true`  - Enable touch move animation.
-- `touchMoveDefaultEvents`: Boolean, default `true`  - Enable touch move default events on swiping.
+- `touchMoveDefaultEvents`: Boolean, default `true`  - Enable touch move default events on swiping. If `false` was specified, this prevents vertical scrolling of the parent elements during the swipe. 
 - `onInitialized(e: EventObject)`: Function - Fired as callback after the gallery was created.
 - `onResizeEvent(e: Event)`: Function - Fired during `resize` event to determine whether the event handler should be called.
 - `onResized(e: EventObject)`: Function - Fired as callback after the gallery was resized.
