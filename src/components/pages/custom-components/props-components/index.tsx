@@ -30,8 +30,6 @@ const PropsComponent = () => {
 	const slideNext = () => setActiveIndex(activeIndex + 1);
 	const onSlideChanged = ({ item }) => setActiveIndex(item);
 
-	console.debug('render');
-
 	return (
 		<section className="p-basic">
 			<AliceCarousel

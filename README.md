@@ -89,6 +89,7 @@ const Gallery = () => {
 - `mouseTracking`: Boolean, default `false`  - Enable mouse drag animation.
 - `paddingLeft`: Number, default `0`  - Set the gallery offset from the left.
 - `paddingRight`: Number, default `0`  - Set the gallery offset from the right.
+- `renderKey`: Number, default `undefined`  - Auxiliary property, allows call the render method without changing the state inside the gallery instance.
 - `responsive`: Object, default `undefined` - Set number of items in the slide. The key is the breakpoint (default is the result of: () => window.innerWidth).
     ```js
         {

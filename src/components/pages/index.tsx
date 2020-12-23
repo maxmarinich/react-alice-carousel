@@ -7,6 +7,7 @@ import AutoplayPage from './auto-play';
 import StagePaddingPage from './stage-padding';
 import Events from './events';
 import CustomComponents from './custom-components';
+import LazyLoadingPage from './lazy-loading';
 import './styles.scss';
 
 export default function getPageComponent(pageID = '') {
@@ -34,6 +35,8 @@ export default function getPageComponent(pageID = '') {
 	if (pageID === 'custom-components') {
 		return <CustomComponents />;
 	}
-
+	if (pageID === 'lazy-loading') {
+		return <LazyLoadingPage />;
+	}
 	return null;
 }

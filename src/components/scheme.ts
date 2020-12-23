@@ -31,6 +31,10 @@ export default [
 		id: 'custom-components',
 		title: 'custom components',
 	},
+	{
+		id: 'lazy-loading',
+		title: 'lazy loading',
+	},
 
 	// {
 	// 	id: 'sandbox',
