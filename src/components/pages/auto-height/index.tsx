@@ -3,7 +3,6 @@ import React from 'react';
 import markdown from './code.md';
 import TheCode from '../../the-code';
 import AliceCarousel from '../../../lib/react-alice-carousel';
-import '../../../lib/scss/alice-carousel.scss';
 import './styles..scss';
 
 const itemsLength = Array.from({ length: 5 });

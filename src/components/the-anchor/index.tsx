@@ -1,5 +1,12 @@
 import React from 'react';
 
+export const genAnchorProps = (anchorString = '') => {
+	return {
+		anchor: `#${anchorString}`,
+		id: anchorString,
+	};
+};
+
 export default function TheAnchor({ id = '', anchor = '' }) {
 	return (
 		<a id={id} href={anchor} className="anchor">

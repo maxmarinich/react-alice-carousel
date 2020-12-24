@@ -25,7 +25,7 @@ export default function TheLazyLoader(props) {
 	}, []);
 
 	return isLoading ? (
-		<div style={{ textAlign: 'center', lineHeight: '150px', color: '#435794', height: 150 }}>Loading...</div>
+		<div style={{ textAlign: 'center', lineHeight: '200px', color: '#435794', height: 200 }}>Loading...</div>
 	) : (
 		<img width="100%" src={src} />
 	);
