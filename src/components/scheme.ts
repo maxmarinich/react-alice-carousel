@@ -16,22 +16,25 @@ export default [
 		title: 'autoplay',
 	},
 	{
-		id: 'stage-padding',
-		title: 'stage padding',
-	},
-	{
-		id: 'fadeout',
-		title: 'fadeout animation',
+		id: 'custom-components',
+		title: 'custom components',
 	},
 	{
 		id: 'events',
 		title: 'Events',
 	},
 	{
-		id: 'custom-components',
-		title: 'custom components',
+		id: 'fadeout',
+		title: 'fadeout animation',
 	},
-
+	{
+		id: 'lazy-loading',
+		title: 'lazy loading',
+	},
+	{
+		id: 'stage-padding',
+		title: 'stage padding',
+	},
 	// {
 	// 	id: 'sandbox',
 	// 	title: 'sandbox',

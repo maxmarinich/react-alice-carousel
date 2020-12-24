@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import markdown from './code.md';
 import TheCode from '../../../the-code';
 import AliceCarousel from '../../../../lib/react-alice-carousel';
-import '../../../../lib/scss/alice-carousel.scss';
 
 const items = [
 	<div className="item" data-value="1">
@@ -29,8 +28,6 @@ const PropsComponent = () => {
 	const slidePrev = () => setActiveIndex(activeIndex - 1);
 	const slideNext = () => setActiveIndex(activeIndex + 1);
 	const onSlideChanged = ({ item }) => setActiveIndex(item);
-
-	console.debug('render');
 
 	return (
 		<section className="p-basic">

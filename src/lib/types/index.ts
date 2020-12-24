@@ -22,6 +22,7 @@ export interface Props {
 	paddingRight?: number;
 	preservePosition?: boolean;
 	responsive?: Responsive;
+	renderKey?: number;
 	swipeDelta?: number;
 	swipeExtraPadding?: number;
 	touchMoveDefaultEvents?: boolean;

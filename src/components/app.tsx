@@ -4,6 +4,7 @@ import Navigation from './navigation';
 import getPageComponent from './pages';
 import scheme from './scheme';
 import '../main.scss';
+import '../lib/scss/alice-carousel.scss';
 
 export default function App() {
 	const [defaultPage] = scheme;

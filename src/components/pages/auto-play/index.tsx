@@ -4,7 +4,6 @@ import markdown from './code.md';
 import TheCode from '../../the-code';
 import AliceCarousel from '../../../lib/react-alice-carousel';
 import { AutoPlayStrategy, AnimationType } from '../../../lib/types';
-import '../../../lib/scss/alice-carousel.scss';
 
 const items = [
 	<div className="item" data-value="1">
