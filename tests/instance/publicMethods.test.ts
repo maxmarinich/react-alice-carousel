@@ -1,6 +1,6 @@
 import Carousel from '../../src/lib/react-alice-carousel';
 
-describe('Instance', function () {
+describe('Instance: methods', function () {
 	it('should provide public methods', function () {
 		const Gallery = new Carousel({}) || {};
 
