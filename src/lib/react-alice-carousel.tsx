@@ -143,7 +143,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	}
 
 	get eventObject(): EventObject {
-		const { itemsInSlide: itemsInSlide, activeIndex: item } = this.state;
+		const { itemsInSlide, activeIndex: item } = this.state;
 		const { isNextSlideDisabled, isPrevSlideDisabled } = Utils.getSlideItemInfo(this.state);
 		const slide = Utils.getActiveSlideIndex(isNextSlideDisabled, this.state);
 

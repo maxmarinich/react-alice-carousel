@@ -11,8 +11,14 @@ export const getStartIndex = (index = 0, childrenLength = 0) => {
 	return 0;
 };
 
-export const getActiveIndex = (index: number, dotsLength: number, infinite: boolean) => {
-	return infinite ? index : Math.min(index, dotsLength);
+export const getActiveIndex = ({ startIndex = 0, itemsCount = 0, itemsInSlide = 1, infinite = false }) => {
+	if (infinite) {
+		return startIndex;
+	}
+	if (itemsCount) {
+		return Math.min(startIndex, itemsCount - itemsInSlide);
+	}
+	return 0;
 };
 
 export const getUpdateSlidePositionIndex = (activeIndex: number, itemsCount: number) => {
