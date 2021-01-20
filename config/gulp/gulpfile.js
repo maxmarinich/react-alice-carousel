@@ -24,6 +24,8 @@ gulp.task('ts', function () {
 });
 
 gulp.task('css', function () {
+	sass.compiler = require('node-sass');
+
 	return gulp
 		.src(resolve(libPath, 'scss/alice-carousel.scss'))
 		.pipe(sass())

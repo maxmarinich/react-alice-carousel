@@ -9,15 +9,14 @@ module.exports = {
 				test: /\.(sa|sc|c)ss$/,
 				exclude: /node_modules/,
 				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader',
 					{
-						loader: MiniCssExtractPlugin.loader,
+						loader: 'sass-loader',
 						options: {
-							hmr: true,
-							reloadAll: true,
+							implementation: require('dart-sass'),
 						},
 					},
-					'css-loader',
-					'sass-loader',
 				],
 			},
 			{
