@@ -1,0 +1,1 @@
+react-alice-carousel
