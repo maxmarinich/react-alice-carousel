@@ -36,7 +36,7 @@ const onSlideChanged = (e) => {
 
 function Events() {
 	return (
-		<section className="p-basic">
+		<section className="p-basic p-events">
 			<AliceCarousel
 				mouseTracking
 				items={items}

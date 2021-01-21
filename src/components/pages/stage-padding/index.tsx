@@ -30,7 +30,7 @@ const items = [
 
 const StagePaddingPage = () => {
 	return (
-		<section className="p-basic">
+		<section className="p-basic p-padding">
 			<AliceCarousel mouseTracking items={items} paddingLeft={50} paddingRight={50} responsive={responsive} />
 			<TheCode html={markdown} />
 		</section>

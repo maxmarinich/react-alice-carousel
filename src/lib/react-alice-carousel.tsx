@@ -13,10 +13,10 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	private isTouchMoveProcessStarted: boolean;
 	private cancelTouchAnimations: boolean;
 	private hasUserAction: boolean;
-	private RootElement: null | undefined;
+	private rootElement: null | HTMLElement;
 	private rootComponentDimensions: RootElement;
 	private slideEndTimeoutId: number | undefined;
-	private stageComponent: null | undefined;
+	private stageComponent: null | HTMLElement;
 	private startTouchmovePosition: undefined | number;
 	private swipeListener: VS | null = null;
 	private touchEndTimeoutId: number | undefined;
@@ -25,44 +25,16 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	constructor(props) {
 		super(props);
 
-		const itemsCount = Utils.getItemsCount(props);
-		const clones = Utils.createClones(props);
-
-		this.state = {
-			activeIndex: 0,
-			animationDuration: 0,
-			autoWidth: false,
-			clones,
-			itemsCount,
-			itemsOffset: 0,
-			itemsInSlide: 1,
-			infinite: false,
-			initialStageHeight: 0,
-			isAutoPlaying: false,
-			isAutoPlayCanceledOnAction: false,
-			isStageContentPartial: true,
-			fadeoutAnimationIndex: null,
-			fadeoutAnimationPosition: null,
-			fadeoutAnimationProcessing: false,
-			transformationSet: [],
-			transition: Utils.getTransitionProperty(),
-			translate3d: 0,
-			stageWidth: 0,
-			stageContentWidth: 0,
-			swipeLimitMin: 0,
-			swipeLimitMax: 0,
-			swipeAllowedPositionMax: 0,
-			swipeShiftValue: 0,
-		};
+		this.state = Utils.calculateInitialState(props, null);
 
 		this.isHovered = false;
 		this.isAnimationDisabled = false;
 		this.isTouchMoveProcessStarted = false;
 		this.cancelTouchAnimations = false;
 		this.hasUserAction = false;
-		this.RootElement = undefined;
+		this.rootElement = null;
 		this.rootComponentDimensions = {};
-		this.stageComponent = undefined;
+		this.stageComponent = null;
 		this.startTouchmovePosition = undefined;
 		this.slideTo = this.slideTo.bind(this);
 		this.slidePrev = this.slidePrev.bind(this);
@@ -216,7 +188,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 	async _handleResize(e: Event) {
 		const { onResizeEvent } = this.props;
-		const nextRootComponentDimensions = Utils.getElementDimensions(this.RootElement);
+		const nextRootComponentDimensions = Utils.getElementDimensions(this.rootElement);
 		const shouldProcessEvent = onResizeEvent || Utils.shouldHandleResizeEvent;
 
 		if (shouldProcessEvent(e, this.rootComponentDimensions, nextRootComponentDimensions)) {
@@ -497,7 +469,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	}
 
 	_setRootComponentRef = (node) => {
-		return (this.RootElement = node);
+		return (this.rootElement = node);
 	};
 
 	_setStageComponentRef = (node) => {
@@ -506,7 +478,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 	async _setInitialState() {
 		const initialState = Utils.calculateInitialState(this.props, this.stageComponent);
-		this.rootComponentDimensions = Utils.getElementDimensions(this.RootElement);
+		this.rootComponentDimensions = Utils.getElementDimensions(this.rootElement);
 
 		await this.setState(initialState);
 
@@ -527,7 +499,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 	_setupSwipeHandlers() {
 		this.swipeListener = new VS({
-			element: this.RootElement,
+			element: this.rootElement,
 			delta: this.props.swipeDelta,
 			onSwiping: this._handleTouchmove,
 			onSwiped: this._handleTouchend,
@@ -619,13 +591,14 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	}
 
 	render() {
-		const { translate3d, clones, transition } = this.state;
+		const { translate3d, clones, transition, canUseDom } = this.state;
 		const shouldDisableDots = Utils.shouldDisableDots(this.props, this.state);
 		const wrapperStyles = Utils.getRenderWrapperStyles(this.props, this.state, this.stageComponent);
 		const stageStyles = Utils.getRenderStageStyles({ translate3d }, { transition });
+		const children = clones.map(this._renderStageItem);
 
 		return (
-			<div className="alice-carousel">
+			<div className={`alice-carousel${canUseDom ? '' : ' __ssr'}`}>
 				<div ref={this._setRootComponentRef}>
 					<div
 						style={wrapperStyles}
@@ -634,7 +607,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 						onMouseLeave={this._handleMouseLeave}
 					>
 						<ul style={stageStyles} className="alice-carousel__stage" ref={this._setStageComponentRef}>
-							{clones.map(this._renderStageItem)}
+							{children}
 						</ul>
 					</div>
 				</div>

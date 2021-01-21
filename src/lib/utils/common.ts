@@ -1,6 +1,14 @@
 import * as Utils from '.';
 import { Props, State } from '../types';
 
+export const canUseDOM = () => {
+	try {
+		return Boolean(window?.document?.createElement);
+	} catch (e) {
+		return false;
+	}
+};
+
 export const getIsStageContentPartial = (stageWidth = 0, contentWidth = 0) => {
 	return stageWidth >= contentWidth;
 };
@@ -21,7 +29,7 @@ export const getStageContentWidth = (state: Partial<State>) => {
 
 export const getItemsInSlide = (itemsCount: number, props: Props) => {
 	let itemsInSlide = 1;
-	const { responsive, autoWidth = false, infinite = false } = props;
+	const { responsive, autoWidth = false, infinite = false, innerWidth } = props;
 
 	if (autoWidth && infinite) {
 		itemsInSlide = itemsCount;
@@ -29,9 +37,11 @@ export const getItemsInSlide = (itemsCount: number, props: Props) => {
 		const configKeys = Object.keys(responsive);
 
 		if (configKeys.length) {
-			if (typeof window === 'object') {
+			if (innerWidth || canUseDOM()) {
+				const value = innerWidth || window.innerWidth;
+
 				configKeys.forEach((key) => {
-					if (Number(key) < window.innerWidth) {
+					if (Number(key) < value) {
 						itemsInSlide = Math.min(responsive[key].items, itemsCount) || itemsInSlide;
 					}
 				});
@@ -41,7 +51,7 @@ export const getItemsInSlide = (itemsCount: number, props: Props) => {
 	return itemsInSlide;
 };
 
-export const calculateInitialState = (props: Partial<Props>, el): State => {
+export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElement, isClient = false): State => {
 	let transformationSet;
 	const { animationDuration = 0, infinite = false, autoPlay = false, autoWidth = false } = props;
 	const clones = Utils.createClones(props);
@@ -108,5 +118,6 @@ export const calculateInitialState = (props: Partial<Props>, el): State => {
 		swipeLimitMax,
 		swipeAllowedPositionMax,
 		swipeShiftValue,
+		canUseDom: isClient || canUseDOM(),
 	};
 };

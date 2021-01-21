@@ -21,12 +21,14 @@ React Alice Carousel is a React component for building content galleries, conten
 - Custom animation modes
 - Custom rendered slides
 - Infinite loop
+- Lazy loading
 - Mobile friendly
 - Multiple items in the slide
 - Responsive design
 - Stage padding
 - Show / hide anything (indicators, arrows, slides indexes)
 - Swipe to slide
+- Server Side Rendering friendly
 - Touch and Drag support
 - TypeScript
 
@@ -64,6 +66,8 @@ const Gallery = () => {
   );
 }
 ```
+
+# TODO innerWidth
 #### Options
 - `activeIndex` : Number, default `0` - Set carousel at the specified position.
 - `animationDuration`: Number, default `400` - Set duration of animation.

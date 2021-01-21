@@ -11,7 +11,7 @@ export const SlideInfo = ({ activeIndex, itemsCount, renderSlideInfo }) => {
 	return (
 		<div className="alice-carousel__slide-info">
 			<span className="alice-carousel__slide-info-item">{item}</span>
-			<span className="alice-carousel__slide-info-item alice-carousel__slide-info-item--separator">/</span>
+			<span className="alice-carousel__slide-info-item __separator">/</span>
 			<span className="alice-carousel__slide-info-item">{itemsCount}</span>
 		</div>
 	);

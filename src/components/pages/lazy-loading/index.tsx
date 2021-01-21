@@ -5,7 +5,7 @@ import Anchor, { genAnchorProps } from '../../the-anchor';
 
 const LazyLoadingPage = () => {
 	return (
-		<section className="p-basic">
+		<section className="p-basic p-lazy">
 			<h2 className="title">
 				<Anchor {...genAnchorProps('lazy-loading-callback-function')} />
 				&nbsp; Callback function

@@ -16,6 +16,7 @@ export interface Props {
 	disableDotsControls?: boolean;
 	disableSlideInfo?: boolean;
 	infinite?: boolean;
+	innerWidth?: number;
 	items?: any[];
 	mouseTracking?: boolean;
 	paddingLeft?: number;
@@ -44,6 +45,7 @@ export interface State {
 	animationDuration?: number;
 	autoWidth: boolean;
 	clones: any[];
+	canUseDom: boolean;
 	infinite?: boolean;
 	initialStageHeight: number;
 	isAutoPlaying: boolean;
@@ -136,4 +138,28 @@ export enum ControlsStrategy {
 export enum AutoplayDirection {
 	RTL = 'rtl',
 	LTR = 'ltr',
+}
+
+export enum Classnames {
+	ROOT = 'alice-carousel',
+	WRAPPER = 'alice-carousel__wrapper',
+	STAGE = 'alice-carousel__stage',
+	ITEM = 'alice-carousel__stage-item',
+	DOTS = 'alice-carousel__dots',
+	DOTS_ITEM = 'alice-carousel__dots-item',
+	ANIMATED = ' animated animated-out fadeOut',
+	PLAY_BTN = 'alice-carousel__play-btn',
+	PLAY_BTN_ITEM = 'alice-carousel__play-btn-item',
+	PLAY_WRAPPER = 'alice-carousel__play-btn-wrapper',
+	SLIDE_INFO = 'alice-carousel__slide-info',
+	SLIDE_INFO_ITEM = 'alice-carousel__slide-info-item',
+}
+
+export enum Modifiers {
+	ACTIVE = '__active',
+	CLONED = '__cloned',
+	CUSTOM = '__custom',
+	PAUSE = '__pause',
+	SEPARATOR = '__separator',
+	SSR = '__ssr',
 }

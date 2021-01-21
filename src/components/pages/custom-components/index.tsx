@@ -6,7 +6,7 @@ import Anchor, { genAnchorProps } from '../../the-anchor';
 
 const StagePaddingPage = () => {
 	return (
-		<section className="p-basic">
+		<section className="p-basic p-custom">
 			<h2 className="title">
 				<Anchor {...genAnchorProps('custom-components-render')} />
 				&nbsp; Render functions
