@@ -141,22 +141,29 @@ export enum AutoplayDirection {
 }
 
 export enum Classnames {
+	ANIMATED = 'animated animated-out fadeOut',
 	ROOT = 'alice-carousel',
 	WRAPPER = 'alice-carousel__wrapper',
 	STAGE = 'alice-carousel__stage',
-	ITEM = 'alice-carousel__stage-item',
+	STAGE_ITEM = 'alice-carousel__stage-item',
 	DOTS = 'alice-carousel__dots',
 	DOTS_ITEM = 'alice-carousel__dots-item',
-	ANIMATED = ' animated animated-out fadeOut',
 	PLAY_BTN = 'alice-carousel__play-btn',
 	PLAY_BTN_ITEM = 'alice-carousel__play-btn-item',
-	PLAY_WRAPPER = 'alice-carousel__play-btn-wrapper',
+	PLAY_BTN_WRAPPER = 'alice-carousel__play-btn-wrapper',
 	SLIDE_INFO = 'alice-carousel__slide-info',
 	SLIDE_INFO_ITEM = 'alice-carousel__slide-info-item',
+	BUTTON_PREV = 'alice-carousel__prev-btn',
+	BUTTON_PREV_WRAPPER = 'alice-carousel__prev-btn-wrapper',
+	BUTTON_PREV_ITEM = 'alice-carousel__prev-btn-item',
+	BUTTON_NEXT = 'alice-carousel__next-btn',
+	BUTTON_NEXT_WRAPPER = 'alice-carousel__next-btn-wrapper',
+	BUTTON_NEXT_ITEM = 'alice-carousel__next-btn-item',
 }
 
 export enum Modifiers {
 	ACTIVE = '__active',
+	INACTIVE = '__inactive',
 	CLONED = '__cloned',
 	CUSTOM = '__custom',
 	PAUSE = '__pause',

@@ -1,9 +1,19 @@
 import React from 'react';
 import VS, { EventData } from 'vanilla-swipe';
 import { defaultProps } from './defaultProps';
-import { AutoplayDirection, AnimationType, Props, RootElement, SlideTo, State, EventObject } from './types';
 import * as Views from './views';
 import * as Utils from './utils';
+import {
+	AutoplayDirection,
+	AnimationType,
+	Props,
+	RootElement,
+	SlideTo,
+	State,
+	EventObject,
+	Classnames,
+	Modifiers,
+} from './types';
 
 export default class AliceCarousel extends React.PureComponent<Props, State> {
 	static defaultProps = defaultProps;
@@ -595,19 +605,19 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		const shouldDisableDots = Utils.shouldDisableDots(this.props, this.state);
 		const wrapperStyles = Utils.getRenderWrapperStyles(this.props, this.state, this.stageComponent);
 		const stageStyles = Utils.getRenderStageStyles({ translate3d }, { transition });
-		const children = clones.map(this._renderStageItem);
+		const classnameModifier = `${canUseDom ? '' : ` ${Modifiers.SSR}`}`;
 
 		return (
-			<div className={`alice-carousel${canUseDom ? '' : ' __ssr'}`}>
+			<div className={`${Classnames.ROOT}${classnameModifier}`}>
 				<div ref={this._setRootComponentRef}>
 					<div
 						style={wrapperStyles}
-						className="alice-carousel__wrapper"
+						className={Classnames.WRAPPER}
 						onMouseEnter={this._handleMouseEnter}
 						onMouseLeave={this._handleMouseLeave}
 					>
-						<ul style={stageStyles} className="alice-carousel__stage" ref={this._setStageComponentRef}>
-							{children}
+						<ul style={stageStyles} className={Classnames.STAGE} ref={this._setStageComponentRef}>
+							{clones.map(this._renderStageItem)}
 						</ul>
 					</div>
 				</div>

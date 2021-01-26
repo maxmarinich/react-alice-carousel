@@ -1,18 +1,22 @@
 import React from 'react';
+import { Classnames, Modifiers } from '../types';
 
 export const PlayPauseButton = ({ isPlaying, onClick, renderPlayPauseButton }: Props) => {
 	if (typeof renderPlayPauseButton === 'function') {
 		return (
-			<div className="alice-carousel__play-btn" onClick={onClick}>
+			<div className={Classnames.PLAY_BTN} onClick={onClick}>
 				{renderPlayPauseButton({ isPlaying })}
 			</div>
 		);
 	}
 
+	const classname = `${Classnames.PLAY_BTN_ITEM}`;
+	const classModifier = `${isPlaying ? ` ${Modifiers.PAUSE}` : ''}`;
+
 	return (
-		<div className="alice-carousel__play-btn">
-			<div className="alice-carousel__play-btn-wrapper">
-				<div onClick={onClick} className={`alice-carousel__play-btn-item${isPlaying ? ' __pause' : ''}`} />
+		<div className={Classnames.PLAY_BTN}>
+			<div className={Classnames.PLAY_BTN_WRAPPER}>
+				<div onClick={onClick} className={`${classname}${classModifier}`} />
 			</div>
 		</div>
 	);

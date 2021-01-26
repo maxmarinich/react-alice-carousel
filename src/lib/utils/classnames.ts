@@ -1,13 +1,13 @@
-import { State } from '../types';
 import * as Utils from '.';
+import { State, Classnames, Modifiers } from '../types';
 
 export const getRenderStageItemClasses = (i = 0, state: State) => {
 	const { fadeoutAnimationIndex } = state;
-	const isActive = isActiveItem(i, state) ? ' __active' : '';
-	const isCloned = isClonedItem(i, state) ? ' __cloned' : '';
-	const isAnimated = i === fadeoutAnimationIndex ? ' animated animated-out fadeOut' : '';
+	const isActive = isActiveItem(i, state) ? ` ${Modifiers.ACTIVE}` : '';
+	const isCloned = isClonedItem(i, state) ? ` ${Modifiers.CLONED}` : '';
+	const isAnimated = i === fadeoutAnimationIndex ? ` ${Classnames.ANIMATED}` : '';
 
-	return 'alice-carousel__stage-item' + isActive + isCloned + isAnimated;
+	return Classnames.STAGE_ITEM + isActive + isCloned + isAnimated;
 };
 
 export const isActiveItem = (i = 0, state: State) => {

@@ -67,7 +67,6 @@ const Gallery = () => {
 }
 ```
 
-# TODO innerWidth
 #### Options
 - `activeIndex` : Number, default `0` - Set carousel at the specified position.
 - `animationDuration`: Number, default `400` - Set duration of animation.
@@ -89,12 +88,13 @@ const Gallery = () => {
 - `disableDotsControls`: Boolean, default `false` - Disable dots controls.
 - `disableSlideInfo`: Boolean, default `true` - Disable information about current slide.
 - `infinite`: Boolean, default `false` - Set infinite mode.
+- `innerWidth`: Number, default `undefined` - Set a static value for a breakpoint(`key`) of the "responsive" property. For example, if you can't use 'window.innerWidth' during SSR.
 - `items`: Array, default `undefined`  - Set gallery items, preferable to use this property instead of children.
 - `mouseTracking`: Boolean, default `false`  - Enable mouse drag animation.
 - `paddingLeft`: Number, default `0`  - Set the gallery offset from the left.
 - `paddingRight`: Number, default `0`  - Set the gallery offset from the right.
 - `renderKey`: Number, default `undefined`  - Auxiliary property, allows call the render method without changing the state inside the gallery instance.
-- `responsive`: Object, default `undefined` - Set number of items in the slide. The key is the breakpoint (default is the result of: () => window.innerWidth).
+- `responsive`: Object, default `undefined` - Set number of items in the slide. The key is the breakpoint (default is the result of: () => window.innerWidth or `innerWidth` property if the last presented).
     ```js
         {
           0: {
@@ -147,19 +147,46 @@ type DotsItem = {
 };
 ```
 
-#### CSS class names
+#### CSS classes
 ```css
+.alice-carousel
+
 .alice-carousel__stage
 .alice-carousel__stage-item
 
 .alice-carousel__prev-btn
+.alice-carousel__prev-btn-item
+
 .alice-carousel__next-btn
+.alice-carousel__next-btn-item
+
 .alice-carousel__play-btn
+.alice-carousel__play-btn-item
 
 .alice-carousel__dots
 .alice-carousel__dots-item
 
 .alice-carousel__slide-info
+.alice-carousel__slide-info-item
+```
+
+#### CSS modifiers
+```css
+.alice-carousel.__ssr
+
+.alice-carousel__stage-item.__active
+.alice-carousel__stage-item.__cloned
+
+
+.alice-carousel__next-btn-item.__inactive
+.alice-carousel__prev-btn-item.__inactive
+
+.alice-carousel__play-btn-item.__pause
+
+.alice-carousel__dots-item.__active
+.alice-carousel__dots-item.__custom
+
+.alice-carousel__slide-info-item.__separator
 ```
 
 ## Build the project locally
