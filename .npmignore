@@ -46,6 +46,7 @@ jspm_packages
 .eslint
 .eslintrc
 .gitignore
+.github
 .vscode
 .npmrc
 .prettierrc
