@@ -51,13 +51,12 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
-
 const handleDragStart = (e) => e.preventDefault();
 
 const items = [
-  <img src="path-to-img" onDragStart={handleDragStart} className="yours-custom-class" />,
-  <img src="path-to-img" onDragStart={handleDragStart} className="yours-custom-class" />,
-  <img src="path-to-img" onDragStart={handleDragStart} className="yours-custom-class" />,
+  <img src="path-to-img" onDragStart={handleDragStart} />,
+  <img src="path-to-img" onDragStart={handleDragStart} />,
+  <img src="path-to-img" onDragStart={handleDragStart} />,
 ];
 
 const Gallery = () => {
@@ -88,7 +87,7 @@ const Gallery = () => {
 - `disableDotsControls`: Boolean, default `false` - Disable dots controls.
 - `disableSlideInfo`: Boolean, default `true` - Disable information about current slide.
 - `infinite`: Boolean, default `false` - Set infinite mode.
-- `innerWidth`: Number, default `undefined` - Set a static value for a breakpoint(`key`) of the "responsive" property. For example, if you can't use 'window.innerWidth' during SSR.
+- `innerWidth`: Number, default `0` - Set a static value for a breakpoint(`key`) of the "responsive" property. For example, if you can't use 'window.innerWidth' during SSR.
 - `items`: Array, default `undefined`  - Set gallery items, preferable to use this property instead of children.
 - `mouseTracking`: Boolean, default `false`  - Enable mouse drag animation.
 - `paddingLeft`: Number, default `0`  - Set the gallery offset from the left.
