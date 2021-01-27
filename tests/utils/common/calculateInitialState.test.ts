@@ -3,7 +3,7 @@ import { defaultProps } from '../../../src/lib/defaultProps';
 
 describe('Utils.calculateInitialState', function () {
 	it('should return correct value', function () {
-		expect(Utils.calculateInitialState(defaultProps, null)).toEqual({
+		expect(Utils.calculateInitialState(defaultProps, null, true)).toEqual({
 			activeIndex: 0,
 			animationDuration: 400,
 			autoWidth: false,
@@ -28,6 +28,7 @@ describe('Utils.calculateInitialState', function () {
 			transformationSet: [],
 			transition: 'transform 0ms ease 0ms',
 			translate3d: 0,
+			canUseDom: true,
 		});
 	});
 });

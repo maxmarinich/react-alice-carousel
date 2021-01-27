@@ -14,7 +14,7 @@ const items = itemsLength.map((item, index) => {
 
 const AutoheightPage = () => {
 	return (
-		<section className="p-basic autoheight">
+		<section className="p-basic p-autoheight">
 			<AliceCarousel autoHeight infinite mouseTracking items={items} />
 			<TheCode html={markdown} />
 		</section>

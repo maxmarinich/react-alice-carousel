@@ -24,7 +24,7 @@ const items = [
 
 const FadeoutPage = () => {
 	return (
-		<section className="p-basic">
+		<section className="p-basic p-fadeout">
 			<AliceCarousel
 				animationType="fadeout"
 				animationDuration={800}

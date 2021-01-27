@@ -12,7 +12,7 @@ const items = itemsLength.map((item, index) => (
 
 const AutowidthPage = () => {
 	return (
-		<section className="p-basic">
+		<section className="p-basic p-autowidth">
 			<AliceCarousel mouseTracking autoWidth infinite items={items} />
 			<TheCode html={markdown} />
 		</section>

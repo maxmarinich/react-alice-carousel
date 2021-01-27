@@ -25,7 +25,7 @@ const items = [
 
 const AutoplayPage = () => {
 	return (
-		<section className="p-basic">
+		<section className="p-basic p-autoplay">
 			<AliceCarousel
 				autoPlay
 				autoPlayControls

@@ -1,11 +1,10 @@
 import React from 'react';
+import { Classnames, Modifiers } from '../types';
 
 export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, renderNextButton }: Props) => {
-	const className = `alice-carousel__${name}-btn-item${isDisabled ? ' __inactive' : ''}`;
-
 	if (typeof renderPrevButton === 'function') {
 		return (
-			<div className={`alice-carousel__${name}-btn`} onClick={onClick}>
+			<div className={Classnames.BUTTON_PREV} onClick={onClick}>
 				{renderPrevButton({ isDisabled })}
 			</div>
 		);
@@ -13,17 +12,24 @@ export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, re
 
 	if (typeof renderNextButton === 'function') {
 		return (
-			<div className={`alice-carousel__${name}-btn`} onClick={onClick}>
+			<div className={Classnames.BUTTON_NEXT} onClick={onClick}>
 				{renderNextButton({ isDisabled })}
 			</div>
 		);
 	}
 
+	const isPreviews = name === 'prev';
+	const ariaValue = isPreviews ? '<' : '>';
+	const buttonClasses = isPreviews ? Classnames.BUTTON_PREV : Classnames.BUTTON_NEXT;
+	const buttonWrapperClasses = isPreviews ? Classnames.BUTTON_PREV_WRAPPER : Classnames.BUTTON_NEXT_WRAPPER;
+	const buttonItemClasses = isPreviews ? Classnames.BUTTON_PREV_ITEM : Classnames.BUTTON_NEXT_ITEM;
+	const buttonItemModifierClasses = isDisabled ? ` ${Modifiers.INACTIVE}` : '';
+
 	return (
-		<div className={`alice-carousel__${name}-btn`}>
-			<div className={`alice-carousel__${name}-btn-wrapper`}>
-				<p className={className} onClick={onClick}>
-					<span data-area={name === 'prev' ? '<' : '>'} />
+		<div className={buttonClasses}>
+			<div className={buttonWrapperClasses}>
+				<p className={`${buttonItemClasses}${buttonItemModifierClasses}`} onClick={onClick}>
+					<span data-area={ariaValue} />
 				</p>
 			</div>
 		</div>
