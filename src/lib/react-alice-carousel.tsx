@@ -605,10 +605,11 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		const shouldDisableDots = Utils.shouldDisableDots(this.props, this.state);
 		const wrapperStyles = Utils.getRenderWrapperStyles(this.props, this.state, this.stageComponent);
 		const stageStyles = Utils.getRenderStageStyles({ translate3d }, { transition });
-		const classnameModifier = `${canUseDom ? '' : ` ${Modifiers.SSR}`}`;
+		const classnameModifier = canUseDom ? '' : Modifiers.SSR;
+		const classnames = Utils.concatClassnames(Classnames.ROOT, classnameModifier);
 
 		return (
-			<div className={`${Classnames.ROOT}${classnameModifier}`}>
+			<div className={classnames}>
 				<div ref={this._setRootComponentRef}>
 					<div
 						style={wrapperStyles}

@@ -5,9 +5,9 @@ import TheCode from '../../the-code';
 import AliceCarousel from '../../../lib/react-alice-carousel';
 
 const responsive = {
-	0: { items: 1 },
-	568: { items: 2 },
-	1024: { items: 3 },
+	0: { items: 2 },
+	// 568: { items: 2 },
+	// 1024: { items: 3 },
 };
 
 const items = [
@@ -20,18 +20,18 @@ const items = [
 	<div className="item" data-value="3">
 		3
 	</div>,
-	<div className="item" data-value="4">
-		4
-	</div>,
-	<div className="item" data-value="5">
-		5
-	</div>,
+	// <div className="item" data-value="4">
+	// 	4
+	// </div>,
+	// <div className="item" data-value="5">
+	// 	5
+	// </div>,
 ];
 
 const BasicPage = () => {
 	return (
 		<section className="p-basic">
-			<AliceCarousel mouseTracking items={items} responsive={responsive} />
+			<AliceCarousel mouseTracking items={items} responsive={responsive} activeIndex={2} infinite />
 			<TheCode html={markdown} />
 		</section>
 	);

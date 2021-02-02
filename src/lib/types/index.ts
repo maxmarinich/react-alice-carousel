@@ -169,4 +169,5 @@ export enum Modifiers {
 	PAUSE = '__pause',
 	SEPARATOR = '__separator',
 	SSR = '__ssr',
+	TARGET = '__target',
 }

@@ -175,7 +175,7 @@ type DotsItem = {
 
 .alice-carousel__stage-item.__active
 .alice-carousel__stage-item.__cloned
-
+.alice-carousel__stage-item.__target
 
 .alice-carousel__next-btn-item.__inactive
 .alice-carousel__prev-btn-item.__inactive

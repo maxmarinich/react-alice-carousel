@@ -35,8 +35,8 @@ export default [
 		id: 'stage-padding',
 		title: 'stage padding',
 	},
-	// {
-	// 	id: 'sandbox',
-	// 	title: 'sandbox',
-	// },
+	{
+		id: 'sandbox',
+		title: 'sandbox',
+	},
 ];

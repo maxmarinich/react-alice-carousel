@@ -11,6 +11,44 @@ li.alice-carousel__dots-item.__custom {
 	padding: 5px;
 }
 
+.thumbs {
+	margin: 30px 0;
+	padding: 0 100px;
+	position: relative;
+
+	.btm-prev, .btm-next {
+		position: absolute;
+		top: 25px;
+		font-size: 50px;
+		color: $color-bg;
+		cursor: pointer;
+	}
+	.btm-prev {
+		left: 25px;
+	}
+	.btm-next {
+		right: 25px;
+	}
+}
+
+.__target .thumb > .item {
+	&:after {
+		content: '';
+		pointer-events: none;
+		position: absolute;
+		top: 2px;
+		left: 2px;
+		right: 2px;
+		bottom: 2px;
+		border: solid 1px $color-dark;
+	}
+}
+
+.thumb > .item {
+	width: 220px;
+	height: 100px;
+}
+
 .item {
 	height: 200px;
 	padding: 2px;

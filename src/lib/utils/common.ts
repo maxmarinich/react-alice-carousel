@@ -9,6 +9,10 @@ export const canUseDOM = () => {
 	}
 };
 
+export const concatClassnames = (...classes) => {
+	return classes.filter(Boolean).join(' ');
+};
+
 export const getIsStageContentPartial = (stageWidth = 0, contentWidth = 0) => {
 	return stageWidth >= contentWidth;
 };
