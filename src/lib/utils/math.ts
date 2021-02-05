@@ -4,21 +4,32 @@ export const getShiftIndex = (itemsInSlide = 0, itemsOffset = 0) => {
 	return itemsInSlide + itemsOffset;
 };
 
-export const getStartIndex = (index = 0, childrenLength = 0) => {
-	if (childrenLength) {
-		return Math.min(index, childrenLength - 1) || 0;
+export const getStartIndex = (index = 0, itemsCount = 0) => {
+	if (itemsCount) {
+		// TODO: refactoring
+		if (index > itemsCount) {
+			return itemsCount - 1;
+		}
+		if (index > 0) {
+			return index;
+		}
 	}
 	return 0;
 };
 
 export const getActiveIndex = ({ startIndex = 0, itemsCount = 0, itemsInSlide = 1, infinite = false }) => {
+	// if (infinite) {
+	// 	return startIndex;
+	// }
+	// if (itemsCount) {
+	// 	return Math.min(startIndex, itemsCount - itemsInSlide);
+	// }
+	// return 0;
 	if (infinite) {
 		return startIndex;
 	}
-	if (itemsCount) {
-		return Math.min(startIndex, itemsCount - itemsInSlide);
-	}
-	return 0;
+
+	return getStartIndex(startIndex, itemsCount);
 };
 
 export const getUpdateSlidePositionIndex = (activeIndex: number, itemsCount: number) => {
@@ -32,8 +43,8 @@ export const shouldRecalculateSlideIndex = (activeIndex, itemsCount) => {
 	return activeIndex < 0 || activeIndex >= itemsCount;
 };
 
-export const shouldCancelSlideAnimation = (activeIndex, itemsCount, itemsInSlide) => {
-	return activeIndex < 0 || activeIndex > itemsCount - itemsInSlide;
+export const shouldCancelSlideAnimation = (activeIndex, itemsCount) => {
+	return activeIndex < 0 || activeIndex >= itemsCount;
 };
 
 export const getSwipeLimitMin = (state: Partial<State>, props: Partial<Props>) => {
@@ -110,7 +121,23 @@ export const getSwipeTouchendPosition = (state: State, deltaX: number, swipePosi
 };
 
 export const getSwipeTouchendIndex = (position, state: State) => {
-	const { transformationSet, itemsInSlide, itemsOffset, itemsCount, infinite } = state;
+	const {
+		transformationSet,
+		itemsInSlide,
+		itemsOffset,
+		itemsCount,
+		infinite,
+		isStageContentPartial,
+		activeIndex,
+		translate3d,
+	} = state;
+
+	if (!infinite) {
+		if (isStageContentPartial || translate3d === Math.abs(position)) {
+			return activeIndex;
+		}
+	}
+
 	const index = getTransformationItemIndex(transformationSet, position);
 
 	if (infinite) {

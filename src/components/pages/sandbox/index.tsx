@@ -5,9 +5,9 @@ import TheCode from '../../the-code';
 import AliceCarousel from '../../../lib/react-alice-carousel';
 
 const responsive = {
-	0: { items: 1 },
-	568: { items: 2 },
-	1024: { items: 3 },
+	0: { items: 5 },
+	// 568: { items: 2 },
+	//1024: { items: 4 },
 };
 
 const items = [
@@ -30,42 +30,61 @@ const items = [
 
 const thumbItems = (items, onClick) => {
 	return items.map((item, i) => (
-		<div onClick={() => onClick(i)} className="thumb" style={{ width: 220, height: 100 }}>
+		<div onClick={() => onClick(i)} className="thumb" style={{ width: 80, height: 100 }}>
 			{item}
 		</div>
 	));
 };
 
 const SandboxPage = () => {
-	const [activeIndex, setIndex] = useState(0);
+	const [activeIndex, setIndex] = useState(2);
 	const [thumbs] = useState(thumbItems(items, setIndex));
+
+	const sync = ({ item }) => {
+		setIndex(item);
+		console.debug('after:', item);
+	};
 
 	return (
 		<section className="p-basic p-padding">
-			<AliceCarousel
-				infinite
-				mouseTracking
-				items={items}
-				responsive={responsive}
-				activeIndex={activeIndex}
-				disableDotsControls
-				disableButtonsControls
-				onSlideChanged={({ item }) => setIndex(item)}
-			/>
+			{/*<AliceCarousel*/}
+			{/*	infinite*/}
+			{/*	mouseTracking*/}
+			{/*	items={items}*/}
+			{/*	responsive={responsive}*/}
+			{/*	activeIndex={activeIndex}*/}
+			{/*	disableDotsControls*/}
+			{/*	disableButtonsControls*/}
+			{/*	name="main-carousel"*/}
+			{/*	onSlideChanged={sync}*/}
+			{/*/>*/}
 			<div className="thumbs">
 				<AliceCarousel
-					autoWidth
+					// autoWidth
+					// infinite
 					mouseTracking
-					disableDotsControls
-					disableButtonsControls
+					// disableDotsControls
+					// disableButtonsControls
+					// animationType="fadeout"
 					items={thumbs}
+					responsive={responsive}
 					activeIndex={activeIndex}
-					onSlideChanged={({ item }) => setIndex(item)}
+					onSlideChanged={sync}
 				/>
-				<div className="btm-prev" onClick={() => setIndex(activeIndex - 1)}>
+				<div
+					className="btm-prev"
+					onClick={() => {
+						setIndex(activeIndex - 1);
+					}}
+				>
 					&lang;
 				</div>
-				<div className="btm-next" onClick={() => setIndex(activeIndex + 1)}>
+				<div
+					className="btm-next"
+					onClick={() => {
+						setIndex(activeIndex + 1);
+					}}
+				>
 					&rang;
 				</div>
 			</div>

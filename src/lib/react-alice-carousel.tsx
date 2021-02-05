@@ -154,9 +154,11 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		this._handlePause();
 
 		if (this.isFadeoutAnimationAllowed) {
-			const fadeoutAnimationPosition = Utils.getFadeoutAnimationPosition(activeIndex, this.state);
+			const fadeoutIndex = Utils.getUpdateSlidePositionIndex(activeIndex, this.state.itemsCount);
+
+			const fadeoutAnimationPosition = Utils.getFadeoutAnimationPosition(fadeoutIndex, this.state);
 			const fadeoutAnimationIndex = Utils.getFadeoutAnimationIndex(this.state);
-			this._handleSlideTo({ activeIndex, fadeoutAnimationIndex, fadeoutAnimationPosition });
+			this._handleSlideTo({ activeIndex: fadeoutIndex, fadeoutAnimationIndex, fadeoutAnimationPosition });
 		} else {
 			this._handleSlideTo({ activeIndex });
 		}
@@ -312,12 +314,12 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 	async _handleSlideTo({ activeIndex = 0, fadeoutAnimationIndex = null, fadeoutAnimationPosition = null }: SlideTo) {
 		const { infinite, animationEasingFunction } = this.props;
-		const { itemsInSlide, itemsCount, animationDuration } = this.state;
+		const { itemsCount, animationDuration } = this.state;
 
 		if (
 			this.isAnimationDisabled ||
 			this.state.activeIndex === activeIndex ||
-			(!infinite && Utils.shouldCancelSlideAnimation(activeIndex, itemsCount, itemsInSlide))
+			(!infinite && Utils.shouldCancelSlideAnimation(activeIndex, itemsCount))
 		) {
 			return;
 		}

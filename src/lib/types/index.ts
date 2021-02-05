@@ -19,6 +19,7 @@ export interface Props {
 	innerWidth?: number;
 	items?: any[];
 	mouseTracking?: boolean;
+	name?: string;
 	paddingLeft?: number;
 	paddingRight?: number;
 	preservePosition?: boolean;

@@ -13,19 +13,16 @@ export const concatClassnames = (...classes) => {
 	return classes.filter(Boolean).join(' ');
 };
 
-export const getIsStageContentPartial = (stageWidth = 0, contentWidth = 0) => {
+export const getIsStageContentPartial = (infinite = false, stageWidth = 0, contentWidth = 0) => {
+	if (infinite) {
+		return false;
+	}
+
 	return stageWidth >= contentWidth;
 };
 
 export const getStageContentWidth = (state: Partial<State>) => {
-	const { infinite, itemsCount = 0, itemsInSlide = 1, itemsOffset = 0, transformationSet = [] } = state;
-
-	if (infinite) {
-		const shiftIndex = Utils.getShiftIndex(itemsInSlide, itemsOffset);
-		const items = transformationSet.slice(shiftIndex, shiftIndex + itemsCount);
-
-		return items.reduce((acc, item) => (acc += item.width), 0);
-	}
+	const { itemsCount = 0, transformationSet = [] } = state;
 
 	const { position = 0, width = 0 } = transformationSet[itemsCount - 1] || {};
 	return position + width;
@@ -35,9 +32,12 @@ export const getItemsInSlide = (itemsCount: number, props: Props) => {
 	let itemsInSlide = 1;
 	const { responsive, autoWidth = false, infinite = false, innerWidth } = props;
 
-	if (autoWidth && infinite) {
-		itemsInSlide = itemsCount;
-	} else if (responsive) {
+	// TODO: refactoring
+	if (autoWidth) {
+		return infinite ? itemsCount : itemsInSlide;
+	}
+
+	if (responsive) {
 		const configKeys = Object.keys(responsive);
 
 		if (configKeys.length) {
@@ -57,6 +57,8 @@ export const getItemsInSlide = (itemsCount: number, props: Props) => {
 
 export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElement, isClient = false): State => {
 	let transformationSet;
+	let isStageContentPartial;
+	let stageContentWidth;
 	const { animationDuration = 0, infinite = false, autoPlay = false, autoWidth = false } = props;
 	const clones = Utils.createClones(props);
 	const transition = Utils.getTransitionProperty();
@@ -68,22 +70,21 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 	const { width: stageWidth } = Utils.getElementDimensions(el);
 
 	if (autoWidth) {
-		transformationSet = Utils.createAutowidthTransformationSet(el);
+		// TODO: refactoring
+		const { coords, content, partial } = Utils.createAutowidthTransformationSet(el, stageWidth, infinite);
+
+		transformationSet = coords;
+		isStageContentPartial = partial;
+		stageContentWidth = content;
 	} else {
-		transformationSet = Utils.createDefaultTransformationSet(clones, stageWidth, itemsInSlide);
+		const { coords, content, partial } = Utils.createDefaultTransformationSet(clones, stageWidth, itemsInSlide);
+
+		transformationSet = coords;
+		isStageContentPartial = partial;
+		stageContentWidth = content;
 	}
 
 	const { position: swipeAllowedPositionMax } = Utils.getTransformationSetItem(-itemsInSlide, transformationSet);
-
-	const stageContentWidth = getStageContentWidth({
-		itemsCount,
-		itemsInSlide,
-		itemsOffset,
-		transformationSet,
-		infinite,
-	});
-
-	const isStageContentPartial = getIsStageContentPartial(stageWidth, stageContentWidth);
 
 	const swipeLimitMin = Utils.getSwipeLimitMin({ itemsOffset, transformationSet }, props);
 	const swipeLimitMax = Utils.getSwipeLimitMax({ itemsCount, itemsOffset, itemsInSlide, transformationSet }, props);

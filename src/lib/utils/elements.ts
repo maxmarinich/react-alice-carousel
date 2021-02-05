@@ -58,15 +58,30 @@ export const isElement = (element) => {
 	}
 };
 
-export const createAutowidthTransformationSet = (el) => {
+export const createAutowidthTransformationSet = (
+	el,
+	stageWidth = 0,
+	infinite = false,
+): {
+	partial: boolean;
+	content: number;
+	coords: TransformationSetItem[] | unknown[];
+} => {
+	let content = 0;
+	let partial = false;
+	let coords: TransformationSetItem[] = [];
+
 	if (isElement(el)) {
+		// TODO: refactoring
 		const children: HTMLElement[] = Array.from(el.children || []);
 
-		return children.reduce<TransformationSetItem[]>((acc, child, i) => {
+		coords = children.reduce<TransformationSetItem[]>((acc, child, i) => {
 			let position = 0;
 			const previewsChildCursor = i - 1;
 			const previewsChild = acc[previewsChildCursor];
 			const { width = 0 } = getElementDimensions(child?.firstChild);
+			content += width;
+			partial = stageWidth >= content;
 
 			if (previewsChild) {
 				position = previewsChildCursor === 0 ? previewsChild.width : previewsChild.width + previewsChild.position;
@@ -75,17 +90,42 @@ export const createAutowidthTransformationSet = (el) => {
 			acc.push({ position, width });
 			return acc;
 		}, []);
+
+		if (!infinite) {
+			if (partial) {
+				coords = coords.map(({ width }) => ({ width, position: 0 }));
+			} else {
+				const position = content - stageWidth;
+
+				coords = coords.map((item) => {
+					if (item.position > position) {
+						return { ...item, position };
+					}
+					return item;
+				});
+			}
+		}
 	}
 
-	return [];
+	return { coords, content, partial };
 };
 
-export const createDefaultTransformationSet = (children: unknown[], galleryWidth: number, itemsInSlide: number) => {
-	const width = getItemWidth(galleryWidth, itemsInSlide);
+export const createDefaultTransformationSet = (
+	children: unknown[],
+	stageWidth: number,
+	itemsInSlide: number,
+	infinite = false,
+) => {
+	let content = 0;
+	let partial = false;
+	let coords: TransformationSetItem[] = [];
+	const width = getItemWidth(stageWidth, itemsInSlide);
 
-	return children.reduce<TransformationSetItem[]>((acc, child, i) => {
+	coords = children.reduce<TransformationSetItem[]>((acc, child, i) => {
 		let position = 0;
 		const previewsChild = acc[i - 1];
+		content += width;
+		partial = stageWidth >= content;
 
 		if (previewsChild) {
 			position = width + previewsChild.position || 0;
@@ -94,6 +134,23 @@ export const createDefaultTransformationSet = (children: unknown[], galleryWidth
 		acc.push({ width, position });
 		return acc;
 	}, []);
+
+	if (!infinite) {
+		if (partial) {
+			coords = coords.map(({ width }) => ({ width, position: 0 }));
+		} else {
+			const position = content - stageWidth;
+
+			coords = coords.map((item) => {
+				if (item.position > position) {
+					return { ...item, position };
+				}
+				return item;
+			});
+		}
+	}
+
+	return { coords, content, partial };
 };
 
 export const getItemWidth = (galleryWidth: number, itemsInSlide: number) => {

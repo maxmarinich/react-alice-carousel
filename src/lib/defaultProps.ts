@@ -21,6 +21,7 @@ export const defaultProps = {
 	innerWidth: 0,
 	items: undefined,
 	mouseTracking: false,
+	name: '',
 	paddingLeft: 0,
 	paddingRight: 0,
 	responsive: undefined,
