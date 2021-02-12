@@ -3,7 +3,7 @@ import BaseExample from './base';
 import InfiniteExample from './infinite';
 import Anchor, { genAnchorProps } from '../../the-anchor';
 
-const CustomComponentsPage = () => {
+const AutowidthPage = () => {
 	return (
 		<section className="p-basic p-custom">
 			<h2 className="title">
@@ -23,4 +23,4 @@ const CustomComponentsPage = () => {
 	);
 };
 
-export default CustomComponentsPage;
+export default AutowidthPage;

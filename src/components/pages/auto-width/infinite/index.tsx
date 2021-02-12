@@ -10,7 +10,7 @@ const items = itemsLength.map((item, index) => (
 	<div className="item" style={{ width: 150 + index * 100 }} data-value={index + 1} />
 ));
 
-const AutowidthPage = () => {
+const AutowidthInfinitePage = () => {
 	return (
 		<section className="p-basic p-autowidth">
 			<AliceCarousel mouseTracking autoWidth infinite items={items} />
@@ -19,4 +19,4 @@ const AutowidthPage = () => {
 	);
 };
 
-export default AutowidthPage;
+export default AutowidthInfinitePage;
