@@ -9,15 +9,21 @@ const CustomComponentsPage = () => {
 	return (
 		<section className="p-basic p-custom">
 			<h2 className="title">
+				<Anchor {...genAnchorProps('custom-components')} />
+				&nbsp; Base
+			</h2>
+			<EventsExample />
+			<br />
+			<br />
+			<br />
+			<h2 className="title">
 				<Anchor {...genAnchorProps('custom-components-props')} />
 				&nbsp; Props
 			</h2>
 			<PropsExample />
-			<h2 className="title">
-				<Anchor {...genAnchorProps('custom-components-events')} />
-				&nbsp; Events
-			</h2>
-			<EventsExample />
+			<br />
+			<br />
+			<br />
 			<h2 className="title">
 				<Anchor {...genAnchorProps('custom-components-render')} />
 				&nbsp; Render functions
@@ -31,9 +37,6 @@ const CustomComponentsPage = () => {
 				&nbsp; Refs
 			</h2>
 			<RefsExample />
-			<br />
-			<br />
-			<br />
 		</section>
 	);
 };

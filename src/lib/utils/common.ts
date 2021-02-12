@@ -59,7 +59,7 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 	const itemsOffset = Utils.getItemsOffset(props);
 	const itemsInSlide = getItemsInSlide(itemsCount, props);
 	const startIndex = Utils.getStartIndex(props.activeIndex, itemsCount);
-	const activeIndex = Utils.getActiveIndex({ startIndex, itemsCount, itemsInSlide, infinite });
+	const activeIndex = Utils.getActiveIndex({ startIndex, itemsCount, /*itemsInSlide,*/ infinite });
 	const { width: stageWidth } = Utils.getElementDimensions(el);
 
 	if (autoWidth) {

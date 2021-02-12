@@ -17,7 +17,7 @@ export const getStartIndex = (index = 0, itemsCount = 0) => {
 	return 0;
 };
 
-export const getActiveIndex = ({ startIndex = 0, itemsCount = 0, itemsInSlide = 1, infinite = false }) => {
+export const getActiveIndex = ({ startIndex = 0, itemsCount = 0, /*itemsInSlide = 1,*/ infinite = false }) => {
 	// TODO: refactoring
 	// if (itemsCount && itemsInSlide > 1) {
 	// 	return Math.min(startIndex, itemsCount - itemsInSlide);
