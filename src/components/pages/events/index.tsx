@@ -40,6 +40,10 @@ const onSlideChanged = (e) => {
 	console.debug(`Item's position after changes: ${e.item}. Event:`, e);
 };
 
+const onResized = (e) => {
+	console.debug(`Item's position after resize: ${e.item}. Event:`, e);
+};
+
 function Events() {
 	return (
 		<section className="p-basic p-events">
@@ -50,6 +54,7 @@ function Events() {
 				onInitialized={onInitialized}
 				onSlideChange={onSlideChange}
 				onSlideChanged={onSlideChanged}
+				onResized={onResized}
 			/>
 			<TheCode html={markdown} />
 		</section>

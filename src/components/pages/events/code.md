@@ -18,15 +18,19 @@ const items = [
 ];
 
 const onInitialized = (e) => {
-	console.debug('Start position(activeIndex) on init: ', e.item);
+	console.debug(`Start position(activeIndex) on init: ${e.item}. Event:`, e);
 };
 
 const onSlideChange = (e) => {
-	console.debug('Item`s position before a change: ', e.item);
+	console.debug(`Item's position before a change: ${e.item}. Event:`, e);
 };
 
 const onSlideChanged = (e) => {
-	console.debug('Item`s position after changes: ', e.item);
+	console.debug(`Item's position after changes: ${e.item}. Event:`, e);
+};
+
+const onResized = (e) => {
+	console.debug(`Item's position after resize: ${e.item}. Event:`, e);
 };
 
 const Carousel = () => (
@@ -37,6 +41,7 @@ const Carousel = () => (
         onInitialized={onInitialized}
         onSlideChange={onSlideChange}
         onSlideChanged={onSlideChanged}
+        onResized={onResized}
     />
 );
 ```

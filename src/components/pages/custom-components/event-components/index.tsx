@@ -4,12 +4,6 @@ import markdown from './code.md';
 import TheCode from '../../../the-code';
 import AliceCarousel from '../../../../lib/react-alice-carousel';
 
-const responsive = {
-	0: {
-		items: 3,
-	},
-};
-
 const items = [
 	<div className="item" data-value="1">
 		1
@@ -106,7 +100,6 @@ const Carousel = () => {
 				disableDotsControls
 				disableButtonsControls
 				items={thumbs}
-				responsive={responsive}
 				mouseTracking={false}
 				onSlideChanged={syncThumbs}
 				touchTracking={!mainAnimation}
