@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Utils from '../utils';
 import { Classnames, Modifiers } from '../types';
 
 export const PlayPauseButton = ({ isPlaying, onClick, renderPlayPauseButton }: Props) => {
@@ -10,13 +11,13 @@ export const PlayPauseButton = ({ isPlaying, onClick, renderPlayPauseButton }: P
 		);
 	}
 
-	const classname = `${Classnames.PLAY_BTN_ITEM}`;
-	const classModifier = `${isPlaying ? ` ${Modifiers.PAUSE}` : ''}`;
+	const classModifier = isPlaying ? Modifiers.PAUSE : '';
+	const classnames = Utils.concatClassnames(Classnames.PLAY_BTN_ITEM, classModifier);
 
 	return (
 		<div className={Classnames.PLAY_BTN}>
 			<div className={Classnames.PLAY_BTN_WRAPPER}>
-				<div onClick={onClick} className={`${classname}${classModifier}`} />
+				<div onClick={onClick} className={classnames} />
 			</div>
 		</div>
 	);

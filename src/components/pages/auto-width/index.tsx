@@ -1,20 +1,24 @@
 import React from 'react';
-
-import markdown from './code.md';
-import TheCode from '../../the-code';
-import AliceCarousel from '../../../lib/react-alice-carousel';
-
-const itemsLength = Array.from({ length: 5 });
-
-const items = itemsLength.map((item, index) => (
-	<div className="item" style={{ width: 150 + index * 100 }} data-value={index + 1} />
-));
+import BaseExample from './base';
+import InfiniteExample from './infinite';
+import Anchor, { genAnchorProps } from '../../the-anchor';
 
 const AutowidthPage = () => {
 	return (
-		<section className="p-basic p-autowidth">
-			<AliceCarousel mouseTracking autoWidth infinite items={items} />
-			<TheCode html={markdown} />
+		<section className="p-basic p-custom">
+			<h2 className="title">
+				<Anchor {...genAnchorProps('auto-width')} />
+				&nbsp; Base
+			</h2>
+			<BaseExample />
+			<br />
+			<br />
+			<br />
+			<h2 className="title">
+				<Anchor {...genAnchorProps('auto-width-infinite')} />
+				&nbsp; Infinite
+			</h2>
+			<InfiniteExample />
 		</section>
 	);
 };

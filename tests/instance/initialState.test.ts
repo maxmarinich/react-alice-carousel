@@ -8,10 +8,16 @@ describe('Instance: initialState', function () {
 
 		expect(state).toEqual(initialState);
 	});
-	it('should return a correct activeIndex', function () {
-		const props = { activeIndex: 5, children: [1, 2, 3, 4, 5, 6], responsive: { 0: { items: 3 } } };
+	it('should return a correct activeIndex if not less', function () {
+		const props = { activeIndex: 5, children: [1, 2, 3, 4, 5], responsive: { 0: { items: 3 } } };
 		const initialState = Utils.calculateInitialState(props, null);
 
-		expect(3).toEqual(initialState.activeIndex);
+		expect(4).toEqual(initialState.activeIndex);
+	});
+	it('should return a correct activeIndex if less', function () {
+		const props = { activeIndex: -1, children: [1, 2, 3, 4, 5], responsive: { 0: { items: 3 } } };
+		const initialState = Utils.calculateInitialState(props, null);
+
+		expect(0).toEqual(initialState.activeIndex);
 	});
 });

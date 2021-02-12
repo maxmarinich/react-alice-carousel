@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Utils from '../utils';
 import { Classnames, Modifiers } from '../types';
 
 export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, renderNextButton }: Props) => {
@@ -23,12 +24,13 @@ export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, re
 	const buttonClasses = isPreviews ? Classnames.BUTTON_PREV : Classnames.BUTTON_NEXT;
 	const buttonWrapperClasses = isPreviews ? Classnames.BUTTON_PREV_WRAPPER : Classnames.BUTTON_NEXT_WRAPPER;
 	const buttonItemClasses = isPreviews ? Classnames.BUTTON_PREV_ITEM : Classnames.BUTTON_NEXT_ITEM;
-	const buttonItemModifierClasses = isDisabled ? ` ${Modifiers.INACTIVE}` : '';
+	const buttonItemModifierClasses = isDisabled ? Modifiers.INACTIVE : '';
+	const classnames = Utils.concatClassnames(buttonItemClasses, buttonItemModifierClasses);
 
 	return (
 		<div className={buttonClasses}>
 			<div className={buttonWrapperClasses}>
-				<p className={`${buttonItemClasses}${buttonItemModifierClasses}`} onClick={onClick}>
+				<p className={classnames} onClick={onClick}>
 					<span data-area={ariaValue} />
 				</p>
 			</div>

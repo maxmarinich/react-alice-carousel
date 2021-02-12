@@ -9,10 +9,12 @@ export const SlideInfo = ({ activeIndex, itemsCount, renderSlideInfo }) => {
 		return <div className={Classnames.SLIDE_INFO}>{renderSlideInfo({ item, itemsCount })}</div>;
 	}
 
+	const classnames = Utils.concatClassnames(Classnames.SLIDE_INFO_ITEM, Modifiers.SEPARATOR);
+
 	return (
 		<div className={Classnames.SLIDE_INFO}>
 			<span className={Classnames.SLIDE_INFO_ITEM}>{item}</span>
-			<span className={`${Classnames.SLIDE_INFO_ITEM} ${Modifiers.SEPARATOR}`}>/</span>
+			<span className={classnames}>/</span>
 			<span className={Classnames.SLIDE_INFO_ITEM}>{itemsCount}</span>
 		</div>
 	);

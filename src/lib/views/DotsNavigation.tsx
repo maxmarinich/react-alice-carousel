@@ -29,9 +29,9 @@ export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave, ren
 						nextIndex = i;
 					}
 
-					const isActive = currentIndex === i ? ` ${Modifiers.ACTIVE}` : '';
-					const isCustom = renderDotsItem ? ` ${Modifiers.CUSTOM}` : '';
-					const classname = `${Classnames.DOTS_ITEM}${isActive}${isCustom}`;
+					const isActive = currentIndex === i ? Modifiers.ACTIVE : '';
+					const isCustom = renderDotsItem ? Modifiers.CUSTOM : '';
+					const classname = Utils.concatClassnames(Classnames.DOTS_ITEM, isActive, isCustom);
 
 					return (
 						<li

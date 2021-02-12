@@ -4,6 +4,12 @@ import markdown from './code.md';
 import TheCode from '../../the-code';
 import AliceCarousel from '../../../lib/react-alice-carousel';
 
+const responsive = {
+	0: { items: 1 },
+	568: { items: 2 },
+	1024: { items: 3 },
+};
+
 const items = [
 	<div className="item" data-value="1">
 		1
@@ -23,15 +29,19 @@ const items = [
 ];
 
 const onInitialized = (e) => {
-	console.debug('Start position(activeIndex) on init: ', e.item);
+	console.debug(`Start position(activeIndex) on init: ${e.item}. Event:`, e);
 };
 
 const onSlideChange = (e) => {
-	console.debug('Item`s position before a change: ', e.item);
+	console.debug(`Item's position before a change: ${e.item}. Event:`, e);
 };
 
 const onSlideChanged = (e) => {
-	console.debug('Item`s position after changes: ', e.item);
+	console.debug(`Item's position after changes: ${e.item}. Event:`, e);
+};
+
+const onResized = (e) => {
+	console.debug(`Item's position after resize: ${e.item}. Event:`, e);
 };
 
 function Events() {
@@ -40,9 +50,11 @@ function Events() {
 			<AliceCarousel
 				mouseTracking
 				items={items}
+				responsive={responsive}
 				onInitialized={onInitialized}
 				onSlideChange={onSlideChange}
 				onSlideChanged={onSlideChanged}
+				onResized={onResized}
 			/>
 			<TheCode html={markdown} />
 		</section>

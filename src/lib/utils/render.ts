@@ -48,9 +48,14 @@ export const getSlideInfo = (activeIndex = 0, itemsCount = 0) => {
 };
 
 export const getSlideItemInfo = (state: State) => {
-	const { itemsInSlide, activeIndex, infinite, itemsCount } = state || {};
+	const { itemsInSlide, activeIndex, infinite, itemsCount, isStageContentPartial } = state || {};
+
+	if (isStageContentPartial) {
+		return { isPrevSlideDisabled: true, isNextSlideDisabled: true };
+	}
+
 	const isPrevSlideDisabled = infinite === false && activeIndex === 0;
-	const isNextSlideDisabled = infinite === false && itemsCount - itemsInSlide === activeIndex;
+	const isNextSlideDisabled = infinite === false && itemsCount - itemsInSlide <= activeIndex;
 
 	return { isPrevSlideDisabled, isNextSlideDisabled };
 };

@@ -4,17 +4,19 @@ import { defaultProps } from './defaultProps';
 import * as Views from './views';
 import * as Utils from './utils';
 import {
-	AutoplayDirection,
 	AnimationType,
+	AutoplayDirection,
+	Classnames,
+	EventObject,
+	EventType,
+	Modifiers,
 	Props,
 	RootElement,
 	SlideTo,
 	State,
-	EventObject,
-	Classnames,
-	Modifiers,
 } from './types';
 
+export * from './types';
 export default class AliceCarousel extends React.PureComponent<Props, State> {
 	static defaultProps = defaultProps;
 	private autoPlayTimeoutId: undefined | number;
@@ -103,7 +105,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 			}
 
 			if (prevProps.activeIndex !== activeIndex) {
-				this.slideTo(activeIndex);
+				this.slideTo(activeIndex, EventType.UPDATE);
 			}
 		}
 
@@ -129,7 +131,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		const { isNextSlideDisabled, isPrevSlideDisabled } = Utils.getSlideItemInfo(this.state);
 		const slide = Utils.getActiveSlideIndex(isNextSlideDisabled, this.state);
 
-		return { item, slide, itemsInSlide, isNextSlideDisabled, isPrevSlideDisabled };
+		return { item, slide, itemsInSlide, isNextSlideDisabled, isPrevSlideDisabled, type: EventType.ACTION };
 	}
 
 	get isFadeoutAnimationAllowed() {
@@ -150,15 +152,17 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		return this.state.translate3d;
 	}
 
-	slideTo(activeIndex = 0) {
+	slideTo(activeIndex = 0, eventType?: EventType) {
 		this._handlePause();
 
 		if (this.isFadeoutAnimationAllowed) {
-			const fadeoutAnimationPosition = Utils.getFadeoutAnimationPosition(activeIndex, this.state);
+			const fadeoutIndex = Utils.getUpdateSlidePositionIndex(activeIndex, this.state.itemsCount);
+
+			const fadeoutAnimationPosition = Utils.getFadeoutAnimationPosition(fadeoutIndex, this.state);
 			const fadeoutAnimationIndex = Utils.getFadeoutAnimationIndex(this.state);
-			this._handleSlideTo({ activeIndex, fadeoutAnimationIndex, fadeoutAnimationPosition });
+			this._handleSlideTo({ activeIndex: fadeoutIndex, fadeoutAnimationIndex, fadeoutAnimationPosition, eventType });
 		} else {
-			this._handleSlideTo({ activeIndex });
+			this._handleSlideTo({ activeIndex, eventType });
 		}
 	}
 
@@ -310,20 +314,25 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		}, animationDuration);
 	}
 
-	async _handleSlideTo({ activeIndex = 0, fadeoutAnimationIndex = null, fadeoutAnimationPosition = null }: SlideTo) {
+	async _handleSlideTo({
+		activeIndex = 0,
+		fadeoutAnimationIndex = null,
+		fadeoutAnimationPosition = null,
+		eventType,
+	}: SlideTo) {
 		const { infinite, animationEasingFunction } = this.props;
-		const { itemsInSlide, itemsCount, animationDuration } = this.state;
+		const { itemsCount, animationDuration } = this.state;
 
 		if (
 			this.isAnimationDisabled ||
 			this.state.activeIndex === activeIndex ||
-			(!infinite && Utils.shouldCancelSlideAnimation(activeIndex, itemsCount, itemsInSlide))
+			(!infinite && Utils.shouldCancelSlideAnimation(activeIndex, itemsCount))
 		) {
 			return;
 		}
 		this.isAnimationDisabled = true;
 		this._cancelTimeoutAnimations();
-		this._handleSlideChange();
+		this._handleSlideChange(eventType);
 
 		let transition;
 		let fadeoutAnimationProcessing = false;
@@ -349,10 +358,10 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 			fadeoutAnimationProcessing,
 		});
 
-		this.slideEndTimeoutId = setTimeout(this._handleBeforeSlideEnd, animationDuration);
+		this.slideEndTimeoutId = setTimeout(() => this._handleBeforeSlideEnd(eventType), animationDuration);
 	}
 
-	_handleBeforeSlideEnd = async () => {
+	_handleBeforeSlideEnd = async (eventType?: EventType) => {
 		const { activeIndex, itemsCount, fadeoutAnimationProcessing } = this.state;
 
 		if (Utils.shouldRecalculateSlideIndex(activeIndex, itemsCount)) {
@@ -366,7 +375,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 			});
 		}
 
-		this._handleSlideChanged();
+		this._handleSlideChanged(eventType);
 	};
 
 	async _handleUpdateSlidePosition(activeIndex) {
@@ -385,19 +394,20 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		});
 	}
 
-	_handleSlideChange() {
-		if (this.props.onSlideChange) {
-			this.props.onSlideChange(this.eventObject);
-		}
-	}
-
 	_handleResized() {
 		if (this.props.onResized) {
-			this.props.onResized(this.eventObject);
+			this.props.onResized({ ...this.eventObject, type: EventType.RESIZE });
 		}
 	}
 
-	async _handleSlideChanged() {
+	_handleSlideChange(eventType?: EventType) {
+		if (this.props.onSlideChange) {
+			const event = eventType ? { ...this.eventObject, type: eventType } : this.eventObject;
+			this.props.onSlideChange(event);
+		}
+	}
+
+	async _handleSlideChanged(eventType?: EventType) {
 		const { isAutoPlaying, isAutoPlayCanceledOnAction } = this.state;
 		const { autoPlayStrategy, onSlideChanged } = this.props;
 
@@ -407,7 +417,10 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 			isAutoPlaying && this._handlePlay();
 		}
 		this.isAnimationDisabled = false;
-		onSlideChanged && onSlideChanged(this.eventObject);
+		if (onSlideChanged) {
+			const event = eventType ? { ...this.eventObject, type: eventType } : this.eventObject;
+			onSlideChanged(event);
+		}
 	}
 
 	_handleDotClick(index) {
@@ -493,7 +506,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		await this.setState(initialState);
 
 		if (this.props.onInitialized) {
-			this.props.onInitialized(this.eventObject);
+			this.props.onInitialized({ ...this.eventObject, type: EventType.INIT });
 		}
 	}
 
@@ -605,10 +618,11 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		const shouldDisableDots = Utils.shouldDisableDots(this.props, this.state);
 		const wrapperStyles = Utils.getRenderWrapperStyles(this.props, this.state, this.stageComponent);
 		const stageStyles = Utils.getRenderStageStyles({ translate3d }, { transition });
-		const classnameModifier = `${canUseDom ? '' : ` ${Modifiers.SSR}`}`;
+		const classnameModifier = canUseDom ? '' : Modifiers.SSR;
+		const classnames = Utils.concatClassnames(Classnames.ROOT, classnameModifier);
 
 		return (
-			<div className={`${Classnames.ROOT}${classnameModifier}`}>
+			<div className={classnames}>
 				<div ref={this._setRootComponentRef}>
 					<div
 						style={wrapperStyles}

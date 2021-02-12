@@ -1,5 +1,5 @@
 import * as Utils from '.';
-import { TransformationSetItem, Props, State, RootElement, Transition, Style } from '../types';
+import { Transformations, ItemCoords, Props, State, RootElement, Transition, Style } from '../types';
 
 export const getSlides = (props: Props) => {
 	const { children, items = [] } = props;
@@ -58,15 +58,22 @@ export const isElement = (element) => {
 	}
 };
 
-export const createAutowidthTransformationSet = (el) => {
+export const createAutowidthTransformationSet = (el, stageWidth = 0, infinite = false): Transformations => {
+	let content = 0;
+	let partial = true;
+	let coords: ItemCoords[] = [];
+
 	if (isElement(el)) {
+		// TODO: refactoring
 		const children: HTMLElement[] = Array.from(el.children || []);
 
-		return children.reduce<TransformationSetItem[]>((acc, child, i) => {
+		coords = children.reduce<ItemCoords[]>((acc, child, i) => {
 			let position = 0;
 			const previewsChildCursor = i - 1;
 			const previewsChild = acc[previewsChildCursor];
 			const { width = 0 } = getElementDimensions(child?.firstChild);
+			content += width;
+			partial = stageWidth >= content;
 
 			if (previewsChild) {
 				position = previewsChildCursor === 0 ? previewsChild.width : previewsChild.width + previewsChild.position;
@@ -75,17 +82,37 @@ export const createAutowidthTransformationSet = (el) => {
 			acc.push({ position, width });
 			return acc;
 		}, []);
+
+		if (!infinite) {
+			if (partial) {
+				coords = Utils.mapPartialCoords(coords);
+			} else {
+				const position = content - stageWidth;
+				coords = Utils.mapPositionCoords(coords, position);
+			}
+		}
 	}
 
-	return [];
+	return { coords, content, partial };
 };
 
-export const createDefaultTransformationSet = (children: unknown[], galleryWidth: number, itemsInSlide: number) => {
-	const width = getItemWidth(galleryWidth, itemsInSlide);
+export const createDefaultTransformationSet = (
+	children: unknown[],
+	stageWidth: number,
+	itemsInSlide: number,
+	infinite = false,
+): Transformations => {
+	let content = 0;
+	let partial = true;
+	let coords: ItemCoords[] = [];
+	const width = getItemWidth(stageWidth, itemsInSlide);
 
-	return children.reduce<TransformationSetItem[]>((acc, child, i) => {
+	coords = children.reduce<ItemCoords[]>((acc, child, i) => {
 		let position = 0;
 		const previewsChild = acc[i - 1];
+
+		content += width;
+		partial = stageWidth >= content;
 
 		if (previewsChild) {
 			position = width + previewsChild.position || 0;
@@ -94,6 +121,17 @@ export const createDefaultTransformationSet = (children: unknown[], galleryWidth
 		acc.push({ width, position });
 		return acc;
 	}, []);
+
+	if (!infinite) {
+		if (partial) {
+			coords = Utils.mapPartialCoords(coords);
+		} else {
+			const position = content - stageWidth;
+			coords = Utils.mapPositionCoords(coords, position);
+		}
+	}
+
+	return { coords, content, partial };
 };
 
 export const getItemWidth = (galleryWidth: number, itemsInSlide: number) => {

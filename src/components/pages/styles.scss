@@ -11,6 +11,52 @@ li.alice-carousel__dots-item.__custom {
 	padding: 5px;
 }
 
+.thumbs {
+	max-width: 500px;
+	margin: 30px auto;
+	padding: 0 100px;
+	position: relative;
+
+	.btn-prev, .btn-next {
+		position: absolute;
+		top: 25px;
+		font-size: 50px;
+		color: $color-bg;
+		cursor: pointer;
+	}
+	.btn-prev {
+		left: 25px;
+	}
+	.btn-next {
+		right: 25px;
+	}
+}
+
+.alice-carousel__stage-item.__active {
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 2px;
+		left: 2px;
+		right: 2px;
+		bottom: 2px;
+		border: solid 1px transparent;
+		transition: border .8s;
+	}
+}
+
+.alice-carousel__stage-item.__target {
+	&:after {
+		border: solid 1px rgba($color-dark-lighten, 0.8);
+	}
+}
+
+.thumb, .thumb > .item {
+	width: 200px;
+	height: 100px;
+}
+
 .item {
 	height: 200px;
 	padding: 2px;
