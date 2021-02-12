@@ -65,7 +65,7 @@ export interface State {
 	swipeAllowedPositionMax: number;
 	swipeShiftValue: number;
 	transition: string;
-	transformationSet: TransformationSetItem[];
+	transformationSet: ItemCoords[];
 	translate3d: number;
 }
 
@@ -87,10 +87,11 @@ export type Responsive = {
 
 export type EventObject = {
 	item: number;
-	slide: number;
 	itemsInSlide: number;
 	isPrevSlideDisabled: boolean;
 	isNextSlideDisabled: boolean;
+	slide: number;
+	type: string;
 };
 
 export type RootElement = {
@@ -98,7 +99,13 @@ export type RootElement = {
 	height?: number;
 };
 
-export type TransformationSetItem = {
+export type Transformations = {
+	partial: boolean;
+	content: number;
+	coords: ItemCoords[] | unknown[];
+};
+
+export type ItemCoords = {
 	width: number;
 	position: number;
 };
@@ -107,6 +114,7 @@ export type SlideTo = {
 	activeIndex: number;
 	fadeoutAnimationIndex?: number | null;
 	fadeoutAnimationPosition?: number | null;
+	eventType?: EventType;
 };
 
 export type SlideInfo = {
@@ -118,6 +126,13 @@ export type DotsItem = {
 	isActive: boolean;
 	activeIndex: number;
 };
+
+export enum EventType {
+	ACTION = 'action',
+	INIT = 'init',
+	RESIZE = 'resize',
+	UPDATE = 'update',
+}
 
 export enum AnimationType {
 	FADEOUT = 'fadeout',

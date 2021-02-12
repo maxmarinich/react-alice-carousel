@@ -6,3 +6,4 @@ export * from './math';
 export * from './debug';
 export * from './render';
 export * from './controls';
+export * from './mappers';

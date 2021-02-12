@@ -1,5 +1,5 @@
 import * as Utils from '.';
-import { TransformationSetItem, Props, State, RootElement, Transition, Style } from '../types';
+import { Transformations, ItemCoords, Props, State, RootElement, Transition, Style } from '../types';
 
 export const getSlides = (props: Props) => {
 	const { children, items = [] } = props;
@@ -58,24 +58,16 @@ export const isElement = (element) => {
 	}
 };
 
-export const createAutowidthTransformationSet = (
-	el,
-	stageWidth = 0,
-	infinite = false,
-): {
-	partial: boolean;
-	content: number;
-	coords: TransformationSetItem[] | unknown[];
-} => {
+export const createAutowidthTransformationSet = (el, stageWidth = 0, infinite = false): Transformations => {
 	let content = 0;
-	let partial = false;
-	let coords: TransformationSetItem[] = [];
+	let partial = true;
+	let coords: ItemCoords[] = [];
 
 	if (isElement(el)) {
 		// TODO: refactoring
 		const children: HTMLElement[] = Array.from(el.children || []);
 
-		coords = children.reduce<TransformationSetItem[]>((acc, child, i) => {
+		coords = children.reduce<ItemCoords[]>((acc, child, i) => {
 			let position = 0;
 			const previewsChildCursor = i - 1;
 			const previewsChild = acc[previewsChildCursor];
@@ -93,16 +85,10 @@ export const createAutowidthTransformationSet = (
 
 		if (!infinite) {
 			if (partial) {
-				coords = coords.map(({ width }) => ({ width, position: 0 }));
+				coords = Utils.mapPartialCoords(coords);
 			} else {
 				const position = content - stageWidth;
-
-				coords = coords.map((item) => {
-					if (item.position > position) {
-						return { ...item, position };
-					}
-					return item;
-				});
+				coords = Utils.mapPositionCoords(coords, position);
 			}
 		}
 	}
@@ -115,15 +101,16 @@ export const createDefaultTransformationSet = (
 	stageWidth: number,
 	itemsInSlide: number,
 	infinite = false,
-) => {
+): Transformations => {
 	let content = 0;
-	let partial = false;
-	let coords: TransformationSetItem[] = [];
+	let partial = true;
+	let coords: ItemCoords[] = [];
 	const width = getItemWidth(stageWidth, itemsInSlide);
 
-	coords = children.reduce<TransformationSetItem[]>((acc, child, i) => {
+	coords = children.reduce<ItemCoords[]>((acc, child, i) => {
 		let position = 0;
 		const previewsChild = acc[i - 1];
+
 		content += width;
 		partial = stageWidth >= content;
 
@@ -137,16 +124,10 @@ export const createDefaultTransformationSet = (
 
 	if (!infinite) {
 		if (partial) {
-			coords = coords.map(({ width }) => ({ width, position: 0 }));
+			coords = Utils.mapPartialCoords(coords);
 		} else {
 			const position = content - stageWidth;
-
-			coords = coords.map((item) => {
-				if (item.position > position) {
-					return { ...item, position };
-				}
-				return item;
-			});
+			coords = Utils.mapPositionCoords(coords, position);
 		}
 	}
 

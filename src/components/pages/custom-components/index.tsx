@@ -2,9 +2,10 @@ import React from 'react';
 import RenderExample from './render-components';
 import RefsExample from './refs-components';
 import PropsExample from './props-components';
+import EventsExample from './event-components';
 import Anchor, { genAnchorProps } from '../../the-anchor';
 
-const StagePaddingPage = () => {
+const CustomComponentsPage = () => {
 	return (
 		<section className="p-basic p-custom">
 			<h2 className="title">
@@ -28,8 +29,13 @@ const StagePaddingPage = () => {
 				&nbsp; Props
 			</h2>
 			<PropsExample />
+			<h2 className="title">
+				<Anchor {...genAnchorProps('custom-components-events')} />
+				&nbsp; Events
+			</h2>
+			<EventsExample />
 		</section>
 	);
 };
 
-export default StagePaddingPage;
+export default CustomComponentsPage;

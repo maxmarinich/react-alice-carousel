@@ -110,7 +110,7 @@ const Gallery = () => {
 - `touchTracking`: Boolean, default `true`  - Enable touch move animation.
 - `touchMoveDefaultEvents`: Boolean, default `true`  - Enable touch move default events on swiping. If `false` was specified, this prevents vertical scrolling of the parent elements during the swipe. 
 - `onInitialized(e: EventObject)`: Function - Fired as callback after the gallery was created.
-- `onResizeEvent(e: Event)`: Function - Fired during `resize` event to determine whether the event handler should be called.
+- `onResizeEvent(e: Event)`: Function - Fired during the "resize" event to determine whether to call the event handler. Default result of `() => true`; 
 - `onResized(e: EventObject)`: Function - Fired as callback after the gallery was resized.
 - `onSlideChange(e: EventObject)`: Function - Fired before the event object changes.
 - `onSlideChanged(e: EventObject)`: Function - Fired after the event object was changed.
@@ -133,6 +133,7 @@ type EventObject = {
   itemsInSlide: number;
   isPrevSlideDisabled: boolean;
   isNextSlideDisabled: boolean;
+  type: EventType;
 };
 
 type SlideInfo = {
@@ -144,6 +145,13 @@ type DotsItem = {
   isActive: boolean;
   activeIndex: number;
 };
+
+enum EventType {
+  ACTION = 'action', // used if a general user action (button click or swipe)
+  INIT = 'init',     // used if the initial event was triggered
+  RESIZE = 'resize', // used if the gallery size was changed
+  UPDATE = 'update', // used if the gallery was updated with props (activeIndex)
+}
 ```
 
 #### CSS classes

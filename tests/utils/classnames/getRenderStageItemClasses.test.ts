@@ -83,14 +83,14 @@ describe('Utils.getRenderStageItemClasses', function () {
 	});
 
 	it('should return correct classnames if autowidth', function () {
-		const props = { children: [1, 2, 3], responsive: { 0: { items: 2 } }, autoWidth: true };
+		const props = { children: [1, 2, 3], responsive: { 0: { items: 4 } }, autoWidth: true };
 		const initialState = Utils.calculateInitialState(props, null);
 		const classnames = Utils.getRenderStageItemClasses(0, initialState);
 		const classnames1 = Utils.getRenderStageItemClasses(1, initialState);
 		const classnames2 = Utils.getRenderStageItemClasses(2, initialState);
 
 		expect(classnames).toEqual(target);
-		expect(classnames1).toEqual(active);
+		expect(classnames1).toEqual(root);
 		expect(classnames2).toEqual(root);
 	});
 

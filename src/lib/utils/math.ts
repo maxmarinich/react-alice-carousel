@@ -1,4 +1,4 @@
-import { State, Props, TransformationSetItem } from '../types';
+import { State, Props, ItemCoords } from '../types';
 
 export const getShiftIndex = (itemsInSlide = 0, itemsOffset = 0) => {
 	return itemsInSlide + itemsOffset;
@@ -7,7 +7,7 @@ export const getShiftIndex = (itemsInSlide = 0, itemsOffset = 0) => {
 export const getStartIndex = (index = 0, itemsCount = 0) => {
 	if (itemsCount) {
 		// TODO: refactoring
-		if (index > itemsCount) {
+		if (index >= itemsCount) {
 			return itemsCount - 1;
 		}
 		if (index > 0) {
@@ -18,13 +18,10 @@ export const getStartIndex = (index = 0, itemsCount = 0) => {
 };
 
 export const getActiveIndex = ({ startIndex = 0, itemsCount = 0, itemsInSlide = 1, infinite = false }) => {
-	// if (infinite) {
-	// 	return startIndex;
-	// }
-	// if (itemsCount) {
+	// if (itemsCount && itemsInSlide > 1) {
 	// 	return Math.min(startIndex, itemsCount - itemsInSlide);
 	// }
-	// return 0;
+
 	if (infinite) {
 		return startIndex;
 	}
@@ -69,7 +66,7 @@ export const getSwipeLimitMax = (state: Partial<State>, props: Partial<Props>) =
 		return (transformationSet[cursor] || {}).position || 0;
 	}
 
-	const { position } = getTransformationSetItem(-itemsInSlide, transformationSet);
+	const { position } = getItemCoords(-itemsInSlide, transformationSet);
 	return position + swipeExtraPadding;
 };
 
@@ -79,25 +76,21 @@ export const shouldRecalculateSwipePosition = (currentPosition, minPosition, max
 
 export const getIsLeftDirection = (deltaX = 0) => deltaX < 0;
 
-export const getTransformationSetItem = (cursor = 0, transformationSet: TransformationSetItem[] = []) => {
+export const getItemCoords = (cursor = 0, transformationSet: ItemCoords[] = []) => {
 	const [item] = transformationSet.slice(cursor);
 	return item || { position: 0, width: 0 };
 };
 
-export const getSwipeShiftValue = (cursor = 0, transformationSet: TransformationSetItem[] = []) => {
-	const { position } = getTransformationSetItem(cursor, transformationSet);
+export const getSwipeShiftValue = (cursor = 0, transformationSet: ItemCoords[] = []) => {
+	const { position } = getItemCoords(cursor, transformationSet);
 	return position;
 };
 
-export const getTransformationItemIndex = (transformationSet: TransformationSetItem[] = [], position = 0) => {
+export const getTransformationItemIndex = (transformationSet: ItemCoords[] = [], position = 0) => {
 	return transformationSet.findIndex((item) => item.position >= Math.abs(position));
 };
 
-export const getSwipeTransformationCursor = (
-	transformationSet: TransformationSetItem[] = [],
-	position = 0,
-	deltaX = 0,
-) => {
+export const getSwipeTransformationCursor = (transformationSet: ItemCoords[] = [], position = 0, deltaX = 0) => {
 	const cursor = getTransformationItemIndex(transformationSet, position);
 	return getIsLeftDirection(deltaX) ? cursor : cursor - 1;
 };
@@ -105,7 +98,7 @@ export const getSwipeTransformationCursor = (
 export const getSwipeTouchendPosition = (state: State, deltaX: number, swipePosition = 0) => {
 	const { infinite, autoWidth, isStageContentPartial, swipeAllowedPositionMax, transformationSet } = state;
 	const cursor = getSwipeTransformationCursor(transformationSet, swipePosition, deltaX);
-	const { position } = getTransformationSetItem(cursor, transformationSet);
+	const { position } = getItemCoords(cursor, transformationSet);
 
 	if (!infinite) {
 		if (autoWidth && isStageContentPartial) {
