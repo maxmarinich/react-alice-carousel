@@ -88,7 +88,7 @@ export const getSwipeShiftValue = (cursor = 0, transformationSet: ItemCoords[] =
 };
 
 export const getTransformationItemIndex = (transformationSet: ItemCoords[] = [], position = 0) => {
-	return transformationSet.findIndex((item) => item.position >= Math.abs(position));
+	return transformationSet.findIndex((item) => Math.abs(item.position) >= Math.abs(position));
 };
 
 export const getSwipeTransformationCursor = (transformationSet: ItemCoords[] = [], position = 0, deltaX = 0) => {

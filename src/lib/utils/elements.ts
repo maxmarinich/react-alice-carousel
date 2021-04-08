@@ -68,16 +68,15 @@ export const createAutowidthTransformationSet = (el, stageWidth = 0, infinite = 
 		const children: HTMLElement[] = Array.from(el.children || []);
 
 		coords = children.reduce<ItemCoords[]>((acc, child, i) => {
-			let position = 0;
 			const previewsChildCursor = i - 1;
 			const previewsChild = acc[previewsChildCursor];
 			const { width = 0 } = getElementDimensions(child?.firstChild);
 			content += width;
 			partial = stageWidth >= content;
 
-			if (previewsChild) {
-				position = previewsChildCursor === 0 ? previewsChild.width : previewsChild.width + previewsChild.position;
-			}
+			const position = previewsChild ?
+				previewsChild.position + (previewsChild.width + width) / 2 :
+				-(stageWidth - width) / 2;
 
 			acc.push({ position, width });
 			return acc;
@@ -87,7 +86,7 @@ export const createAutowidthTransformationSet = (el, stageWidth = 0, infinite = 
 			if (partial) {
 				coords = Utils.mapPartialCoords(coords);
 			} else {
-				const position = content - stageWidth;
+				const position = coords[coords.length - 1].position;
 				coords = Utils.mapPositionCoords(coords, position);
 			}
 		}
