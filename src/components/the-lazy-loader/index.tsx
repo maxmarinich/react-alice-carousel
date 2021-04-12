@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 export default function TheLazyLoader(props) {
 	let timerId;
+	const minHeight = 200;
 	const { src = '', delay = 0, onLoad } = props;
 	const [isMounted, setMounted] = useState(false);
 	const [isLoading, setLoading] = useState(true);
@@ -14,6 +15,9 @@ export default function TheLazyLoader(props) {
 			setLoading(false);
 			onLoad();
 		};
+		image.onerror = () => {
+			setLoading(false);
+		};
 	}
 
 	useEffect(() => {
@@ -25,8 +29,8 @@ export default function TheLazyLoader(props) {
 	}, []);
 
 	return isLoading ? (
-		<div style={{ textAlign: 'center', lineHeight: '200px', color: '#435794', height: 200 }}>Loading...</div>
+		<div style={{ textAlign: 'center', lineHeight: '200px', color: '#435794', height: minHeight }}>Loading...</div>
 	) : (
-		<img width="100%" src={src} />
+		<img width="100%" style={{ minHeight }} src={src} />
 	);
 }

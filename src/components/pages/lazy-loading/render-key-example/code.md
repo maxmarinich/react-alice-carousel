@@ -5,10 +5,12 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 
 const Carousel = () => {
 	const [key, setKey] = useState(0);
+	const src = (name = '') => `//github.com/maxmarinich/react-alice-carousel/raw/master/src/assets/img/${name}`;
+
 	const [items] = useState([
-		<LazyLoader onLoad={onLoad} src="https://placehold.it/1200x200/C7CDDE/FFFFFF" delay={1000} />,
-		<LazyLoader onLoad={onLoad} src="https://placehold.it/1200x250/C7CDDE/FFFFFF" delay={5000} />,
-		<LazyLoader onLoad={onLoad} src="https://placehold.it/1200x300/C7CDDE/FFFFFF" delay={10000} />,
+		<TheLazyLoader onLoad={onLoad} src={src('1200x200.jpg')} delay={1000} />,
+		<TheLazyLoader onLoad={onLoad} src={src('1200x250.jpg')} delay={5000} />,
+		<TheLazyLoader onLoad={onLoad} src={src('1200x300.jpg')} delay={10000} />,
 	]);
 
 	function onLoad() {
@@ -34,6 +36,9 @@ function LazyLoader(props) {
 		image.onload = () => {
 			setLoading(false);
 			onLoad();
+		};
+		image.onerror = () => {
+			setLoading(false);
 		};
 	}
 

@@ -9,11 +9,12 @@ const Carousel = () => {
 
 	const onLoad = () => setTimestamp(Date.now());
 	const onSlideChanged = ({ item }) => setActiveIndex(item);
+	const src = (name = '') => `//github.com/maxmarinich/react-alice-carousel/raw/master/src/assets/img/${name}`;
 
 	const items = [
-		<LazyLoader onLoad={onLoad} src="https://placehold.it/1200x200/C7CDDE/FFFFFF" delay={1000}/>,
-		<LazyLoader onLoad={onLoad} src="https://placehold.it/1200x250/C7CDDE/FFFFFF" delay={5000} />,
-		<LazyLoader onLoad={onLoad} src="https://placehold.it/1200x300/C7CDDE/FFFFFF" delay={10000} />,
+		<TheLazyLoader onLoad={onLoad} src={src('1200x200.jpg')} delay={1000} />,
+		<TheLazyLoader onLoad={onLoad} src={src('1200x250.jpg')} delay={5000} />,
+		<TheLazyLoader onLoad={onLoad} src={src('1200x300.jpg')} delay={10000} />,
 	];
 
 	return (
@@ -40,6 +41,9 @@ function LazyLoader(props) {
 		image.onload = () => {
 			setLoading(false);
 			onLoad();
+		};
+		image.onerror = () => {
+			setLoading(false);
 		};
 	}
 
