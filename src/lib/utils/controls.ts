@@ -1,22 +1,33 @@
 import { Props, State, ControlsStrategy, AutoPlayStrategy } from '../types';
+import * as Utils from '../utils';
 
-export function shouldDisableDots(props: Props, state: State) {
-	const { disableDotsControls, controlsStrategy } = props || {};
+export function shouldDisableControls(props: Props, state: State) {
+	const { controlsStrategy } = props || {};
 	const { itemsInSlide, itemsCount, autoWidth } = state || {};
 
-	if (disableDotsControls) {
-		return true;
-	}
-
-	if (controlsStrategy === ControlsStrategy.RESPONSIVE) {
+	if (Utils.isStrategy(controlsStrategy, ControlsStrategy.RESPONSIVE)) {
 		return !autoWidth && itemsInSlide === itemsCount;
 	}
-
-	return false;
 }
 
-export const getDotsNavigationLength = (itemsCount = 0, itemsInSlide = 1, autoWidth) => {
-	if (autoWidth) {
+export function shouldDisableDots(props: Props, state: State) {
+	return props.disableDotsControls || shouldDisableControls(props, state);
+}
+
+export function shouldDisableButtons(props: Props, state: State) {
+	return props.disableButtonsControls || (!props.infinite && shouldDisableControls(props, state));
+}
+
+export const isStrategy = (strategy, value) => {
+	return strategy && strategy.includes(value);
+};
+
+export const hasDotForEachSlide = (autoWidth, controlsStrategy) => {
+	return autoWidth || isStrategy(controlsStrategy, ControlsStrategy.ALTERNATE);
+};
+
+export const getDotsNavigationLength = (itemsCount = 0, itemsInSlide = 1, hasDotForEachSlide) => {
+	if (hasDotForEachSlide) {
 		return itemsCount;
 	}
 	if (Number(itemsInSlide) !== 0) {

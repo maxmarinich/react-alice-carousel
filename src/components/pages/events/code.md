@@ -36,6 +36,7 @@ const onResized = (e) => {
 const Carousel = () => (
     <AliceCarousel
         mouseTracking
+	    keyboardNavigation
         items={items}
         responsive={responsive}
         onInitialized={onInitialized}

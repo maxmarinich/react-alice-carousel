@@ -82,13 +82,20 @@ const Gallery = () => {
     * `action` - stop automatic playback if user action was detected
     * `all` - merge `default` && `action` strategies
     * `none` - ignore any user actions when the `autoPlay` property was specified
-- `controlsStrategy`: String (`default`, `responsive`) - Set a strategy for gallery controls. Dots navigation will be hidden if _responsive_ property is set and the number of gallery elements is equal to the number of items in the slide.
+- `controlsStrategy`: String (`default`, `responsive`, `alternate` or combined string `"default,alternate"`) - Set a strategy for gallery controls.
+    * `default` - use controls as is
+    * `alternate` - show each dot for each slide
+    * `responsive` - navigation will be hidden if the number of gallery elements is equal to the number of items in the slide.
 - `disableButtonsControls`: Boolean, default `false` - Disable buttons controls.
 - `disableDotsControls`: Boolean, default `false` - Disable dots controls.
 - `disableSlideInfo`: Boolean, default `true` - Disable information about current slide.
 - `infinite`: Boolean, default `false` - Set infinite mode.
 - `innerWidth`: Number, default `0` - Set a static value for a breakpoint(`key`) of the "responsive" property. For example, if you can't use 'window.innerWidth' during SSR.
 - `items`: Array, default `undefined`  - Set gallery items, preferable to use this property instead of children.
+- `keyboardNavigation`: Boolean, default `false`  - Enable keyboard navigation
+    * `ArrowLeft` - go to the prev slide
+    * `ArrowRight` - go to the next slide
+    * `Space` - run/stop autoplay mode if `autoPlay` property is equal `true`
 - `mouseTracking`: Boolean, default `false`  - Enable mouse drag animation.
 - `paddingLeft`: Number, default `0`  - Set the gallery offset from the left.
 - `paddingRight`: Number, default `0`  - Set the gallery offset from the right.
@@ -107,6 +114,7 @@ const Gallery = () => {
 
 - `swipeDelta`: Number, default `20`  - Set minimum distance to the start of the swiping (px).
 - `swipeExtraPadding`: Number, default `200`  - Set maximum distance from initial place before swipe action will be stopped (px).
+- `ssrSilentMode`: Boolean, default `true`  - Disable classnames modifiers for server side rendering.
 - `touchTracking`: Boolean, default `true`  - Enable touch move animation.
 - `touchMoveDefaultEvents`: Boolean, default `true`  - Enable touch move default events on swiping. If `false` was specified, this prevents vertical scrolling of the parent elements during the swipe. 
 - `onInitialized(e: EventObject)`: Function - Fired as callback after the gallery was created.

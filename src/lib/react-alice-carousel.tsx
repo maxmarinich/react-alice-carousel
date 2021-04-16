@@ -60,10 +60,10 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 	async componentDidMount() {
 		await this._setInitialState();
+		this._addEventListeners();
 		this._setupSwipeHandlers();
-		this.props.autoPlay && this._handlePlay();
 
-		window.addEventListener('resize', this._handleResizeDebounced);
+		this.props.autoPlay && this._handlePlay();
 	}
 
 	componentDidUpdate(prevProps: Readonly<Props>, state: Readonly<State>) {
@@ -117,13 +117,15 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		) {
 			this._updateSwipeProps();
 		}
+
+		if (this.props.keyboardNavigation !== prevProps.keyboardNavigation) {
+			this._updateEventListeners();
+		}
 	}
 
 	componentWillUnmount() {
 		this._cancelTimeoutAnimations();
-		this.swipeListener && this.swipeListener.destroy();
-
-		window.removeEventListener('resize', this._handleResizeDebounced);
+		this._removeEventListeners();
 	}
 
 	get eventObject(): EventObject {
@@ -200,6 +202,36 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		}
 	}
 
+	_addEventListeners() {
+		window.addEventListener('resize', this._handleResizeDebounced);
+
+		if (this.props.keyboardNavigation) {
+			window.addEventListener('keyup', this._handleKeyboardEvents);
+		}
+	}
+	_removeEventListeners() {
+		this.swipeListener && this.swipeListener.destroy();
+		window.removeEventListener('resize', this._handleResizeDebounced);
+		window.removeEventListener('keyup', this._handleKeyboardEvents);
+	}
+
+	_updateEventListeners() {
+		this.props.keyboardNavigation
+			? window.addEventListener('keyup', this._handleKeyboardEvents)
+			: window.removeEventListener('keyup', this._handleKeyboardEvents);
+	}
+
+	_handleKeyboardEvents = (e) => {
+		switch (e.code) {
+			case 'Space':
+				return this.props.autoPlay && this._handlePlayPauseToggle();
+			case 'ArrowLeft':
+				return this.slidePrev(e);
+			case 'ArrowRight':
+				return this.slideNext(e);
+		}
+	};
+
 	async _handleResize(e: Event) {
 		const { onResizeEvent } = this.props;
 		const nextRootComponentDimensions = Utils.getElementDimensions(this.rootElement);
@@ -245,6 +277,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 			this._setTouchmovePosition();
 			this.isAnimationDisabled = true;
 			this.isTouchMoveProcessStarted = true;
+			this._handleSlideChange();
 		}
 
 		let position = Utils.getTouchmoveTranslatePosition(deltaX, this.touchmovePosition);
@@ -292,7 +325,6 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 			const touchendPosition = Utils.getTranslateXProperty(this.stageComponent);
 			const position = Utils.getSwipeTouchendPosition(this.state, deltaX, touchendPosition);
 
-			this._handleSlideChange();
 			Utils.animate(this.stageComponent, { position, animationDuration, animationEasingFunction });
 
 			this._handleBeforeTouchEnd(position);
@@ -571,8 +603,15 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	};
 
 	_renderDotsNavigation() {
-		const { renderDotsItem } = this.props;
-		return <Views.DotsNavigation state={this.state} onClick={this._handleDotClick} renderDotsItem={renderDotsItem} />;
+		const { renderDotsItem, controlsStrategy } = this.props;
+		return (
+			<Views.DotsNavigation
+				state={this.state}
+				onClick={this._handleDotClick}
+				renderDotsItem={renderDotsItem}
+				controlsStrategy={controlsStrategy}
+			/>
+		);
 	}
 
 	_renderPrevButton() {
@@ -616,9 +655,10 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	render() {
 		const { translate3d, clones, transition, canUseDom } = this.state;
 		const shouldDisableDots = Utils.shouldDisableDots(this.props, this.state);
+		const shouldDisableButtons = Utils.shouldDisableButtons(this.props, this.state);
 		const wrapperStyles = Utils.getRenderWrapperStyles(this.props, this.state, this.stageComponent);
 		const stageStyles = Utils.getRenderStageStyles({ translate3d }, { transition });
-		const classnameModifier = canUseDom ? '' : Modifiers.SSR;
+		const classnameModifier = this.props.ssrSilentMode || canUseDom ? '' : Modifiers.SSR;
 		const classnames = Utils.concatClassnames(Classnames.ROOT, classnameModifier);
 
 		return (
@@ -637,9 +677,9 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 				</div>
 
 				{shouldDisableDots ? null : this._renderDotsNavigation()}
+				{shouldDisableButtons ? null : this._renderPrevButton()}
+				{shouldDisableButtons ? null : this._renderNextButton()}
 				{this.props.disableSlideInfo ? null : this._renderSlideInfo()}
-				{this.props.disableButtonsControls ? null : this._renderPrevButton()}
-				{this.props.disableButtonsControls ? null : this._renderNextButton()}
 				{this.props.autoPlayControls ? this._renderPlayPauseButton() : null}
 			</div>
 		);

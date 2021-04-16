@@ -11,13 +11,14 @@ export interface Props {
 	autoPlayStrategy?: 'default' | 'all' | 'action' | 'none' | AutoPlayStrategy;
 	autoWidth?: boolean;
 	children?: any;
-	controlsStrategy?: 'default' | 'responsive' | ControlsStrategy;
+	controlsStrategy?: 'default' | 'responsive' | 'alternate' | string | ControlsStrategy;
 	disableButtonsControls?: boolean;
 	disableDotsControls?: boolean;
 	disableSlideInfo?: boolean;
 	infinite?: boolean;
 	innerWidth?: number;
 	items?: any[];
+	keyboardNavigation?: boolean;
 	mouseTracking?: boolean;
 	name?: string;
 	paddingLeft?: number;
@@ -25,6 +26,7 @@ export interface Props {
 	preservePosition?: boolean;
 	responsive?: Responsive;
 	renderKey?: number;
+	ssrSilentMode?: boolean;
 	swipeDelta?: number;
 	swipeExtraPadding?: number;
 	touchMoveDefaultEvents?: boolean;
@@ -148,6 +150,7 @@ export enum AutoPlayStrategy {
 
 export enum ControlsStrategy {
 	DEFAULT = 'default',
+	ALTERNATE = 'alternate',
 	RESPONSIVE = 'responsive',
 }
 
