@@ -48,10 +48,10 @@ export const getItemsInSlide = (itemsCount: number, props: Props) => {
 	return itemsInSlide;
 };
 
-export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElement, isClient = false): State => {
-	let transformationSet;
+export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElement, canUseDom = false): State => {
 	let isStageContentPartial;
 	let stageContentWidth;
+	let transformationSet;
 	const { animationDuration = 0, infinite = false, autoPlay = false, autoWidth = false } = props;
 	const clones = Utils.createClones(props);
 	const transition = Utils.getTransitionProperty();
@@ -121,6 +121,6 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 		swipeLimitMax,
 		swipeAllowedPositionMax,
 		swipeShiftValue,
-		canUseDom: isClient || canUseDOM(),
+		canUseDom: canUseDom || canUseDOM(),
 	};
 };

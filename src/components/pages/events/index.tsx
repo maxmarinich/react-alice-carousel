@@ -49,6 +49,8 @@ function Events() {
 		<section className="p-basic p-events">
 			<AliceCarousel
 				mouseTracking
+				keyboardNavigation
+				autoPlay
 				items={items}
 				responsive={responsive}
 				onInitialized={onInitialized}

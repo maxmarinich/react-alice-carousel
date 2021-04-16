@@ -31,7 +31,7 @@ const items = [
 const BasicPage = () => {
 	return (
 		<section className="p-basic">
-			<AliceCarousel mouseTracking items={items} responsive={responsive} />
+			<AliceCarousel mouseTracking items={items} responsive={responsive} controlsStrategy="alternate" />
 			<TheCode html={markdown} />
 		</section>
 	);

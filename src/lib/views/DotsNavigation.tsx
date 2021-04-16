@@ -3,10 +3,18 @@ import React, { MouseEventHandler } from 'react';
 import * as Utils from '../utils';
 import { State, Classnames, Modifiers } from '../types';
 
-export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave, renderDotsItem }: Props) => {
+export const DotsNavigation = ({
+	state,
+	onClick,
+	onMouseEnter,
+	onMouseLeave,
+	controlsStrategy,
+	renderDotsItem,
+}: Props) => {
 	const { itemsCount, itemsInSlide, infinite, autoWidth, activeIndex } = state;
 	const { isNextSlideDisabled } = Utils.getSlideItemInfo(state);
-	const dotsLength = Utils.getDotsNavigationLength(itemsCount, itemsInSlide, autoWidth);
+	const hasDotForEachSlide = Utils.hasDotForEachSlide(autoWidth, controlsStrategy);
+	const dotsLength = Utils.getDotsNavigationLength(itemsCount, itemsInSlide, hasDotForEachSlide);
 
 	return (
 		<ul className={Classnames.DOTS}>
@@ -18,7 +26,7 @@ export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave, ren
 					let nextIndex = Utils.getItemIndexForDotNavigation(i, isTheLastDotIndex, itemsCount, itemsInSlide);
 					let currentIndex = Utils.getActiveSlideIndex(isNextSlideDisabled, state);
 
-					if (autoWidth) {
+					if (hasDotForEachSlide) {
 						currentIndex = activeIndex;
 
 						if (activeIndex < 0) {
@@ -52,6 +60,7 @@ export const DotsNavigation = ({ state, onClick, onMouseEnter, onMouseLeave, ren
 
 type Props = {
 	state: State;
+	controlsStrategy?: string;
 	onClick: (index: number) => void;
 	onMouseEnter?: MouseEventHandler;
 	onMouseLeave?: MouseEventHandler;

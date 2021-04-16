@@ -22,6 +22,7 @@ const Carousel = () => (
         mouseTracking
         items={items}
         responsive={responsive}
+        controlsStrategy="alternate"
     />
 );
 ```
