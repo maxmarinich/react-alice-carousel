@@ -50,7 +50,6 @@ function Events() {
 			<AliceCarousel
 				mouseTracking
 				keyboardNavigation
-				autoPlay
 				items={items}
 				responsive={responsive}
 				onInitialized={onInitialized}
