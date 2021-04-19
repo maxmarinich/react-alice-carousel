@@ -42,9 +42,6 @@ const Carousel = () => {
 
 	const syncMainBeforeChange = (e) => {
 		setMainAnimation(true);
-		if (e.type === 'action') {
-			setThumbAnimation(true);
-		}
 	};
 
 	const syncMainAfterChange = (e) => {

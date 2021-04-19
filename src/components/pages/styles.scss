@@ -76,4 +76,12 @@ li.alice-carousel__dots-item.__custom {
 		color: $color-light;
 		background-color: $color-bg;
 	}
+	&-inner {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1;
+	}
 }
