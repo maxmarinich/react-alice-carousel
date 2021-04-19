@@ -51,11 +51,8 @@ const Carousel = () => {
 		}
 	};
 
-	const syncMainBeforeChange = (e) => {
+	const syncMainBeforeChange = () => {
 		setMainAnimation(true);
-		if (e.type === 'action') {
-			setThumbAnimation(true);
-		}
 	};
 
 	const syncMainAfterChange = (e) => {

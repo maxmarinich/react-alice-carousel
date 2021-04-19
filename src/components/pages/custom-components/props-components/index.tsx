@@ -4,30 +4,37 @@ import markdown from './code.md';
 import TheCode from '../../../the-code';
 import AliceCarousel from '../../../../lib/react-alice-carousel';
 
-const items = [
-	<div className="item" data-value="1">
-		1
-	</div>,
-	<div className="item" data-value="2">
-		2
-	</div>,
-	<div className="item" data-value="3">
-		3
-	</div>,
-	<div className="item" data-value="4">
-		4
-	</div>,
-	<div className="item" data-value="5">
-		5
-	</div>,
-];
+const responsive = {
+	0: { items: 1 },
+	568: { items: 2 },
+	1024: { items: 3 },
+};
+
+const createItems = (length, [handleClick]) => {
+	let deltaX = 0;
+	let difference = 0;
+	const swipeDelta = 20;
+
+	return Array.from({ length }).map((item, i) => (
+		<div
+			data-value={i + 1}
+			className="item"
+			onMouseDown={(e) => (deltaX = e.pageX)}
+			onMouseUp={(e) => (difference = Math.abs(e.pageX - deltaX))}
+			onClick={() => difference < swipeDelta && handleClick(i)}
+		>
+			<span className="item-inner" />
+		</div>
+	));
+};
 
 const PropsComponent = () => {
 	const [activeIndex, setActiveIndex] = useState(0);
+	const [items] = useState(createItems(5, [setActiveIndex]));
 
 	const slidePrev = () => setActiveIndex(activeIndex - 1);
 	const slideNext = () => setActiveIndex(activeIndex + 1);
-	const onSlideChanged = ({ item }) => setActiveIndex(item);
+	const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
 	return (
 		<section className="p-basic">
@@ -35,10 +42,10 @@ const PropsComponent = () => {
 				mouseTracking
 				disableDotsControls
 				disableButtonsControls
-				infinite
 				items={items}
 				activeIndex={activeIndex}
-				onSlideChanged={onSlideChanged}
+				responsive={responsive}
+				onSlideChanged={syncActiveIndex}
 			/>
 			<div className="b-refs-buttons">
 				<button onClick={slidePrev}>Prev</button>
