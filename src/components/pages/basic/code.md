@@ -22,6 +22,11 @@ const Carousel = () => (
         mouseTracking
         items={items}
         responsive={responsive}
+		ariaLabel="My Carousels best"
+		ariaRoledescription="carousel" 
+		ariaRoledescriptionSlide="slide"
+		addGroupRole = {true}
+		buttonControls = {true}
         controlsStrategy="alternate"
     />
 );

@@ -31,6 +31,11 @@ export interface Props {
 	swipeExtraPadding?: number;
 	touchMoveDefaultEvents?: boolean;
 	touchTracking?: boolean;
+	ariaLabel?: string;
+	ariaRoledescription?: string,
+	ariaRoledescriptionSlide?: string,
+	addGroupRole?: boolean,
+	buttonControls?: boolean,
 	onInitialized?: (e: EventObject) => void;
 	onResizeEvent?: (e: Event, prevProps: RootElement, nextProps: RootElement) => boolean;
 	onResized?: (e: EventObject) => void;

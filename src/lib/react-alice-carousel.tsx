@@ -36,7 +36,6 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 	constructor(props) {
 		super(props);
-
 		this.state = Utils.calculateInitialState(props, null);
 
 		this.isHovered = false;
@@ -591,9 +590,18 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	}
 
 	_renderStageItem = (item, i: number) => {
+		const { itemsCount } = this.state;
+		const pageInfo = {itemsCount, thisCount: i+1};
 		const styles = Utils.getRenderStageItemStyles(i, this.state);
 		const className = Utils.getRenderStageItemClasses(i, this.state);
-		return <Views.StageItem styles={styles} className={className} key={`stage-item-${i}`} item={item} />;
+		return <Views.StageItem 
+			styles={styles} 
+			className={className} 
+			key={`stage-item-${i}`} 
+			pageInfo={pageInfo}
+			ariaRoledescriptionSlide={this.props.ariaRoledescriptionSlide}
+			addGroupRole={this.props.addGroupRole}
+			item={item} />;
 	};
 
 	_renderSlideInfo = () => {
@@ -615,7 +623,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	}
 
 	_renderPrevButton() {
-		const { renderPrevButton } = this.props;
+		const { renderPrevButton, buttonControls } = this.props;
 		const { isPrevSlideDisabled } = Utils.getSlideItemInfo(this.state);
 		return (
 			<Views.PrevNextButton
@@ -623,12 +631,13 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 				onClick={this.slidePrev}
 				isDisabled={isPrevSlideDisabled}
 				renderPrevButton={renderPrevButton}
+				buttonControls={buttonControls}
 			/>
 		);
 	}
 
 	_renderNextButton() {
-		const { renderNextButton } = this.props;
+		const { renderNextButton, buttonControls  } = this.props;
 		const { isNextSlideDisabled } = Utils.getSlideItemInfo(this.state);
 		return (
 			<Views.PrevNextButton
@@ -636,6 +645,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 				onClick={this.slideNext}
 				isDisabled={isNextSlideDisabled}
 				renderNextButton={renderNextButton}
+				buttonControls={buttonControls}
 			/>
 		);
 	}
@@ -660,9 +670,12 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		const stageStyles = Utils.getRenderStageStyles({ translate3d }, { transition });
 		const classnameModifier = this.props.ssrSilentMode || canUseDom ? '' : Modifiers.SSR;
 		const classnames = Utils.concatClassnames(Classnames.ROOT, classnameModifier);
-
 		return (
-			<div className={classnames}>
+			<div 
+				className={classnames}
+				aria-roledescription = {this.props.ariaRoledescription}
+				aria-label = {this.props.ariaLabel}
+			>
 				<div ref={this._setRootComponentRef}>
 					<div
 						style={wrapperStyles}

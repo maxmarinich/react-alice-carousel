@@ -31,6 +31,7 @@ React Alice Carousel is a React component for building content galleries, conten
 - Server side rendering friendly
 - Touch and Drag support
 - TypeScript
+- Some Aria compliance
 
 ## Installation
 ```apacheconfig
@@ -101,6 +102,7 @@ const Gallery = () => {
 - `paddingRight`: Number, default `0`  - Set the gallery offset from the right.
 - `renderKey`: Number, default `undefined`  - Auxiliary property, allows call the render method without changing the state inside the gallery instance.
 - `responsive`: Object, default `undefined` - Set number of items in the slide. The key is the breakpoint (default is the result of: () => window.innerWidth or `innerWidth` property if the last presented).
+
     ```js
         {
           0: {
@@ -127,6 +129,13 @@ const Gallery = () => {
 - `renderPrevButton({ isDisabled })`: Rendering function - create a custom component.
 - `renderNextButton({ isDisabled })`: Rendering function - create a custom component.
 - `renderPlayPauseButton({ isPlaying })`: Rendering function - create a custom component.
+
+#### Aria Carousel Specs
+- `ariaLabel`: String default `React Carousel` - Aria label for overall carousel,
+- `ariaRoledescription`: String default `carousel` - Role description `carousel` is to specification,
+- `ariaRoledescriptionSlide`:  String default `slide` - Role description `slide` is to specification,
+- `addGroupRole`: Boolean default `false` - Add role `true` adds a role of group & `false` a role of none,
+- `buttonControls`: Boolean default `false` - Assigning `true` Adds html aria spec buttons to prev and next, `false` defaults to <p> tags 
 
 #### Methods
 - `slidePrev(e: Event) => void` : Go to the prev slide.

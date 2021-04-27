@@ -2,7 +2,7 @@ import React from 'react';
 import * as Utils from '../utils';
 import { Classnames, Modifiers } from '../types';
 
-export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, renderNextButton }: Props) => {
+export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, renderNextButton, buttonControls }: Props) => {
 	if (typeof renderPrevButton === 'function') {
 		return (
 			<div className={Classnames.BUTTON_PREV} onClick={onClick}>
@@ -27,20 +27,38 @@ export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, re
 	const buttonItemModifierClasses = isDisabled ? Modifiers.INACTIVE : '';
 	const classnames = Utils.concatClassnames(buttonItemClasses, buttonItemModifierClasses);
 
-	return (
+	const renderRegularControls = () => (
 		<div className={buttonClasses}>
 			<div className={buttonWrapperClasses}>
-				<p className={classnames} onClick={onClick}>
+				<p className={classnames} 
+					onClick={onClick}
+				>
 					<span data-area={ariaValue} />
 				</p>
 			</div>
 		</div>
 	);
+
+	const renderAriaControls = () => (
+		<div className={buttonClasses}>
+			<div className={buttonWrapperClasses} aria-controls="alice-carousel">
+				<button className={classnames} 
+					onClick={onClick} 
+					aria-label={`${name} slide`}
+				>
+					<span data-area={ariaValue} />
+				</button>
+			</div>
+		</div>
+	);
+
+	return buttonControls ? renderAriaControls() : renderRegularControls();
 };
 
 type Props = {
 	name: 'prev' | 'next';
 	isDisabled: boolean;
+	buttonControls?: boolean;
 	onClick: (e) => void;
 	renderPrevButton?: ({ isDisabled }) => any;
 	renderNextButton?: ({ isDisabled }) => any;

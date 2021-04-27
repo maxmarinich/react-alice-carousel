@@ -36,4 +36,9 @@ export const defaultProps = {
 	onResizeEvent: undefined,
 	onSlideChange: () => undefined,
 	onSlideChanged: () => undefined,
+	ariaLabel: 'React Carousel',
+	ariaRoledescription: 'carousel',
+	ariaRoledescriptionSlide: 'slide',
+	addGroupRole: false,
+	buttonControls: false, 
 };
