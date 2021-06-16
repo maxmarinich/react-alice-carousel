@@ -208,7 +208,7 @@ $play-btn-size: 32px !default;
 
     &:hover,
     &.__active {
-      background-color: lighten(#465798, 15%);
+      background-color: lighten($clr-base, 15%);
     }
   }
 }
