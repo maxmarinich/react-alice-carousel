@@ -1,38 +1,27 @@
 import React from 'react';
-
-import markdown from './code.md';
-import TheCode from '../../the-code';
-import AliceCarousel from '../../../lib/react-alice-carousel';
-
-const responsive = {
-	0: { items: 1 },
-	568: { items: 2 },
-	1024: { items: 3 },
-};
-
-const items = [
-	<div className="item" data-value="1">
-		1
-	</div>,
-	<div className="item" data-value="2">
-		2
-	</div>,
-	<div className="item" data-value="3">
-		3
-	</div>,
-	<div className="item" data-value="4">
-		4
-	</div>,
-	<div className="item" data-value="5">
-		5
-	</div>,
-];
+import PercentsExample from './percents';
+import BaseExample from './base-padding';
+import Anchor, { genAnchorProps } from '../../the-anchor';
 
 const StagePaddingPage = () => {
 	return (
-		<section className="p-basic p-padding">
-			<AliceCarousel mouseTracking items={items} paddingLeft={50} paddingRight={50} responsive={responsive} />
-			<TheCode html={markdown} />
+		<section className="p-basic p-custom">
+			<h2 className="title">
+				<Anchor {...genAnchorProps('stage-padding')} />
+				&nbsp; Base
+			</h2>
+			<BaseExample />
+			<br />
+			<br />
+			<br />
+			<h2 className="title">
+				<Anchor {...genAnchorProps('stage-padding-percents')} />
+				&nbsp; Percents
+			</h2>
+			<PercentsExample />
+			<br />
+			<br />
+			<br />
 		</section>
 	);
 };
