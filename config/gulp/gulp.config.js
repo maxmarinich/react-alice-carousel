@@ -1,19 +1,21 @@
 const { resolve } = require('path');
-const babel = require('gulp-babel');
 const gulp = require('gulp');
-const sass = require('gulp-sass');
+const babel = require('gulp-babel');
+const dartSass = require('sass');
+const gulpSass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const strip = require('gulp-strip-comments');
 const uglify = require('gulp-uglify');
-const ts = require('gulp-typescript');
+const typescript = require('gulp-typescript');
 
+const sass = gulpSass(dartSass);
 const rootPath = resolve(__dirname, '../..');
 const libPath = resolve(rootPath, 'src/lib');
 const outputPath = resolve(rootPath, 'lib');
 const babelConfig = require(rootPath + '/.babelrc.json');
-const tsProject = ts.createProject(rootPath + '/tsconfig.json');
+const tsProject = typescript.createProject(rootPath + '/tsconfig.json');
 
-gulp.task('ts', function () {
+function ts() {
 	return tsProject
 		.src()
 		.pipe(tsProject())
@@ -21,20 +23,18 @@ gulp.task('ts', function () {
 		.pipe(strip())
 		.pipe(uglify())
 		.pipe(gulp.dest(outputPath));
-});
+}
 
-gulp.task('css', function () {
-	sass.compiler = require('node-sass');
-
+function css() {
 	return gulp
 		.src(resolve(libPath, 'scss/alice-carousel.scss'))
-		.pipe(sass())
+		.pipe(sass.sync().on('error', sass.logError))
 		.pipe(autoprefixer())
 		.pipe(gulp.dest(outputPath));
-});
+}
 
-gulp.task('scss', function () {
+function scss() {
 	return gulp.src(resolve(libPath, 'scss/**/*.scss')).pipe(gulp.dest(resolve(outputPath, 'scss')));
-});
+}
 
-gulp.task('default', gulp.series('ts', 'css', 'scss'));
+exports.default = gulp.series(ts, css, scss);
