@@ -212,7 +212,7 @@ cd react-alice-carousel
 ```
 #### Run
 ```apacheconfig
-npm i
+npm ci
 npm start
 ```
 #### Test
