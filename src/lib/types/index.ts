@@ -71,6 +71,8 @@ export interface State {
 	translate3d: number;
 }
 
+export type Timeout = number;
+
 export type Style = {
 	transition: string;
 	transform?: string;

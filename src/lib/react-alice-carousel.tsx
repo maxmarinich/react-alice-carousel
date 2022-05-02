@@ -14,12 +14,15 @@ import {
 	RootElement,
 	SlideTo,
 	State,
+	Timeout,
 } from './types';
 
 export * from './types';
 export default class AliceCarousel extends React.PureComponent<Props, State> {
 	static defaultProps = defaultProps;
-	private autoPlayTimeoutId: undefined | number;
+	private autoPlayTimeoutId?: Timeout;
+	private slideEndTimeoutId?: Timeout;
+	private touchEndTimeoutId?: Timeout;
 	private isAnimationDisabled: boolean;
 	private isHovered: boolean;
 	private isTouchMoveProcessStarted: boolean;
@@ -27,11 +30,9 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	private hasUserAction: boolean;
 	private rootElement: null | HTMLElement;
 	private rootComponentDimensions: RootElement;
-	private slideEndTimeoutId: number | undefined;
 	private stageComponent: null | HTMLElement;
 	private startTouchmovePosition: undefined | number;
 	private swipeListener: VS | null = null;
-	private touchEndTimeoutId: number | undefined;
 	private _handleResizeDebounced: () => void | undefined;
 
 	constructor(props) {
@@ -138,13 +139,9 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 	get isFadeoutAnimationAllowed() {
 		const { itemsInSlide } = this.state;
-		const { animationType, paddingLeft, paddingRight, autoWidth, autoHeight } = this.props;
+		const { animationType, paddingLeft, paddingRight, autoWidth } = this.props;
 
-		return (
-			itemsInSlide === 1 &&
-			animationType === AnimationType.FADEOUT &&
-			!(paddingLeft || paddingRight || autoWidth || autoHeight)
-		);
+		return itemsInSlide === 1 && animationType === AnimationType.FADEOUT && !(paddingLeft || paddingRight || autoWidth);
 	}
 
 	get touchmovePosition() {
@@ -334,7 +331,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	_handleBeforeTouchEnd(position: number) {
 		const { animationDuration } = this.state;
 
-		this.touchEndTimeoutId = setTimeout(async () => {
+		this.touchEndTimeoutId = window.setTimeout(async () => {
 			const activeIndex = Utils.getSwipeTouchendIndex(position, this.state);
 			const translate3d = Utils.getTranslate3dProperty(activeIndex, this.state);
 
@@ -390,7 +387,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 			fadeoutAnimationProcessing,
 		});
 
-		this.slideEndTimeoutId = setTimeout(() => this._handleBeforeSlideEnd(eventType), animationDuration);
+		this.slideEndTimeoutId = window.setTimeout(() => this._handleBeforeSlideEnd(eventType), animationDuration);
 	}
 
 	_handleBeforeSlideEnd = async (eventType?: EventType) => {
@@ -500,7 +497,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	}
 
 	_clearAutoPlayTimeout() {
-		clearTimeout(this.autoPlayTimeoutId);
+		window.clearTimeout(this.autoPlayTimeoutId);
 		this.autoPlayTimeoutId = undefined;
 	}
 
@@ -545,7 +542,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	_setAutoPlayInterval() {
 		const { autoPlayDirection, autoPlayInterval } = this.props;
 
-		this.autoPlayTimeoutId = setTimeout(() => {
+		this.autoPlayTimeoutId = window.setTimeout(() => {
 			if (!this.isHovered) {
 				autoPlayDirection === AutoplayDirection.RTL ? this.slidePrev({}) : this.slideNext({});
 			}

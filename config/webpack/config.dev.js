@@ -6,9 +6,6 @@ const configBase = require('./config.base');
 const configDev = {
 	mode: 'development',
 	devtool: 'source-map',
-	devServer: {
-		overlay: true,
-	},
 	module: {
 		rules: [
 			{
