@@ -6,7 +6,7 @@ import {
 	concatClassnames,
 	getActiveSlideIndex, getDotsNavigationLength,
 	getItemIndexForDotNavigation,
-	getSlideItemInfo,
+	getSlideItemInfo, hasDotForEachSlide,
 } from '../utils';
 
 export const DotsNavigation = ({
@@ -19,8 +19,8 @@ export const DotsNavigation = ({
 }: Props) => {
 	const { itemsCount, itemsInSlide, infinite, autoWidth, activeIndex } = state;
 	const { isNextSlideDisabled } = getSlideItemInfo(state);
-	const hasDotForEachSlide = hasDotForEachSlide(autoWidth, controlsStrategy);
-	const dotsLength = getDotsNavigationLength(itemsCount, itemsInSlide, hasDotForEachSlide);
+	const itHasDotForEachSlide = hasDotForEachSlide(autoWidth, controlsStrategy);
+	const dotsLength = getDotsNavigationLength(itemsCount, itemsInSlide, itHasDotForEachSlide);
 
 	return (
 		<ul className={Classnames.DOTS}>
@@ -32,7 +32,7 @@ export const DotsNavigation = ({
 					let nextIndex = getItemIndexForDotNavigation(i, isTheLastDotIndex, itemsCount, itemsInSlide);
 					let currentIndex = getActiveSlideIndex(isNextSlideDisabled, state);
 
-					if (hasDotForEachSlide) {
+					if (itHasDotForEachSlide) {
 						currentIndex = activeIndex;
 
 						if (activeIndex < 0) {
