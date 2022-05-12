@@ -1,5 +1,6 @@
-import * as Utils from '.';
 import { State, Classnames, Modifiers } from '../types';
+import { concatClassnames } from './common';
+import { getShiftIndex } from './math';
 
 export const getRenderStageItemClasses = (i = 0, state: State) => {
 	const { fadeoutAnimationIndex } = state;
@@ -8,12 +9,12 @@ export const getRenderStageItemClasses = (i = 0, state: State) => {
 	const isTarget = isTargetItem(i, state) ? Modifiers.TARGET : '';
 	const isAnimated = i === fadeoutAnimationIndex ? Classnames.ANIMATED : '';
 
-	return Utils.concatClassnames(Classnames.STAGE_ITEM, isActive, isCloned, isTarget, isAnimated);
+	return concatClassnames(Classnames.STAGE_ITEM, isActive, isCloned, isTarget, isAnimated);
 };
 
 export const isActiveItem = (i = 0, state: State) => {
 	const { activeIndex, itemsInSlide, itemsOffset, infinite, autoWidth } = state;
-	const shiftIndex = Utils.getShiftIndex(itemsInSlide, itemsOffset);
+	const shiftIndex = getShiftIndex(itemsInSlide, itemsOffset);
 
 	if (autoWidth && infinite) {
 		return i - shiftIndex === activeIndex + itemsOffset;
@@ -31,7 +32,7 @@ export const isActiveItem = (i = 0, state: State) => {
 
 export const isTargetItem = (i = 0, state: State) => {
 	const { activeIndex, itemsInSlide, itemsOffset, infinite, autoWidth } = state;
-	const shiftIndex = Utils.getShiftIndex(itemsInSlide, itemsOffset);
+	const shiftIndex = getShiftIndex(itemsInSlide, itemsOffset);
 
 	if (!infinite) {
 		return i === activeIndex;
@@ -55,6 +56,6 @@ export const isClonedItem = (i = 0, state: State) => {
 		return i < itemsInSlide || i > itemsCount - 1 + itemsInSlide;
 	}
 
-	const shiftIndex = Utils.getShiftIndex(itemsInSlide, itemsOffset);
+	const shiftIndex = getShiftIndex(itemsInSlide, itemsOffset);
 	return i < shiftIndex || i > itemsCount - 1 + shiftIndex;
 };

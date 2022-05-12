@@ -1,5 +1,18 @@
-import * as Utils from '.';
 import { Props, State } from '../types';
+import {
+	createAutowidthTransformationSet, createClones,
+	createDefaultTransformationSet, getElementDimensions,
+	getItemsCount, getItemsOffset, getTransitionProperty,
+	getTranslate3dProperty,
+} from './elements';
+import {
+	getActiveIndex,
+	getItemCoords,
+	getStartIndex,
+	getSwipeLimitMax,
+	getSwipeLimitMin,
+	getSwipeShiftValue,
+} from './math';
 
 export const canUseDOM = () => {
 	try {
@@ -53,24 +66,24 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 	let stageContentWidth;
 	let transformationSet;
 	const { animationDuration = 0, infinite = false, autoPlay = false, autoWidth = false } = props;
-	const clones = Utils.createClones(props);
-	const transition = Utils.getTransitionProperty();
-	const itemsCount = Utils.getItemsCount(props);
-	const itemsOffset = Utils.getItemsOffset(props);
+	const clones = createClones(props);
+	const transition = getTransitionProperty();
+	const itemsCount = getItemsCount(props);
+	const itemsOffset = getItemsOffset(props);
 	const itemsInSlide = getItemsInSlide(itemsCount, props);
-	const startIndex = Utils.getStartIndex(props.activeIndex, itemsCount);
-	const activeIndex = Utils.getActiveIndex({ startIndex, itemsCount, /*itemsInSlide,*/ infinite });
-	const { width: stageWidth } = Utils.getElementDimensions(el);
+	const startIndex = getStartIndex(props.activeIndex, itemsCount);
+	const activeIndex = getActiveIndex({ startIndex, itemsCount, /*itemsInSlide,*/ infinite });
+	const { width: stageWidth } = getElementDimensions(el);
 
 	if (autoWidth) {
 		// TODO: refactoring
-		const { coords, content, partial } = Utils.createAutowidthTransformationSet(el, stageWidth, infinite);
+		const { coords, content, partial } = createAutowidthTransformationSet(el, stageWidth, infinite);
 
 		isStageContentPartial = partial;
 		stageContentWidth = content;
 		transformationSet = coords;
 	} else {
-		const { coords, content, partial } = Utils.createDefaultTransformationSet(
+		const { coords, content, partial } = createDefaultTransformationSet(
 			clones,
 			stageWidth,
 			itemsInSlide,
@@ -82,13 +95,13 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 		transformationSet = coords;
 	}
 
-	const { position: swipeAllowedPositionMax } = Utils.getItemCoords(-itemsInSlide, transformationSet);
+	const { position: swipeAllowedPositionMax } = getItemCoords(-itemsInSlide, transformationSet);
 
-	const swipeLimitMin = Utils.getSwipeLimitMin({ itemsOffset, transformationSet }, props);
-	const swipeLimitMax = Utils.getSwipeLimitMax({ itemsCount, itemsOffset, itemsInSlide, transformationSet }, props);
-	const swipeShiftValue = Utils.getSwipeShiftValue(itemsCount, transformationSet);
+	const swipeLimitMin = getSwipeLimitMin({ itemsOffset, transformationSet }, props);
+	const swipeLimitMax = getSwipeLimitMax({ itemsCount, itemsOffset, itemsInSlide, transformationSet }, props);
+	const swipeShiftValue = getSwipeShiftValue(itemsCount, transformationSet);
 
-	const translate3d = Utils.getTranslate3dProperty(activeIndex, {
+	const translate3d = getTranslate3dProperty(activeIndex, {
 		itemsInSlide,
 		itemsOffset,
 		transformationSet,
