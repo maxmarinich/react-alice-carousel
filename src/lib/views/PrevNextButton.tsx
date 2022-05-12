@@ -1,6 +1,6 @@
 import React from 'react';
-import * as Utils from '../utils';
 import { Classnames, Modifiers } from '../types';
+import { concatClassnames } from '../utils';
 
 export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, renderNextButton }: Props) => {
 	if (typeof renderPrevButton === 'function') {
@@ -25,7 +25,7 @@ export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, re
 	const buttonWrapperClasses = isPreviews ? Classnames.BUTTON_PREV_WRAPPER : Classnames.BUTTON_NEXT_WRAPPER;
 	const buttonItemClasses = isPreviews ? Classnames.BUTTON_PREV_ITEM : Classnames.BUTTON_NEXT_ITEM;
 	const buttonItemModifierClasses = isDisabled ? Modifiers.INACTIVE : '';
-	const classnames = Utils.concatClassnames(buttonItemClasses, buttonItemModifierClasses);
+	const classnames = concatClassnames(buttonItemClasses, buttonItemModifierClasses);
 
 	return (
 		<div className={buttonClasses}>

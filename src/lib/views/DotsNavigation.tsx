@@ -1,7 +1,13 @@
 import React, { MouseEventHandler } from 'react';
 
-import * as Utils from '../utils';
 import { State, Classnames, Modifiers } from '../types';
+import {
+	checkIsTheLastDotIndex,
+	concatClassnames,
+	getActiveSlideIndex, getDotsNavigationLength,
+	getItemIndexForDotNavigation,
+	getSlideItemInfo,
+} from '../utils';
 
 export const DotsNavigation = ({
 	state,
@@ -12,9 +18,9 @@ export const DotsNavigation = ({
 	renderDotsItem,
 }: Props) => {
 	const { itemsCount, itemsInSlide, infinite, autoWidth, activeIndex } = state;
-	const { isNextSlideDisabled } = Utils.getSlideItemInfo(state);
-	const hasDotForEachSlide = Utils.hasDotForEachSlide(autoWidth, controlsStrategy);
-	const dotsLength = Utils.getDotsNavigationLength(itemsCount, itemsInSlide, hasDotForEachSlide);
+	const { isNextSlideDisabled } = getSlideItemInfo(state);
+	const hasDotForEachSlide = hasDotForEachSlide(autoWidth, controlsStrategy);
+	const dotsLength = getDotsNavigationLength(itemsCount, itemsInSlide, hasDotForEachSlide);
 
 	return (
 		<ul className={Classnames.DOTS}>
@@ -22,9 +28,9 @@ export const DotsNavigation = ({
 				if (i < dotsLength) {
 					// TODO check, refactoring
 
-					const isTheLastDotIndex = Utils.checkIsTheLastDotIndex(i, Boolean(infinite), dotsLength);
-					let nextIndex = Utils.getItemIndexForDotNavigation(i, isTheLastDotIndex, itemsCount, itemsInSlide);
-					let currentIndex = Utils.getActiveSlideIndex(isNextSlideDisabled, state);
+					const isTheLastDotIndex = checkIsTheLastDotIndex(i, Boolean(infinite), dotsLength);
+					let nextIndex = getItemIndexForDotNavigation(i, isTheLastDotIndex, itemsCount, itemsInSlide);
+					let currentIndex = getActiveSlideIndex(isNextSlideDisabled, state);
 
 					if (hasDotForEachSlide) {
 						currentIndex = activeIndex;
@@ -39,7 +45,7 @@ export const DotsNavigation = ({
 
 					const isActive = currentIndex === i ? Modifiers.ACTIVE : '';
 					const isCustom = renderDotsItem ? Modifiers.CUSTOM : '';
-					const classname = Utils.concatClassnames(Classnames.DOTS_ITEM, isActive, isCustom);
+					const classname = concatClassnames(Classnames.DOTS_ITEM, isActive, isCustom);
 
 					return (
 						<li
