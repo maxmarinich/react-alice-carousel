@@ -1,6 +1,6 @@
 import React from 'react';
-import * as Utils from '../utils';
 import { Classnames, Modifiers } from '../types';
+import { concatClassnames } from '../utils';
 
 export const PlayPauseButton = ({ isPlaying, onClick, renderPlayPauseButton }: Props) => {
 	if (typeof renderPlayPauseButton === 'function') {
@@ -12,7 +12,7 @@ export const PlayPauseButton = ({ isPlaying, onClick, renderPlayPauseButton }: P
 	}
 
 	const classModifier = isPlaying ? Modifiers.PAUSE : '';
-	const classnames = Utils.concatClassnames(Classnames.PLAY_BTN_ITEM, classModifier);
+	const classnames = concatClassnames(Classnames.PLAY_BTN_ITEM, classModifier);
 
 	return (
 		<div className={Classnames.PLAY_BTN}>

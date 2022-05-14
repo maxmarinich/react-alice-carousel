@@ -1,11 +1,10 @@
 import { Props, State, ControlsStrategy, AutoPlayStrategy } from '../types';
-import * as Utils from '../utils';
 
 export function shouldDisableControls(props: Props, state: State) {
 	const { controlsStrategy } = props || {};
 	const { itemsInSlide, itemsCount, autoWidth } = state || {};
 
-	if (Utils.isStrategy(controlsStrategy, ControlsStrategy.RESPONSIVE)) {
+	if (isStrategy(controlsStrategy, ControlsStrategy.RESPONSIVE)) {
 		return !autoWidth && itemsInSlide === itemsCount;
 	}
 }

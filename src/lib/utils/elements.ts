@@ -1,5 +1,7 @@
-import * as Utils from '.';
 import { Transformations, ItemCoords, Props, State, RootElement, Transition, Style } from '../types';
+import { getItemsInSlide } from './common';
+import { mapPartialCoords, mapPositionCoords } from './mappers';
+import { getShiftIndex } from './math';
 
 export const getSlides = (props: Props) => {
 	const { children, items = [] } = props;
@@ -33,7 +35,7 @@ export const createClones = (props: Props) => {
 
 	const itemsCount = getItemsCount(props);
 	const itemsOffset = getItemsOffset(props);
-	const itemsInSlide = Utils.getItemsInSlide(itemsCount, props);
+	const itemsInSlide = getItemsInSlide(itemsCount, props);
 	const cursor = Math.min(itemsInSlide, itemsCount) + itemsOffset;
 
 	const clonesAfter = slides.slice(0, cursor);
@@ -85,10 +87,10 @@ export const createAutowidthTransformationSet = (el, stageWidth = 0, infinite = 
 
 		if (!infinite) {
 			if (partial) {
-				coords = Utils.mapPartialCoords(coords);
+				coords = mapPartialCoords(coords);
 			} else {
 				const position = content - stageWidth;
-				coords = Utils.mapPositionCoords(coords, position);
+				coords = mapPositionCoords(coords, position);
 			}
 		}
 	}
@@ -124,10 +126,10 @@ export const createDefaultTransformationSet = (
 
 	if (!infinite) {
 		if (partial) {
-			coords = Utils.mapPartialCoords(coords);
+			coords = mapPartialCoords(coords);
 		} else {
 			const position = content - stageWidth;
-			coords = Utils.mapPositionCoords(coords, position);
+			coords = mapPositionCoords(coords, position);
 		}
 	}
 
@@ -163,7 +165,7 @@ export const getAutoheightProperty = (stageComponent: Element, props: Props, sta
 export const getElementCursor = (props: Props, state: State) => {
 	const { activeIndex, itemsInSlide } = state;
 	if (props.infinite) {
-		return activeIndex + itemsInSlide + Utils.getItemsOffset(props);
+		return activeIndex + itemsInSlide + getItemsOffset(props);
 	}
 	return activeIndex;
 };
@@ -242,7 +244,7 @@ export const getTranslate3dProperty = (nextIndex, state: Partial<State>) => {
 	const { infinite, itemsOffset = 0, itemsInSlide = 0, transformationSet = [] } = state;
 
 	if (infinite) {
-		cursor = nextIndex + Utils.getShiftIndex(itemsInSlide, itemsOffset);
+		cursor = nextIndex + getShiftIndex(itemsInSlide, itemsOffset);
 	}
 
 	return (transformationSet[cursor] || {}).position || 0;
@@ -259,7 +261,7 @@ export function getTranslateXProperty(element) {
 }
 
 export function getTransformMatrix(element) {
-	if (Utils.isElement(element)) {
+	if (isElement(element)) {
 		const { transform } = getComputedStyle(element);
 		const matched = transform.match(/(-?[0-9.]+)/g);
 
