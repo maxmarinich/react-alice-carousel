@@ -69,6 +69,8 @@ export interface State {
 	transition: string;
 	transformationSet: ItemCoords[];
 	translate3d: number;
+	paddingLeft?: number;
+	paddingRight?: number;
 }
 
 export type Timeout = number;
@@ -86,6 +88,8 @@ export type Transition = {
 export type Responsive = {
 	[key: string]: {
 		items: number;
+		paddingLeft?: number;
+		paddingRight?: number;
 	};
 };
 

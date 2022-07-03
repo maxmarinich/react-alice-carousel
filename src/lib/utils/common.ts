@@ -34,6 +34,33 @@ export const getIsStageContentPartial = (infinite = false, stageWidth = 0, conte
 	return stageWidth >= contentWidth;
 };
 
+export const getPadding  = (props: Props) => {
+	const { responsive, innerWidth, paddingLeft, paddingRight } = props;
+
+	const result = {paddingLeft: paddingLeft, paddingRight: paddingRight};
+
+	if(responsive) {
+		const configKeys = Object.keys(responsive);
+
+		if (configKeys.length) {
+			if (innerWidth || canUseDOM()) {
+				const value = innerWidth || window.innerWidth;
+				configKeys.forEach((key) => {
+					if (Number(key) < value) {
+						if(responsive[key].paddingLeft != undefined) {
+							result.paddingLeft = responsive[key].paddingLeft;
+						}
+						if(responsive[key].paddingRight != undefined) {
+							result.paddingRight = responsive[key].paddingRight;
+						}
+					}
+				});
+			}
+		}
+	}
+	return result;
+};
+
 export const getItemsInSlide = (itemsCount: number, props: Props) => {
 	let itemsInSlide = 1;
 	const { responsive, autoWidth = false, infinite = false, innerWidth } = props;
@@ -55,6 +82,8 @@ export const getItemsInSlide = (itemsCount: number, props: Props) => {
 						itemsInSlide = Math.min(responsive[key].items, itemsCount) || itemsInSlide;
 					}
 				});
+
+				window.console.log(responsive, props);
 			}
 		}
 	}
@@ -69,11 +98,15 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 	const clones = createClones(props);
 	const transition = getTransitionProperty();
 	const itemsCount = getItemsCount(props);
+	const {paddingLeft, paddingRight} = getPadding(props);
+
 	const itemsOffset = getItemsOffset(props);
 	const itemsInSlide = getItemsInSlide(itemsCount, props);
 	const startIndex = getStartIndex(props.activeIndex, itemsCount);
 	const activeIndex = getActiveIndex({ startIndex, itemsCount, /*itemsInSlide,*/ infinite });
 	const { width: stageWidth } = getElementDimensions(el);
+
+	window.console.log({paddingLeft, paddingRight});
 
 	if (autoWidth) {
 		// TODO: refactoring
@@ -135,5 +168,7 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 		swipeAllowedPositionMax,
 		swipeShiftValue,
 		canUseDom: canUseDom || canUseDOM(),
+		paddingLeft,
+		paddingRight,
 	};
 };
