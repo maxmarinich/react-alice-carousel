@@ -82,8 +82,6 @@ export const getItemsInSlide = (itemsCount: number, props: Props) => {
 						itemsInSlide = Math.min(responsive[key].items, itemsCount) || itemsInSlide;
 					}
 				});
-
-				window.console.log(responsive, props);
 			}
 		}
 	}
@@ -105,8 +103,6 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 	const startIndex = getStartIndex(props.activeIndex, itemsCount);
 	const activeIndex = getActiveIndex({ startIndex, itemsCount, /*itemsInSlide,*/ infinite });
 	const { width: stageWidth } = getElementDimensions(el);
-
-	window.console.log({paddingLeft, paddingRight});
 
 	if (autoWidth) {
 		// TODO: refactoring
