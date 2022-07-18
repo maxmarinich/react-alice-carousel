@@ -37,7 +37,7 @@ export const getIsStageContentPartial = (infinite = false, stageWidth = 0, conte
 export const getPadding  = (props: Props) => {
 	const { responsive, innerWidth, paddingLeft, paddingRight } = props;
 
-	const result = {paddingLeft: paddingLeft, paddingRight: paddingRight};
+	const result = { paddingLeft, paddingRight};
 
 	if(responsive) {
 		const configKeys = Object.keys(responsive);
@@ -47,10 +47,10 @@ export const getPadding  = (props: Props) => {
 				const value = innerWidth || window.innerWidth;
 				configKeys.forEach((key) => {
 					if (Number(key) < value) {
-						if(responsive[key].paddingLeft != undefined) {
+						if(responsive[key].paddingLeft !== undefined) {
 							result.paddingLeft = responsive[key].paddingLeft;
 						}
-						if(responsive[key].paddingRight != undefined) {
+						if(responsive[key].paddingRight !== undefined) {
 							result.paddingRight = responsive[key].paddingRight;
 						}
 					}
@@ -96,8 +96,7 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 	const clones = createClones(props);
 	const transition = getTransitionProperty();
 	const itemsCount = getItemsCount(props);
-	const {paddingLeft, paddingRight} = getPadding(props);
-
+	const { paddingLeft, paddingRight } = getPadding(props);
 	const itemsOffset = getItemsOffset(props);
 	const itemsInSlide = getItemsInSlide(itemsCount, props);
 	const startIndex = getStartIndex(props.activeIndex, itemsCount);
