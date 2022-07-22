@@ -194,8 +194,7 @@ export function animate(element, options) {
 }
 
 export const getRenderWrapperStyles = (props: Props, state: State, element) => {
-	const { autoHeight, animationDuration } = props || {};
-	const { paddingLeft, paddingRight } = state || {};
+	const { paddingLeft, paddingRight, autoHeight, animationDuration } = props || {};
 	const height = autoHeight ? getAutoheightProperty(element, props, state) : undefined;
 	const transition = height ? `height ${animationDuration}ms` : undefined;
 

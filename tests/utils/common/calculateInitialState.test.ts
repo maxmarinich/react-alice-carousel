@@ -29,8 +29,6 @@ describe('Utils.calculateInitialState', function () {
 			transition: 'transform 0ms ease 0ms',
 			translate3d: 0,
 			canUseDom: true,
-			paddingLeft: 0,
-			paddingRight: 0,
 		});
 	});
 });
