@@ -1,6 +1,6 @@
 {
   "name": "react-alice-carousel",
-  "version": "2.6.2",
+  "version": "2.6.3",
   "description": "React image gallery, react slideshow carousel, react content rotator",
   "main": "./lib/react-alice-carousel.js",
   "types": "./lib/react-alice-carousel.d.ts",
@@ -14,7 +14,7 @@
     "remove:cache": "yarn cache clean --force; npm cache clean --force",
     "lint": "eslint ./src/**/**.ts",
     "format": "prettier --write ./src/**/**.ts",
-    "prepublish": "npm run build:lib",
+    "prepare": "npm run build:lib",
     "postpublish": "git push --tags",
     "precommit": "npm run lint && npm test",
     "prepush": "npm run lint && npm test",
