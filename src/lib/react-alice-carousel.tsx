@@ -339,7 +339,8 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 			const transition = Utils.getTransitionProperty();
 			await this.setState({ activeIndex, translate3d, transition });
-			await this._handleSlideChanged();
+			// Timeout used to avoid batching from React v.18
+			setTimeout(() => this._handleSlideChanged());
 		}, animationDuration);
 	}
 
