@@ -34,6 +34,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	private startTouchmovePosition: undefined | number;
 	private swipeListener: VS | null = null;
 	private _handleResizeDebounced: () => void | undefined;
+	private _cancelResizeDebounced: () => void | undefined;
 
 	constructor(props) {
 		super(props);
@@ -56,7 +57,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		this._handleTouchend = this._handleTouchend.bind(this);
 		this._handleDotClick = this._handleDotClick.bind(this);
 		this._handleResize = this._handleResize.bind(this);
-		this._handleResizeDebounced = Utils.debounce(this._handleResize, 100);
+		[this._handleResizeDebounced, this._cancelResizeDebounced] = Utils.debounce(this._handleResize, 100);
 	}
 
 	async componentDidMount() {
@@ -125,6 +126,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	}
 
 	componentWillUnmount() {
+		this._cancelResizeDebounced();
 		this._cancelTimeoutAnimations();
 		this._removeEventListeners();
 	}
