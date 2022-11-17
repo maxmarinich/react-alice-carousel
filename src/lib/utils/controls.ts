@@ -17,15 +17,15 @@ export function shouldDisableButtons(props: Props, state: State) {
 	return props.disableButtonsControls || (!props.infinite && shouldDisableControls(props, state));
 }
 
-export const isStrategy = (strategy, value) => {
-	return strategy && strategy.includes(value);
+export const isStrategy = (strategy = '', value = '') => {
+	return Boolean(strategy && strategy.includes(value));
 };
 
-export const hasDotForEachSlide = (autoWidth, controlsStrategy) => {
+export const hasDotForEachSlide = (autoWidth: boolean, controlsStrategy?: string) => {
 	return autoWidth || isStrategy(controlsStrategy, ControlsStrategy.ALTERNATE);
 };
 
-export const getDotsNavigationLength = (itemsCount = 0, itemsInSlide = 1, hasDotForEachSlide) => {
+export const getDotsNavigationLength = (itemsCount = 0, itemsInSlide = 1, hasDotForEachSlide = false) => {
 	if (hasDotForEachSlide) {
 		return itemsCount;
 	}

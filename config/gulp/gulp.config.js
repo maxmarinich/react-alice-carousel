@@ -4,7 +4,6 @@ const babel = require('gulp-babel');
 const dartSass = require('sass');
 const gulpSass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
-const strip = require('gulp-strip-comments');
 const uglify = require('gulp-uglify');
 const typescript = require('gulp-typescript');
 
@@ -20,7 +19,6 @@ function ts() {
 		.src()
 		.pipe(tsProject())
 		.js.pipe(babel(babelConfig))
-		.pipe(strip())
 		.pipe(uglify())
 		.pipe(gulp.dest(outputPath));
 }

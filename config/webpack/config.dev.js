@@ -1,6 +1,7 @@
 const { merge } = require('webpack-merge');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const configBase = require('./config.base');
 
 const configDev = {
@@ -9,19 +10,14 @@ const configDev = {
 	module: {
 		rules: [
 			{
-				enforce: 'pre',
 				test: /\.ts(x?)$/,
 				exclude: /node_modules/,
-				loader: 'eslint-loader',
-			},
-			{
-				test: /\.ts(x?)$/,
-				exclude: /node_modules/,
-				use: ['babel-loader', 'awesome-typescript-loader'],
+				use: ['babel-loader', 'ts-loader'],
 			},
 		],
 	},
 	plugins: [
+		new ESLintPlugin({ extensions: ['ts', 'tsx'] }),
 		new HtmlWebPackPlugin({
 			template: './public/index.html',
 			filename: './index.html',

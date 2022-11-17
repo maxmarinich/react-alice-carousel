@@ -1,4 +1,4 @@
-export function debounce(func: (...args) => void, ms = 0) {
+export function debounce(func: (...args: any[]) => void, ms = 0) {
 	let timer: undefined | number = undefined;
 
 	const cancel = () => {
@@ -8,7 +8,7 @@ export function debounce(func: (...args) => void, ms = 0) {
 		}
 	};
 
-	return [function (...args) {
+	return [function (...args: any[]) {
 		cancel();
 		timer = window.setTimeout(() => {
 			func.apply(this, args);

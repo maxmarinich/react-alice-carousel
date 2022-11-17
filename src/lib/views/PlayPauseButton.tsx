@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Classnames, Modifiers } from '../types';
 import { concatClassnames } from '../utils';
 
@@ -25,6 +25,6 @@ export const PlayPauseButton = ({ isPlaying, onClick, renderPlayPauseButton }: P
 
 type Props = {
 	isPlaying: boolean;
-	onClick: (e) => void;
-	renderPlayPauseButton?: ({ isPlaying }) => any;
+	onClick: (e: unknown) => void;
+	renderPlayPauseButton?: ({ isPlaying = false }) => ReactNode;
 };

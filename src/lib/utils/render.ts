@@ -1,6 +1,6 @@
 import { State } from '../types';
 
-export const getActiveSlideIndex = (isNextSlideDisabled, state: State) => {
+export const getActiveSlideIndex = (isNextSlideDisabled: boolean, state: State) => {
 	const { activeIndex: index, itemsInSlide, itemsCount } = state || {};
 	const activeIndex = index + itemsInSlide;
 
@@ -17,13 +17,18 @@ export const getActiveSlideDotsLength = (slidesLength = 0, itemsInSlide = 1) => 
 	return 0;
 };
 
-export const getSlideIndexForNonMultipleItems = (activeIndex, itemsInSlide, slidesLength) => {
+export const getSlideIndexForNonMultipleItems = (activeIndex: number, itemsInSlide: number, slidesLength: number) => {
 	if (activeIndex < itemsInSlide) return slidesLength - itemsInSlide;
 	if (activeIndex > slidesLength) return 0;
 	return activeIndex - 1;
 };
 
-export const getSlideIndexForMultipleItems = (activeIndex, itemsInSlide, slidesLength, isNextSlideDisabled) => {
+export const getSlideIndexForMultipleItems = (
+	activeIndex: number,
+	itemsInSlide: number,
+	slidesLength: number,
+	isNextSlideDisabled: boolean,
+) => {
 	const dotsLength = getActiveSlideDotsLength(slidesLength, itemsInSlide);
 
 	if (activeIndex === slidesLength + itemsInSlide) return 0;

@@ -10,7 +10,7 @@ const responsive = {
 	1024: { items: 3 },
 };
 
-const createItems = (length, [handleClick]) => {
+const createItems = (length = 0, [handleClick]: [(i:number) => void]) => {
 	let deltaX = 0;
 	let difference = 0;
 	const swipeDelta = 20;
@@ -34,7 +34,7 @@ const PropsComponent = () => {
 
 	const slidePrev = () => setActiveIndex(activeIndex - 1);
 	const slideNext = () => setActiveIndex(activeIndex + 1);
-	const syncActiveIndex = ({ item }) => setActiveIndex(item);
+	const syncActiveIndex = ({ item = 0 }) => setActiveIndex(item);
 
 	return (
 		<section className="p-basic">

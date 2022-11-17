@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 
-export const StageItem = ({ item, className, styles }) => {
+type Props = { item: ReactNode, className?: string, styles?: CSSProperties }
+export const StageItem = ({ item, className, styles }: Props) => {
 	return (
 		<li style={styles} className={className}>
 			{item}

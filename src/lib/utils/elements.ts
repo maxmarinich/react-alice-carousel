@@ -1,4 +1,4 @@
-import { Transformations, ItemCoords, Props, State, RootElement, Transition, Style } from '../types';
+import { Transformations, ItemCoords, Props, State, RootElement, Transition, Style, Options } from '../types';
 import { getItemsInSlide } from './common';
 import { mapPartialCoords, mapPositionCoords } from './mappers';
 import { getShiftIndex } from './math';
@@ -52,7 +52,7 @@ export const createClones = (props: Props) => {
 	return clonesBefore.concat(slides, clonesAfter);
 };
 
-export const isElement = (element) => {
+export const isElement = (element: unknown) => {
 	try {
 		return element instanceof Element || element instanceof HTMLDocument;
 	} catch (e) {
@@ -60,20 +60,20 @@ export const isElement = (element) => {
 	}
 };
 
-export const createAutowidthTransformationSet = (el, stageWidth = 0, infinite = false): Transformations => {
+export const createAutowidthTransformationSet = (el: HTMLElement | null, stageWidth = 0, infinite = false) => {
 	let content = 0;
 	let partial = true;
 	let coords: ItemCoords[] = [];
 
 	if (isElement(el)) {
 		// TODO: refactoring
-		const children: HTMLElement[] = Array.from(el.children || []);
+		const children: Array<HTMLElement | Element> = Array.from(el?.children || []);
 
 		coords = children.reduce<ItemCoords[]>((acc, child, i) => {
 			let position = 0;
 			const previewsChildCursor = i - 1;
 			const previewsChild = acc[previewsChildCursor];
-			const { width = 0 } = getElementDimensions(child?.firstChild);
+			const { width = 0 } = getElementDimensions(child?.firstChild as HTMLElement);
 			content += width;
 			partial = stageWidth >= content;
 
@@ -140,7 +140,7 @@ export const getItemWidth = (galleryWidth: number, itemsInSlide: number) => {
 	return itemsInSlide > 0 ? galleryWidth / itemsInSlide : galleryWidth;
 };
 
-export function getElementDimensions(element) {
+export function getElementDimensions(element: HTMLElement | null) {
 	if (element && element.getBoundingClientRect) {
 		const { width, height } = element.getBoundingClientRect();
 
@@ -149,12 +149,12 @@ export function getElementDimensions(element) {
 	return { width: 0, height: 0 };
 }
 
-export const getAutoheightProperty = (stageComponent: Element, props: Props, state: State) => {
+export const getAutoheightProperty = (stageComponent: HTMLElement | null, props: Props, state: State) => {
 	const elementCursor = getElementCursor(props, state);
-	const element = getElementFirstChild(stageComponent, elementCursor);
+	const element = getElementFirstChild(stageComponent, elementCursor) as HTMLElement;
 
 	if (isElement(element)) {
-		const styles = getComputedStyle(element);
+		const styles = window.getComputedStyle(element);
 		const marginTop = parseFloat(styles['marginTop']);
 		const marginBottom = parseFloat(styles['marginBottom']);
 
@@ -170,7 +170,7 @@ export const getElementCursor = (props: Props, state: State) => {
 	return activeIndex;
 };
 
-export const getElementFirstChild = (stageComponent, cursor) => {
+export const getElementFirstChild = (stageComponent: HTMLElement | null, cursor: number) => {
 	const children = (stageComponent && stageComponent.children) || [];
 	return (children[cursor] && children[cursor].firstChild) || null;
 };
@@ -183,17 +183,17 @@ export function shouldHandleResizeEvent(
 	return prevDimensions.width !== nextRootComponentDimensions.width;
 }
 
-export function animate(element, options) {
+export function animate(element: HTMLElement | null, options: Options) {
 	const { position = 0, animationDuration = 0, animationEasingFunction = 'ease' } = options || {};
 
-	if (isElement(element)) {
+	if (element && isElement(element)) {
 		element.style['transition'] = `transform ${animationDuration}ms ${animationEasingFunction} 0ms`;
 		element.style['transform'] = `translate3d(${position}px, 0, 0)`;
 	}
 	return element;
 }
 
-export const getRenderWrapperStyles = (props: Props, state: State, element) => {
+export const getRenderWrapperStyles = (props: Props, state: State, element: HTMLElement | null) => {
 	const { paddingLeft, paddingRight, autoHeight, animationDuration } = props || {};
 	const height = autoHeight ? getAutoheightProperty(element, props, state) : undefined;
 	const transition = height ? `height ${animationDuration}ms` : undefined;
@@ -211,7 +211,7 @@ export const getTransitionProperty = (options?: Transition): string => {
 	return `transform ${animationDuration}ms ${animationEasingFunction} 0ms`;
 };
 
-export const getRenderStageStyles = (nextStyles, currentStyles: Style): Style => {
+export const getRenderStageStyles = (nextStyles: Options, currentStyles: Style): Style => {
 	const { translate3d = 0 } = nextStyles || {};
 	const transform = `translate3d(${-translate3d}px, 0, 0)`;
 
@@ -239,7 +239,7 @@ export const getRenderStageItemStyles = (i: number, state: State) => {
 	return { width };
 };
 
-export const getTranslate3dProperty = (nextIndex, state: Partial<State>) => {
+export const getTranslate3dProperty = (nextIndex: number, state: Partial<State>) => {
 	let cursor = nextIndex;
 	const { infinite, itemsOffset = 0, itemsInSlide = 0, transformationSet = [] } = state;
 
@@ -254,15 +254,15 @@ export const getTouchmoveTranslatePosition = (deltaX: number, translate3d: numbe
 	return -(translate3d - Math.floor(deltaX));
 };
 
-export function getTranslateXProperty(element) {
+export function getTranslateXProperty(element: Element | null) {
 	const matrix = getTransformMatrix(element);
 	const tx = (matrix && matrix[4]) || '';
 	return Number(tx);
 }
 
-export function getTransformMatrix(element) {
-	if (isElement(element)) {
-		const { transform } = getComputedStyle(element);
+export function getTransformMatrix(element: Element | null) {
+	if (element && isElement(element)) {
+		const { transform } = window.getComputedStyle(element);
 		const matched = transform.match(/(-?[0-9.]+)/g);
 
 		return matched || [];

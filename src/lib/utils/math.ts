@@ -37,11 +37,11 @@ export const getUpdateSlidePositionIndex = (activeIndex: number, itemsCount: num
 	return activeIndex;
 };
 
-export const shouldRecalculateSlideIndex = (activeIndex, itemsCount) => {
+export const shouldRecalculateSlideIndex = (activeIndex: number, itemsCount: number) => {
 	return activeIndex < 0 || activeIndex >= itemsCount;
 };
 
-export const shouldCancelSlideAnimation = (activeIndex, itemsCount) => {
+export const shouldCancelSlideAnimation = (activeIndex: number, itemsCount: number) => {
 	return activeIndex < 0 || activeIndex >= itemsCount;
 };
 
@@ -71,7 +71,7 @@ export const getSwipeLimitMax = (state: Partial<State>, props: Partial<Props>) =
 	return position + swipeExtraPadding;
 };
 
-export const shouldRecalculateSwipePosition = (currentPosition, minPosition, maxPosition) => {
+export const shouldRecalculateSwipePosition = (currentPosition: number, minPosition: number, maxPosition: number) => {
 	return currentPosition >= -minPosition || Math.abs(currentPosition) >= maxPosition;
 };
 
@@ -114,7 +114,7 @@ export const getSwipeTouchendPosition = (state: State, deltaX: number, swipePosi
 	return -position;
 };
 
-export const getSwipeTouchendIndex = (position, state: State) => {
+export const getSwipeTouchendIndex = (position: number, state: State) => {
 	const {
 		transformationSet,
 		itemsInSlide,
@@ -154,7 +154,7 @@ export const getFadeoutAnimationIndex = (state: State) => {
 	return infinite ? activeIndex + itemsInSlide : activeIndex;
 };
 
-export const getFadeoutAnimationPosition = (nextIndex, state: State) => {
+export const getFadeoutAnimationPosition = (nextIndex: number, state: State) => {
 	const { activeIndex, stageWidth } = state;
 
 	if (nextIndex < activeIndex) {

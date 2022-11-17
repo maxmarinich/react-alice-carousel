@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 
-import { State, Classnames, Modifiers } from '../types';
+import { State, Classnames, Modifiers, Props } from '../types';
 import {
 	checkIsTheLastDotIndex,
 	concatClassnames,
@@ -16,7 +16,7 @@ export const DotsNavigation = ({
 	onMouseLeave,
 	controlsStrategy,
 	renderDotsItem,
-}: Props) => {
+}: DotsNavigationProps) => {
 	const { itemsCount, itemsInSlide, infinite, autoWidth, activeIndex } = state;
 	const { isNextSlideDisabled } = getSlideItemInfo(state);
 	const itHasDotForEachSlide = hasDotForEachSlide(autoWidth, controlsStrategy);
@@ -55,7 +55,7 @@ export const DotsNavigation = ({
 							onClick={() => onClick(nextIndex)}
 							className={classname}
 						>
-							{renderDotsItem && renderDotsItem({ isActive, activeIndex: i })}
+							{renderDotsItem && renderDotsItem({ isActive: Boolean(isActive), activeIndex: i })}
 						</li>
 					);
 				}
@@ -64,11 +64,11 @@ export const DotsNavigation = ({
 	);
 };
 
-type Props = {
+type DotsNavigationProps = {
 	state: State;
 	controlsStrategy?: string;
 	onClick: (index: number) => void;
 	onMouseEnter?: MouseEventHandler;
 	onMouseLeave?: MouseEventHandler;
-	renderDotsItem?: ({ isActive, activeIndex }) => any;
+	renderDotsItem?: Props['renderDotsItem'];
 };

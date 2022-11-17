@@ -10,7 +10,7 @@ const LazyLoadingPage = () => {
 	const [activeIndex, setActiveIndex] = useState(0);
 
 	const onLoad = () => setTimestamp(Date.now());
-	const onSlideChanged = ({ item }) => setActiveIndex(item);
+	const onSlideChanged = ({ item = 0 }) => setActiveIndex(item);
 	const src = (name = '') => `//github.com/maxmarinich/react-alice-carousel/raw/master/src/assets/img/${name}`;
 
 	const items = [

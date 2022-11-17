@@ -36,7 +36,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	private _handleResizeDebounced: () => void | undefined;
 	private _cancelResizeDebounced: () => void | undefined;
 
-	constructor(props) {
+	constructor(props: Props) {
 		super(props);
 
 		this.state = Utils.calculateInitialState(props, null);
@@ -167,7 +167,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		}
 	}
 
-	slidePrev(e) {
+	slidePrev(e?: Event | React.MouseEvent) {
 		this._handlePause();
 		if (e && e.isTrusted) {
 			this.hasUserAction = true;
@@ -184,7 +184,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		}
 	}
 
-	slideNext(e) {
+	slideNext(e?: Event | React.MouseEvent) {
 		this._handlePause();
 		if (e && e.isTrusted) {
 			this.hasUserAction = true;
@@ -220,7 +220,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 			: window.removeEventListener('keyup', this._handleKeyboardEvents);
 	}
 
-	_handleKeyboardEvents = (e) => {
+	_handleKeyboardEvents = (e: Event & { code: string }) => {
 		switch (e.code) {
 			case 'Space':
 				return this.props.autoPlay && this._handlePlayPauseToggle();
@@ -257,7 +257,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		}
 	}
 
-	_handleTouchmove(e, eventData: EventData) {
+	_handleTouchmove(e: Event, eventData: EventData) {
 		const { absY, absX, deltaX } = eventData;
 		const { swipeDelta } = this.props;
 		const { swipeShiftValue, swipeLimitMin, swipeLimitMax, infinite, fadeoutAnimationProcessing } = this.state;
@@ -313,7 +313,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		}
 	}
 
-	_handleTouchend(e, { deltaX }: EventData) {
+	_handleTouchend(e: Event, { deltaX }: EventData) {
 		this._clearTouchmovePosition();
 
 		if (this.isTouchMoveProcessStarted) {
@@ -341,8 +341,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 			const transition = Utils.getTransitionProperty();
 			await this.setState({ activeIndex, translate3d, transition });
-			// Timeout used to avoid batching from React v.18
-			setTimeout(() => this._handleSlideChanged());
+			requestAnimationFrame(() => this._handleSlideChanged());
 		}, animationDuration);
 	}
 
@@ -410,7 +409,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		this._handleSlideChanged(eventType);
 	};
 
-	async _handleUpdateSlidePosition(activeIndex) {
+	async _handleUpdateSlidePosition(activeIndex: number) {
 		const { animationDuration } = this.state;
 		const translate3d = Utils.getTranslate3dProperty(activeIndex, this.state);
 		const transition = Utils.getTransitionProperty({ animationDuration: 0 });
@@ -455,7 +454,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		}
 	}
 
-	_handleDotClick(index) {
+	_handleDotClick(index: number) {
 		this.hasUserAction = true;
 		this.slideTo(index);
 	}
@@ -523,11 +522,11 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		this.startTouchmovePosition = -position;
 	}
 
-	_setRootComponentRef = (node) => {
+	_setRootComponentRef = (node: HTMLDivElement) => {
 		return (this.rootElement = node);
 	};
 
-	_setStageComponentRef = (node) => {
+	_setStageComponentRef = (node: HTMLUListElement) => {
 		return (this.stageComponent = node);
 	};
 
@@ -547,7 +546,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 		this.autoPlayTimeoutId = window.setTimeout(() => {
 			if (!this.isHovered) {
-				autoPlayDirection === AutoplayDirection.RTL ? this.slidePrev({}) : this.slideNext({});
+				autoPlayDirection === AutoplayDirection.RTL ? this.slidePrev() : this.slideNext();
 			}
 		}, autoPlayInterval);
 	}
@@ -590,7 +589,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 			});
 	}
 
-	_renderStageItem = (item, i: number) => {
+	_renderStageItem = (item: React.ReactNode, i: number) => {
 		const styles = Utils.getRenderStageItemStyles(i, this.state);
 		const className = Utils.getRenderStageItemClasses(i, this.state);
 		return <Views.StageItem styles={styles} className={className} key={`stage-item-${i}`} item={item} />;
