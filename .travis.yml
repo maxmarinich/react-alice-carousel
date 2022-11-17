@@ -14,4 +14,4 @@ before_script:
   - npm prune
 script:
   - npm run test
-install: npm ci --ignore-scripts
+install: npm i --ignore-scripts
