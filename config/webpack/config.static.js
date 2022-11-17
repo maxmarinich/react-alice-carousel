@@ -20,7 +20,7 @@ const configStatic = {
 				use: [
 					'babel-loader',
 					{
-						loader: 'awesome-typescript-loader',
+						loader: 'ts-loader',
 						options: {
 							transpileOnly: true,
 						},

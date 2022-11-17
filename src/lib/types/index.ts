@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export interface Props {
 	activeIndex?: number;
 	animationDuration?: number;
@@ -36,11 +38,11 @@ export interface Props {
 	onResized?: (e: EventObject) => void;
 	onSlideChange?: (e: EventObject) => void;
 	onSlideChanged?: (e: EventObject) => void;
-	renderSlideInfo?: (e: SlideInfo) => any;
-	renderDotsItem?: (e: DotsItem) => any;
-	renderPrevButton?: ({ isDisabled }) => any;
-	renderNextButton?: ({ isDisabled }) => any;
-	renderPlayPauseButton?: ({ isPlaying }) => any;
+	renderSlideInfo?: (e: SlideInfo) => ReactNode;
+	renderDotsItem?: (e: DotsItem) => ReactNode;
+	renderPrevButton?: ({ isDisabled = false }) => ReactNode;
+	renderNextButton?: ({ isDisabled = false }) => ReactNode;
+	renderPlayPauseButton?: ({ isPlaying = false }) => ReactNode;
 }
 
 export interface State {
@@ -72,6 +74,7 @@ export interface State {
 }
 
 export type Timeout = number;
+export type Options = Record<string, string | number | undefined>;
 
 export type Style = {
 	transition: string;
@@ -106,7 +109,7 @@ export type RootElement = {
 export type Transformations = {
 	partial: boolean;
 	content: number;
-	coords: ItemCoords[] | unknown[];
+	coords: ItemCoords[];
 };
 
 export type ItemCoords = {

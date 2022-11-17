@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import markdown from './code.md';
 import TheCode from '../../../the-code';
@@ -22,11 +22,9 @@ const items = [
 	</div>,
 ];
 
-const navItem = (item, i) => {
-	return <i key={i} onClick={() => this.Carousel.slideTo(i)} />;
-};
-
 const RefsComponent = () => {
+	const carousel = useRef<AliceCarousel>(null);
+
 	return (
 		<section className="p-basic">
 			<AliceCarousel
@@ -35,14 +33,16 @@ const RefsComponent = () => {
 				disableDotsControls
 				disableButtonsControls
 				items={items}
-				ref={(el) => (this.Carousel = el)}
+				ref={carousel}
 			/>
 			<nav key="nav" className="b-refs-navs">
-				{items.map(navItem)}
+				{items.map((item, i) => {
+					return <span key={i} onClick={() => carousel?.current?.slideTo(i)} />;
+				})}
 			</nav>
 			<div key="btns" className="b-refs-buttons">
-				<button onClick={() => this.Carousel.slidePrev()}>Prev</button>
-				<button onClick={() => this.Carousel.slideNext()}>Next</button>
+				<button onClick={(e) => carousel?.current?.slidePrev(e)}>Prev</button>
+				<button onClick={(e) => carousel?.current?.slideNext(e)}>Next</button>
 			</div>
 			<TheCode key="code" html={markdown} />
 		</section>

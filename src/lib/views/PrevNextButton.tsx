@@ -30,7 +30,7 @@ export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, re
 	return (
 		<div className={buttonClasses}>
 			<div className={buttonWrapperClasses}>
-				<p className={classnames} onClick={onClick}>
+				<p className={classnames} onClick={(e) => onClick(e)}>
 					<span data-area={ariaValue} />
 				</p>
 			</div>
@@ -41,7 +41,7 @@ export const PrevNextButton = ({ name, isDisabled, onClick, renderPrevButton, re
 type Props = {
 	name: 'prev' | 'next';
 	isDisabled: boolean;
-	onClick: (e) => void;
-	renderPrevButton?: ({ isDisabled }) => any;
-	renderNextButton?: ({ isDisabled }) => any;
+	onClick: (e?: React.MouseEvent<HTMLParagraphElement>) => void;
+	renderPrevButton?: ({ isDisabled = false }) => any;
+	renderNextButton?: ({ isDisabled = false }) => any;
 };

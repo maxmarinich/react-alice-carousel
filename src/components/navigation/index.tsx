@@ -9,7 +9,9 @@ const setHash = (hash = '') => {
 	}
 };
 
-const Navigation = ({ onclick, scheme }) => {
+type Scheme = { id: string; title: string };
+type Props = { onclick: (i: Scheme) => void; scheme: Scheme[] };
+const Navigation = ({ onclick, scheme }: Props) => {
 	return scheme.length > 1 ? (
 		<nav className="navigation">
 			{scheme.map(({ id, title }) => {

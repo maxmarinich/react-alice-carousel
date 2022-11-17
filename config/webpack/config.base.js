@@ -41,7 +41,7 @@ module.exports = {
 							highlight: function (code, language) {
 								const hljs = require('highlight.js');
 								const validLanguage = hljs.getLanguage(language) ? language : 'javascript';
-								return hljs.highlight(validLanguage, code).value;
+								return hljs.highlight(code, { language: validLanguage }).value;
 							},
 							pedantic: false,
 							gfm: true,

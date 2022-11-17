@@ -22,23 +22,23 @@ const items = [
 	</div>,
 ];
 
-const renderSlideInfo = ({ item, itemsCount }) => {
+const renderSlideInfo = ({ item = 0, itemsCount = 0 }) => {
 	return `${item}\\${itemsCount}`;
 };
 
-const renderPrevButton = ({ isDisabled }) => {
+const renderPrevButton = ({ isDisabled = false }) => {
 	return <span style={{ opacity: isDisabled ? '0.5' : 1 }}>&lt;</span>;
 };
 
-const renderNextButton = ({ isDisabled }) => {
+const renderNextButton = ({ isDisabled = false }) => {
 	return <span style={{ opacity: isDisabled ? '0.5' : 1 }}>&gt;</span>;
 };
 
-const renderPlayPauseButton = ({ isPlaying }) => {
+const renderPlayPauseButton = ({ isPlaying = false }) => {
 	return isPlaying ? 'PAUSE' : 'PLAY';
 };
 
-const renderDotsItem = ({ isActive }) => {
+const renderDotsItem = ({ isActive = false }) => {
 	return isActive ? 'x' : 'o';
 };
 

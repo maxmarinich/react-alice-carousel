@@ -28,19 +28,19 @@ const items = [
 	</div>,
 ];
 
-const onInitialized = (e) => {
+const onInitialized = (e: any) => {
 	console.debug(`Start position(activeIndex) on init: ${e.item}. Event:`, e);
 };
 
-const onSlideChange = (e) => {
+const onSlideChange = (e: any) => {
 	console.debug(`Item's position before a change: ${e.item}. Event:`, e);
 };
 
-const onSlideChanged = (e) => {
+const onSlideChanged = (e: any) => {
 	console.debug(`Item's position after changes: ${e.item}. Event:`, e);
 };
 
-const onResized = (e) => {
+const onResized = (e: any) => {
 	console.debug(`Item's position after resize: ${e.item}. Event:`, e);
 };
 

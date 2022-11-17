@@ -1,8 +1,9 @@
 import React from 'react';
-import { Classnames, Modifiers } from '../types';
+import { Classnames, Modifiers, Props} from '../types';
 import { concatClassnames, getSlideInfo } from '../utils';
 
-export const SlideInfo = ({ activeIndex, itemsCount, renderSlideInfo }) => {
+type SlideProps = { activeIndex: number; itemsCount: number; renderSlideInfo?: Props['renderSlideInfo'] };
+export const SlideInfo = ({ activeIndex, itemsCount, renderSlideInfo }: SlideProps) => {
 	const { item } = getSlideInfo(activeIndex, itemsCount);
 
 	if (typeof renderSlideInfo === 'function') {

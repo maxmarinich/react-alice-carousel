@@ -43,19 +43,20 @@
     "new-cap": 0,
     "strict": 2,
     "prefer-rest-params": 0,
-    "no-unused-vars": 1,
+    "no-unused-vars": 0,
     "no-self-assign": 0,
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
     "no-extra-boolean-cast": 0,
     "eol-last": 2,
-    "quotes": [2, "single"],
-    "jsx-quotes": [2, "prefer-double"],
+    "quotes": [1, "single"],
+    "jsx-quotes": [1, "prefer-double"],
     "react/jsx-no-undef": 1,
     "react/jsx-uses-react": 1,
     "react/jsx-uses-vars": 1,
     "react/prop-types": 0,
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": 1
   }
 }

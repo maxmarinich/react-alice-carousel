@@ -22,7 +22,7 @@ export const canUseDOM = () => {
 	}
 };
 
-export const concatClassnames = (...classes) => {
+export const concatClassnames = (...classes: string[]) => {
 	return classes.filter(Boolean).join(' ');
 };
 

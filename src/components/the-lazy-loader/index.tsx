@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-export default function TheLazyLoader(props) {
-	let timerId;
+export default function TheLazyLoader(props: any) {
+	let timerId: ReturnType<typeof setTimeout>;
 	const minHeight = 200;
 	const { src = '', delay = 0, onLoad } = props;
 	const [isMounted, setMounted] = useState(false);
