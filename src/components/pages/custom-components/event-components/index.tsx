@@ -22,7 +22,10 @@ const items = [
 	</div>,
 ];
 
-const thumbItems = (items: React.ReactNode[], [setThumbIndex, setThumbAnimation]: [(i: number) => void , (i: boolean) => void]) => {
+const thumbItems = (
+	items: React.ReactNode[],
+	[setThumbIndex, setThumbAnimation]: [(i: number) => void, (i: boolean) => void],
+) => {
 	return items.map((item, i) => (
 		<div className="thumb" onClick={() => (setThumbIndex(i), setThumbAnimation(true))}>
 			{item}
@@ -55,7 +58,7 @@ const Carousel = () => {
 		setMainAnimation(true);
 	};
 
-	const syncMainAfterChange = (e: { type: string, item: number }) => {
+	const syncMainAfterChange = (e: { type: string; item: number }) => {
 		setMainAnimation(false);
 
 		if (e.type === 'action') {
@@ -66,7 +69,7 @@ const Carousel = () => {
 		}
 	};
 
-	const syncThumbs = (e: { type: string, item: number }) => {
+	const syncThumbs = (e: { type: string; item: number }) => {
 		setThumbIndex(e.item);
 		setThumbAnimation(false);
 
@@ -82,7 +85,6 @@ const Carousel = () => {
 			animationDuration={800}
 			disableDotsControls
 			disableButtonsControls
-			infinite
 			items={items}
 			mouseTracking={!thumbAnimation}
 			onSlideChange={syncMainBeforeChange}
