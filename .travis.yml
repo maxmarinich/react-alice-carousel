@@ -7,7 +7,7 @@ branches:
 notifications:
   email: false
 node_js:
-  - 18
+  - 16
 before_install:
   - npm i -g npm
 before_script:
