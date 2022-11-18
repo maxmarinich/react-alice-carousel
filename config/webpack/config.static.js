@@ -4,7 +4,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const configBase = require('./config.base');
 
-const filename = '[name].[hash:4]';
+const filename = '[name].[fullhash:4]';
 
 const configStatic = {
 	output: {

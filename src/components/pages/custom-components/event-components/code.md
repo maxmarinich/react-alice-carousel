@@ -71,7 +71,6 @@ const Carousel = () => {
             animationDuration={800}
             disableDotsControls
             disableButtonsControls
-            infinite
             items={items}
             mouseTracking={!thumbAnimation}
             onSlideChange={syncMainBeforeChange}

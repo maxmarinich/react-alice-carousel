@@ -1,3 +1,7 @@
+/**
+ *  @jest-environment jsdom
+ */
+
 import * as Utils from '../../../src/lib/utils';
 import { Classnames, Modifiers } from '../../../src/lib/types';
 

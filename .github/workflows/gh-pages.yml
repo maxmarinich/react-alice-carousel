@@ -24,11 +24,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-          node-version: 14
+          node-version: 18
       # Runs a single command using the runners shell
       - name: Install and Build
         run: |
-          npm i --ignore-scripts
+          npm ci --ignore-scripts
           npm run build:static
       - name: Deploy
         uses: Cecilapp/GitHub-Pages-deploy@v3
