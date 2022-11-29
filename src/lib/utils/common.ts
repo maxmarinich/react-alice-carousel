@@ -48,16 +48,16 @@ export const getItemsInSlide = (itemsCount: number, props: Props) => {
 
 		if (configKeys.length) {
 			if (innerWidth || canUseDOM()) {
-				const value = innerWidth || window.innerWidth;
-
+				const value = typeof innerWidth === 'number' ? innerWidth : window.innerWidth;
 				configKeys.forEach((key) => {
-					if (Number(key) < value) {
+					if (Number(key) <= value) {
 						itemsInSlide = Math.min(responsive[key].items, itemsCount) || itemsInSlide;
 					}
 				});
 			}
 		}
 	}
+
 	return itemsInSlide;
 };
 
