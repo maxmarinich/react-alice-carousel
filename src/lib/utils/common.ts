@@ -48,17 +48,22 @@ export const getItemsInSlide = (itemsCount: number, props: Props) => {
 
 		if (configKeys.length) {
 			if (innerWidth || canUseDOM()) {
-				const value = typeof innerWidth === 'number' ? innerWidth : window.innerWidth;
+				const value = innerWidth === undefined ? window.innerWidth : innerWidth;
 				configKeys.forEach((key) => {
 					if (Number(key) <= value) {
-						itemsInSlide = Math.min(responsive[key].items, itemsCount) || itemsInSlide;
+						const { items, itemsFit = 'fill' }  = responsive[key];
+						if (itemsFit === 'contain') {
+							itemsInSlide = items;
+						} else {
+							itemsInSlide = Math.min(items, itemsCount);
+						}
 					}
 				});
 			}
 		}
 	}
 
-	return itemsInSlide;
+	return itemsInSlide || 1;
 };
 
 export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElement, canUseDom = false): State => {
