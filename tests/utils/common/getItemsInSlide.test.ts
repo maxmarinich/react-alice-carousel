@@ -39,4 +39,13 @@ describe('Utils.getItemsInSlide', function () {
 	it('should return correct value if responsive && innerWidth is 1024', function () {
 		expect(Utils.getItemsInSlide(3, { ...defaultProps, innerWidth: 1024, responsive })).toEqual(3);
 	});
+
+	it('should return correct value if responsive && itemsFit equal `contain`', function () {
+		expect(Utils.getItemsInSlide(2, { ...defaultProps, innerWidth: 0,  responsive: {
+			0 : {
+				items: 3,
+				itemsFit: 'contain'
+			},
+		}})).toEqual(3);
+	});
 });

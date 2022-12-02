@@ -87,9 +87,10 @@ export type Transition = {
 };
 
 export type Responsive = {
-	[key: string]: {
-		items: number;
-	};
+	[key:string | number]: {
+		items: number,
+		itemsFit?: 'contain' | 'fill' | string;
+	}
 };
 
 export type EventObject = {

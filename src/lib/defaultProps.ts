@@ -18,7 +18,7 @@ export const defaultProps = {
 	disableDotsControls: false,
 	disableSlideInfo: true,
 	infinite: false,
-	innerWidth: 0,
+	innerWidth: undefined,
 	items: undefined,
 	keyboardNavigation: false,
 	mouseTracking: false,

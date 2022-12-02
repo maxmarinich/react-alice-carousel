@@ -100,14 +100,19 @@ const Gallery = () => {
 - `paddingLeft`: Number, default `0`  - Set the gallery offset from the left.
 - `paddingRight`: Number, default `0`  - Set the gallery offset from the right.
 - `renderKey`: Number, default `undefined`  - Auxiliary property, allows call the render method without changing the state inside the gallery instance.
-- `responsive`: Object, default `undefined` - Set number of items in the slide. The key is the breakpoint (default is the result of: () => window.innerWidth or `innerWidth` property if the last presented).
-    ```js
+- `responsive`: Object, default `undefined` - The key is the breakpoint (default is the result of: () => window.innerWidth or `innerWidth` property if the last presented).
+    * `items` - set number of items in the slide. Default: `1`
+    * `itemsFit`: one of (`contain | fill | undefined`) - defines, how item should fill the container according slide's width. Default: `fill`.
+  
+      If `contain` is specified, the gallery will use the value from the `items` property to determine the width of the element for each slide and fill in the empty space as needed.
+  ```js
         {
           0: {
               items: 1,
           },
           1024: {
-              items: 3
+              items: 3,
+              itemsFit: 'contain',
           }
         }
     ```
