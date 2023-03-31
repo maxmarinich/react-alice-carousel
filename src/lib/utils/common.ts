@@ -4,6 +4,8 @@ import {
 	createDefaultTransformationSet, getElementDimensions,
 	getItemsCount, getItemsOffset, getTransitionProperty,
 	getTranslate3dProperty,
+	canUseDOM,
+	getItemsInSlide,
 } from './elements';
 import {
 	getActiveIndex,
@@ -13,14 +15,6 @@ import {
 	getSwipeLimitMin,
 	getSwipeShiftValue,
 } from './math';
-
-export const canUseDOM = () => {
-	try {
-		return Boolean(window?.document?.createElement);
-	} catch (e) {
-		return false;
-	}
-};
 
 export const concatClassnames = (...classes: string[]) => {
 	return classes.filter(Boolean).join(' ');
@@ -34,39 +28,7 @@ export const getIsStageContentPartial = (infinite = false, stageWidth = 0, conte
 	return stageWidth >= contentWidth;
 };
 
-export const getItemsInSlide = (itemsCount: number, props: Props) => {
-	let itemsInSlide = 1;
-	const { responsive, autoWidth = false, infinite = false, innerWidth } = props;
-
-	// TODO: refactoring
-	if (autoWidth) {
-		return infinite ? itemsCount : itemsInSlide;
-	}
-
-	if (responsive) {
-		const configKeys = Object.keys(responsive);
-
-		if (configKeys.length) {
-			if (innerWidth || canUseDOM()) {
-				const value = innerWidth === undefined ? window.innerWidth : innerWidth;
-				configKeys.forEach((key) => {
-					if (Number(key) <= value) {
-						const { items, itemsFit = 'fill' }  = responsive[key];
-						if (itemsFit === 'contain') {
-							itemsInSlide = items;
-						} else {
-							itemsInSlide = Math.min(items, itemsCount);
-						}
-					}
-				});
-			}
-		}
-	}
-
-	return itemsInSlide || 1;
-};
-
-export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElement, canUseDom = false): State => {
+export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElement, canUseDom = canUseDOM()): State => {
 	let isStageContentPartial;
 	let stageContentWidth;
 	let transformationSet;
@@ -128,7 +90,7 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 		stageContentWidth,
 		initialStageHeight: 0,
 		isStageContentPartial,
-		isAutoPlaying: Boolean(autoPlay),
+		isAutoPlaying: autoPlay,
 		isAutoPlayCanceledOnAction: false,
 		transformationSet,
 		transition,
@@ -139,6 +101,6 @@ export const calculateInitialState = (props: Partial<Props>, el: null | HTMLElem
 		swipeLimitMax,
 		swipeAllowedPositionMax,
 		swipeShiftValue,
-		canUseDom: canUseDom || canUseDOM(),
+		canUseDom,
 	};
 };

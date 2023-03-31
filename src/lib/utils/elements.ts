@@ -1,5 +1,4 @@
 import { Transformations, ItemCoords, Props, State, RootElement, Transition, Style, Options } from '../types';
-import { getItemsInSlide } from './common';
 import { mapPartialCoords, mapPositionCoords } from './mappers';
 import { getShiftIndex } from './math';
 
@@ -269,3 +268,43 @@ export function getTransformMatrix(element: Element | null) {
 	}
 	return [];
 }
+
+export const canUseDOM = () => {
+	try {
+		return Boolean(window?.document?.createElement);
+	} catch (e) {
+		return false;
+	}
+};
+
+export const getItemsInSlide = (itemsCount: number, props: Props) => {
+	let itemsInSlide = 1;
+	const { responsive, autoWidth = false, infinite = false, innerWidth } = props;
+
+	// TODO: refactoring
+	if (autoWidth) {
+		return infinite ? itemsCount : itemsInSlide;
+	}
+
+	if (responsive) {
+		const configKeys = Object.keys(responsive);
+
+		if (configKeys.length) {
+			if (innerWidth || canUseDOM()) {
+				const value = innerWidth === undefined ? window.innerWidth : innerWidth;
+				configKeys.forEach((key) => {
+					if (Number(key) <= value) {
+						const { items, itemsFit = 'fill' }  = responsive[key];
+						if (itemsFit === 'contain') {
+							itemsInSlide = items;
+						} else {
+							itemsInSlide = Math.min(items, itemsCount);
+						}
+					}
+				});
+			}
+		}
+	}
+
+	return itemsInSlide || 1;
+};
