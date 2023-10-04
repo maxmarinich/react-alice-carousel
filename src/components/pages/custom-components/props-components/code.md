@@ -1,6 +1,7 @@
-```javascript
-import React, { useState } from 'react';
+```typescript jsx
+import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
+import type { EventObject } from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
 const responsive = {
@@ -20,7 +21,7 @@ const createItems = (length, [handleClick]) => {
 			className="item"
 			onMouseDown={(e) => (deltaX = e.pageX)}
 			onMouseUp={(e) => (difference = Math.abs(e.pageX - deltaX))}
-			onClick={() => (difference < swipeDelta) && handleClick(i)}
+			onClick={() => difference < swipeDelta && handleClick(i)}
 		>
 			<span className="item-inner" />
 		</div>
@@ -33,7 +34,16 @@ const Carousel = () => {
 
 	const slidePrev = () => setActiveIndex(activeIndex - 1);
 	const slideNext = () => setActiveIndex(activeIndex + 1);
-	const syncActiveIndex = ({ item }) => setActiveIndex(item);
+	const syncActiveIndexForSwipeGestures = (e: EventObject) => setActiveIndex(e.item);
+
+	const onSlideChanged = (e: EventObject) => {
+		syncActiveIndexForSwipeGestures(e);
+		console.debug(`onSlideChanged => Item's position after changes: ${e.item}. Event:`, e);
+	};
+
+	const onUpdated = (e: EventObject) => {
+		console.debug(`onUpdated => Item's position after update: ${e.item}. Event:`, e);
+	};
 
 	return [
 		<AliceCarousel
@@ -43,7 +53,8 @@ const Carousel = () => {
 			items={items}
 			activeIndex={activeIndex}
 			responsive={responsive}
-			onSlideChanged={syncActiveIndex}
+			onSlideChanged={onSlideChanged}
+			onUpdated={onUpdated}
 		/>,
 		<div className="b-refs-buttons">
 			<button onClick={slidePrev}>Prev</button>

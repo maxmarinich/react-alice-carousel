@@ -1,65 +1,27 @@
 import React from 'react';
 
-import markdown from './code.md';
-import TheCode from '../../the-code';
-import AliceCarousel from '../../../lib/react-alice-carousel';
+import Anchor, { genAnchorProps } from '../../the-anchor';
+import ChangeEventsExample from './change-events';
+import UpdateEventsExample from './update-events';
 
-const responsive = {
-	0: { items: 1 },
-	568: { items: 2 },
-	1024: { items: 3 },
-};
-
-const items = [
-	<div className="item" data-value="1">
-		1
-	</div>,
-	<div className="item" data-value="2">
-		2
-	</div>,
-	<div className="item" data-value="3">
-		3
-	</div>,
-	<div className="item" data-value="4">
-		4
-	</div>,
-	<div className="item" data-value="5">
-		5
-	</div>,
-];
-
-const onInitialized = (e: any) => {
-	console.debug(`Start position(activeIndex) on init: ${e.item}. Event:`, e);
-};
-
-const onSlideChange = (e: any) => {
-	console.debug(`Item's position before a change: ${e.item}. Event:`, e);
-};
-
-const onSlideChanged = (e: any) => {
-	console.debug(`Item's position after changes: ${e.item}. Event:`, e);
-};
-
-const onResized = (e: any) => {
-	console.debug(`Item's position after resize: ${e.item}. Event:`, e);
-};
-
-function Events() {
+const EventsComponentsPage = () => {
 	return (
-		<section className="p-basic p-events">
-			<AliceCarousel
-				mouseTracking
-				keyboardNavigation
-				items={items}
-				responsive={responsive}
-				onInitialized={onInitialized}
-				onSlideChange={onSlideChange}
-				onSlideChanged={onSlideChanged}
-				onResized={onResized}
-			/>
-			<TheCode html={markdown} />
+		<section className="p-basic p-custom">
+			<h2 className="title">
+				<Anchor {...genAnchorProps('events')} />
+				&nbsp; Base Events
+			</h2>
+			<UpdateEventsExample />
+			<br />
+			<br />
+			<br />
+			<h2 className="title">
+				<Anchor {...genAnchorProps('events-change')} />
+				&nbsp; Change Events
+			</h2>
+			<ChangeEventsExample />
 		</section>
 	);
-}
+};
 
-export default Events;
+export default EventsComponentsPage;

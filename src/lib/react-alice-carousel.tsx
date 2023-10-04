@@ -68,7 +68,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		this.props.autoPlay && this._handlePlay();
 	}
 
-	componentDidUpdate(prevProps: Readonly<Props>, state: Readonly<State>) {
+	componentDidUpdate(prevProps: Readonly<Props>) {
 		const {
 			activeIndex,
 			animationDuration,
@@ -86,12 +86,8 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 			touchMoveDefaultEvents,
 		} = this.props;
 
-		if (children && prevProps.children !== children) {
-			const { activeIndex } = state;
-			const props = { ...this.props, activeIndex };
-
-			this._updateComponent(props);
-		} else if (
+		if (
+			(children && prevProps.children !== children) ||
 			prevProps.autoWidth !== autoWidth ||
 			prevProps.infinite !== infinite ||
 			prevProps.items !== items ||
@@ -234,9 +230,9 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 	async _handleResize(e: Event) {
 		const { onResizeEvent } = this.props;
 		const nextRootComponentDimensions = Utils.getElementDimensions(this.rootElement);
-		const shouldProcessEvent = onResizeEvent || Utils.shouldHandleResizeEvent;
+		const shouldProcessResizeEvent = onResizeEvent || Utils.shouldHandleResizeEvent;
 
-		if (shouldProcessEvent(e, this.rootComponentDimensions, nextRootComponentDimensions)) {
+		if (shouldProcessResizeEvent(e, this.rootComponentDimensions, nextRootComponentDimensions)) {
 			this._cancelTimeoutAnimations();
 
 			this.rootComponentDimensions = nextRootComponentDimensions;
@@ -425,6 +421,12 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		});
 	}
 
+	_handleUpdated() {
+		if (this.props.onUpdated) {
+			this.props.onUpdated({ ...this.eventObject, type: EventType.UPDATE });
+		}
+	}
+
 	_handleResized() {
 		if (this.props.onResized) {
 			this.props.onResized({ ...this.eventObject, type: EventType.RESIZE });
@@ -451,6 +453,11 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		if (onSlideChanged) {
 			const event = eventType ? { ...this.eventObject, type: eventType } : this.eventObject;
 			onSlideChanged(event);
+		}
+
+		// Emits event that props were updated
+		if (eventType === EventType.UPDATE) {
+			this._handleUpdated();
 		}
 	}
 
@@ -567,7 +574,10 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		this.swipeListener.init();
 	}
 
-	_updateComponent(props = this.props) {
+	_updateComponent() {
+		const { activeIndex } = this.props.syncStateOnPropsUpdate ? this.state : this.props;
+		const props = { ...this.props, activeIndex };
+
 		this._cancelTimeoutAnimations();
 		this.isAnimationDisabled = false;
 		this.state.isAutoPlaying && this._handlePlay();
@@ -575,7 +585,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		this.setState({ clones: Utils.createClones(props) });
 
 		requestAnimationFrame(() => {
-			this.setState(Utils.calculateInitialState(props, this.stageComponent));
+			this.setState(Utils.calculateInitialState(props, this.stageComponent), () => this._handleUpdated());
 		});
 	}
 

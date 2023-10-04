@@ -1,6 +1,7 @@
-```javascript
+```typescript jsx
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
+import type { EventObject } from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
 const responsive = {
@@ -17,20 +18,12 @@ const items = [
 	<div className="item" data-value="5">5</div>,
 ];
 
-const onInitialized = (e) => {
-	console.debug(`Start position(activeIndex) on init: ${e.item}. Event:`, e);
+const onSlideChange = (e: EventObject) => {
+	console.debug(`onSlideChange => Item's position before a change: ${e.item}. Event:`, e);
 };
 
-const onSlideChange = (e) => {
-	console.debug(`Item's position before a change: ${e.item}. Event:`, e);
-};
-
-const onSlideChanged = (e) => {
-	console.debug(`Item's position after changes: ${e.item}. Event:`, e);
-};
-
-const onResized = (e) => {
-	console.debug(`Item's position after resize: ${e.item}. Event:`, e);
+const onSlideChanged = (e: EventObject) => {
+	console.debug(`onSlideChanged => Item's position after changes: ${e.item}. Event:`, e);
 };
 
 const Carousel = () => (
@@ -39,10 +32,8 @@ const Carousel = () => (
 	    keyboardNavigation
         items={items}
         responsive={responsive}
-        onInitialized={onInitialized}
         onSlideChange={onSlideChange}
         onSlideChanged={onSlideChanged}
-        onResized={onResized}
     />
 );
 ```

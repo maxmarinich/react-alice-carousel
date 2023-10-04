@@ -116,15 +116,16 @@ const Gallery = () => {
           }
         }
     ```
-
+- `syncStateOnPropsUpdate`: Boolean, default `true`  - Sync some props (like `activeIndex`) with carousel state while new props passed. This allows you to avoid resetting the carousel position while updating the props (e.g.: `children` or `items`).
 - `swipeDelta`: Number, default `20`  - Set minimum distance to the start of the swiping (px).
 - `swipeExtraPadding`: Number, default `200`  - Set maximum distance from initial place before swipe action will be stopped (px).
 - `ssrSilentMode`: Boolean, default `true`  - Disable classnames modifiers for server side rendering.
 - `touchTracking`: Boolean, default `true`  - Enable touch move animation.
 - `touchMoveDefaultEvents`: Boolean, default `true`  - Enable touch move default events on swiping. If `false` was specified, this prevents vertical scrolling of the parent elements during the swipe. 
 - `onInitialized(e: EventObject)`: Function - Fired as callback after the gallery was created.
-- `onResizeEvent(e: Event)`: Function - Fired during the "resize" event to determine whether to call the event handler. Default result of `() => true`; 
+- `onResizeEvent(e: Event)`: Function, default `shouldProcessResizeEvent` method - Fired during the "resize" event to determine whether to call the event handler. Default method checks is the root element width has changed. 
 - `onResized(e: EventObject)`: Function - Fired as callback after the gallery was resized.
+- `onUpdated(e: EventObject)`: Function - Fired as callback after updating the gallery props.
 - `onSlideChange(e: EventObject)`: Function - Fired before the event object changes.
 - `onSlideChanged(e: EventObject)`: Function - Fired after the event object was changed.
 - `renderSlideInfo(e: SlideInfo)`: Rendering function - create a custom component.
@@ -133,7 +134,7 @@ const Gallery = () => {
 - `renderNextButton({ isDisabled })`: Rendering function - create a custom component.
 - `renderPlayPauseButton({ isPlaying })`: Rendering function - create a custom component.
 
-#### Methods
+#### Methods (Refs [example](https://maxmarinich.github.io/react-alice-carousel/#custom-components-refs))
 - `slidePrev(e: Event) => void` : Go to the prev slide.
 - `slideNext(e: Event) => void` : Go to the next slide.
 - `slideTo(activeIndex?: number) => void` : Go to the specified slide.
@@ -163,7 +164,7 @@ enum EventType {
   ACTION = 'action', // used if a general user action (button click or swipe)
   INIT = 'init',     // used if the initial event was triggered
   RESIZE = 'resize', // used if the gallery size was changed
-  UPDATE = 'update', // used if the gallery was updated with props (activeIndex)
+  UPDATE = 'update', // used if the gallery was updated with props
 }
 ```
 

@@ -11,7 +11,7 @@ export const getSlides = (props: Props) => {
 	return items;
 };
 
-export const getItemsCount = (props: Props) => {
+export const getItemsCount = (props: Props): number => {
 	return getSlides(props).length;
 };
 
@@ -294,7 +294,7 @@ export const getItemsInSlide = (itemsCount: number, props: Props) => {
 				const value = innerWidth === undefined ? window.innerWidth : innerWidth;
 				configKeys.forEach((key) => {
 					if (Number(key) <= value) {
-						const { items, itemsFit = 'fill' }  = responsive[key];
+						const { items, itemsFit = 'fill' } = responsive[key];
 						if (itemsFit === 'contain') {
 							itemsInSlide = items;
 						} else {
