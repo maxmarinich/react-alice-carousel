@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import markdown from './code.md';
 import TheCode from '../../../the-code';
 import AliceCarousel from '../../../../lib/react-alice-carousel';
+import type { EventObject } from '../../../../lib/react-alice-carousel';
 
 const responsive = {
 	0: { items: 1 },
@@ -34,7 +35,16 @@ const PropsComponent = () => {
 
 	const slidePrev = () => setActiveIndex(activeIndex - 1);
 	const slideNext = () => setActiveIndex(activeIndex + 1);
-	const syncActiveIndex = ({ item = 0 }) => setActiveIndex(item);
+	const syncActiveIndexForSwipeGestures = ({ item = 0 }) => setActiveIndex(item);
+
+	const onSlideChanged = (e: EventObject) => {
+		syncActiveIndexForSwipeGestures(e);
+		console.debug(`onSlideChanged => Item's position after changes: ${e.item}. Event:`, e);
+	};
+
+	const onUpdated = (e: EventObject) => {
+		console.debug(`onUpdated => Item's position after update: ${e.item}. Event:`, e);
+	};
 
 	return (
 		<section className="p-basic">
@@ -45,7 +55,8 @@ const PropsComponent = () => {
 				items={items}
 				activeIndex={activeIndex}
 				responsive={responsive}
-				onSlideChanged={syncActiveIndex}
+				onSlideChanged={onSlideChanged}
+				onUpdated={onUpdated}
 			/>
 			<div className="b-refs-buttons">
 				<button onClick={slidePrev}>Prev</button>

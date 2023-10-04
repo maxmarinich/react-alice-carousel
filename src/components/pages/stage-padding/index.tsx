@@ -7,7 +7,7 @@ const StagePaddingPage = () => {
 	return (
 		<section className="p-basic p-custom">
 			<h2 className="title">
-				<Anchor {...genAnchorProps('stage-padding')} />
+				<Anchor {...genAnchorProps('stage-padding-base')} />
 				&nbsp; Base
 			</h2>
 			<BaseExample />

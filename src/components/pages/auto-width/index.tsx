@@ -7,7 +7,7 @@ const AutowidthPage = () => {
 	return (
 		<section className="p-basic p-custom">
 			<h2 className="title">
-				<Anchor {...genAnchorProps('auto-width')} />
+				<Anchor {...genAnchorProps('auto-width-base')} />
 				&nbsp; Base
 			</h2>
 			<BaseExample />

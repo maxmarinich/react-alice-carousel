@@ -9,7 +9,7 @@ const CustomComponentsPage = () => {
 	return (
 		<section className="p-basic p-custom">
 			<h2 className="title">
-				<Anchor {...genAnchorProps('custom-components')} />
+				<Anchor {...genAnchorProps('custom-components-base')} />
 				&nbsp; Base
 			</h2>
 			<EventsExample />

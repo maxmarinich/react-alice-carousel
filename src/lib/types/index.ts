@@ -22,6 +22,7 @@ export interface Props {
 	items?: any[];
 	keyboardNavigation?: boolean;
 	mouseTracking?: boolean;
+	syncStateOnPropsUpdate?: boolean;
 	name?: string;
 	paddingLeft?: number;
 	paddingRight?: number;
@@ -36,6 +37,7 @@ export interface Props {
 	onInitialized?: (e: EventObject) => void;
 	onResizeEvent?: (e: Event, prevProps: RootElement, nextProps: RootElement) => boolean;
 	onResized?: (e: EventObject) => void;
+	onUpdated?: (e: EventObject) => void;
 	onSlideChange?: (e: EventObject) => void;
 	onSlideChanged?: (e: EventObject) => void;
 	renderSlideInfo?: (e: SlideInfo) => ReactNode;
