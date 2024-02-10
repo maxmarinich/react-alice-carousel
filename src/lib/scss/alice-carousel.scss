@@ -90,6 +90,10 @@ $play-btn-size: 32px !default;
   text-align: right;
 }
 
+.alice-carousel__next-btn {
+  text-align: left;
+}
+
 .alice-carousel__prev-btn-item,
 .alice-carousel__next-btn-item {
   display: inline-block;
