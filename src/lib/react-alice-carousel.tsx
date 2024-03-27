@@ -1,6 +1,7 @@
 import React from 'react';
 import VS, { EventData } from 'vanilla-swipe';
 import { defaultProps } from './defaultProps';
+import Link, { type LinkProps } from './views/Link';
 import * as Views from './views';
 import * as Utils from './utils';
 import {
@@ -18,6 +19,7 @@ import {
 } from './types';
 
 export * from './types';
+export { Link, type LinkProps };
 export default class AliceCarousel extends React.PureComponent<Props, State> {
 	static defaultProps = defaultProps;
 	private autoPlayTimeoutId?: Timeout;

@@ -3,6 +3,7 @@ import RenderExample from './render-components';
 import RefsExample from './refs-components';
 import PropsExample from './props-components';
 import EventsExample from './event-components';
+import Links from './links';
 import Anchor, { genAnchorProps } from '../../the-anchor';
 
 const CustomComponentsPage = () => {
@@ -37,6 +38,14 @@ const CustomComponentsPage = () => {
 				&nbsp; Refs
 			</h2>
 			<RefsExample />
+			<br />
+			<br />
+			<br />
+			<h2 className="title">
+				<Anchor {...genAnchorProps('custom-components-links')} />
+				&nbsp; Links
+			</h2>
+			<Links />
 		</section>
 	);
 };
