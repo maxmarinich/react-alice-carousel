@@ -69,3 +69,5 @@ npm-debug.log
 dist
 lib
 static
+
+!src/lib

@@ -1,7 +1,7 @@
 import React from 'react';
 import VS, { EventData } from 'vanilla-swipe';
 import { defaultProps } from './defaultProps';
-import Link, { type LinkProps } from './views/DNDLink';
+import Link, { type LinkProps } from './views/Link';
 import * as Views from './views';
 import * as Utils from './utils';
 import {
