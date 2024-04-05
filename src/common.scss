@@ -1,5 +1,5 @@
 $color-light: #fff;
-$color-bg: #C7CDDE;
+$color-bg: #c7cdde;
 $color-accent: darkred;
 $color-dark: #435794;
 $color-dark-lighten: #3f51b5;
@@ -7,6 +7,25 @@ $color-base: #0099bf;
 $color-base-lighten: #b1e9ea;
 $content-max-width: 1200px;
 $content-min-width: 320px;
+
+$color-roulette-6: rgba(18, 4, 28, 1);
+$color-roulette-5: rgba(58, 8, 95, 1);
+$color-roulette-4: rgba(75, 30, 121, 1);
+$color-roulette-3: rgb(92, 49, 151);
+$color-roulette-2: rgb(131, 110, 179);
+$color-roulette-1: rgb(186, 175, 213);
+
+//$color-roulette-5: rgba(10, 28, 102, 0.9);
+//$color-roulette-4: rgba(10, 28, 102, 0.7);
+//$color-roulette-3: rgba(10, 28, 102, 0.6);
+//$color-roulette-2: rgba(10, 28, 102, 0.5);
+//$color-roulette-1: rgba(10, 28, 102, 0.3);
+//
+//$color-roulette-5: rgba(63, 81, 181, 1);
+//$color-roulette-4: rgba(63, 81, 181, 0.8);
+//$color-roulette-3: rgba(63, 81, 181, 0.6);
+//$color-roulette-2: rgba(63, 81, 181, 0.5);
+//$color-roulette-1: rgba(63, 81, 181, 0.4);
 
 @mixin container {
 	width: 100%;
@@ -16,5 +35,5 @@ $content-min-width: 320px;
 	box-sizing: border-box;
 	margin: auto;
 	overflow-x: hidden;
-    padding: 20px;
+	padding: 20px;
 }
