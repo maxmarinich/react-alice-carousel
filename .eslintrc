@@ -35,7 +35,7 @@
     "indent": ["warn", "tab", { "SwitchCase": 1 }],
     "no-debugger": 0,
     "no-console": [
-      "error",
+      "warn",
       {
         "allow": ["debug"]
       }

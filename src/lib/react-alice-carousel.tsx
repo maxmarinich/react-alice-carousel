@@ -249,7 +249,7 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 
 			await this.setState(nextState);
 
-			this._handleResized();
+			this._handleResized({ itemsInSlide: nextState.itemsInSlide });
 			this.isAnimationDisabled = false;
 			isAutoPlaying && this._handlePlay();
 		}
@@ -429,9 +429,9 @@ export default class AliceCarousel extends React.PureComponent<Props, State> {
 		}
 	}
 
-	_handleResized() {
+	_handleResized(e: Partial<EventObject> = {}) {
 		if (this.props.onResized) {
-			this.props.onResized({ ...this.eventObject, type: EventType.RESIZE });
+			this.props.onResized({ ...this.eventObject, ...e, type: EventType.RESIZE });
 		}
 	}
 
