@@ -8,6 +8,8 @@ import AliceCarousel from '../../../../lib/react-alice-carousel';
 import { shuffleArray, genItems, genRandomInt } from './Roulette.utils';
 import type { Props, Item } from './Roulette.types';
 
+let timeoutId: null | NodeJS.Timeout = null;
+
 const responsive = {
 	0: { items: 1 },
 	640: { items: 3 },
@@ -33,7 +35,7 @@ function getOffset(itemsOnScreen: number) {
 
 function loadWinner() {
 	return new Promise<{ id: number }>((resolve) => {
-		setTimeout(() => resolve({ id: genRandomInt() }), 2_000);
+		timeoutId = setTimeout(() => resolve({ id: genRandomInt() }), 2_000);
 	});
 }
 
@@ -125,9 +127,12 @@ export default function SandboxPage(props: Partial<Props>) {
 			<button
 				className="text"
 				onClick={() => {
+					if (timeoutId) clearTimeout(timeoutId);
 					setKey(key + 1);
 					setWinner(null);
 					setActive(itemsPadding);
+					setWinnerId(null);
+					setSetIsWinnerLoading(false);
 					setIsWinnerHighlighted(false);
 					setIsRouletteAnimationProcess(false);
 				}}
